@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kuanhsien.timemanagement.GetTaskWithPlanTime;
+import com.kuanhsien.timemanagement.MainActivity;
 import com.kuanhsien.timemanagement.R;
 import com.kuanhsien.timemanagement.TimeManagementApplication;
 
@@ -104,6 +105,13 @@ public class PlanFragment extends Fragment implements PlanContract.View {
     @Override
     public void showTaskListWithPlanTime(List<GetTaskWithPlanTime> bean) {
         mPlanAdapter.updateData(bean);
+    }
+
+
+
+    @Override
+    public void showSetTargetUi() {
+        ((MainActivity) getActivity()).transToSetTarget();
     }
 
 }

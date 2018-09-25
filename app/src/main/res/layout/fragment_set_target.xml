@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintlayout_set_target_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".settarget.SetTargetFragment">
+
+    <TextView
+        android:id="@+id/textview_set_target_category"
+        android:layout_width="@dimen/width_set_target_item"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-medium"
+        android:lines="1"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Choose a category"
+        tools:text="Choose a category" />
+
+    <EditText
+        android:id="@+id/edittext_set_target_category"
+        android:layout_width="@dimen/width_set_target_item"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-medium"
+        android:lines="1"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_set_target_category"
+        tools:text="Choose a category" />
+
+    <TextView
+        android:id="@+id/textview_set_target_task"
+        android:layout_width="@dimen/width_set_target_item"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-medium"
+        android:lines="1"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edittext_set_target_category"
+        android:text="Choose a task"
+        tools:text="Choose a task" />
+
+    <EditText
+        android:id="@+id/edittext_set_target_task"
+        android:layout_width="@dimen/width_set_target_item"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-medium"
+        android:lines="1"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_set_target_task"
+        tools:text="Choose a task" />
+
+
+    <ImageView
+        android:id="@+id/imageview_set_target_send"
+        android:layout_width="@dimen/width_set_target_send_button"
+        android:layout_height="@dimen/height_set_target_send_button"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="15dp"
+        android:background="@android:color/holo_blue_bright"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edittext_set_target_task"
+        app:srcCompat="@android:drawable/checkbox_on_background"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <ImageView
+        android:id="@+id/imageview_set_target_cancel"
+        android:layout_width="@dimen/width_set_target_send_button"
+        android:layout_height="@dimen/height_set_target_send_button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="15dp"
+        android:background="@android:color/darker_gray"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edittext_set_target_task"
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <!--<TextView-->
+        <!--android:id="@+id/textview_add_customized_category"-->
+        <!--android:layout_width="@dimen/width_set_target_item"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="15dp"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:ellipsize="end"-->
+        <!--android:fontFamily="sans-serif-medium"-->
+        <!--android:lines="1"-->
+        <!--android:textColor="@android:color/darker_gray"-->
+        <!--android:textSize="10sp"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--android:text="Choose a category"-->
+        <!--tools:text="Choose a category" />-->
+
+    <!--<EditText-->
+        <!--android:id="@+id/edittext_add_customized_category"-->
+        <!--android:layout_width="@dimen/width_set_target_item"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="15dp"-->
+        <!--android:ellipsize="end"-->
+        <!--android:fontFamily="sans-serif-medium"-->
+        <!--android:lines="1"-->
+        <!--android:textColor="@android:color/black"-->
+        <!--android:textSize="15sp"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/textview_add_customized_category"-->
+        <!--tools:text="Choose a category" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textview_add_customized_task"-->
+        <!--android:layout_width="@dimen/width_set_target_item"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="15dp"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:ellipsize="end"-->
+        <!--android:fontFamily="sans-serif-medium"-->
+        <!--android:lines="1"-->
+        <!--android:textColor="@android:color/darker_gray"-->
+        <!--android:textSize="10sp"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/edittext_add_customized_category"-->
+        <!--android:text="Choose a task"-->
+        <!--tools:text="Choose a task" />-->
+
+    <!--<EditText-->
+        <!--android:id="@+id/edittext_add_customized_task"-->
+        <!--android:layout_width="@dimen/width_set_target_item"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="15dp"-->
+        <!--android:ellipsize="end"-->
+        <!--android:fontFamily="sans-serif-medium"-->
+        <!--android:lines="1"-->
+        <!--android:textColor="@android:color/black"-->
+        <!--android:textSize="15sp"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/textview_add_customized_task"-->
+        <!--tools:text="Choose a task" />-->
+
+
+</android.support.constraint.ConstraintLayout>

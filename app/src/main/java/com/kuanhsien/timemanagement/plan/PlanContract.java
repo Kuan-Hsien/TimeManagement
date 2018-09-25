@@ -36,7 +36,9 @@ public interface PlanContract {
 
         void showTaskListWithPlanTime(List<GetTaskWithPlanTime> bean);
 
-//        void showDetailUi(Article article);
+
+
+        void showSetTargetUi();
 
 //        void refreshUi();
 
@@ -46,15 +48,17 @@ public interface PlanContract {
 
 //        void result(int requestCode, int resultCode);
 
+        void onScrollStateChanged(int visibleItemCount, int totalItemCount, int newState);
+
+        void onScrolled(RecyclerView.LayoutManager layoutManager);
+
         void getTaskWithPlanTime();
 
         void showTaskListWithPlanTime(List<GetTaskWithPlanTime> bean);
 
-        void onScrollStateChanged(int visibleItemCount, int totalItemCount, int newState);
 
-        void onScrolled(RecyclerView.LayoutManager layoutManager);
-//
-//        void openDetail(Article article);
+
+        void showSetTargetUi();
 //
 //        void updateInterestedIn(Article article, boolean isInterestedIn);
 //

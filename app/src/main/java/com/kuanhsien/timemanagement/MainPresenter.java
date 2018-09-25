@@ -8,6 +8,8 @@ import android.support.annotation.StringDef;
 
 import com.kuanhsien.timemanagement.plan.PlanFragment;
 import com.kuanhsien.timemanagement.plan.PlanPresenter;
+import com.kuanhsien.timemanagement.settarget.SetTargetFragment;
+import com.kuanhsien.timemanagement.settarget.SetTargetPresenter;
 import com.kuanhsien.timemanagement.trace.TraceFragment;
 
 import java.lang.annotation.Retention;
@@ -46,7 +48,7 @@ public class MainPresenter implements MainContract.Presenter {
 //    private TracePresenter mTracePresenter;
     private PlanPresenter mPlanPresenter;
 //    private ProfilePresenter mProfilePresenter;
-//    private DetailPresenter mDetailPresenter;
+    private SetTargetPresenter mSetTargetPresenter;
 
 
     public MainPresenter(MainContract.View mainView, FragmentManager fragmentManager) {
@@ -96,11 +98,11 @@ public class MainPresenter implements MainContract.Presenter {
 //            transaction.hide(mProfileFragment);
 //            transaction.addToBackStack(FRAGMENT_TAG_PROFILE);
 //        }
-//        SetTargetFragment setTargetFragment = SetTargetFragment.newInstance();
-//        transaction.add(R.id.linearlayout_main_container, setTargetFragment, FRAGMENT_TAG_SET_TARGET);
-//        transaction.commit();
-//
-//        mSetTargetPresenter = new SetTargetPresenter(setTargetFragment);
+        SetTargetFragment setTargetFragment = SetTargetFragment.newInstance();
+        transaction.add(R.id.linearlayout_main_container, setTargetFragment, FRAGMENT_TAG_SET_TARGET);
+        transaction.commit();
+
+        mSetTargetPresenter = new SetTargetPresenter(setTargetFragment);
     }
 
     @Override

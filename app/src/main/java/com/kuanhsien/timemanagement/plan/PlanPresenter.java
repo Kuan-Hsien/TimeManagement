@@ -84,7 +84,7 @@ public class PlanPresenter implements PlanContract.Presenter {
         if (newState == RecyclerView.SCROLL_STATE_IDLE && visibleItemCount > 0) {
 
             if (mlastVisibleItemPosition == totalItemCount - 1) {
-                Log.d(Constants.TAG, MSG + "Scroll to bottom");
+                Logger.d(Constants.TAG, MSG + "Scroll to bottom");
 
 //                loadArticles();
 
@@ -132,7 +132,7 @@ public class PlanPresenter implements PlanContract.Presenter {
                 @Override
                 public void onError(String errorMessage) {
                     setLoading(false);
-                    Log.e(Constants.TAG, "GetTaskWithPlanTime.onError, errorMessage: " + errorMessage);
+                    Logger.e(Constants.TAG, "GetTaskWithPlanTime.onError, errorMessage: " + errorMessage);
                 }
             }).execute();
         }
@@ -144,6 +144,11 @@ public class PlanPresenter implements PlanContract.Presenter {
         mPlanView.showTaskListWithPlanTime(bean);
     }
 
+    @Override
+    public void showSetTargetUi() {
+        mPlanView.showSetTargetUi();
+    }
+
 
     public boolean isLoading() {
         return mLoading;
@@ -152,10 +157,6 @@ public class PlanPresenter implements PlanContract.Presenter {
     public void setLoading(boolean loading) {
         mLoading = loading;
     }
-
-
-
-
 
 
     public void getTaskWithPlanTime_ROOM() {

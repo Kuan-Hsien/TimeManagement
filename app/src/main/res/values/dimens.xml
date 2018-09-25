@@ -49,10 +49,15 @@
     <dimen name="size_all_interestedin">20dp</dimen>
     <dimen name="size_all_place">14dp</dimen>
 
-    <!-- Plan items-->
+    <!-- Plan items -->
     <dimen name="width_plan_top_add_item">223dp</dimen>
     <dimen name="width_plan_task_name">223dp</dimen>
     <dimen name="width_plan_task_time">40dp</dimen>
+
+    <!-- Set target -->
+    <dimen name="width_set_target_item">223dp</dimen>
+    <dimen name="width_set_target_send_button">60dp</dimen>
+    <dimen name="height_set_target_send_button">45dp</dimen>
 
 
 

@@ -211,8 +211,7 @@ public class PlanAdapter extends RecyclerView.Adapter {
                 public void onClick(View view) {
                     // 新增一個目標 to Database (Room)
                     // add a new target
-
-
+                    mPresenter.showSetTargetUi();
                 }
             });
         }
@@ -223,6 +222,7 @@ public class PlanAdapter extends RecyclerView.Adapter {
         public void bindView() {
             // [TODO] 計算剩下幾個小時並顯示在畫面上
 //            getTextviewPlanTopRemainingTime().setText("顯示剩多少小時");
+
 
         }
 

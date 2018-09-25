@@ -1,6 +1,5 @@
 package com.kuanhsien.timemanagement;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -69,6 +68,7 @@ public class GetTasksWithPlanAsyncTask extends AsyncTask<Object, Void, List<GetT
 
         if (bean != null) {
 
+            Logger.d(Constants.TAG, MSG + "GetTaskWithPlanTime success");
             for (int i = 0 ; i < bean.size() ; ++i) {
                 Logger.d(Constants.TAG, MSG + bean.get(i).getTaskName() + " " );
             }
@@ -77,11 +77,12 @@ public class GetTasksWithPlanAsyncTask extends AsyncTask<Object, Void, List<GetT
 
         } else if (!mErrorMessage.equals("")) {
 
+            Logger.d(Constants.TAG, MSG + "GetTaskWithPlanTime error");
             mCallback.onError(mErrorMessage);
 
         } else {
 
-            Log.d(Constants.TAG, MSG + "GetTaskWithPlanTime fail");
+            Logger.d(Constants.TAG, MSG + "GetTaskWithPlanTime fail");
         }
     }
 }
