@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintlayout_plan_main_item"
+    android:background="@android:color/white"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_main_item" >
+
+    <ImageView
+        android:id="@+id/imageview_plan_task_icon"
+        android:layout_width="@dimen/size_all_item_image"
+        android:layout_height="@dimen/size_all_item_image"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="15dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/presence_video_away" />
+
+    <TextView
+        android:id="@+id/textview_plan_task_name"
+        android:layout_width="@dimen/width_plan_task_name"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-medium"
+        android:lines="1"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
+        app:layout_constraintStart_toEndOf="@+id/imageview_plan_task_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Sleep" />
+
+    <TextView
+        android:id="@+id/textview_plan_task_cost_time"
+        android:layout_width="@dimen/width_plan_task_time"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="sans-serif-medium"
+        android:lines="1"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
+        android:background="@android:color/holo_purple"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="8 hr" />
+
+    <!--<ImageView-->
+        <!--android:id="@+id/imageview_main_authorimage"-->
+        <!--android:layout_width="@dimen/size_all_authorimage"-->
+        <!--android:layout_height="@dimen/size_all_authorimage"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--android:layout_marginTop="15dp"-->
+        <!--android:scaleType="centerCrop"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--app:srcCompat="@drawable/all_placeholder_avatar" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textview_main_authorname"-->
+        <!--android:layout_width="@dimen/width_main_authorname"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginRight="15dp"-->
+        <!--android:layout_marginStart="10dp"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:ellipsize="end"-->
+        <!--android:fontFamily="sans-serif-medium"-->
+        <!--android:lines="1"-->
+        <!--android:textColor="@color/black_24"-->
+        <!--android:textSize="15sp"-->
+        <!--app:layout_constraintStart_toEndOf="@+id/imageview_main_authorimage"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--tools:text="Anna Yang" />-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/imageview_main_createdtime"-->
+        <!--android:layout_width="@dimen/size_all_createdtime"-->
+        <!--android:layout_height="@dimen/size_all_createdtime"-->
+        <!--android:layout_marginStart="10dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--app:layout_constraintStart_toEndOf="@+id/imageview_main_authorimage"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/textview_main_authorname"-->
+        <!--app:srcCompat="@drawable/all_timeicon" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textview_main_createdtime"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="6dp"-->
+        <!--android:layout_marginTop="3dp"-->
+        <!--android:ellipsize="end"-->
+        <!--android:fontFamily="sans-serif"-->
+        <!--android:lines="1"-->
+        <!--android:textColor="@color/grey_72"-->
+        <!--android:textSize="13sp"-->
+        <!--app:layout_constraintStart_toEndOf="@+id/imageview_main_createdtime"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/textview_main_authorname"-->
+        <!--tools:text="12月27日 15:31" />-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/imageview_main_articlepicture"-->
+        <!--android:layout_width="@dimen/width_main_articlepicture"-->
+        <!--android:layout_height="@dimen/height_main_articlepicture"-->
+        <!--android:layout_marginBottom="15dp"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--android:scaleType="centerCrop"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:srcCompat="@drawable/all_picture_placeholder" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textview_main_articletitle"-->
+        <!--android:layout_width="@dimen/width_main_articletitle"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="12dp"-->
+        <!--android:layout_marginTop="60dp"-->
+        <!--android:ellipsize="end"-->
+        <!--android:fontFamily="@font/noto_sans"-->
+        <!--android:lines="1"-->
+        <!--android:paddingRight="16dp"-->
+        <!--android:textColor="@color/black_24"-->
+        <!--android:textSize="17sp"-->
+        <!--android:textStyle="bold"-->
+        <!--app:layout_constraintStart_toEndOf="@+id/imageview_main_articlepicture"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--tools:text="清邁五天四夜自由行" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textview_main_articlecontent"-->
+        <!--android:layout_width="@dimen/width_main_articlecontent"-->
+        <!--android:layout_height="@dimen/height_main_articlecontent"-->
+        <!--android:layout_marginStart="12dp"-->
+        <!--android:layout_marginTop="9dp"-->
+        <!--android:ellipsize="end"-->
+        <!--android:fontFamily="@font/noto_sans"-->
+        <!--android:lineSpacingExtra="4sp"-->
+        <!--android:lines="2"-->
+        <!--android:maxWidth="204dp"-->
+        <!--android:paddingRight="16dp"-->
+        <!--android:textColor="@color/grey_72"-->
+        <!--android:textSize="14sp"-->
+        <!--app:layout_constraintStart_toEndOf="@+id/imageview_main_articlepicture"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/textview_main_articletitle"-->
+        <!--tools:text="泰國清邁。是我一直很想要去的地方，安靜悠閒的緩慢步調讓..." />-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/imageview_main_interestedin"-->
+        <!--android:layout_width="@dimen/size_all_interestedin"-->
+        <!--android:layout_height="@dimen/size_all_interestedin"-->
+        <!--android:layout_marginEnd="7dp"-->
+        <!--android:layout_marginTop="0dp"-->
+        <!--android:background="@drawable/all_likebutton_unselect"-->
+        <!--app:layout_constraintEnd_toStartOf="@+id/textview_main_articleinterests"-->
+        <!--app:layout_constraintTop_toTopOf="@+id/textview_main_articleinterests" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/textview_main_articleinterests"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginEnd="10dp"-->
+        <!--android:layout_marginTop="12dp"-->
+        <!--android:fontFamily="sans-serif-medium"-->
+        <!--android:textColor="@color/grey_72"-->
+        <!--android:textSize="14sp"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--tools:text="266" />-->
+
+</android.support.constraint.ConstraintLayout>
