@@ -93,7 +93,7 @@ public class SetTargetAsyncTask extends AsyncTask<Object, Void, TimePlanningTabl
         if (bean != null) {
 
             Logger.d(Constants.TAG, MSG + "SetTargetAsyncTask success");
-9            mCallback.onCompleted(bean);
+            mCallback.onCompleted(bean);
 
         } else if (!mErrorMessage.equals("")) {
 
