@@ -31,6 +31,7 @@ public class PlanFragment extends Fragment implements PlanContract.View {
 
     private PlanContract.Presenter mPresenter;
     private PlanAdapter mPlanAdapter;
+    private int mIntPlanMode;
 
     public PlanFragment() {
         // Required empty public constructor
@@ -101,12 +102,17 @@ public class PlanFragment extends Fragment implements PlanContract.View {
         mPresenter.start();
     }
 
-
     @Override
     public void showTaskListWithPlanTime(List<GetTaskWithPlanTime> bean) {
         mPlanAdapter.updateData(bean);
     }
 
+
+    @Override
+    public void refreshUi(int mode) {
+        setIntPlanMode(mode);
+        mPlanAdapter.refreshUiMode(mode);
+    }
 
 
     @Override
@@ -114,4 +120,12 @@ public class PlanFragment extends Fragment implements PlanContract.View {
         ((MainActivity) getActivity()).transToSetTarget();
     }
 
+
+    public int getIntPlanMode() {
+        return mIntPlanMode;
+    }
+
+    public void setIntPlanMode(int intPlanMode) {
+        mIntPlanMode = intPlanMode;
+    }
 }

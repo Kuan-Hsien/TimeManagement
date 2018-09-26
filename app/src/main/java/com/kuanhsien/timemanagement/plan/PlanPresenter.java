@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.kuanhsien.timemanagement.GetTaskWithPlanTimeCallback;
 import com.kuanhsien.timemanagement.GetTasksWithPlanAsyncTask;
+import com.kuanhsien.timemanagement.SetTargetAsyncTask;
+import com.kuanhsien.timemanagement.SetTargetCallback;
 import com.kuanhsien.timemanagement.object.CategoryDefineTable;
 import com.kuanhsien.timemanagement.GetTaskWithPlanTime;
 import com.kuanhsien.timemanagement.object.TaskDefineTable;
@@ -78,6 +80,7 @@ public class PlanPresenter implements PlanContract.Presenter {
     }
 
 
+    // 0-1. recyclerView Scroll event
     @Override
     public void onScrollStateChanged(int visibleItemCount, int totalItemCount, int newState) {
 
@@ -114,7 +117,14 @@ public class PlanPresenter implements PlanContract.Presenter {
         }
     }
 
+    // 0-2. [Send-to-View] request fragment to refresh adapter (base on mode (view or edit))
+    @Override
+    public void refreshUi(int mode) {
+        mPlanView.refreshUi(mode);
+    }
 
+
+    // 1-1. [Send-to-Model] database query to prepare data (query all targets)
     @Override
     public void getTaskWithPlanTime() {
         if (!isLoading()) {
@@ -127,6 +137,7 @@ public class PlanPresenter implements PlanContract.Presenter {
                 public void onCompleted(List<GetTaskWithPlanTime> bean) {
                     setLoading(false);
                     showTaskListWithPlanTime(bean);
+                    refreshUi(Constants.MODE_PLAN_VIEW);
                 }
 
                 @Override
@@ -139,15 +150,49 @@ public class PlanPresenter implements PlanContract.Presenter {
     }
 
 
+    // 1-2. [Send-to-View] request fragment to show data
     @Override
     public void showTaskListWithPlanTime(List<GetTaskWithPlanTime> bean) {
         mPlanView.showTaskListWithPlanTime(bean);
     }
 
+
+    // 2-1. [Send-to-Model] database insert to update data (insert new targets or adjust time for existed targets)
+    @Override
+    public void saveTargetResults(String strMode, String strCategory, String strTask, String strStartTime, String strEndTime, String strCostTime) {
+
+        // insert time_planning_table
+        new SetTargetAsyncTask(strMode, strCategory, strTask, strStartTime, strEndTime, strCostTime, new SetTargetCallback() {
+
+            @Override
+            public void onCompleted(TimePlanningTable bean) {
+
+                Logger.d(Constants.TAG, MSG + "SetTarget onCompleted, TaskName: " + bean.getTaskName());
+
+                // [TODO] insert 資料後更新畫面
+                // 假如有順利 insert，則跳回 Plan Fragment，但是裡面的內容要更新 (重新撈取資料或是把所有更新項目都塞進 list 中，也包含 edit 的時間結果)
+                // (1) 方法 1: 用 LiveData 更新
+                // (2) 方法 2: 從這裡回到 PlanFragment，或是回到 MainActivity > MainPresenter > PlanFragment 更新
+                getTaskWithPlanTime();
+//                refreshUi(Constants.MODE_PLAN_VIEW); // 先放在 fragment 中
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+                Logger.d(Constants.TAG, MSG + "SetTarget onError, errorMessage: " + errorMessage);
+
+                refreshUi(Constants.MODE_PLAN_VIEW);
+            }
+        }).execute();
+    }
+
+
     @Override
     public void showSetTargetUi() {
         mPlanView.showSetTargetUi();
     }
+
 
 
     public boolean isLoading() {

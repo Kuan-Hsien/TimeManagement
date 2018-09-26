@@ -37,6 +37,14 @@ public class Constants {
     // Bundle
     public static final String BUNDLE_DETAIL_ARTICLE = "bundle_detail_article";
 
+
+
+
+
+    // Plan
+    public static final int MODE_PLAN_VIEW = 1;
+    public static final int MODE_PLAN_EDIT = 2;
+
     // Database
     // Plan (set target)
     public static final String MODE_PERIOD = "MODE_PERIOD";
