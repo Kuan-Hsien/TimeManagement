@@ -105,17 +105,27 @@ public interface DatabaseDao {
                "ON t.task_name = p.task_name")
     List<GetTaskWithPlanTime> getAllTaskListWithPlanTime(String mode, String startTime, String endTime);
 
-    // 1.5 Query all tasks and inner join with TimePlanningTable to get plan time (both daily or weekly)
-    @Query("SELECT t.category_name, t.task_name, t.task_color, t.task_icon, IFNULL(p.cost_time, \"\") AS cost_time " +
+//    // 1.5 Query all tasks and inner join with TimePlanningTable to get plan time (both daily or weekly)
+//    @Query("SELECT t.category_name, t.task_name, t.task_color, t.task_icon, IFNULL(p.cost_time, \"\") AS cost_time " +
+//             "FROM task_define_table t " +
+//            "INNER JOIN (SELECT p.category_name, p.task_name, p.cost_time " +
+//                          "FROM time_planning_table p " +
+//                         "WHERE p.mode = :mode " +
+//                           "AND p.start_time >= :startTime AND p.end_time < :endTime" +
+//                       ") p " +
+//               "ON t.task_name = p.task_name")
+//    List<GetTaskWithPlanTime> getTaskListWithPlanTime(String mode, String startTime, String endTime);
+
+    // 1.5 Query target-list (tasks inner join with TimePlanningTable to get plan time) (both daily or weekly)
+    @Query("SELECT p.mode, t.category_name, t.task_name, t.task_color, t.task_icon, p.start_time, p.end_time, IFNULL(p.cost_time, \"\") AS cost_time " +
              "FROM task_define_table t " +
-            "INNER JOIN (SELECT p.category_name, p.task_name, p.cost_time " +
+            "INNER JOIN (SELECT p.mode, p.category_name, p.task_name, p.start_time, p.end_time, p.cost_time " +
                           "FROM time_planning_table p " +
                          "WHERE p.mode = :mode " +
                            "AND p.start_time >= :startTime AND p.end_time < :endTime" +
                        ") p " +
                "ON t.task_name = p.task_name")
     List<GetTaskWithPlanTime> getTaskListWithPlanTime(String mode, String startTime, String endTime);
-
 
 
 
@@ -137,10 +147,10 @@ public interface DatabaseDao {
     void addPlanItem(TimePlanningTable item);
 
 //    @Delete
-//    void deleteAllTask(TaskDefineTable item);
-//
-//    @Delete()
-//    void deleteTask(TaskDefineTable item);
+//    void deleteAllTask(TimePlanningTable item);
+
+    @Delete()
+    void deleteTarget(List<TimePlanningTable> item);
 
 
     // *******

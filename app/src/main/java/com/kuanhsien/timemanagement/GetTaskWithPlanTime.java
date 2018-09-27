@@ -1,11 +1,15 @@
 package com.kuanhsien.timemanagement;
 
 import android.arch.persistence.room.ColumnInfo;
+import android.support.annotation.NonNull;
 
 /**
  * Created by Ken on 2018/9/24
  */
 public class GetTaskWithPlanTime {
+
+    @ColumnInfo(name = "mode")
+    private String mMode;
 
     @ColumnInfo(name = "category_name")
     private String mCategoryName;
@@ -19,8 +23,18 @@ public class GetTaskWithPlanTime {
     @ColumnInfo(name = "task_icon")
     private String mTaskIcon;
 
+    @ColumnInfo(name = "start_time")
+    private String mStartTime;
+
+    @ColumnInfo(name = "end_time")
+    private String mEndTime;
+
     @ColumnInfo(name = "cost_time")
     private String mCostTime;
+
+    public String getMode() {
+        return mMode;
+    }
 
     public String getCategoryName() {
         return mCategoryName;
@@ -38,8 +52,20 @@ public class GetTaskWithPlanTime {
         return mTaskIcon;
     }
 
+    public String getStartTime() {
+        return mStartTime;
+    }
+
+    public String getEndTime() {
+        return mEndTime;
+    }
+
     public String getCostTime() {
         return mCostTime;
+    }
+
+    public void setMode(String mode) {
+        mMode = mode;
     }
 
     public void setCategoryName(String categoryName) {
@@ -58,6 +84,14 @@ public class GetTaskWithPlanTime {
         mTaskIcon = taskIcon;
     }
 
+    public void setStartTime(String startTime) {
+        mStartTime = startTime;
+    }
+
+    public void setEndTime(String endTime) {
+        mEndTime = endTime;
+    }
+
     public void setCostTime(String costTime) {
         mCostTime = costTime;
     }
@@ -67,6 +101,17 @@ public class GetTaskWithPlanTime {
         mTaskName = taskName;
         mTaskColor = taskColor;
         mTaskIcon = taskIcon;
+        mCostTime = costTime;
+    }
+
+    public GetTaskWithPlanTime(String mode, String categoryName, String taskName, String taskColor, String taskIcon, String startTime, String endTime, String costTime) {
+        mMode = mode;
+        mCategoryName = categoryName;
+        mTaskName = taskName;
+        mTaskColor = taskColor;
+        mTaskIcon = taskIcon;
+        mStartTime = startTime;
+        mEndTime = endTime;
         mCostTime = costTime;
     }
 

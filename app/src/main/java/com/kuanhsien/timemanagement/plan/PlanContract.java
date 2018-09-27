@@ -21,6 +21,7 @@ import android.support.v7.widget.RecyclerView;
 import com.kuanhsien.timemanagement.BasePresenter;
 import com.kuanhsien.timemanagement.BaseView;
 import com.kuanhsien.timemanagement.GetTaskWithPlanTime;
+import com.kuanhsien.timemanagement.object.TimePlanningTable;
 
 import java.util.List;
 
@@ -61,7 +62,8 @@ public interface PlanContract {
         void showTaskListWithPlanTime(List<GetTaskWithPlanTime> bean);
 
         // 2-1. [Send-to-Model] database insert to update data (insert new targets or adjust time for existed targets)
-        void saveTargetResults(String strMode, String strCategory, String strTask, String strStartTime, String strEndTime, String strCostTime);
+//        void saveTargetResults(String strMode, String strCategory, String strTask, String strStartTime, String strEndTime, String strCostTime);
+        void saveTargetResults(List<TimePlanningTable> targetList, List<TimePlanningTable> deleteTargetList);
 
         // 2-2. [Send-to-Model] database delete to delete data (delete existed targets)
         // 2-3. [Send-to-View] request fragment to show data

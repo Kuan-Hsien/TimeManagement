@@ -6,6 +6,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +16,14 @@ import android.widget.TextView;
 
 import com.kuanhsien.timemanagement.GetTaskWithPlanTime;
 import com.kuanhsien.timemanagement.R;
+import com.kuanhsien.timemanagement.TimeManagementApplication;
+import com.kuanhsien.timemanagement.object.TimePlanningTable;
 import com.kuanhsien.timemanagement.utli.Constants;
 import com.kuanhsien.timemanagement.utli.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +35,7 @@ public class PlanAdapter extends RecyclerView.Adapter {
 
     private PlanContract.Presenter mPresenter;
     private List<GetTaskWithPlanTime> mPlanningList;
+    private boolean[] isDeleteArray;
     private int mIntPlanMode;
 
 
@@ -120,6 +125,14 @@ public class PlanAdapter extends RecyclerView.Adapter {
     public void refreshUiMode(int mode) {
         Logger.d(Constants.TAG, MSG + "refreshUiMode: " + (mode == Constants.MODE_PLAN_VIEW ? "VIEW_MODE" : "EDIT_MODE"));
 
+        // if user request to change to MODE_PLAN_EDIT
+        if (mode == Constants.MODE_PLAN_EDIT) {
+
+            isDeleteArray = null;
+            isDeleteArray = new boolean[mPlanningList.size()];
+            Arrays.fill(isDeleteArray, false);  // in Java, boolean array default set false to all items. this setting is only for reading
+        }
+
         setIntPlanMode(mode);
         notifyDataSetChanged();
     }
@@ -128,7 +141,7 @@ public class PlanAdapter extends RecyclerView.Adapter {
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public class PlanMainItemViewHolder extends RecyclerView.ViewHolder {
+    public class PlanMainItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // each data item is just a string in this case
 
         //** View mode
@@ -188,8 +201,34 @@ public class PlanAdapter extends RecyclerView.Adapter {
 //            });
 
             //** Edit mode
-            mImageviewPlanTaskDeleteHint = (ImageView) v.findViewById(R.id.imageview_plan_task_delete_hint);
             mTextviewPlanTaskAdjustTime = (TextView) v.findViewById(R.id.textview_plan_task_adjust_cost_time);
+            mImageviewPlanTaskDeleteHint = (ImageView) v.findViewById(R.id.imageview_plan_task_delete_hint);
+            mImageviewPlanTaskDeleteHint.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            // [TODO] change R.id.imageview_plan_task_delete_hint to Delete button
+            // 目前是把 delete 當作一個 checkbox 來用，先勾選並顯示在畫面上。並在按下 save 的時候一起刪掉
+            if (v.getId() == R.id.imageview_plan_task_delete_hint) {
+
+                // if original delete flag is on, than cancel. (change background color to white)
+                if (isDeleteArray[getCurrentPosition()] == true) {
+
+                    isDeleteArray[getCurrentPosition()] = false;
+                    mConstraintLayoutPlanMainItem.setBackground(TimeManagementApplication.getAppContext().getDrawable(android.R.color.white));
+
+                } else {
+                    // if original delete flag is off, than delete. (change background color with drawable)
+
+                    isDeleteArray[getCurrentPosition()] = true;
+                    mConstraintLayoutPlanMainItem.setBackground(TimeManagementApplication.getAppContext().getDrawable(R.drawable.toolbar_background));
+
+                }
+
+                Logger.d(Constants.TAG, MSG + "delete " + mPlanningList.get(getCurrentPosition()).getTaskName() + " status: " + isDeleteArray[getCurrentPosition()]);
+            }
         }
 
         /**
@@ -213,8 +252,8 @@ public class PlanAdapter extends RecyclerView.Adapter {
                 getTextviewPlanTaskAdjustTime().setVisibility(View.VISIBLE);
             }
         }
-    }
 
+    }
 
 
     // Provide a reference to the views for each data item
@@ -295,22 +334,73 @@ public class PlanAdapter extends RecyclerView.Adapter {
 
                 // [TODO] 未來可以一次新增多個 target (多加一個小打勾，像 trello 新增卡片)
                 // [TODO] 換成真正的 startTime, endTime
-                // 取得現在時間
+                // 1. 取得現在時間
+                // 1.1 做成 startTime, endTime
                 Date curDate = new Date();
                 // 定義時間格式
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
                 // 透過SimpleDateFormat的format方法將 Date 轉為字串
+                String strStartTime = simpleDateFormat.format(curDate);
+
+                // 1.2 update_date
+                SimpleDateFormat simpleUpdateDateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+                // 透過SimpleDateFormat的format方法將 Date 轉為字串
                 String strCurrentTime = simpleDateFormat.format(curDate);
 
+                // 2. 新增兩個 List 以 (1) 存放要存回 database 的資料 (2) 要從 database 刪除的資料
+                List<TimePlanningTable> targetList = new ArrayList<>();
+                List<TimePlanningTable> deleteTargetList = new ArrayList<>();
+
+                // 2.1 先針對現有所有目標清單做出 TimePlanning Table 物件
+                for (int i = 0 ; i < mPlanningList.size() ; ++i) {
+
+                    // if user decides to delete this item, then delete from database
+                    if (isDeleteArray[i] == true) {
+
+                        deleteTargetList.add(new TimePlanningTable(mPlanningList.get(i).getMode(),
+                                mPlanningList.get(i).getCategoryName(),
+                                mPlanningList.get(i).getTaskName(),
+                                mPlanningList.get(i).getStartTime(),
+                                mPlanningList.get(i).getEndTime(),
+                                mPlanningList.get(i).getCostTime(),
+                                strCurrentTime));
+
+                        Logger.d(Constants.TAG, MSG + "Delete item: ");
+
+                    } else {
+                        // else add in database
+
+                        targetList.add(new TimePlanningTable(mPlanningList.get(i).getMode(),
+                                mPlanningList.get(i).getCategoryName(),
+                                mPlanningList.get(i).getTaskName(),
+                                mPlanningList.get(i).getStartTime(),
+                                mPlanningList.get(i).getEndTime(),
+                                mPlanningList.get(i).getCostTime(),
+                                strCurrentTime));
+
+                        Logger.d(Constants.TAG, MSG + "Add/Edit item: ");
+                    }
+
+                    Logger.d(Constants.TAG, MSG +
+                                    "Categroy: " + mPlanningList.get(i).getCategoryName() +
+                                    "TaskName: " + mPlanningList.get(i).getTaskName() +
+                                    "CostTime: " + mPlanningList.get(i).getCostTime());
+                }
+
+                // 2.2 再把最新 add 的目標加在最後
                 // [TODO] 此處需判斷每個字串是否為空，還有對輸入的時間做檢查
-                mPresenter.saveTargetResults(
+                targetList.add(new TimePlanningTable(
                         Constants.MODE_PERIOD,
                         getEditTextSetTargetCategory().getText().toString().trim(),
                         getEditTextSetTargetTask().getText().toString().trim(),
-                        strCurrentTime,
-                        strCurrentTime,
-                        "8 hr"
-                );
+                        strStartTime,
+                        strStartTime,
+                        "8 hr",
+                        strCurrentTime
+                ));
+
+                // 3. send asyncTask to update data
+                mPresenter.saveTargetResults(targetList, deleteTargetList);
 
                 mPresenter.refreshUi(Constants.MODE_PLAN_VIEW);
 
@@ -337,10 +427,7 @@ public class PlanAdapter extends RecyclerView.Adapter {
                 mConstraintLayoutPlanTopItem.setVisibility(View.GONE);
                 mConstraintLayoutPlanSetTarget.setVisibility(View.VISIBLE);
             }
-
         }
-
-
     }
 
 

@@ -105,6 +105,7 @@ public class TimePlanningTable {
 
     }
 
+    // no update_date constructor for delete data
     public TimePlanningTable(@NonNull String mode, @NonNull String categoryName, @NonNull String taskName, @NonNull String startTime, @NonNull String endTime, String costTime) {
         mMode = mode;
         mCategoryName = categoryName;

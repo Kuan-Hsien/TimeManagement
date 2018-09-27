@@ -36,41 +36,15 @@ public class PlanPresenter implements PlanContract.Presenter {
 
     private final PlanContract.View mPlanView;
 
-    private String mStrStartTime;
-    private String mStrEndTime;
-
     private int mlastVisibleItemPosition;
     private int mfirstVisibleItemPosition;
 
     private boolean mLoading = false;
 
 
-
     public PlanPresenter(PlanContract.View mainView) {
         mPlanView = checkNotNull(mainView, "planView cannot be null!");
         mPlanView.setPresenter(this);
-
-        // [TODO] 要改為用畫面上的元件讀取
-        // (e.g)
-//        // 取得現在時間
-//        Date curDate = new Date();
-//        // 定義時間格式
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd hh24mm");
-//        // 透過SimpleDateFormat的format方法將 Date 轉為字串
-//        String strCurrentTime = simpleDateFormat.format(curDate);
-
-
-        // 取得現在時間
-        Date currentTime = new Date();
-        mStrStartTime = new SimpleDateFormat("yyyy/MM/dd").format(currentTime); // 擷取到日期
-
-        // 新增一個Calendar,並且指定時間
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(currentTime);
-        calendar.add(Calendar.HOUR, 24);    // +24 小時
-
-        Date tomorrowNow = calendar.getTime();  // 取得 24 小時後的現在時間
-        mStrEndTime = new SimpleDateFormat("yyyy/MM/dd").format(tomorrowNow);   // 擷取到日期
     }
 
     @Override
@@ -130,6 +104,29 @@ public class PlanPresenter implements PlanContract.Presenter {
         if (!isLoading()) {
             setLoading(true);
 
+            // [TODO] 要改為用畫面上的元件讀取
+            // (e.g)
+//        // 取得現在時間
+//        Date curDate = new Date();
+//        // 定義時間格式
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd hh24mm");
+//        // 透過SimpleDateFormat的format方法將 Date 轉為字串
+//        String strCurrentTime = simpleDateFormat.format(curDate);
+
+
+            // 取得現在時間
+            Date currentTime = new Date();
+            String mStrStartTime = new SimpleDateFormat("yyyy/MM/dd").format(currentTime); // 擷取到日期
+
+            // 新增一個Calendar,並且指定時間
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(currentTime);
+            calendar.add(Calendar.HOUR, 24);    // +24 小時
+
+            Date tomorrowNow = calendar.getTime();  // 取得 24 小時後的現在時間
+            String mStrEndTime = new SimpleDateFormat("yyyy/MM/dd").format(tomorrowNow);   // 擷取到日期
+
+
             new GetTasksWithPlanAsyncTask(
                     Constants.MODE_PERIOD, mStrStartTime, mStrEndTime, new GetTaskWithPlanTimeCallback() {
 
@@ -137,7 +134,6 @@ public class PlanPresenter implements PlanContract.Presenter {
                 public void onCompleted(List<GetTaskWithPlanTime> bean) {
                     setLoading(false);
                     showTaskListWithPlanTime(bean);
-                    refreshUi(Constants.MODE_PLAN_VIEW);
                 }
 
                 @Override
@@ -159,22 +155,26 @@ public class PlanPresenter implements PlanContract.Presenter {
 
     // 2-1. [Send-to-Model] database insert to update data (insert new targets or adjust time for existed targets)
     @Override
-    public void saveTargetResults(String strMode, String strCategory, String strTask, String strStartTime, String strEndTime, String strCostTime) {
+    public void saveTargetResults(List<TimePlanningTable> targetList, List<TimePlanningTable> deleteTargetList) {
+//    public void saveTargetResults(String strMode, String strCategory, String strTask, String strStartTime, String strEndTime, String strCostTime) {
 
         // insert time_planning_table
-        new SetTargetAsyncTask(strMode, strCategory, strTask, strStartTime, strEndTime, strCostTime, new SetTargetCallback() {
+        new SetTargetAsyncTask(targetList, deleteTargetList,  new SetTargetCallback() {
 
             @Override
-            public void onCompleted(TimePlanningTable bean) {
+            public void onCompleted(List<TimePlanningTable> bean) {
 
-                Logger.d(Constants.TAG, MSG + "SetTarget onCompleted, TaskName: " + bean.getTaskName());
+                Logger.d(Constants.TAG, MSG + "SetTarget onCompleted");
+                for( int i = 0 ; i < bean.size() ; ++i) {
+                    Logger.d(Constants.TAG, MSG + "TaskName: " + bean.get(i).getTaskName() + " Cost-time: " + bean.get(i).getCostTime());
+                }
 
-                // [TODO] insert 資料後更新畫面
+                // [TODO] insert 資料後更新畫面，目前是將要更新的資料全部當作 bean
                 // 假如有順利 insert，則跳回 Plan Fragment，但是裡面的內容要更新 (重新撈取資料或是把所有更新項目都塞進 list 中，也包含 edit 的時間結果)
                 // (1) 方法 1: 用 LiveData 更新
                 // (2) 方法 2: 從這裡回到 PlanFragment，或是回到 MainActivity > MainPresenter > PlanFragment 更新
+                // *(3) 方法 3: [TODO] 把 TimePlanningTable 中增加 icon 和 color，就可以直接把這個物件當作畫面要顯示的內容。而不用另外再做一次畫面。也不用另外寫 GetTaskWithPlanTime 物件
                 getTaskWithPlanTime();
-//                refreshUi(Constants.MODE_PLAN_VIEW); // 先放在 fragment 中
             }
 
             @Override
@@ -193,8 +193,6 @@ public class PlanPresenter implements PlanContract.Presenter {
         mPlanView.showSetTargetUi();
     }
 
-
-
     public boolean isLoading() {
         return mLoading;
     }
@@ -202,52 +200,6 @@ public class PlanPresenter implements PlanContract.Presenter {
     public void setLoading(boolean loading) {
         mLoading = loading;
     }
-
-
-    public void getTaskWithPlanTime_ROOM() {
-
-        // 和 Database 有關的操作不能放在 main-thread 中。不然會跳出錯誤：
-        // Cannot access database on the main thread since it may potentially lock the UI for a long period of time.
-
-        // 解決方式：(此處使用 2)
-        // 1. 在取得資料庫連線時增加 allowMainThreadQueries() 方法，強制在主程式中執行
-        // 2. 另開 thread 執行耗時工作 (建議採用此方法)，另開 thread 有多種寫法，按自己習慣作業即可。此處為測試是否寫入手機SQLite，故不考慮 callback，如下
-        AsyncTask.execute(new Runnable() {
-
-            @Override
-            public void run() {
-
-                DatabaseDao dao = AppDatabase.getDatabase(TimeManagementApplication.getAppContext()).getDatabaseDao();
-
-//                 [INSERT]
-//                CategoryDefineTable categoryItem = new CategoryDefineTable(1, "Work", true, "Red", "Work", "High");
-//                TaskDefineTable taskItem = new TaskDefineTable(1, "Prepare final test", "Work", true);
-//
-//                dao.addCategory(categoryItem);
-//                dao.addTask(taskItem);
-//                dao.insertAllCategory();
-//                dao.insertAll(2, "First name", "Last name", "Address", null);
-
-
-                // [QUERY]
-                // 可以在這邊撈，目前寫在這邊可以撈出來當前塞進去的資料。
-                List<GetTaskWithPlanTime> taskWithPlanTimeList = dao.getTaskListWithPlanTime(Constants.MODE_PERIOD, mStrStartTime, mStrEndTime);
-
-                for (int i = 0 ; i < taskWithPlanTimeList.size() ; ++i) {
-                    Logger.d(Constants.TAG, taskWithPlanTimeList.get(i).getTaskName() + " " );
-                }
-
-                List<GetTaskWithPlanTime> allTaskWithPlanTimeList = dao.getAllTaskListWithPlanTime(Constants.MODE_PERIOD, mStrStartTime, mStrEndTime);
-
-                for (int i = 0 ; i < allTaskWithPlanTimeList.size() ; ++i) {
-                    Logger.d(Constants.TAG, allTaskWithPlanTimeList.get(i).getTaskName() + " " );
-                }
-
-                showTaskListWithPlanTime(allTaskWithPlanTimeList);
-            }
-        });
-    }
-
 
     private void prepareRoomDatabase() {
 
@@ -284,11 +236,11 @@ public class PlanPresenter implements PlanContract.Presenter {
                 // 透過SimpleDateFormat的format方法將 Date 轉為字串
                 String strCurrentTime = simpleDateFormat.format(curDate);
 
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "HEALTH", "Sleep", strCurrentTime, strCurrentTime, "8 hr"));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "HEALTH", "Eat", strCurrentTime, strCurrentTime, "2 hr"));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "RELATIONSHIP", "Family", strCurrentTime, strCurrentTime, "2 hr"));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "RELATIONSHIP", "Family", strCurrentTime, strCurrentTime, "2 hr"));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "HEALTH", "Toilet", strCurrentTime, strCurrentTime, "2 hr"));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "HEALTH", "Sleep", strCurrentTime, strCurrentTime, "8 hr", strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "HEALTH", "Eat", strCurrentTime, strCurrentTime, "2 hr", strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "RELATIONSHIP", "Family", strCurrentTime, strCurrentTime, "2 hr", strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "RELATIONSHIP", "Family", strCurrentTime, strCurrentTime, "2 hr", strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "HEALTH", "Toilet", strCurrentTime, strCurrentTime, "2 hr", strCurrentTime));
 
 //                dao.addCategory(categoryItem);
 //                dao.addTask(taskItem);

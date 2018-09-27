@@ -10,59 +10,44 @@ import com.kuanhsien.timemanagement.utli.Constants;
 import com.kuanhsien.timemanagement.utli.Logger;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
  * Created by Ken on 2018/9/25
  */
-public class SetTargetAsyncTask extends AsyncTask<Object, Void, TimePlanningTable> {
+public class SetTargetAsyncTask extends AsyncTask<Object, Void, List<TimePlanningTable>> {
 
     private static final String MSG = "SetTargetAsyncTask:";
     private SetTargetCallback mCallback;
 
     private String mErrorMessage;
-
-    private String mMode;
-    private String mStrCategory;
-    private String mStrTask;
-    private String mStrStartTime;
-    private String mStrEndTime;
-    private String mStrCostTime;
+    private List<TimePlanningTable> mTargetList, mDeleteTargetList;
 
 
-    public SetTargetAsyncTask(String mode, String strCategory, String strTask, String strStartTime, String strEndTime, String strCostTime,
-                              SetTargetCallback callback) {
+    public SetTargetAsyncTask(List<TimePlanningTable> targetList, List<TimePlanningTable> deleteList, SetTargetCallback callback) {
         mCallback = callback;
         mErrorMessage = "";
 
-        mMode = mode;
-        mStrCategory = strCategory;
-        mStrTask = strTask;
-        mStrStartTime = strStartTime;
-        mStrEndTime = strEndTime;
-        mStrCostTime = strCostTime;
+        mTargetList = targetList;
+        mDeleteTargetList = deleteList;
     }
 
     @Override
-    protected TimePlanningTable doInBackground(Object[] objects) {
-
-        TimePlanningTable bean = null;
+    protected List<TimePlanningTable> doInBackground(Object[] objects) {
 
 //        try {
 
-        // update_date
-        // 取得現在時間
-        Date curDate = new Date();
-        // 定義時間格式
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
-        // 透過SimpleDateFormat的format方法將 Date 轉為字串
-        String strCurrentTime = simpleDateFormat.format(curDate);
-
         DatabaseDao dao = AppDatabase.getDatabase(TimeManagementApplication.getAppContext()).getDatabaseDao();
 
-        bean = new TimePlanningTable(Constants.MODE_PERIOD, mStrCategory, mStrTask, mStrStartTime, mStrEndTime, mStrCostTime, strCurrentTime);
-        dao.addPlanItem(bean);
+        // delete target
+        dao.deleteTarget(mDeleteTargetList);
+
+        // edit and add target
+        for (int i = 0 ; i < mTargetList.size() ; ++i) {
+            dao.addPlanItem(mTargetList.get(i));
+        }
 
 //        insert a new target
 //        dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "HEALTH", "Sleep", mStrStartTime, mStrEndTime, mStrCostTime));
@@ -83,11 +68,11 @@ public class SetTargetAsyncTask extends AsyncTask<Object, Void, TimePlanningTabl
 //            e.printStackTrace();
 //        }
 
-        return bean;
+        return mTargetList;
     }
 
     @Override
-    protected void onPostExecute(TimePlanningTable bean) {
+    protected void onPostExecute(List<TimePlanningTable> bean) {
         super.onPostExecute(bean);
 
         if (bean != null) {
