@@ -33,7 +33,7 @@ public class TimePlanningTable {
     private String mEndTime;
 
     @ColumnInfo(name = "cost_time")
-    private String mCostTime;
+    private int mCostTime;
 
     @ColumnInfo(name = "update_date")
     private String mUpdateDate;
@@ -65,7 +65,7 @@ public class TimePlanningTable {
         return mEndTime;
     }
 
-    public String getCostTime() {
+    public int getCostTime() {
         return mCostTime;
     }
 
@@ -93,8 +93,8 @@ public class TimePlanningTable {
         mEndTime = endTime;
     }
 
-    public void setCostTime(String costTime) {
-        this.mCostTime = costTime;
+    public void setCostTime(int costTime) {
+        mCostTime = costTime;
     }
 
     public void setUpdateDate(String updateDate) {
@@ -106,7 +106,7 @@ public class TimePlanningTable {
     }
 
     // no update_date constructor for delete data
-    public TimePlanningTable(@NonNull String mode, @NonNull String categoryName, @NonNull String taskName, @NonNull String startTime, @NonNull String endTime, String costTime) {
+    public TimePlanningTable(@NonNull String mode, @NonNull String categoryName, @NonNull String taskName, @NonNull String startTime, @NonNull String endTime, int costTime) {
         mMode = mode;
         mCategoryName = categoryName;
         mTaskName = taskName;
@@ -115,7 +115,7 @@ public class TimePlanningTable {
         mCostTime = costTime;
     }
 
-    public TimePlanningTable(@NonNull String mode, @NonNull String categoryName, @NonNull String taskName, @NonNull String startTime, @NonNull String endTime, String costTime, String updateDate) {
+    public TimePlanningTable(@NonNull String mode, @NonNull String categoryName, @NonNull String taskName, @NonNull String startTime, @NonNull String endTime, int costTime, String updateDate) {
         mMode = mode;
         mCategoryName = categoryName;
         mTaskName = taskName;

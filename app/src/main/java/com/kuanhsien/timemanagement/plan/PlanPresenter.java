@@ -236,11 +236,11 @@ public class PlanPresenter implements PlanContract.Presenter {
                 // 透過SimpleDateFormat的format方法將 Date 轉為字串
                 String strCurrentTime = simpleDateFormat.format(curDate);
 
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "HEALTH", "Sleep", strCurrentTime, strCurrentTime, "8 hr", strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "HEALTH", "Eat", strCurrentTime, strCurrentTime, "2 hr", strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "RELATIONSHIP", "Family", strCurrentTime, strCurrentTime, "2 hr", strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "RELATIONSHIP", "Family", strCurrentTime, strCurrentTime, "2 hr", strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "HEALTH", "Toilet", strCurrentTime, strCurrentTime, "2 hr", strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "HEALTH", "Sleep", strCurrentTime, strCurrentTime, 480, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "HEALTH", "Eat", strCurrentTime, strCurrentTime, 120, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "RELATIONSHIP", "Family", strCurrentTime, strCurrentTime, 120, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "RELATIONSHIP", "Family", strCurrentTime, strCurrentTime, 60, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "HEALTH", "Toilet", strCurrentTime, strCurrentTime, 75, strCurrentTime));
 
 //                dao.addCategory(categoryItem);
 //                dao.addTask(taskItem);

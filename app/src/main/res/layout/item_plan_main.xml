@@ -78,4 +78,44 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="8 hr" />
 
+    <SeekBar
+        android:id="@+id/seekbar_plan_task_adjust_cost_time_daily"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:max="1440"
+        android:progress="0"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <SeekBar
+        android:id="@+id/seekbar_plan_task_adjust_cost_time_weekly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:max="10080"
+        android:progress="0"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!--android:layout_marginStart="16dp"-->
+    <!--android:layout_marginEnd="10dp"-->
+    <!--android:layout_marginTop="55dp"-->
+
+    <!-- 可設定 progressBar 樣式 -->
+    <!-- android:progressDrawable="@drawable/adjust_time_seekbar" -->
+
+    <!-- 可設定 prgressBar 高度 -->
+    <!--android:maxHeight="5dp"-->
+    <!--android:minHeight="5dp"-->
+
+    <!-- 設定滑動按鈕 -->
+    <!--android:thumb=""-->
+
+
 </android.support.constraint.ConstraintLayout>

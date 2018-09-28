@@ -30,7 +30,7 @@ public class GetTaskWithPlanTime {
     private String mEndTime;
 
     @ColumnInfo(name = "cost_time")
-    private String mCostTime;
+    private int mCostTime;
 
     public String getMode() {
         return mMode;
@@ -60,7 +60,7 @@ public class GetTaskWithPlanTime {
         return mEndTime;
     }
 
-    public String getCostTime() {
+    public int getCostTime() {
         return mCostTime;
     }
 
@@ -92,19 +92,14 @@ public class GetTaskWithPlanTime {
         mEndTime = endTime;
     }
 
-    public void setCostTime(String costTime) {
+    public void setCostTime(int costTime) {
         mCostTime = costTime;
     }
 
-    public GetTaskWithPlanTime(String categoryName, String taskName, String taskColor, String taskIcon, String costTime) {
-        mCategoryName = categoryName;
-        mTaskName = taskName;
-        mTaskColor = taskColor;
-        mTaskIcon = taskIcon;
-        mCostTime = costTime;
+    public GetTaskWithPlanTime() {
     }
 
-    public GetTaskWithPlanTime(String mode, String categoryName, String taskName, String taskColor, String taskIcon, String startTime, String endTime, String costTime) {
+    public GetTaskWithPlanTime(String mode, String categoryName, String taskName, String taskColor, String taskIcon, String startTime, String endTime, int costTime) {
         mMode = mode;
         mCategoryName = categoryName;
         mTaskName = taskName;
@@ -115,6 +110,11 @@ public class GetTaskWithPlanTime {
         mCostTime = costTime;
     }
 
-    public GetTaskWithPlanTime() {
+    public GetTaskWithPlanTime(String categoryName, String taskName, String taskColor, String taskIcon, int costTime) {
+        mCategoryName = categoryName;
+        mTaskName = taskName;
+        mTaskColor = taskColor;
+        mTaskIcon = taskIcon;
+        mCostTime = costTime;
     }
 }
