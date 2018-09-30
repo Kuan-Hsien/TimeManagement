@@ -2,36 +2,43 @@ package com.kuanhsien.timemanagement.plan;
 
 
 import android.os.Bundle;
-import android.app.Fragment;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import android.support.design.widget.TabLayout;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.kuanhsien.timemanagement.GetTaskWithPlanTime;
-import com.kuanhsien.timemanagement.MainActivity;
 import com.kuanhsien.timemanagement.R;
-import com.kuanhsien.timemanagement.TimeManagementApplication;
+import com.kuanhsien.timemanagement.plan.daily.PlanDailyFragment;
+import com.kuanhsien.timemanagement.plan.daily.PlanDailyPresenter;
+import com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyFragment;
+import com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyPresenter;
+import com.kuanhsien.timemanagement.utli.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-
 /**
- * Created by Ken on 2018/9/24.
+ * Created by Ken on 2018/9/29.
  *
- * A simple {@link Fragment} subclass.
+ * A simple {@link android.app.Fragment} subclass.
  */
-public class PlanFragment extends Fragment implements PlanContract.View {
+public class PlanFragment extends Fragment {
 
-    private PlanContract.Presenter mPresenter;
-    private PlanAdapter mPlanAdapter;
-    private int mIntPlanMode;
+    private PlanDailyFragment mPlanDailyFragment;
+    private PlanDailyPresenter mPlanDailyPresenter;
+
+    private PlanWeeklyFragment mPlanWeeklyFragment;
+    private PlanWeeklyPresenter mPlanWeeklyPresenter;
+
+    private TabLayout mTablayout;
+    private ViewPager mViewPager;
+    private List<Fragment> mFragmentList;
 
     public PlanFragment() {
         // Required empty public constructor
@@ -42,90 +49,74 @@ public class PlanFragment extends Fragment implements PlanContract.View {
     }
 
     @Override
-    public void setPresenter(PlanContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//[TODO] PlanFragment onCreate
-//        ((MainActivity) getActivity()).showUserInfoLog();
-        mPlanAdapter = new PlanAdapter(new ArrayList<GetTaskWithPlanTime>(), mPresenter);
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_plan, container, false);
 
-        RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recyclerview_plan);
-        recyclerView.setLayoutManager(new LinearLayoutManager(TimeManagementApplication.getAppContext()));
-        recyclerView.setAdapter(mPlanAdapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(TimeManagementApplication.getAppContext(), DividerItemDecoration.VERTICAL));
+        if (mPlanDailyFragment == null) {
+            mPlanDailyFragment = PlanDailyFragment.newInstance();
+        }
+        if (mPlanDailyPresenter == null) {
+            mPlanDailyPresenter = new PlanDailyPresenter(mPlanDailyFragment);
+        }
+
+        if (mPlanWeeklyFragment == null) {
+            mPlanWeeklyFragment = mPlanWeeklyFragment.newInstance();
+        }
+        if (mPlanWeeklyPresenter == null) {
+            mPlanWeeklyPresenter = new PlanWeeklyPresenter(mPlanWeeklyFragment);
+        }
 
 
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mFragmentList = new ArrayList<>();
+        mFragmentList.add(mPlanDailyFragment);
+        mFragmentList.add(mPlanWeeklyFragment);
+//        mFragmentList.add(mPlanDailyFragment);
+
+        mTablayout = (TabLayout) root.findViewById(R.id.tab_plan_period);
+        mTablayout.addTab(mTablayout.newTab().setText(Constants.TAB_DAILY));
+        mTablayout.addTab(mTablayout.newTab().setText(Constants.TAB_WEEKLY));
+//        mTablayout.addTab(mTablayout.newTab().setText("Page three"));
+
+        mViewPager = (ViewPager) root.findViewById(R.id.viewpager_plan_period);
+        mViewPager.setAdapter(new FragmentStatePagerAdapter(getActivity().getSupportFragmentManager()) {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-
-                mPresenter.onScrollStateChanged(
-                        recyclerView.getLayoutManager().getChildCount(),
-                        recyclerView.getLayoutManager().getItemCount(),
-                        newState);
+            public int getCount() {
+                return mFragmentList.size();
             }
 
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                mPresenter.onScrolled(recyclerView.getLayoutManager());
+            public android.support.v4.app.Fragment getItem(int position) {
+                return mFragmentList.get(position);
             }
         });
-
+        initTabListener();
 
         return root;
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mPresenter.start();
+    // listener for tab-bar and view-pager
+    private void initTabListener() {
+//        mTablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//                mViewPager.setCurrentItem(tab.getPosition());
+//            }
+//
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {
+//
+//            }
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//
+//            }
+//        });
+
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTablayout));
+        mTablayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
     }
 
-    @Override
-    public void showTaskListWithPlanTime(List<GetTaskWithPlanTime> bean) {
-        mPlanAdapter.updateData(bean);
-    }
-
-
-    @Override
-    public void refreshUi(int mode) {
-        setIntPlanMode(mode);
-        mPlanAdapter.refreshUiMode(mode);
-    }
-
-
-    @Override
-    public void showSetTargetUi() {
-        ((MainActivity) getActivity()).transToSetTarget();
-    }
-
-
-    public int getIntPlanMode() {
-        return mIntPlanMode;
-    }
-
-    public void setIntPlanMode(int intPlanMode) {
-        mIntPlanMode = intPlanMode;
-    }
 }

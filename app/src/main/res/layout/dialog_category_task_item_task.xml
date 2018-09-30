@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintlayout_categorytask_task_item"
+    android:background="@android:color/white"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_categroytask_task_item"
+    android:clickable="true"
+    android:focusable="true">
+
+    <ImageView
+        android:id="@+id/imageview_categorytask_categorycolor"
+        android:layout_width="@dimen/width_categorytask_category_label"
+        android:layout_height="match_parent"
+        android:background="@android:color/holo_red_dark"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/framelayout_categorytask_task_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/holo_red_light"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <ImageView
+            android:id="@+id/imageview_categorytask_task_icon"
+            android:layout_width="@dimen/size_all_item_image"
+            android:layout_height="@dimen/size_all_item_image"
+            android:layout_margin="4dp" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/textview_categorytask_task_name"
+        android:layout_width="@dimen/width_plan_task_name"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-medium"
+        android:lines="1"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
+        app:layout_constraintStart_toEndOf="@+id/framelayout_categorytask_task_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Sleep" />
+
+</android.support.constraint.ConstraintLayout>

@@ -2,12 +2,13 @@ package com.kuanhsien.timemanagement;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.annotation.StringDef;
 
 import com.kuanhsien.timemanagement.plan.PlanFragment;
-import com.kuanhsien.timemanagement.plan.PlanPresenter;
+import com.kuanhsien.timemanagement.plan.daily.PlanDailyFragment;
+import com.kuanhsien.timemanagement.plan.daily.PlanDailyPresenter;
 import com.kuanhsien.timemanagement.settarget.SetTargetFragment;
 import com.kuanhsien.timemanagement.settarget.SetTargetPresenter;
 import com.kuanhsien.timemanagement.trace.TraceFragment;
@@ -46,7 +47,7 @@ public class MainPresenter implements MainContract.Presenter {
 //    private ProfileFragment mProfileFragment;
 
 //    private TracePresenter mTracePresenter;
-    private PlanPresenter mPlanPresenter;
+//    private PlanPresenter mPlanPresenter;
 //    private ProfilePresenter mProfilePresenter;
     private SetTargetPresenter mSetTargetPresenter;
 
@@ -74,9 +75,9 @@ public class MainPresenter implements MainContract.Presenter {
         }
         transaction.commit();
 
-        if (mPlanPresenter == null) {
-            mPlanPresenter = new PlanPresenter(mPlanFragment);
-        }
+//        if (mPlanPresenter == null) {
+//            mPlanPresenter = new PlanDailyPresenter(mPlanFragment);
+//        }
 
         mMainView.showPlanUi();
     }

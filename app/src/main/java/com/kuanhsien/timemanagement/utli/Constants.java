@@ -33,22 +33,35 @@ public class Constants {
     public static final int VIEWTYPE_LOADING = 3;
     public static final int VIEWTYPE_DETAIL_MAIN = 4;
     public static final int VIEWTYPE_DETAIL_COMMENT = 5;
+    public static final int VIEWTYPE_CATEGORY = 10;
+    public static final int VIEWTYPE_TASK = 11;
 
     // Bundle
     public static final String BUNDLE_DETAIL_ARTICLE = "bundle_detail_article";
 
 
 
-
+    // Plan Fragment Tab Layout
+    public static final String TAB_DAILY = "DAY";
+    public static final String TAB_WEEKLY = "WEEK";
 
     // Plan
     public static final int MODE_PLAN_VIEW = 1;
     public static final int MODE_PLAN_EDIT = 2;
 
+    // Category & Task
+    public static final String ITEM_CATEGORY = "CATEGORY";
+    public static final String ITEM_TASK = "TASK";
+
+
     // Database
     // Plan (set target)
     public static final String MODE_PERIOD = "MODE_PERIOD";
     public static final String MODE_CALENDAR = "MODE_CALENDAR";
+    public static final String MODE_DAILY = "MODE_DAILY";
+    public static final String MODE_WEEKLY = "MODE_WEEKLY";
+    public static final String MODE_MONTHLY = "MODE_MONTHLY";
+    public static final String MODE_YEARLY = "MODE_YEARLY";
 
     // Default Tasks
     public static final String TASK_SLEEP = "SLEEP";

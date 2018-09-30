@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintlayout_categorytask_category_item"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_categroytask_category_item"
+    android:background="@android:color/black" >
+
+    <ImageView
+        android:id="@+id/imageview_categorytask_category_color"
+        android:layout_width="@dimen/width_categorytask_category_label"
+        android:layout_height="match_parent"
+        android:background="@android:color/holo_red_dark"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageview_categorytask_separationline"
+        android:layout_width="@dimen/width_detail_contentarea"
+        android:layout_height="2dp"
+        android:background="@android:color/holo_red_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textview_categorytask_category_name"
+        android:layout_width="@dimen/width_plan_task_name"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/imageview_categorytask_category_color"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Health" />
+
+
+
+</android.support.constraint.ConstraintLayout>

@@ -3,14 +3,14 @@ package com.kuanhsien.timemanagement;
 import android.arch.persistence.room.ColumnInfo;
 
 /**
- * Created by Ken on 2018/9/24
+ * Created by Ken on 2018/9/30
  *
  * Query Result
  */
-public class GetTaskWithPlanTime {
+public class GetCategoryTaskList {
 
-    @ColumnInfo(name = "mode")
-    private String mMode;
+    @ColumnInfo(name = "item_catg")
+    private String mItemCatg;
 
     @ColumnInfo(name = "category_name")
     private String mCategoryName;
@@ -33,18 +33,10 @@ public class GetTaskWithPlanTime {
     @ColumnInfo(name = "task_priority")
     private int mTaskPriority;
 
-    @ColumnInfo(name = "start_time")
-    private String mStartTime;
+    // Getter
 
-    @ColumnInfo(name = "end_time")
-    private String mEndTime;
-
-    @ColumnInfo(name = "cost_time")
-    private int mCostTime;
-
-    // getter and setter
-    public String getMode() {
-        return mMode;
+    public String getItemCatg() {
+        return mItemCatg;
     }
 
     public String getCategoryName() {
@@ -75,20 +67,10 @@ public class GetTaskWithPlanTime {
         return mTaskPriority;
     }
 
-    public String getStartTime() {
-        return mStartTime;
-    }
+    // Setter
 
-    public String getEndTime() {
-        return mEndTime;
-    }
-
-    public int getCostTime() {
-        return mCostTime;
-    }
-
-    public void setMode(String mode) {
-        mMode = mode;
+    public void setItemCatg(String itemCatg) {
+        mItemCatg = itemCatg;
     }
 
     public void setCategoryName(String categoryName) {
@@ -100,7 +82,7 @@ public class GetTaskWithPlanTime {
     }
 
     public void setCategoryPriority(int categoryPriority) {
-        mCategoryPriority = categoryPriority;
+        this.mCategoryPriority = categoryPriority;
     }
 
     public void setTaskName(String taskName) {
@@ -119,23 +101,9 @@ public class GetTaskWithPlanTime {
         mTaskPriority = taskPriority;
     }
 
-    public void setStartTime(String startTime) {
-        mStartTime = startTime;
-    }
 
-    public void setEndTime(String endTime) {
-        mEndTime = endTime;
-    }
-
-    public void setCostTime(int costTime) {
-        mCostTime = costTime;
-    }
-
-    public GetTaskWithPlanTime() {
-    }
-
-    public GetTaskWithPlanTime(String mode, String categoryName, String categoryColor, int categoryPriority, String taskName, String taskColor, String taskIcon, int taskPriority, String startTime, String endTime, int costTime) {
-        mMode = mode;
+    public GetCategoryTaskList(String itemCatg, String categoryName, String categoryColor, int categoryPriority, String taskName, String taskColor, String taskIcon, int taskPriority) {
+        mItemCatg = itemCatg;
         mCategoryName = categoryName;
         mCategoryColor = categoryColor;
         mCategoryPriority = categoryPriority;
@@ -143,17 +111,6 @@ public class GetTaskWithPlanTime {
         mTaskColor = taskColor;
         mTaskIcon = taskIcon;
         mTaskPriority = taskPriority;
-        mStartTime = startTime;
-        mEndTime = endTime;
-        mCostTime = costTime;
     }
 
-    // 這是新增一個選項時，畫面上能選擇的項目
-    public GetTaskWithPlanTime(String categoryName, String taskName, String taskColor, String taskIcon, int costTime) {
-        mCategoryName = categoryName;
-        mTaskName = taskName;
-        mTaskColor = taskColor;
-        mTaskIcon = taskIcon;
-        mCostTime = costTime;
-    }
 }

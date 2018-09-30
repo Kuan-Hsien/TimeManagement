@@ -1,21 +1,14 @@
-package com.kuanhsien.timemanagement.plan;
+package com.kuanhsien.timemanagement.plan.weekly;
 
-import android.os.AsyncTask;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
+import com.kuanhsien.timemanagement.GetTaskWithPlanTime;
 import com.kuanhsien.timemanagement.GetTaskWithPlanTimeCallback;
-import com.kuanhsien.timemanagement.GetTasksWithPlanAsyncTask;
+import com.kuanhsien.timemanagement.GetTaskWithPlanTimeAsyncTask;
 import com.kuanhsien.timemanagement.SetTargetAsyncTask;
 import com.kuanhsien.timemanagement.SetTargetCallback;
-import com.kuanhsien.timemanagement.object.CategoryDefineTable;
-import com.kuanhsien.timemanagement.GetTaskWithPlanTime;
-import com.kuanhsien.timemanagement.object.TaskDefineTable;
-import com.kuanhsien.timemanagement.TimeManagementApplication;
-import com.kuanhsien.timemanagement.database.AppDatabase;
-import com.kuanhsien.timemanagement.database.DatabaseDao;
 import com.kuanhsien.timemanagement.object.TimePlanningTable;
 import com.kuanhsien.timemanagement.utli.Constants;
 import com.kuanhsien.timemanagement.utli.Logger;
@@ -27,14 +20,13 @@ import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-
 /**
- * Created by Ken on 2018/9/24.
+ * Created by Ken on 2018/9/29.
  */
-public class PlanPresenter implements PlanContract.Presenter {
-    private static final String MSG = "PlanPresenter: ";
+public class PlanWeeklyPresenter implements PlanWeeklyContract.Presenter {
+    private static final String MSG = "PlanWeeklyPresenter: ";
 
-    private final PlanContract.View mPlanView;
+    private final PlanWeeklyContract.View mPlanView;
 
     private int mlastVisibleItemPosition;
     private int mfirstVisibleItemPosition;
@@ -42,7 +34,7 @@ public class PlanPresenter implements PlanContract.Presenter {
     private boolean mLoading = false;
 
 
-    public PlanPresenter(PlanContract.View mainView) {
+    public PlanWeeklyPresenter(PlanWeeklyContract.View mainView) {
         mPlanView = checkNotNull(mainView, "planView cannot be null!");
         mPlanView.setPresenter(this);
     }
@@ -127,8 +119,8 @@ public class PlanPresenter implements PlanContract.Presenter {
             String mStrEndTime = new SimpleDateFormat("yyyy/MM/dd").format(tomorrowNow);   // 擷取到日期
 
 
-            new GetTasksWithPlanAsyncTask(
-                    Constants.MODE_PERIOD, mStrStartTime, mStrEndTime, new GetTaskWithPlanTimeCallback() {
+            new GetTaskWithPlanTimeAsyncTask(
+                    Constants.MODE_WEEKLY, mStrStartTime, mStrEndTime, new GetTaskWithPlanTimeCallback() {
 
                 @Override
                 public void onCompleted(List<GetTaskWithPlanTime> bean) {
@@ -172,7 +164,7 @@ public class PlanPresenter implements PlanContract.Presenter {
                 // [TODO] insert 資料後更新畫面，目前是將要更新的資料全部當作 bean
                 // 假如有順利 insert，則跳回 Plan Fragment，但是裡面的內容要更新 (重新撈取資料或是把所有更新項目都塞進 list 中，也包含 edit 的時間結果)
                 // (1) 方法 1: 用 LiveData 更新
-                // (2) 方法 2: 從這裡回到 PlanFragment，或是回到 MainActivity > MainPresenter > PlanFragment 更新
+                // (2) 方法 2: 從這裡回到 PlanWeeklyFragment，或是回到 MainActivity > MainPresenter > PlanWeeklyFragment 更新
                 // *(3) 方法 3: [TODO] 把 TimePlanningTable 中增加 icon 和 color，就可以直接把這個物件當作畫面要顯示的內容。而不用另外再做一次畫面。也不用另外寫 GetTaskWithPlanTime 物件
                 getTaskWithPlanTime();
             }
@@ -201,75 +193,5 @@ public class PlanPresenter implements PlanContract.Presenter {
         mLoading = loading;
     }
 
-    private void prepareRoomDatabase() {
-
-        // 和 Database 有關的操作不能放在 main-thread 中。不然會跳出錯誤：
-        // Cannot access database on the main thread since it may potentially lock the UI for a long period of time.
-
-        // 解決方式：(此處使用 2)
-        // 1. 在取得資料庫連線時增加 allowMainThreadQueries() 方法，強制在主程式中執行
-        // 2. 另開 thread 執行耗時工作 (建議採用此方法)，另開 thread 有多種寫法，按自己習慣作業即可。此處為測試是否寫入手機SQLite，故不考慮 callback，如下
-        AsyncTask.execute(new Runnable() {
-
-            @Override
-            public void run() {
-
-                DatabaseDao dao = AppDatabase.getDatabase(TimeManagementApplication.getAppContext()).getDatabaseDao();
-
-                // [INSERT]
-//                CategoryDefineTable categoryItem = new CategoryDefineTable(1, "Work", true, "Red", "Work", "High");
-                dao.addTask(new TaskDefineTable("HEALTH","Sleep", "RED", "SLEEP", false));
-                dao.addTask(new TaskDefineTable("STUDY", "Study", "BLUE", "BOOK", false));
-                dao.addTask(new TaskDefineTable("RELATIONSHIP","Family", "ORANGE", "HOME", false));
-                dao.addTask(new TaskDefineTable("WORK","Work", "BLACK", "WORK", false));
-                dao.addTask(new TaskDefineTable("HEALTH","Eat", "GREEN", "FOOD", false));
-                dao.addTask(new TaskDefineTable("SELF", "Re-arrange Time", "YELLOW", "CLOCK", false));
-                dao.addTask(new TaskDefineTable("RELATIONSHIP", "Friends", "LIGHT-BLUE", "PEOPLE", false));
-                dao.addTask(new TaskDefineTable("HEALTH", "Toilet", "BROWN", "TOILET", false));
-                dao.addTask(new TaskDefineTable("OTHERS","Transportation", "WHITE", "CAR", false));
-                dao.addTask(new TaskDefineTable("SELF","Free", "GREY", "MAN", true));
-
-                // 取得現在時間
-                Date curDate = new Date();
-                // 定義時間格式
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
-                // 透過SimpleDateFormat的format方法將 Date 轉為字串
-                String strCurrentTime = simpleDateFormat.format(curDate);
-
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "HEALTH", "Sleep", strCurrentTime, strCurrentTime, 480, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "HEALTH", "Eat", strCurrentTime, strCurrentTime, 120, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "RELATIONSHIP", "Family", strCurrentTime, strCurrentTime, 120, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "RELATIONSHIP", "Family", strCurrentTime, strCurrentTime, 60, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "HEALTH", "Toilet", strCurrentTime, strCurrentTime, 75, strCurrentTime));
-
-//                dao.addCategory(categoryItem);
-//                dao.addTask(taskItem);
-//                dao.insertAllCategory();
-//                dao.insertAll(2, "First name", "Last name", "Address", null);
-
-
-                // [QUERY]
-                // 可以在這邊撈，目前寫在這邊可以撈出來當前塞進去的資料。
-                List<TimePlanningTable> planningTableList = dao.getAllPlanList();
-                List<TaskDefineTable> taskList = dao.getTaskList();
-
-                for (int i = 0 ; i < planningTableList.size() ; ++i) {
-                    Logger.d(Constants.TAG, MSG + "i = " + i +
-                            ", Mode: " + planningTableList.get(i).getMode() +
-                            ", Category: " + planningTableList.get(i).getCategoryName() +
-                            ", Task: " + planningTableList.get(i).getTaskName() +
-                            ", StartTime: " + planningTableList.get(i).getStartTime() +
-                            ", EndTime: " + planningTableList.get(i).getEndTime() +
-                            ", CostTime: " + planningTableList.get(i).getCostTime());
-                }
-
-                for (int i = 0 ; i < taskList.size() ; ++i) {
-                    Logger.d(Constants.TAG, MSG + "i = " + i +
-                            ", Category: " + taskList.get(i).getCategoryName() +
-                            ", Task: " + taskList.get(i).getTaskName());
-                }
-
-            }
-        });
-    }
 }
+

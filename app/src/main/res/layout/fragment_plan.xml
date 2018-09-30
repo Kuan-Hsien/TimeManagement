@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,32 +6,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".plan.PlanFragment">
 
-    <LinearLayout
-        android:id="@+id/linearlayout_plan_period"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_plan_period"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_plan_period"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@android:color/white" >
+        app:layout_constraintStart_toStartOf="parent" />
+    <!--app:tabTextColor="@android:color/white"-->
+    <!--app:tabSelectedTextColor=""-->
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="linearlayout_plan_period"
-            android:textSize="14dp" />
-
-    </LinearLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview_plan"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager_plan_period"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@+id/linearlayout_plan_period"
+        app:layout_constraintTop_toBottomOf="@+id/tab_plan_period"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-    </android.support.v7.widget.RecyclerView>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

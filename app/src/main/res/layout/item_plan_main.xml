@@ -5,18 +5,25 @@
     android:id="@+id/constraintlayout_plan_main_item"
     android:background="@android:color/white"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/height_main_item" >
+    android:layout_height="wrap_content" >
 
-    <ImageView
-        android:id="@+id/imageview_plan_task_icon"
-        android:layout_width="@dimen/size_all_item_image"
-        android:layout_height="@dimen/size_all_item_image"
+    <FrameLayout
+        android:id="@+id/framelayout_plan_task_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="15dp"
-        android:scaleType="centerCrop"
+        android:layout_marginBottom="15dp"
+        android:background="@android:color/holo_red_light"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/presence_video_away" />
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <ImageView
+            android:id="@+id/imageview_plan_task_icon"
+            android:layout_width="@dimen/size_all_item_image"
+            android:layout_height="@dimen/size_all_item_image"
+            android:layout_margin="6dp" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/textview_plan_task_name"
@@ -29,7 +36,7 @@
         android:lines="1"
         android:textColor="@android:color/black"
         android:textSize="15sp"
-        app:layout_constraintStart_toEndOf="@+id/imageview_plan_task_icon"
+        app:layout_constraintStart_toEndOf="@+id/framelayout_plan_task_icon"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Sleep" />
 
@@ -37,13 +44,12 @@
         android:id="@+id/textview_plan_task_cost_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="15dp"
         android:layout_marginTop="15dp"
         android:fontFamily="sans-serif-medium"
         android:lines="1"
         android:textColor="@android:color/black"
         android:textSize="15sp"
-        android:background="@android:color/holo_purple"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="8 hr" />
@@ -61,32 +67,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_media_play" />
 
-    <TextView
-        android:id="@+id/textview_plan_task_adjust_cost_time"
-        android:layout_width="@dimen/width_plan_adjust_time_panel"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="15dp"
-        android:fontFamily="sans-serif-medium"
-        android:lines="1"
-        android:textColor="@android:color/black"
-        android:visibility="gone"
-        android:text="TODO: add adjust panel to adjust time"
-        android:textSize="15sp"
-        android:background="@android:color/holo_purple"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="8 hr" />
-
     <SeekBar
         android:id="@+id/seekbar_plan_task_adjust_cost_time_daily"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="10dp"
         android:max="1440"
         android:progress="0"
+        android:maxHeight="6dp"
+        android:minHeight="6dp"
+        android:thumb="@drawable/selector_seekbar_thumb"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/framelayout_plan_task_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -95,13 +88,18 @@
         android:id="@+id/seekbar_plan_task_adjust_cost_time_weekly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="10dp"
         android:max="10080"
         android:progress="0"
+        android:maxHeight="6dp"
+        android:minHeight="6dp"
+        android:thumb="@drawable/selector_seekbar_thumb"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/framelayout_plan_task_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
 
     <!--android:layout_marginStart="16dp"-->
     <!--android:layout_marginEnd="10dp"-->

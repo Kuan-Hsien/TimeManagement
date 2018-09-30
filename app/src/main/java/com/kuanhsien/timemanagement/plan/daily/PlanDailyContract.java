@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kuanhsien.timemanagement.plan;
+package com.kuanhsien.timemanagement.plan.daily;
 
 import android.support.v7.widget.RecyclerView;
 
@@ -31,13 +31,21 @@ import java.util.List;
  *
  * This specifies the contract between the view and the presenter.
  */
-public interface PlanContract {
+public interface PlanDailyContract {
 
     interface View extends BaseView<Presenter> {
 
+        // 0-2 request adapter refresh UI with different mode
+        void refreshUi(int mode); // change mode (view_mode <-> edit_mode)
+
+        // 1-2 request adapter to show the target list (get query result)
         void showTaskListWithPlanTime(List<GetTaskWithPlanTime> bean);
 
-        void refreshUi(int mode); // change mode (view_mode <-> edit_mode)
+//        void showCategoryListDialog(List<GetTaskWithPlanTime> bean);
+//        void showTaskListDialog(List<GetTaskWithPlanTime> bean);
+
+        void showCategoryListDialog();
+        void showTaskListDialog();
 
         void showSetTargetUi();
 
@@ -62,15 +70,18 @@ public interface PlanContract {
         void showTaskListWithPlanTime(List<GetTaskWithPlanTime> bean);
 
         // 2-1. [Send-to-Model] database insert to update data (insert new targets or adjust time for existed targets)
+        // 2-2. [Send-to-Model] database delete to delete data (delete existed targets)
 //        void saveTargetResults(String strMode, String strCategory, String strTask, String strStartTime, String strEndTime, String strCostTime);
         void saveTargetResults(List<TimePlanningTable> targetList, List<TimePlanningTable> deleteTargetList);
 
-        // 2-2. [Send-to-Model] database delete to delete data (delete existed targets)
         // 2-3. [Send-to-View] request fragment to show data
+        // once update data, query the target list again to refresh UI
+        // (1-1, 1-2)
 
-
+        // 3-1. [Send-to-View]
+        void showCategoryListDialog();
+        void showTaskListDialog();
 
         void showSetTargetUi();
-
     }
 }

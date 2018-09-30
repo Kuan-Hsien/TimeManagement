@@ -2,7 +2,7 @@ package com.kuanhsien.timemanagement.object;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.Ignore;
 import android.support.annotation.NonNull;
 
 
@@ -26,6 +26,9 @@ public class TaskDefineTable {
 
     @ColumnInfo(name = "task_icon")
     private String mTaskIcon;
+
+    @ColumnInfo(name = "task_priority")
+    private int mTaskPriority;
 
     @ColumnInfo(name = "is_user_def")
     private Boolean isUserDef;
@@ -52,6 +55,10 @@ public class TaskDefineTable {
         return mTaskIcon;
     }
 
+    public int getTaskPriority() {
+        return mTaskPriority;
+    }
+
     public Boolean getUserDef() {
         return isUserDef;
     }
@@ -76,6 +83,10 @@ public class TaskDefineTable {
         mTaskIcon = taskIcon;
     }
 
+    public void setTaskPriority(int taskPriority) {
+        mTaskPriority = taskPriority;
+    }
+
     public void setUserDef(Boolean userDef) {
         isUserDef = userDef;
     }
@@ -89,19 +100,21 @@ public class TaskDefineTable {
 
     }
 
-    public TaskDefineTable(@NonNull String categoryName, @NonNull String taskName, String taskColor, String taskIcon, Boolean isUserDef) {
+    public TaskDefineTable(@NonNull String categoryName, @NonNull String taskName, String taskColor, String taskIcon, int taskPriority, Boolean isUserDef) {
         mCategoryName = categoryName;
         mTaskName = taskName;
         mTaskColor = taskColor;
         mTaskIcon = taskIcon;
+        mTaskPriority = taskPriority;
         this.isUserDef = isUserDef;
     }
 
-    public TaskDefineTable(@NonNull String categoryName, @NonNull String taskName, String taskColor, String taskIcon, Boolean isUserDef, String updateDate) {
+    public TaskDefineTable(@NonNull String categoryName, @NonNull String taskName, String taskColor, String taskIcon, int taskPriority, Boolean isUserDef, String updateDate) {
         mCategoryName = categoryName;
         mTaskName = taskName;
         mTaskColor = taskColor;
         mTaskIcon = taskIcon;
+        mTaskPriority = taskPriority;
         this.isUserDef = isUserDef;
         mUpdateDate = updateDate;
     }

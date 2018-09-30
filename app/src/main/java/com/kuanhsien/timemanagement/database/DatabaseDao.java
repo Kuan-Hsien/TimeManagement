@@ -6,6 +6,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
+import com.kuanhsien.timemanagement.GetCategoryTaskList;
 import com.kuanhsien.timemanagement.object.CategoryDefineTable;
 import com.kuanhsien.timemanagement.GetTaskWithPlanTime;
 import com.kuanhsien.timemanagement.object.TaskDefineTable;
@@ -19,16 +20,14 @@ import java.util.List;
 @Dao
 public interface DatabaseDao {
 
-    // Category
-    @Query("SELECT * FROM category_define_table")
-    List<CategoryDefineTable> getCategoryList();
-
-    @Query("SELECT * FROM category_define_table WHERE uid IN (:categoryIds)")
-    List<CategoryDefineTable> loadCategoryByIds(int[] categoryIds);
+    //****** Category ******
+    //
+    @Query("SELECT category_name, category_color, category_priority, is_user_def FROM category_define_table ORDER BY category_priority")
+    List<CategoryDefineTable> getAllCategoryList();
 
     @Query("SELECT * FROM category_define_table " +
             "WHERE category_name LIKE :categoryName LIMIT 1")   //[TODO] 應該不用卡 LIMIT
-    CategoryDefineTable findTaskByName(String categoryName);
+    CategoryDefineTable findCategoryByName(String categoryName);
 
 
     @Insert
@@ -45,12 +44,30 @@ public interface DatabaseDao {
     void deleteCategory(CategoryDefineTable item);
 
 
-    // Task
+    //****** Task ******
     @Query("SELECT * FROM task_define_table")
     List<TaskDefineTable> getTaskList();
 
-//    @Query("SELECT * FROM task_define_table WHERE uid IN (:taskIds)")
-//    List<TaskDefineTable> loadTaskByIds(int[] taskIds);
+    @Query("SELECT category_name, task_name, task_color, task_icon, task_priority, is_user_def FROM task_define_table")
+    List<TaskDefineTable> getAllTaskList();
+
+//    @Query("SELECT c.category_name, c.category_color, c.category_priority, t.task_name, t.task_color, t.task_icon, t.task_priority " +
+//             "FROM task_define_table t " +
+//            "INNER JOIN category_define_table c " +
+//               "ON t.category_name = c.category_name " +
+//            "ORDER BY c.category_priority, t.task_priority")
+//    List<GetCategoryTaskList> getCategoryTaskList();
+
+    @Query("SELECT * FROM " +
+            "(SELECT 'TASK' AS item_catg, c.category_name, c.category_color, c.category_priority, t.task_name, t.task_color, t.task_icon, t.task_priority " +
+               "FROM task_define_table t " +
+              "INNER JOIN category_define_table c " +
+                 "ON t.category_name = c.category_name " +
+              "UNION ALL " +
+            "SELECT 'CATEGORY' AS item_catg, c.category_name, c.category_color, c.category_priority, '', '', '', 0 " +
+               "FROM category_define_table c ) " +
+            "ORDER BY category_priority, item_catg, task_priority")
+    List<GetCategoryTaskList> getCategoryTaskList();
 
     @Query("SELECT * FROM task_define_table " +
             "WHERE category_name LIKE :categoryName " +
@@ -63,7 +80,6 @@ public interface DatabaseDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addTask(TaskDefineTable item);
-
 
     @Delete
     void deleteAllTask(TaskDefineTable item);
@@ -95,43 +111,31 @@ public interface DatabaseDao {
 
     // *******
     // 1.4 Query all tasks and left join with TimePlanningTable to get plan time (both daily or weekly)
-    @Query("SELECT t.category_name, t.task_name, t.task_color, t.task_icon, IFNULL(p.cost_time, \"\") AS cost_time " +
-             "FROM task_define_table t " +
-             "LEFT JOIN (SELECT p.category_name, p.task_name, p.cost_time " +
-                          "FROM time_planning_table p " +
-                         "WHERE p.mode = :mode " +
-                           "AND p.start_time >= :startTime AND p.end_time < :endTime" +
-                       ") p " +
-               "ON t.task_name = p.task_name")
-    List<GetTaskWithPlanTime> getAllTaskListWithPlanTime(String mode, String startTime, String endTime);
-
-//    // 1.5 Query all tasks and inner join with TimePlanningTable to get plan time (both daily or weekly)
 //    @Query("SELECT t.category_name, t.task_name, t.task_color, t.task_icon, IFNULL(p.cost_time, \"\") AS cost_time " +
 //             "FROM task_define_table t " +
-//            "INNER JOIN (SELECT p.category_name, p.task_name, p.cost_time " +
+//             "LEFT JOIN (SELECT p.category_name, p.task_name, p.cost_time " +
 //                          "FROM time_planning_table p " +
 //                         "WHERE p.mode = :mode " +
 //                           "AND p.start_time >= :startTime AND p.end_time < :endTime" +
 //                       ") p " +
 //               "ON t.task_name = p.task_name")
-//    List<GetTaskWithPlanTime> getTaskListWithPlanTime(String mode, String startTime, String endTime);
+//    List<GetTaskWithPlanTime> getAllTaskListWithPlanTime(String mode, String startTime, String endTime);
 
     // 1.5 Query target-list (tasks inner join with TimePlanningTable to get plan time) (both daily or weekly)
-    @Query("SELECT p.mode, t.category_name, t.task_name, t.task_color, t.task_icon, p.start_time, p.end_time, IFNULL(p.cost_time, \"\") AS cost_time " +
+    @Query("SELECT p.mode, t.category_name, c.category_color, c.category_priority, t.task_name, t.task_color, t.task_icon, t.task_priority, p.start_time, p.end_time, IFNULL(p.cost_time, \"\") AS cost_time " +
              "FROM task_define_table t " +
             "INNER JOIN (SELECT p.mode, p.category_name, p.task_name, p.start_time, p.end_time, p.cost_time " +
                           "FROM time_planning_table p " +
                          "WHERE p.mode = :mode " +
                            "AND p.start_time >= :startTime AND p.end_time < :endTime" +
                        ") p " +
-               "ON t.task_name = p.task_name")
+               "ON t.task_name = p.task_name " +
+            "INNER JOIN category_define_table c " +
+               "ON t.category_name = c.category_name " +
+            "ORDER BY c.category_priority, t.task_priority")
     List<GetTaskWithPlanTime> getTaskListWithPlanTime(String mode, String startTime, String endTime);
 
 
-
-
-//    @Query("SELECT * FROM time_planning_table WHERE uid IN (:taskIds)")
-//    List<TimePlanningTable> getPlanListByIds(int[] taskIds);
 
     @Query("SELECT * FROM time_planning_table p " +
             "WHERE p.category_name = :categoryName " +

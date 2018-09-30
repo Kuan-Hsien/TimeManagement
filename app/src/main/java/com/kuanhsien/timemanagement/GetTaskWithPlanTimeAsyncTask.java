@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by Ken on 2018/9/24.
  */
-public class GetTasksWithPlanAsyncTask extends AsyncTask<Object, Void, List<GetTaskWithPlanTime>> {
+public class GetTaskWithPlanTimeAsyncTask extends AsyncTask<Object, Void, List<GetTaskWithPlanTime>> {
 
     private static final String MSG = "GetTasksWithPlanAsync:";
     private GetTaskWithPlanTimeCallback mCallback;
@@ -26,8 +26,8 @@ public class GetTasksWithPlanAsyncTask extends AsyncTask<Object, Void, List<GetT
     private String mStrEndTime;
 
 
-    public GetTasksWithPlanAsyncTask(String mode, String strStartTime, String strEndTime,
-                                     GetTaskWithPlanTimeCallback callback) {
+    public GetTaskWithPlanTimeAsyncTask(String mode, String strStartTime, String strEndTime,
+                                        GetTaskWithPlanTimeCallback callback) {
         mCallback = callback;
         mErrorMessage = "";
 

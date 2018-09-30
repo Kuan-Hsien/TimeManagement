@@ -2,7 +2,9 @@ package com.kuanhsien.timemanagement.object;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 
 /**
@@ -11,33 +13,29 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity(tableName = "category_define_table")    // table-name (case-sensitive)
 public class CategoryDefineTable {
 
-    @PrimaryKey(autoGenerate = true)
-    private int uid;                            // 加上 autoGenerate = true 代表想要讓 uid 自動增加
-
+    @PrimaryKey
+    @NonNull
     @ColumnInfo(name = "category_name")
-    private String categoryName;
+    private String mCategoryName;
 
     @ColumnInfo(name = "is_user_def")
     private Boolean isUserDef;
 
     @ColumnInfo(name = "category_color")
-    private String categoryColor;
-
-    @ColumnInfo(name = "category_icon")
-    private String categoryIcon;
+    private String mCategoryColor;
 
     @ColumnInfo(name = "category_priority")
-    private String categoryPriority;
+    private int mCategoryPriority;
+
+    @ColumnInfo(name = "update_date")
+    private String mUpdateDate;
 
 
     // Getters and setters are ignored for brevity,
     // but they're required for Room to work.
-    public int getUid() {
-        return uid;
-    }
 
     public String getCategoryName() {
-        return categoryName;
+        return mCategoryName;
     }
 
     public Boolean getUserDef() {
@@ -45,23 +43,19 @@ public class CategoryDefineTable {
     }
 
     public String getCategoryColor() {
-        return categoryColor;
+        return mCategoryColor;
     }
 
-    public String getCategoryIcon() {
-        return categoryIcon;
+    public int getCategoryPriority() {
+        return mCategoryPriority;
     }
 
-    public String getCategoryPriority() {
-        return categoryPriority;
-    }
-
-    public void setUid(int uid) {
-        this.uid = uid;
+    public String getUpdateDate() {
+        return mUpdateDate;
     }
 
     public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+        this.mCategoryName = categoryName;
     }
 
     public void setUserDef(Boolean userDef) {
@@ -69,29 +63,34 @@ public class CategoryDefineTable {
     }
 
     public void setCategoryColor(String categoryColor) {
-        this.categoryColor = categoryColor;
+        this.mCategoryColor = categoryColor;
     }
 
-    public void setCategoryIcon(String categoryIcon) {
-        this.categoryIcon = categoryIcon;
+    public void setCategoryPriority(int categoryPriority) {
+        this.mCategoryPriority = categoryPriority;
     }
 
-    public void setCategoryPriority(String categoryPriority) {
-        this.categoryPriority = categoryPriority;
+    public void setUpdateDate(String updateDate) {
+        mUpdateDate = updateDate;
     }
-
 
     // Constructors
     public CategoryDefineTable() {
 
     }
 
-    public CategoryDefineTable(int uid, String categoryName, Boolean isUserDef, String categoryColor, String categoryIcon, String categoryPriority) {
-        this.uid = uid;
-        this.categoryName = categoryName;
+    public CategoryDefineTable(@NonNull String categoryName, Boolean isUserDef, String categoryColor, int categoryPriority) {
+        this.mCategoryName = categoryName;
         this.isUserDef = isUserDef;
-        this.categoryColor = categoryColor;
-        this.categoryIcon = categoryIcon;
-        this.categoryPriority = categoryPriority;
+        this.mCategoryColor = categoryColor;
+        this.mCategoryPriority = categoryPriority;
+    }
+
+    public CategoryDefineTable(@NonNull String categoryName, Boolean isUserDef, String categoryColor, int categoryPriority, String updateDate) {
+        this.mCategoryName = categoryName;
+        this.isUserDef = isUserDef;
+        this.mCategoryColor = categoryColor;
+        this.mCategoryPriority = categoryPriority;
+        mUpdateDate = updateDate;
     }
 }

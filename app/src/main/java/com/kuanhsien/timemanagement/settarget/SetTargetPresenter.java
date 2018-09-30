@@ -130,7 +130,7 @@ public class SetTargetPresenter implements SetTargetContract.Presenter {
 //                // [TODO] insert 資料後更新畫面
 //                // 假如有順利 insert，則跳回 Plan Fragment，但是裡面的內容要更新
 //                // (1) 方法 1: 用 LiveData 更新
-//                // (2) 方法 2: 從這裡回到 PlanFragment，或是回到 MainActivity > MainPresenter > PlanFragment 更新
+//                // (2) 方法 2: 從這裡回到 PlanDailyFragment，或是回到 MainActivity > MainPresenter > PlanDailyFragment 更新
 //
 //                Logger.d(Constants.TAG, "SetTarget onCompleted, TaskName: " + bean.getTaskName());
 //                mSetTargetView.showPlanUi();

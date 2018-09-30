@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         setBottomNavigation();
 //        setDrawerLayout();
 
-        mPresenter = new MainPresenter(this, getFragmentManager());
+        mPresenter = new MainPresenter(this, getSupportFragmentManager());
         mPresenter.start();
 
     }
@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
                 // [QUERY]
                 // 可以在這邊撈，目前寫在這邊可以撈出來當前塞進去的資料。
-                List<CategoryDefineTable> categoryList = dao.getCategoryList();
+                List<CategoryDefineTable> categoryList = dao.getAllCategoryList();
                 List<TaskDefineTable> taskList = dao.getTaskList();
 
                 for (int i = 0 ; i < categoryList.size() ; ++i) {

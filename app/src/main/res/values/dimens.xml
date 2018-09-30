@@ -41,8 +41,8 @@
     <dimen name="size_profile_logouticon">24dp</dimen>
 
     <!-- All items -->
-    <dimen name="size_all_add_item">36dp</dimen>
-    <dimen name="size_all_item_image">36dp</dimen>
+    <dimen name="size_all_add_item">28dp</dimen>
+    <dimen name="size_all_item_image">28dp</dimen>
 
     <dimen name="size_all_authorimage">36dp</dimen>
     <dimen name="size_all_createdtime">14dp</dimen>
@@ -60,8 +60,15 @@
 
     <!-- Set target -->
     <dimen name="width_set_target_item">223dp</dimen>
-    <dimen name="width_set_target_send_button">45dp</dimen>
-    <dimen name="height_set_target_send_button">30dp</dimen>
+    <dimen name="width_set_target_send_button">28dp</dimen>
+    <dimen name="height_set_target_send_button">28dp</dimen>
+
+
+    <!-- Category & Task -->
+    <dimen name="width_categorytask_category_label">8dp</dimen>
+    <dimen name="height_categroytask_category_item">30dp</dimen>
+    <dimen name="height_categroytask_task_item">52dp</dimen>
+
 
 
 
