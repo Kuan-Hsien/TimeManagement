@@ -1,4 +1,4 @@
-package com.kuanhsien.timemanagement;
+package com.kuanhsien.timemanagement.dml;
 
 import android.arch.persistence.room.ColumnInfo;
 

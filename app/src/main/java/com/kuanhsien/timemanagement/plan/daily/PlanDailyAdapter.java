@@ -9,14 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.kuanhsien.timemanagement.GetCategoryTaskList;
-import com.kuanhsien.timemanagement.GetTaskWithPlanTime;
+import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
+import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTime;
 import com.kuanhsien.timemanagement.R;
 import com.kuanhsien.timemanagement.TimeManagementApplication;
 import com.kuanhsien.timemanagement.object.TimePlanningTable;
@@ -363,7 +362,7 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
             Logger.d(Constants.TAG, MSG + "bindView setColor: " + item.getTaskColor() + " Taskname: " + item.getTaskName());
 
             getFrameLayoutPlanTaskIcon().setBackgroundColor(Color.parseColor(item.getTaskColor()));
-            getImageviewPlanTaskIcon().setImageDrawable(getIconResource(item.getTaskIcon()));
+            getImageviewPlanTaskIcon().setImageDrawable(TimeManagementApplication.getIconResource(item.getTaskIcon()));
             getTextviewPlanTaskName().setText(item.getTaskName());
             getTextviewPlanTaskCostTime().setText(ParseTime.intToHourMin(item.getCostTime()));
 
@@ -382,45 +381,6 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
                 getSeekBarPlanTaskAdjustTime().getProgressDrawable().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.SRC_IN);
 //                getSeekBarPlanTaskAdjustTime().getProgressDrawable().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.SRC_ATOP); // 疑似也是改 thumb
                 getSeekBarPlanTaskAdjustTime().getThumb().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.MULTIPLY);
-            }
-        }
-
-        public Drawable getIconResource(String strIcon) {
-
-            if (strIcon.equals("icon_sleep")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_sleep);
-            } else if (strIcon.equals("icon_bike")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_bike);
-            } else if (strIcon.equals("icon_book")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_book);
-            } else if (strIcon.equals("icon_car")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_car);
-            } else if (strIcon.equals("icon_computer")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_computer);
-            } else if (strIcon.equals("icon_drunk")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_drunk);
-            } else if (strIcon.equals("icon_friend")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_friend);
-            } else if (strIcon.equals("icon_food")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_food);
-            } else if (strIcon.equals("icon_home")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_home);
-            } else if (strIcon.equals("icon_lover")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_lover);
-            } else if (strIcon.equals("icon_music")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_music);
-            } else if (strIcon.equals("icon_paw")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_paw);
-            } else if (strIcon.equals("icon_phonecall")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_phonecall);
-            } else if (strIcon.equals("icon_swim")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_swim);
-            } else if (strIcon.equals("icon_walk")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_walk);
-            } else if (strIcon.equals("icon_work")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_work);
-            } else {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_sleep);
             }
         }
 
@@ -482,18 +442,18 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
 
             //** Edit Mode
             // Set Category
-            mTextviewSetTargetCategory = (TextView) v.findViewById(R.id.textview_plan_set_target_category);
+            mTextviewSetTargetCategory = (TextView) v.findViewById(R.id.textview_addtask_editmode_category);
 
             // Set Task
-            mTextviewSetTargetTask = (TextView) v.findViewById(R.id.textview_plan_set_target_task);
+            mTextviewSetTargetTask = (TextView) v.findViewById(R.id.textview_addtask_editmode_task);
             mTextviewSetTargetTask.setOnClickListener(this);
 
             mTextviewSetTargetCostTime = (TextView) v.findViewById(R.id.textview_plan_set_target_cost_time);
-            mConstraintLayoutPlanSetTarget = (ConstraintLayout) v.findViewById(R.id.constraintlayout_plan_set_target);
+            mConstraintLayoutPlanSetTarget = (ConstraintLayout) v.findViewById(R.id.constraintlayout_add_task_edit_mode);
             mSeekBarSetTargetAdjustTime = (SeekBar) v.findViewById(R.id.seekbar_plan_set_target_cost_time_daily);
 
-            ((ImageView) v.findViewById(R.id.imageview_plan_set_target_save)).setOnClickListener(this);
-            ((ImageView) v.findViewById(R.id.imageview_plan_set_target_cancel)).setOnClickListener(this);
+            ((ImageView) v.findViewById(R.id.imageview_add_task_edit_mode_save)).setOnClickListener(this);
+            ((ImageView) v.findViewById(R.id.imageview_add_task_edit_mode_cancel)).setOnClickListener(this);
 
             mSeekBarSetTargetAdjustTime.setOnSeekBarChangeListener(mSeekBarChangeListener);
         }
@@ -504,8 +464,8 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
             if (v.getId() == R.id.constraintlayout_plan_top_view_mode) {    // View mode
 
                 // Plan page 整頁切換為編輯模式
-                getTextviewSetTargetCategory().setText("");
-                getTextviewSetTargetTask().setText("");
+                getTextviewSetTargetTask().setText("Choose a task");
+                getTextviewSetTargetCategory().setText("--");
                 getTextviewSetTargetCostTime().setText("0 min");
                 getSeekBarSetTargetAdjustTime().setProgress(0);
                 mIntNewItemCostTime = 0;
@@ -515,7 +475,7 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
                 // [TODO] 之後要增加一頁新的 category 可參考此處寫法
                 // mPresenter.showSetTargetUi();
 
-            } else if (v.getId() == R.id.imageview_plan_set_target_save) {  // Edit mode - complete
+            } else if (v.getId() == R.id.imageview_add_task_edit_mode_save) {  // Edit mode - complete
 
                 // [TODO] 未來可以一次新增多個 target (多加一個小打勾，像 trello 新增卡片)
                 // [TODO] 換成真正的 startTime, endTime
@@ -595,15 +555,15 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
 
                 mPresenter.refreshUi(Constants.MODE_PLAN_VIEW);
 
-            } else if (v.getId() == R.id.imageview_plan_set_target_cancel) { // Edit mode - cancel
+            } else if (v.getId() == R.id.imageview_add_task_edit_mode_cancel) { // Edit mode - cancel
 
                 mPresenter.refreshUi(Constants.MODE_PLAN_VIEW);
 
-            } else if (v.getId() == R.id.textview_plan_set_target_category) {
+            } else if (v.getId() == R.id.textview_addtask_editmode_category) {
 
                 mPresenter.showCategoryListDialog();
 
-            } else if (v.getId() == R.id.textview_plan_set_target_task) {
+            } else if (v.getId() == R.id.textview_addtask_editmode_task) {
 
                 mPresenter.showTaskListDialog();
             }

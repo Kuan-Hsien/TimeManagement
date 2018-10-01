@@ -4,14 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/navigation_trace"
-        android:icon="@drawable/page_stopwatch_timer"
-        android:title=""/>
-
-    <item
         android:id="@+id/navigation_plan"
         android:icon="@drawable/page_alarm"
-        android:title=""/>
+        android:title=""
+        android:checked="true" />
+
+    <item
+        android:id="@+id/navigation_trace"
+        android:icon="@drawable/page_stopwatch_timer"
+        android:title="" />
 
     <item
         android:id="@+id/navigation_profile"

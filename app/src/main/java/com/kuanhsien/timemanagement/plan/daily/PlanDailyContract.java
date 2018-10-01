@@ -20,7 +20,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.kuanhsien.timemanagement.BasePresenter;
 import com.kuanhsien.timemanagement.BaseView;
-import com.kuanhsien.timemanagement.GetTaskWithPlanTime;
+import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTime;
 import com.kuanhsien.timemanagement.object.TimePlanningTable;
 
 import java.util.List;

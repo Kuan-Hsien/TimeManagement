@@ -65,7 +65,7 @@
 
 
     <!-- Category & Task -->
-    <dimen name="width_categorytask_category_label">8dp</dimen>
+    <dimen name="width_categorytask_category_label">6dp</dimen>
     <dimen name="height_categroytask_category_item">30dp</dimen>
     <dimen name="height_categroytask_task_item">52dp</dimen>
 

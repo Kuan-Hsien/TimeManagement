@@ -5,11 +5,11 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.kuanhsien.timemanagement.GetTaskWithPlanTimeCallback;
-import com.kuanhsien.timemanagement.GetTaskWithPlanTimeAsyncTask;
-import com.kuanhsien.timemanagement.SetTargetAsyncTask;
-import com.kuanhsien.timemanagement.SetTargetCallback;
-import com.kuanhsien.timemanagement.GetTaskWithPlanTime;
+import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTimeCallback;
+import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTimeAsyncTask;
+import com.kuanhsien.timemanagement.dml.SetTargetAsyncTask;
+import com.kuanhsien.timemanagement.dml.SetTargetCallback;
+import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTime;
 import com.kuanhsien.timemanagement.object.CategoryDefineTable;
 import com.kuanhsien.timemanagement.object.TaskDefineTable;
 import com.kuanhsien.timemanagement.TimeManagementApplication;
@@ -274,11 +274,17 @@ public class PlanDailyPresenter implements PlanDailyContract.Presenter {
                 dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Sleep", strCurrentTime, strCurrentTime, 480, strCurrentTime));
                 dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Eat", strCurrentTime, strCurrentTime, 120, strCurrentTime));
                 dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Family", "Family", strCurrentTime, strCurrentTime, 120, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Family", "Family", strCurrentTime, strCurrentTime, 1200, strCurrentTime));
                 dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Personal", "Study", strCurrentTime, strCurrentTime, 75, strCurrentTime));
                 dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Friend", "Friend", strCurrentTime, strCurrentTime, 75, strCurrentTime));
                 dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Swim", strCurrentTime, strCurrentTime, 75, strCurrentTime));
                 dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Others", "Music", strCurrentTime, strCurrentTime, 75, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Sleep", strCurrentTime, strCurrentTime, 4800, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Eat", strCurrentTime, strCurrentTime, 1200, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Family", "Family", strCurrentTime, strCurrentTime, 1200, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Personal", "Study", strCurrentTime, strCurrentTime, 75, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Friend", "Friend", strCurrentTime, strCurrentTime, 75, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Swim", strCurrentTime, strCurrentTime, 75, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Others", "Music", strCurrentTime, strCurrentTime, 75, strCurrentTime));
 
 //                dao.addCategory(categoryItem);
 //                dao.addTask(taskItem);

@@ -11,11 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.kuanhsien.timemanagement.CategoryTaskListAdapter;
-import com.kuanhsien.timemanagement.CategoryTaskListContract;
-import com.kuanhsien.timemanagement.CategoryTaskListPresenter;
-import com.kuanhsien.timemanagement.GetCategoryTaskList;
-import com.kuanhsien.timemanagement.GetTaskWithPlanTime;
+import com.kuanhsien.timemanagement.task.CategoryTaskListAdapter;
+import com.kuanhsien.timemanagement.task.CategoryTaskListContract;
+import com.kuanhsien.timemanagement.task.CategoryTaskListPresenter;
+import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
+import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTime;
 import com.kuanhsien.timemanagement.MainActivity;
 import com.kuanhsien.timemanagement.R;
 import com.kuanhsien.timemanagement.TimeManagementApplication;
@@ -181,7 +181,7 @@ public class PlanDailyFragment extends Fragment implements PlanDailyContract.Vie
 
         // ****** 用自定義的 mDialog 介面 ******
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        View view = View.inflate(getActivity(), R.layout.dialog_category_task_list, null);
+        View view = View.inflate(getActivity(), R.layout.dialog_categorytask_list, null);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_category_task_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(TimeManagementApplication.getAppContext()));

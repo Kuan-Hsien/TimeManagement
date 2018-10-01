@@ -1,17 +1,14 @@
-package com.kuanhsien.timemanagement;
+package com.kuanhsien.timemanagement.dml;
 
 import android.os.AsyncTask;
 
+import com.kuanhsien.timemanagement.TimeManagementApplication;
 import com.kuanhsien.timemanagement.database.AppDatabase;
 import com.kuanhsien.timemanagement.database.DatabaseDao;
-import com.kuanhsien.timemanagement.object.TaskDefineTable;
 import com.kuanhsien.timemanagement.object.TimePlanningTable;
 import com.kuanhsien.timemanagement.utli.Constants;
 import com.kuanhsien.timemanagement.utli.Logger;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,7 +39,7 @@ public class SetTargetAsyncTask extends AsyncTask<Object, Void, List<TimePlannin
         DatabaseDao dao = AppDatabase.getDatabase(TimeManagementApplication.getAppContext()).getDatabaseDao();
 
         // delete target
-        dao.deleteTarget(mDeleteTargetList);
+        dao.deleteTargetList(mDeleteTargetList);
 
         // edit and add target
         for (int i = 0 ; i < mTargetList.size() ; ++i) {

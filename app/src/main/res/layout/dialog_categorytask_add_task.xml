@@ -2,78 +2,63 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintlayout_plan_top_item"
+    android:id="@+id/constraintlayout_addtask_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true" >
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintlayout_plan_top_view_mode"
+        android:id="@+id/constraintlayout_addtask_viewmode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" >
 
         <ImageView
-            android:id="@+id/imageview_plan_top_add_item"
-            android:layout_width="@dimen/size_all_item_image"
-            android:layout_height="@dimen/size_all_item_image"
-            android:layout_marginBottom="5dp"
+            android:id="@+id/imageview_addtask_viewmode_button"
+            android:layout_width="@dimen/size_all_add_item"
+            android:layout_height="@dimen/size_all_add_item"
             android:layout_marginStart="16dp"
             android:layout_marginTop="5dp"
-            android:background="@android:color/holo_orange_light"
+            android:layout_marginBottom="5dp"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@android:color/holo_orange_light"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/btn_edit_pencil" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:srcCompat="@drawable/btn_add" />
 
         <TextView
-            android:id="@+id/textview_add_task_view_mode_title"
+            android:id="@+id/textview_addtask_viewmode_title"
             android:layout_width="@dimen/width_plan_top_add_item"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:ellipsize="end"
             android:fontFamily="sans-serif-medium"
             android:lines="1"
-            android:text="Set/Edit Target"
+            android:text="Add Task"
             android:textColor="@android:color/black"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageview_plan_top_add_item"
+            app:layout_constraintStart_toEndOf="@+id/imageview_addtask_viewmode_button"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textview_plan_top_remaining_time"
-            android:layout_width="@dimen/width_plan_task_time"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:fontFamily="sans-serif-medium"
-            android:lines="1"
-            android:textColor="@android:color/black"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="16 hr" />
-
 
     </android.support.constraint.ConstraintLayout>
 
     <!-- Visible in edit mode -->
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintlayout_add_task_edit_mode"
+        android:id="@+id/constraintlayout_addtask_editmode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@+id/constraintlayout_plan_top_view_mode"
+        app:layout_constraintTop_toBottomOf="@+id/constraintlayout_addtask_viewmode"
         app:layout_constraintStart_toStartOf="parent" >
 
         <!-- Set target title and save/cancel button -->
         <!-- title -->
         <TextView
-            android:id="@+id/textview_add_task_edit_mode_title"
+            android:id="@+id/textview_addtask_editmode_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -81,14 +66,14 @@
             android:fontFamily="sans-serif-medium"
             android:lines="1"
             android:textColor="@android:color/black"
-            android:text="Set a new target"
+            android:text="Create a new task"
             android:textSize="20sp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <!-- save button -->
         <ImageView
-            android:id="@+id/imageview_add_task_edit_mode_save"
+            android:id="@+id/imageview_addtask_editmode_save"
             android:layout_width="@dimen/width_set_target_send_button"
             android:layout_height="@dimen/height_set_target_send_button"
             android:layout_marginEnd="16dp"
@@ -103,7 +88,7 @@
 
         <!-- cancel button -->
         <ImageView
-            android:id="@+id/imageview_add_task_edit_mode_cancel"
+            android:id="@+id/imageview_addtask_editmode_cancel"
             android:layout_width="@dimen/width_set_target_send_button"
             android:layout_height="@dimen/height_set_target_send_button"
             android:layout_marginEnd="16dp"
@@ -112,12 +97,12 @@
             android:focusable="true"
             android:scaleType="centerCrop"
             android:background="@android:color/holo_orange_light"
-            app:layout_constraintEnd_toStartOf="@+id/imageview_add_task_edit_mode_save"
+            app:layout_constraintEnd_toStartOf="@+id/imageview_addtask_editmode_save"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/btn_add" />
 
         <ImageView
-            android:id="@+id/imageview_add_task_edit_mode_separationline"
+            android:id="@+id/imageview_addtask_editmode_separationline"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginStart="8dp"
@@ -127,13 +112,13 @@
             android:background="@android:color/darker_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview_add_task_edit_mode_title" />
+            app:layout_constraintTop_toBottomOf="@+id/textview_addtask_editmode_title" />
 
         <!-- Set target content -->
 
         <!-- task -->
         <TextView
-            android:id="@+id/textview_add_task_edit_mode_tasktitle"
+            android:id="@+id/textview_addtask_editmode_tasktitle"
             android:layout_width="@dimen/width_set_target_item"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
@@ -143,11 +128,11 @@
             android:textColor="@android:color/darker_gray"
             android:textSize="10sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageview_add_task_edit_mode_separationline"
+            app:layout_constraintTop_toBottomOf="@+id/imageview_addtask_editmode_separationline"
             android:text="Task"
             tools:text="Task" />
 
-        <TextView
+        <EditText
             android:id="@+id/textview_addtask_editmode_task"
             android:layout_width="@dimen/width_set_target_item"
             android:layout_height="wrap_content"
@@ -158,8 +143,8 @@
             android:textColor="@android:color/black"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview_add_task_edit_mode_tasktitle"
-            android:text="Choose a task"
+            app:layout_constraintTop_toBottomOf="@+id/textview_addtask_editmode_tasktitle"
+            android:text="Task name"
             android:clickable="true"
             android:focusable="true" />
 
@@ -188,76 +173,11 @@
             android:ellipsize="end"
             android:fontFamily="sans-serif-medium"
             android:lines="1"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="15sp"
-            android:text="--"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview_addtask_editmode_categorytitle" />
-
-        <!-- seekbar to set time target  -->
-        <TextView
-            android:id="@+id/textview_plan_set_target_cost_time_title"
-            android:layout_width="@dimen/width_set_target_item"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
-            android:ellipsize="end"
-            android:fontFamily="sans-serif-medium"
-            android:lines="1"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="10sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview_addtask_editmode_category"
-            android:text="Time: " />
-
-        <TextView
-            android:id="@+id/textview_plan_set_target_cost_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="15dp"
-            android:ellipsize="end"
-            android:fontFamily="sans-serif-medium"
-            android:lines="1"
             android:textColor="@android:color/black"
             android:textSize="15sp"
-            app:layout_constraintTop_toBottomOf="@+id/textview_addtask_editmode_category"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="0 hr" />
-
-        <SeekBar
-            android:id="@+id/seekbar_plan_set_target_cost_time_daily"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:layout_marginBottom="10dp"
-            android:max="1440"
-            android:progress="0"
-            android:maxHeight="6dp"
-            android:minHeight="6dp"
-            android:thumb="@drawable/selector_seekbar_thumb"
-            app:layout_constraintTop_toBottomOf="@+id/textview_plan_set_target_cost_time"
+            android:text="Choose a category"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-
-        <SeekBar
-            android:id="@+id/seekbar_plan_set_target_cost_time_weekly"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:layout_marginBottom="10dp"
-            android:max="10080"
-            android:progress="0"
-            android:maxHeight="6dp"
-            android:minHeight="6dp"
-            android:thumb="@drawable/selector_seekbar_thumb"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@+id/textview_plan_set_target_cost_time"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/textview_addtask_editmode_categorytitle" />
 
 
         <!-- TODO add green circle and white check for continuous adding -->

@@ -1,14 +1,13 @@
-package com.kuanhsien.timemanagement;
+package com.kuanhsien.timemanagement.dml;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
+import com.kuanhsien.timemanagement.TimeManagementApplication;
 import com.kuanhsien.timemanagement.database.AppDatabase;
 import com.kuanhsien.timemanagement.database.DatabaseDao;
 import com.kuanhsien.timemanagement.utli.Constants;
 import com.kuanhsien.timemanagement.utli.Logger;
 
-import java.io.IOException;
 import java.util.List;
 
 /**

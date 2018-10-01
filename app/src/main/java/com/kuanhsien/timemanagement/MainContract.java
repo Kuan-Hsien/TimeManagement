@@ -29,10 +29,10 @@ public interface MainContract {
 
         void showPlanUi();
 
-//        void showTraceUi();
-//
-//        void showProfileUi();
-//
+        void showTraceUi();
+
+        void showStatisticUi();
+
 //        void refreshLikedUi();
 
     }
@@ -43,10 +43,10 @@ public interface MainContract {
 
         void transToPlan();
 
-//        void transToTrace();
-//
-//        void transToProfile();
-//
+        void transToTrace();
+
+        void transToStatistic();
+
         void transToSetTarget();
 
 //        void transToDetail(Article article);

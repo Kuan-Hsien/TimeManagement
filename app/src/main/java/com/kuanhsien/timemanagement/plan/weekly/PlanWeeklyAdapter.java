@@ -1,5 +1,7 @@
 package com.kuanhsien.timemanagement.plan.weekly;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -7,15 +9,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.kuanhsien.timemanagement.GetTaskWithPlanTime;
+import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
+import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTime;
 import com.kuanhsien.timemanagement.R;
 import com.kuanhsien.timemanagement.TimeManagementApplication;
 import com.kuanhsien.timemanagement.object.TimePlanningTable;
+import com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyContract;
 import com.kuanhsien.timemanagement.utli.Constants;
 import com.kuanhsien.timemanagement.utli.Logger;
 import com.kuanhsien.timemanagement.utli.ParseTime;
@@ -25,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import static android.view.View.GONE;
 
 
 /**
@@ -41,6 +47,8 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
     private int mIntTotalCostTime;
     private int mIntPlanMode;
     private int mIntNewItemCostTime;
+
+    private com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyAdapter.PlanTopItemViewHolder mPlanTopItemViewHolder;
 
 
     public PlanWeeklyAdapter(List<GetTaskWithPlanTime> bean, PlanWeeklyContract.Presenter presenter) {
@@ -67,6 +75,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
             // create a new view
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_plan_top, parent, false);
             return new com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyAdapter.PlanTopItemViewHolder(view);
+
         } else {
 
             // create a new view
@@ -85,10 +94,14 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 //        Logger.d(Constants.TAG, MSG + "onBindViewHolder: position " + position + " " + mPlanningList.get(position));
 
         if (holder instanceof com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyAdapter.PlanTopItemViewHolder) {
-            // detail ar
+            // create a new target
+
+            mPlanTopItemViewHolder = (com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyAdapter.PlanTopItemViewHolder) holder;
             ((com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyAdapter.PlanTopItemViewHolder) holder).bindView();
+
+
         } else {
-            // comments
+            // current target list
             ((com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyAdapter.PlanMainItemViewHolder) holder).bindView(mPlanningList.get(position - 1), position - 1);
         }
     }
@@ -142,7 +155,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
             // 2. [Edit] initialization
             // [TODO] add calendar mode Constants.MODE_CALENDAR
             // [TODO] add weekly mode
-            mIntMaxCostTime = 24 * 60;
+            mIntMaxCostTime = 7 * 24 * 60;
             mIntNewItemCostTime = 0;
             mIntAdjustCostTime = null;
 
@@ -173,6 +186,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
         // each data item is just a string in this case
 
         //** View mode
+        private FrameLayout mFrameLayoutPlanTaskIcon;
         private ImageView mImageviewPlanTaskIcon;
         private TextView mTextviewPlanTaskName;
         private TextView mTextviewPlanTaskCostTime;
@@ -190,6 +204,10 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
         public int getCurrentPosition() {
             return mPosition;
+        }
+
+        public FrameLayout getFrameLayoutPlanTaskIcon() {
+            return mFrameLayoutPlanTaskIcon;
         }
 
         public ImageView getImageviewPlanTaskIcon() {
@@ -218,6 +236,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
             mPosition = 0;
 
             //** View mode
+            mFrameLayoutPlanTaskIcon = (FrameLayout) v.findViewById(R.id.framelayout_plan_task_icon);
             mImageviewPlanTaskIcon = (ImageView) v.findViewById(R.id.imageview_plan_task_icon);
             mConstraintLayoutPlanMainItem = (ConstraintLayout) v.findViewById(R.id.constraintlayout_plan_main_item);
             mTextviewPlanTaskName = (TextView) v.findViewById(R.id.textview_plan_task_name);
@@ -344,7 +363,10 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
             // 把相對應位置的 task 顯示在此 viewHolder
 
-            getImageviewPlanTaskIcon().setImageDrawable(getIconResource(item.getTaskIcon()));
+            Logger.d(Constants.TAG, MSG + "bindView setColor: " + item.getTaskColor() + " Taskname: " + item.getTaskName());
+
+            getFrameLayoutPlanTaskIcon().setBackgroundColor(Color.parseColor(item.getTaskColor()));
+            getImageviewPlanTaskIcon().setImageDrawable(TimeManagementApplication.getIconResource(item.getTaskIcon()));
             getTextviewPlanTaskName().setText(item.getTaskName());
             getTextviewPlanTaskCostTime().setText(ParseTime.intToHourMin(item.getCostTime()));
 
@@ -352,53 +374,17 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
             if (getIntPlanMode() == Constants.MODE_PLAN_VIEW) {
 
-                getImageviewPlanTaskDeleteHint().setVisibility(View.GONE);
-                getSeekBarPlanTaskAdjustTime().setVisibility(View.GONE);
+                getImageviewPlanTaskDeleteHint().setVisibility(GONE);
+                getSeekBarPlanTaskAdjustTime().setVisibility(GONE);
 
             } else { // getIntPlanMode() == Constants.MODE_PLAN_EDIT
 
                 getImageviewPlanTaskDeleteHint().setVisibility(View.VISIBLE);
                 getSeekBarPlanTaskAdjustTime().setVisibility(View.VISIBLE);
                 getSeekBarPlanTaskAdjustTime().setProgress(item.getCostTime());
-            }
-        }
-
-        public Drawable getIconResource(String strIcon) {
-
-            if (strIcon.equals("icon_sleep")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_sleep);
-            } else if (strIcon.equals("icon_bike")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_bike);
-            } else if (strIcon.equals("icon_book")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_book);
-            } else if (strIcon.equals("icon_car")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_car);
-            } else if (strIcon.equals("icon_computer")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_computer);
-            } else if (strIcon.equals("icon_drunk")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_drunk);
-            } else if (strIcon.equals("icon_friend")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_friend);
-            } else if (strIcon.equals("icon_food")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_food);
-            } else if (strIcon.equals("icon_home")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_home);
-            } else if (strIcon.equals("icon_lover")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_lover);
-            } else if (strIcon.equals("icon_music")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_music);
-            } else if (strIcon.equals("icon_paw")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_paw);
-            } else if (strIcon.equals("icon_phonecall")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_phonecall);
-            } else if (strIcon.equals("icon_swim")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_swim);
-            } else if (strIcon.equals("icon_walk")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_walk);
-            } else if (strIcon.equals("icon_work")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_work);
-            } else {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_sleep);
+                getSeekBarPlanTaskAdjustTime().getProgressDrawable().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.SRC_IN);
+//                getSeekBarPlanTaskAdjustTime().getProgressDrawable().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.SRC_ATOP); // 疑似也是改 thumb
+                getSeekBarPlanTaskAdjustTime().getThumb().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.MULTIPLY);
             }
         }
 
@@ -419,7 +405,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
         private ConstraintLayout mConstraintLayoutPlanSetTarget;
         private TextView mTextviewSetTargetCategory;
         private TextView mTextviewSetTargetTask;
-        private TextView mTextViewSetTargetCostTime;
+        private TextView mTextviewSetTargetCostTime;
         private SeekBar mSeekBarSetTargetAdjustTime;
 
         public TextView getTextviewPlanTopRemainingTime() {
@@ -442,8 +428,8 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
             return mTextviewSetTargetTask;
         }
 
-        public TextView getTextViewSetTargetCostTime() {
-            return mTextViewSetTargetCostTime;
+        public TextView getTextviewSetTargetCostTime() {
+            return mTextviewSetTargetCostTime;
         }
 
         public SeekBar getSeekBarSetTargetAdjustTime() {
@@ -459,14 +445,22 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
             mConstraintLayoutPlanTopItem.setOnClickListener(this);
 
             //** Edit Mode
-            mTextviewSetTargetCategory = (TextView) v.findViewById(R.id.textview_plan_set_target_category);
-            mTextviewSetTargetTask = (TextView) v.findViewById(R.id.textview_plan_set_target_task);
-            mTextViewSetTargetCostTime = (TextView) v.findViewById(R.id.textview_plan_set_target_cost_time);
-            mConstraintLayoutPlanSetTarget = (ConstraintLayout) v.findViewById(R.id.constraintlayout_plan_set_target);
+            // Set Category
+            mTextviewSetTargetCategory = (TextView) v.findViewById(R.id.textview_addtask_editmode_category);
+
+            // Set Task
+            mTextviewSetTargetTask = (TextView) v.findViewById(R.id.textview_addtask_editmode_task);
+            mTextviewSetTargetTask.setOnClickListener(this);
+
+            mTextviewSetTargetCostTime = (TextView) v.findViewById(R.id.textview_plan_set_target_cost_time);
+            mConstraintLayoutPlanSetTarget = (ConstraintLayout) v.findViewById(R.id.constraintlayout_add_task_edit_mode);
             mSeekBarSetTargetAdjustTime = (SeekBar) v.findViewById(R.id.seekbar_plan_set_target_cost_time_weekly);
 
-            ((ImageView) v.findViewById(R.id.imageview_plan_set_target_save)).setOnClickListener(this);
-            ((ImageView) v.findViewById(R.id.imageview_plan_set_target_cancel)).setOnClickListener(this);
+            v.findViewById(R.id.seekbar_plan_set_target_cost_time_daily).setVisibility(GONE);
+            mSeekBarSetTargetAdjustTime.setVisibility(View.VISIBLE);
+
+            ((ImageView) v.findViewById(R.id.imageview_add_task_edit_mode_save)).setOnClickListener(this);
+            ((ImageView) v.findViewById(R.id.imageview_add_task_edit_mode_cancel)).setOnClickListener(this);
 
             mSeekBarSetTargetAdjustTime.setOnSeekBarChangeListener(mSeekBarChangeListener);
         }
@@ -477,9 +471,10 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
             if (v.getId() == R.id.constraintlayout_plan_top_view_mode) {    // View mode
 
                 // Plan page 整頁切換為編輯模式
-                getTextviewSetTargetCategory().setText("");
-                getTextviewSetTargetTask().setText("");
-                getTextViewSetTargetCostTime().setText("0 min");
+                getTextviewSetTargetTask().setText("Choose a task");
+                getTextviewSetTargetCategory().setText("--");
+                getTextviewSetTargetCostTime().setText("0 min");
+                getSeekBarSetTargetAdjustTime().setProgress(0);
                 mIntNewItemCostTime = 0;
 
                 mPresenter.refreshUi(Constants.MODE_PLAN_EDIT);
@@ -487,7 +482,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                 // [TODO] 之後要增加一頁新的 category 可參考此處寫法
                 // mPresenter.showSetTargetUi();
 
-            } else if (v.getId() == R.id.imageview_plan_set_target_save) {  // Edit mode - complete
+            } else if (v.getId() == R.id.imageview_add_task_edit_mode_save) {  // Edit mode - complete
 
                 // [TODO] 未來可以一次新增多個 target (多加一個小打勾，像 trello 新增卡片)
                 // [TODO] 換成真正的 startTime, endTime
@@ -540,8 +535,8 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
                     Logger.d(Constants.TAG, MSG +
                             "Categroy: " + mPlanningList.get(i).getCategoryName() +
-                            "TaskName: " + mPlanningList.get(i).getTaskName() +
-                            "CostTime: " + mPlanningList.get(i).getCostTime());
+                            " TaskName: " + mPlanningList.get(i).getTaskName() +
+                            " CostTime: " + mPlanningList.get(i).getCostTime());
                 }
 
                 // 2.2 再把最新 add 的目標加在最後
@@ -567,9 +562,17 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
                 mPresenter.refreshUi(Constants.MODE_PLAN_VIEW);
 
-            } else if (v.getId() == R.id.imageview_plan_set_target_cancel) { // Edit mode - cancel
+            } else if (v.getId() == R.id.imageview_add_task_edit_mode_cancel) { // Edit mode - cancel
 
                 mPresenter.refreshUi(Constants.MODE_PLAN_VIEW);
+
+            } else if (v.getId() == R.id.textview_addtask_editmode_category) {
+
+                mPresenter.showCategoryListDialog();
+
+            } else if (v.getId() == R.id.textview_addtask_editmode_task) {
+
+                mPresenter.showTaskListDialog();
             }
         }
 
@@ -599,7 +602,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                     seekBar.setProgress(progress);
 
                     String strCostTime = ParseTime.intToHourMin(progress);
-                    getTextViewSetTargetCostTime().setText(strCostTime);  // 設定 UI 顯示現在 progress 進度時間
+                    getTextviewSetTargetCostTime().setText(strCostTime);  // 設定 UI 顯示現在 progress 進度時間
 
                     Logger.d(Constants.TAG, MSG + "Meet the max-time, reset progress to current maximum");
                     Logger.d(Constants.TAG, MSG + "MaxTime: " + mIntMaxCostTime + " Total costTime: " + mIntTotalCostTime + " Progress: " + progress);
@@ -611,7 +614,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
                 Logger.d(Constants.TAG, MSG + "Progress: " + progress + " CostTime: " + strCostTime);
 
-                getTextViewSetTargetCostTime().setText(strCostTime);
+                getTextviewSetTargetCostTime().setText(strCostTime);
                 mIntTotalCostTime = mIntTotalCostTime - mIntNewItemCostTime + progress; // 總時數 - 這個 item 原本的 costTime ＋ 這個 item 新調的時間
                 mIntNewItemCostTime = progress; // progress means minutes
 
@@ -653,11 +656,11 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
             if (getIntPlanMode() == Constants.MODE_PLAN_VIEW) {
 
                 mConstraintLayoutPlanTopItem.setVisibility(View.VISIBLE);
-                mConstraintLayoutPlanSetTarget.setVisibility(View.GONE);
+                mConstraintLayoutPlanSetTarget.setVisibility(GONE);
 
             } else { // getIntPlanMode() == Constants.MODE_PLAN_EDIT
 
-                mConstraintLayoutPlanTopItem.setVisibility(View.GONE);
+                mConstraintLayoutPlanTopItem.setVisibility(GONE);
                 mConstraintLayoutPlanSetTarget.setVisibility(View.VISIBLE);
             }
         }
@@ -671,6 +674,14 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
     public void setIntPlanMode(int intPlanMode) {
         mIntPlanMode = intPlanMode;
     }
-}
 
+
+    public void showCategoryTaskSelected(GetCategoryTaskList bean) {
+
+        mPlanTopItemViewHolder.getTextviewSetTargetCategory().setText(bean.getCategoryName());
+        mPlanTopItemViewHolder.getTextviewSetTargetTask().setText(bean.getTaskName());
+
+    }
+
+}
 

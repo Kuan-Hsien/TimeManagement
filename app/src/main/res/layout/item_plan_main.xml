@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintlayout_plan_main_item"
-    android:background="@android:color/white"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
@@ -14,7 +13,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
-        android:background="@android:color/holo_red_light"
+        android:background="@drawable/shape_task_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
 

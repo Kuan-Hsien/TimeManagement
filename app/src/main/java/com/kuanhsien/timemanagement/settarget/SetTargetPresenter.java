@@ -1,14 +1,5 @@
 package com.kuanhsien.timemanagement.settarget;
 
-import android.util.Log;
-
-import com.kuanhsien.timemanagement.SetTargetAsyncTask;
-import com.kuanhsien.timemanagement.SetTargetCallback;
-import com.kuanhsien.timemanagement.object.TaskDefineTable;
-import com.kuanhsien.timemanagement.object.TimePlanningTable;
-import com.kuanhsien.timemanagement.utli.Constants;
-import com.kuanhsien.timemanagement.utli.Logger;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**

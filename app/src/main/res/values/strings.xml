@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Time Management</string>
+    <string name="page_title_plan">Plan</string>
+    <string name="page_title_trace">Trace</string>
+    <string name="page_title_statisic">Statistic</string>
 
 <!-- TODO: Remove or change this placeholder text -->
 

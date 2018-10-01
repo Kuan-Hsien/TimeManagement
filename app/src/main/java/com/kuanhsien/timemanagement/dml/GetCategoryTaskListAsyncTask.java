@@ -1,7 +1,8 @@
-package com.kuanhsien.timemanagement;
+package com.kuanhsien.timemanagement.dml;
 
 import android.os.AsyncTask;
 
+import com.kuanhsien.timemanagement.TimeManagementApplication;
 import com.kuanhsien.timemanagement.database.AppDatabase;
 import com.kuanhsien.timemanagement.database.DatabaseDao;
 import com.kuanhsien.timemanagement.utli.Constants;

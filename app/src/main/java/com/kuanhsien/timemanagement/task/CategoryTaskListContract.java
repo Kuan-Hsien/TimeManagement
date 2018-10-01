@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-package com.kuanhsien.timemanagement;
+package com.kuanhsien.timemanagement.task;
 
 import android.support.v7.widget.RecyclerView;
+
+import com.kuanhsien.timemanagement.BasePresenter;
+import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
 
 import java.util.List;
 

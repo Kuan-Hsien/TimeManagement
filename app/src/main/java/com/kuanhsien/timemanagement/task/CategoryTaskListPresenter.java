@@ -1,9 +1,12 @@
-package com.kuanhsien.timemanagement;
+package com.kuanhsien.timemanagement.task;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
+import com.kuanhsien.timemanagement.dml.GetCategoryTaskListAsyncTask;
+import com.kuanhsien.timemanagement.dml.GetCategoryTaskListCallback;
 import com.kuanhsien.timemanagement.utli.Constants;
 import com.kuanhsien.timemanagement.utli.Logger;
 

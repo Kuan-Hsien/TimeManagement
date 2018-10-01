@@ -6,9 +6,9 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import com.kuanhsien.timemanagement.GetCategoryTaskList;
+import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
 import com.kuanhsien.timemanagement.object.CategoryDefineTable;
-import com.kuanhsien.timemanagement.GetTaskWithPlanTime;
+import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTime;
 import com.kuanhsien.timemanagement.object.TaskDefineTable;
 import com.kuanhsien.timemanagement.object.TimePlanningTable;
 
@@ -39,6 +39,9 @@ public interface DatabaseDao {
 
     @Delete
     void deleteAllCategory(CategoryDefineTable item);
+
+    @Delete()
+    void deleteCategoryList(List<CategoryDefineTable> item);
 
     @Delete()
     void deleteCategory(CategoryDefineTable item);
@@ -83,6 +86,9 @@ public interface DatabaseDao {
 
     @Delete
     void deleteAllTask(TaskDefineTable item);
+
+    @Delete()
+    void deleteTaskList(List<TaskDefineTable> item);
 
     @Delete()
     void deleteTask(TaskDefineTable item);
@@ -154,7 +160,10 @@ public interface DatabaseDao {
 //    void deleteAllTask(TimePlanningTable item);
 
     @Delete()
-    void deleteTarget(List<TimePlanningTable> item);
+    void deleteTargetList(List<TimePlanningTable> item);
+
+    @Delete()
+    void deleteTarget(TimePlanningTable item);
 
 
     // *******

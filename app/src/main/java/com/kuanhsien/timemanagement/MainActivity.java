@@ -205,8 +205,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             switch (item.getItemId()) {
                 case R.id.navigation_trace:
 
-//                    mPresenter.transToTrace();
-//                    return true;
+                    mPresenter.transToTrace();
+                    return true;
 
                 case R.id.navigation_plan:
 
@@ -215,8 +215,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
                 case R.id.navigation_profile:
 
-//                    mPresenter.transToProfile();
-//                    return true;
+                    mPresenter.transToStatistic();
+                    return true;
 
                 default:
             }
@@ -236,9 +236,22 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void showPlanUi() {
 
-        setToolbarTitle(getResources().getString(R.string.app_name));
+        setToolbarTitle(getResources().getString(R.string.page_title_plan));
     }
 
+    @Override
+    public void showTraceUi() {
+
+        setToolbarTitle(getResources().getString(R.string.page_title_trace));
+
+    }
+
+    @Override
+    public void showStatisticUi() {
+
+        setToolbarTitle(getResources().getString(R.string.page_title_statisic));
+
+    }
 
     public void transToPlan() {
         mPresenter.transToPlan();

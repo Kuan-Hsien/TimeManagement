@@ -7,8 +7,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.annotation.StringDef;
 
 import com.kuanhsien.timemanagement.plan.PlanFragment;
-import com.kuanhsien.timemanagement.plan.daily.PlanDailyFragment;
-import com.kuanhsien.timemanagement.plan.daily.PlanDailyPresenter;
 import com.kuanhsien.timemanagement.settarget.SetTargetFragment;
 import com.kuanhsien.timemanagement.settarget.SetTargetPresenter;
 import com.kuanhsien.timemanagement.trace.TraceFragment;
@@ -60,6 +58,12 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
+    public void transToTrace() {
+
+        mMainView.showTraceUi();
+    }
+
+    @Override
     public void transToPlan() {
 
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
@@ -80,6 +84,12 @@ public class MainPresenter implements MainContract.Presenter {
 //        }
 
         mMainView.showPlanUi();
+    }
+
+    @Override
+    public void transToStatistic() {
+
+        mMainView.showStatisticUi();
     }
 
     @Override

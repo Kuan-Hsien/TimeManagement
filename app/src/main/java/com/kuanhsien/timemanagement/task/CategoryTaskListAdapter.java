@@ -1,11 +1,11 @@
-package com.kuanhsien.timemanagement;
+package com.kuanhsien.timemanagement.task;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +13,14 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kuanhsien.timemanagement.object.TimePlanningTable;
+import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
+import com.kuanhsien.timemanagement.R;
+import com.kuanhsien.timemanagement.TimeManagementApplication;
 import com.kuanhsien.timemanagement.utli.Constants;
 import com.kuanhsien.timemanagement.utli.Logger;
 
-import java.text.SimpleDateFormat;
+import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,8 +33,6 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
     private List<GetCategoryTaskList> mCategoryTaskList;
     private boolean[] isDeleteArray;
     private int mIntPlanMode;
-//    private int mIntNewItemCostTime;
-
 
     public CategoryTaskListAdapter(List<GetCategoryTaskList> bean, CategoryTaskListContract.Presenter presenter) {
 
@@ -58,12 +56,12 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
         if (viewType == Constants.VIEWTYPE_CATEGORY) {
 
             // create a new view
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dialog_category_task_item_category, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dialog_categorytask_item_category, parent, false);
             return new CategoryItemViewHolder(view);
         } else {
 
             // create a new view
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dialog_category_task_item_task, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dialog_categorytask_item_task, parent, false);
             return new TaskItemViewHolder(view);
 
         }
@@ -231,11 +229,8 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
             Logger.d(Constants.TAG, MSG + "bindView setColor: " + item.getTaskColor() + " Taskname: " + item.getTaskName());
             getImageviewCategeoryColorLabel().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
 
-//            getFrameLayoutTaskColor().setBackgroundColor(Color.GREEN);
-//            getFrameLayoutTaskColor().setBackgroundColor(Color.parseColor("#C71585"));
-
             getFrameLayoutTaskColor().setBackgroundColor(Color.parseColor(item.getTaskColor()));
-            getImageviewTaskIcon().setImageDrawable(getIconResource(item.getTaskIcon()));
+            getImageviewTaskIcon().setImageDrawable(TimeManagementApplication.getIconResource(item.getTaskIcon()));
             getTextviewTaskName().setText(item.getTaskName());
 
             setPosition(pos);
@@ -250,45 +245,6 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
 //            }
         }
 
-        public Drawable getIconResource(String strIcon) {
-
-            if (strIcon.equals("icon_sleep")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_sleep);
-            } else if (strIcon.equals("icon_bike")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_bike);
-            } else if (strIcon.equals("icon_book")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_book);
-            } else if (strIcon.equals("icon_car")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_car);
-            } else if (strIcon.equals("icon_computer")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_computer);
-            } else if (strIcon.equals("icon_drunk")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_drunk);
-            } else if (strIcon.equals("icon_friend")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_friend);
-            } else if (strIcon.equals("icon_food")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_food);
-            } else if (strIcon.equals("icon_home")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_home);
-            } else if (strIcon.equals("icon_lover")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_lover);
-            } else if (strIcon.equals("icon_music")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_music);
-            } else if (strIcon.equals("icon_paw")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_paw);
-            } else if (strIcon.equals("icon_phonecall")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_phonecall);
-            } else if (strIcon.equals("icon_swim")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_swim);
-            } else if (strIcon.equals("icon_walk")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_walk);
-            } else if (strIcon.equals("icon_work")) {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_work);
-            } else {
-                return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_sleep);
-            }
-        }
-
     }
 
 
@@ -300,8 +256,8 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
 
         //** View Mode
         private ConstraintLayout mConstraintLayoutCategoryItem;
-        private ImageView mImageviewCategeoryColor;
         private ImageView mImageviewCategorySeperation;
+        private ImageView mImageviewCategeoryColor;
         private TextView mTextviewCategoryName;
         private int mPosition;
 
@@ -317,12 +273,12 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
             return mConstraintLayoutCategoryItem;
         }
 
-        public ImageView getImageviewCategeoryColor() {
-            return mImageviewCategeoryColor;
-        }
-
         public ImageView getImageviewCategorySeperation() {
             return mImageviewCategorySeperation;
+        }
+
+        public ImageView getImageviewCategeoryColor() {
+            return mImageviewCategeoryColor;
         }
 
         public TextView getTextviewCategoryName() {
@@ -334,8 +290,8 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
 
             //** View Mode
             mConstraintLayoutCategoryItem = (ConstraintLayout) v.findViewById(R.id.constraintlayout_categorytask_category_item);
-            mImageviewCategeoryColor = (ImageView) v.findViewById(R.id.imageview_categorytask_category_color);
             mImageviewCategorySeperation = (ImageView) v.findViewById(R.id.imageview_categorytask_separationline);
+            mImageviewCategeoryColor = (ImageView) v.findViewById(R.id.imageview_categorytask_category_color);
             mTextviewCategoryName = (TextView) v.findViewById(R.id.textview_categorytask_category_name);
 
         }
@@ -349,8 +305,9 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
 
             getConstraintLayoutCategoryItem().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
             getImageviewCategeoryColor().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
-            getImageviewCategorySeperation().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
             getTextviewCategoryName().setText(item.getCategoryName());
+
+//            getImageviewCategorySeperation().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
 
             setPosition(pos);
 

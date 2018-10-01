@@ -2,6 +2,7 @@ package com.kuanhsien.timemanagement;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Environment;
 
 import com.kuanhsien.timemanagement.utli.Constants;
@@ -63,4 +64,44 @@ public class TimeManagementApplication extends Application {
 //        return appModeValue;
 //    }
 
+
+
+    public static Drawable getIconResource(String strIcon) {
+
+        if (strIcon.equals("icon_sleep")) {
+            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_sleep);
+        } else if (strIcon.equals("icon_bike")) {
+            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_bike);
+        } else if (strIcon.equals("icon_book")) {
+            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_book);
+        } else if (strIcon.equals("icon_car")) {
+            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_car);
+        } else if (strIcon.equals("icon_computer")) {
+            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_computer);
+        } else if (strIcon.equals("icon_drunk")) {
+            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_drunk);
+        } else if (strIcon.equals("icon_friend")) {
+            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_friend);
+        } else if (strIcon.equals("icon_food")) {
+            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_food);
+        } else if (strIcon.equals("icon_home")) {
+            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_home);
+        } else if (strIcon.equals("icon_lover")) {
+            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_lover);
+        } else if (strIcon.equals("icon_music")) {
+            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_music);
+        } else if (strIcon.equals("icon_paw")) {
+            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_paw);
+        } else if (strIcon.equals("icon_phonecall")) {
+            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_phonecall);
+        } else if (strIcon.equals("icon_swim")) {
+            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_swim);
+        } else if (strIcon.equals("icon_walk")) {
+            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_walk);
+        } else if (strIcon.equals("icon_work")) {
+            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_work);
+        } else {
+            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_sleep);
+        }
+    }
 }
