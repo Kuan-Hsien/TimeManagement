@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 類型 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <!--android:shape="oval">-->
+
+    <!-- solid: 指定填充顏色(實心顏色) -->
+    <!--<solid android:color="#e6e7e7e7" />-->
+    <solid android:color="#c0c0c0" />
+
+    <!--padding: 文字與邊框的間距-->
+    <!--android:top 上邊間距-->
+    <!--android:right 右邊間距-->
+    <!--android:bottom 下邊間距-->
+    <!--android:left 左邊間距-->
+    <!--<padding-->
+    <!--android:top="10dp"-->
+    <!--android:right="10dp"-->
+    <!--android:bottom="10dp"-->
+    <!--android:left="10dp"-->
+    <!--/>-->
+
+    <!--corners: 設置圓角，適用於外觀類型為矩形(rectangle)-->
+    <!--android:radius 圓角邊框半徑，如果四個圓角的半徑相同可忽略下面四個方法，如不同則忽略此方法使用下面四個方法。-->
+    <!--android:topLeftRadius左上角的半徑-->
+    <!--android:topRightRadius右上角的半徑-->
+    <!--android:bottomLeftRadius左下角的半徑-->
+    <!--android:bottomRightRadius右下角的半徑-->
+    <corners android:radius="4dp" />
+
+    <!-- 形狀大小 -->
+    <size
+        android:width="48dp"
+        android:height="48dp" />
+
+    <!--stroke: 邊框線
+        android:color 框線的顏色
+        android:width 框線的寬度
+        android:dashWidth 每條虛線的長度，如不要虛線請設0
+        android:dashGap 每條虛線之間的距離，如不要虛線請設0 -->
+
+    <!--<stroke-->
+        <!--android:width="1dp"-->
+        <!--android:color="#000000"-->
+        <!--android:dashGap="0dp"-->
+        <!--android:dashWidth="0dp" />-->
+
+</shape>

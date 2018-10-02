@@ -222,6 +222,7 @@ public class PlanDailyFragment extends Fragment implements PlanDailyContract.Vie
         // 取消或確定按鈕監聽事件處理
         mDialog = builder.create();
         mDialog.show();
+        mDialog.getWindow().setBackgroundDrawableResource(R.drawable.shape_dialog);
 
     }
 
