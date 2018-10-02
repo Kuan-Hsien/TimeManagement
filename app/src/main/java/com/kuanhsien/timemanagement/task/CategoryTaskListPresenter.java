@@ -149,7 +149,7 @@ public class CategoryTaskListPresenter implements CategoryTaskListContract.Prese
 
                 Logger.d(Constants.TAG, MSG + "SetTask onCompleted");
                 for( int i = 0 ; i < bean.size() ; ++i) {
-                    Logger.d(Constants.TAG, MSG + "TaskName: " + bean.get(i).getTaskName());
+                    bean.get(i).LogD();
                 }
 
                 // [TODO] insert 資料後更新畫面，目前是將要更新的資料全部當作 bean

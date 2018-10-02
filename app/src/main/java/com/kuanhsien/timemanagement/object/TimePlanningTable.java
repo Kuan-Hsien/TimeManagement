@@ -6,6 +6,9 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import com.kuanhsien.timemanagement.utli.Constants;
+import com.kuanhsien.timemanagement.utli.Logger;
+
 /**
  * Created by Ken on 2018/9/24
  */
@@ -124,5 +127,18 @@ public class TimePlanningTable {
         mEndTime = endTime;
         mCostTime = costTime;
         mUpdateDate = updateDate;
+    }
+
+    private static final String MSG = "TimePlanningTable: ";
+
+    public void LogD () {
+        Logger.d(Constants.TAG, MSG + "--------------------- Target -------------------------");
+        Logger.d(Constants.TAG, MSG + "Mode: " + getMode());
+        Logger.d(Constants.TAG, MSG + "CategoryName: " + getCategoryName());
+        Logger.d(Constants.TAG, MSG + "TaskName: " + getTaskName());
+        Logger.d(Constants.TAG, MSG + "StartTime: " + getStartTime());
+        Logger.d(Constants.TAG, MSG + "EndTime: " + getEndTime());
+        Logger.d(Constants.TAG, MSG + "CostTime: " + getCostTime());
+        Logger.d(Constants.TAG, MSG + "-----------------------------------------------------");
     }
 }

@@ -5,6 +5,11 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.DialogTitle;
+import android.util.Log;
+
+import com.kuanhsien.timemanagement.utli.Constants;
+import com.kuanhsien.timemanagement.utli.Logger;
 
 
 /**
@@ -93,4 +98,16 @@ public class CategoryDefineTable {
         this.mCategoryPriority = categoryPriority;
         mUpdateDate = updateDate;
     }
+
+
+    private static final String MSG = "CategoryDefineTable: ";
+
+    public void LogD () {
+        Logger.d(Constants.TAG, MSG + "--------------------- Category ----------------------");
+        Logger.d(Constants.TAG, MSG + "CategoryPriority: " + getCategoryPriority());
+        Logger.d(Constants.TAG, MSG + "CategoryName: " + getCategoryName());
+        Logger.d(Constants.TAG, MSG + "CategoryColor: " + getCategoryColor());
+        Logger.d(Constants.TAG, MSG + "-----------------------------------------------------");
+    }
 }
+

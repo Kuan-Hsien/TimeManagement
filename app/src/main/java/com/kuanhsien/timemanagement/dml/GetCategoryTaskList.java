@@ -2,6 +2,9 @@ package com.kuanhsien.timemanagement.dml;
 
 import android.arch.persistence.room.ColumnInfo;
 
+import com.kuanhsien.timemanagement.utli.Constants;
+import com.kuanhsien.timemanagement.utli.Logger;
+
 /**
  * Created by Ken on 2018/9/30
  *
@@ -111,6 +114,20 @@ public class GetCategoryTaskList {
         mTaskColor = taskColor;
         mTaskIcon = taskIcon;
         mTaskPriority = taskPriority;
+    }
+
+    private static final String MSG = "GetCategoryTaskList: ";
+
+    public void LogD () {
+        Logger.d(Constants.TAG, MSG + "----------------- Category-Tasks --------------------");
+        Logger.d(Constants.TAG, MSG + "ItemCatg: " + getItemCatg());
+        Logger.d(Constants.TAG, MSG + "CategoryName: " + getCategoryName());
+        Logger.d(Constants.TAG, MSG + "CategoryColor: " + getCategoryColor());
+        Logger.d(Constants.TAG, MSG + "CategoryPriority: " + getCategoryPriority());
+        Logger.d(Constants.TAG, MSG + "TaskName: " + getTaskName());
+        Logger.d(Constants.TAG, MSG + "TaskColor: " + getTaskColor());
+        Logger.d(Constants.TAG, MSG + "TaskPriority: " + getTaskPriority());
+        Logger.d(Constants.TAG, MSG + "-----------------------------------------------------");
     }
 
 }

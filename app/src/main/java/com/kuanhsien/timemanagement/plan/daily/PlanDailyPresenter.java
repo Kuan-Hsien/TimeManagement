@@ -165,7 +165,8 @@ public class PlanDailyPresenter implements PlanDailyContract.Presenter {
 
                 Logger.d(Constants.TAG, MSG + "SetTarget onCompleted");
                 for( int i = 0 ; i < bean.size() ; ++i) {
-                    Logger.d(Constants.TAG, MSG + "TaskName: " + bean.get(i).getTaskName() + " Cost-time: " + bean.get(i).getCostTime());
+                    bean.get(i).LogD();
+//                    Logger.d(Constants.TAG, MSG + "TaskName: " + bean.get(i).getTaskName() + " Cost-time: " + bean.get(i).getCostTime());
                 }
 
                 // [TODO] insert 資料後更新畫面，目前是將要更新的資料全部當作 bean

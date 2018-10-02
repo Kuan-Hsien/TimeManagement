@@ -499,34 +499,35 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
                     // if user decides to delete this item, then delete from database
                     if (isDeleteArray[i] == true) {
 
-                        deleteTargetList.add(new TimePlanningTable(mPlanningList.get(i).getMode(),
+                        TimePlanningTable item = new TimePlanningTable(mPlanningList.get(i).getMode(),
                                 mPlanningList.get(i).getCategoryName(),
                                 mPlanningList.get(i).getTaskName(),
                                 mPlanningList.get(i).getStartTime(),
                                 mPlanningList.get(i).getEndTime(),
                                 mPlanningList.get(i).getCostTime(),
-                                strCurrentTime));
+                                strCurrentTime);
+
+                        deleteTargetList.add(item);
 
                         Logger.d(Constants.TAG, MSG + "Delete item: ");
+                        item.LogD();
 
                     } else {
                         // else add in database
 
-                        targetList.add(new TimePlanningTable(mPlanningList.get(i).getMode(),
+                        TimePlanningTable item = new TimePlanningTable(mPlanningList.get(i).getMode(),
                                 mPlanningList.get(i).getCategoryName(),
                                 mPlanningList.get(i).getTaskName(),
                                 mPlanningList.get(i).getStartTime(),
                                 mPlanningList.get(i).getEndTime(),
-                                mIntAdjustCostTime[i], // origin: mPlanningList.get(i).getCostTime(),
-                                strCurrentTime));
+                                mPlanningList.get(i).getCostTime(),
+                                strCurrentTime);
+
+                        targetList.add(item);
 
                         Logger.d(Constants.TAG, MSG + "Add/Edit item: ");
+                        item.LogD();
                     }
-
-                    Logger.d(Constants.TAG, MSG +
-                                    "Categroy: " + mPlanningList.get(i).getCategoryName() +
-                                    " TaskName: " + mPlanningList.get(i).getTaskName() +
-                                    " CostTime: " + mPlanningList.get(i).getCostTime());
                 }
 
                 // 2.2 再把最新 add 的目標加在最後

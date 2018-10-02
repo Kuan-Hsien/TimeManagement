@@ -2,6 +2,9 @@ package com.kuanhsien.timemanagement.dml;
 
 import android.arch.persistence.room.ColumnInfo;
 
+import com.kuanhsien.timemanagement.utli.Constants;
+import com.kuanhsien.timemanagement.utli.Logger;
+
 /**
  * Created by Ken on 2018/9/24
  *
@@ -155,5 +158,23 @@ public class GetTaskWithPlanTime {
         mTaskColor = taskColor;
         mTaskIcon = taskIcon;
         mCostTime = costTime;
+    }
+
+
+    private static final String MSG = "GetTaskWithPlanTime: ";
+
+    public void LogD () {
+        Logger.d(Constants.TAG, MSG + "------------------- Query Target ---------------------");
+        Logger.d(Constants.TAG, MSG + "Mode: " + getMode());
+        Logger.d(Constants.TAG, MSG + "CategoryName: " + getCategoryName());
+        Logger.d(Constants.TAG, MSG + "CategoryColor: " + getCategoryColor());
+        Logger.d(Constants.TAG, MSG + "CategoryPriority: " + getCategoryPriority());
+        Logger.d(Constants.TAG, MSG + "TaskName: " + getTaskName());
+        Logger.d(Constants.TAG, MSG + "TaskColor: " + getTaskColor());
+        Logger.d(Constants.TAG, MSG + "TaskPriority: " + getTaskPriority());
+        Logger.d(Constants.TAG, MSG + "StartTime: " + getStartTime());
+        Logger.d(Constants.TAG, MSG + "EndTime: " + getEndTime());
+        Logger.d(Constants.TAG, MSG + "CostTime: " + getCostTime());
+        Logger.d(Constants.TAG, MSG + "-----------------------------------------------------");
     }
 }

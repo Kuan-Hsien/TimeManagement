@@ -5,6 +5,9 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.support.annotation.NonNull;
 
+import com.kuanhsien.timemanagement.utli.Constants;
+import com.kuanhsien.timemanagement.utli.Logger;
+
 
 /**
  * Created by Ken on 2018/9/24
@@ -117,5 +120,17 @@ public class TaskDefineTable {
         mTaskPriority = taskPriority;
         this.isUserDef = isUserDef;
         mUpdateDate = updateDate;
+    }
+
+
+    private static final String MSG = "TaskDefineTable: ";
+
+    public void LogD () {
+        Logger.d(Constants.TAG, MSG + "--------------------- Task -------------------------");
+        Logger.d(Constants.TAG, MSG + "TaskPriority: " + getTaskPriority());
+        Logger.d(Constants.TAG, MSG + "CategoryName: " + getCategoryName());
+        Logger.d(Constants.TAG, MSG + "TaskName: " + getTaskName());
+        Logger.d(Constants.TAG, MSG + "TaskColor: " + getTaskColor());
+        Logger.d(Constants.TAG, MSG + "---------------------------------------------------");
     }
 }

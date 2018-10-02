@@ -395,34 +395,37 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
                         // if user decides to delete this item, then delete from database
                         if (isDeleteArray[i] == true) { // only could delete task item
 
-                            deleteTaskList.add(new TaskDefineTable(
+                            TaskDefineTable item = new TaskDefineTable(
                                     mCategoryTaskList.get(i).getCategoryName(),
                                     mCategoryTaskList.get(i).getTaskName(),
                                     mCategoryTaskList.get(i).getTaskColor(),
                                     mCategoryTaskList.get(i).getTaskIcon(),
                                     mCategoryTaskList.get(i).getTaskPriority(),
                                     false,
-                                    strUpdateTime));
+                                    strUpdateTime);
+
+                            deleteTaskList.add(item);
 
                             Logger.d(Constants.TAG, MSG + "Delete item: ");
+                            item.LogD();
+
                         } else {
                             // else add in database
 
-                            taskList.add(new TaskDefineTable(
+                            TaskDefineTable item = new TaskDefineTable(
                                     mCategoryTaskList.get(i).getCategoryName(),
                                     mCategoryTaskList.get(i).getTaskName(),
                                     mCategoryTaskList.get(i).getTaskColor(),
                                     mCategoryTaskList.get(i).getTaskIcon(),
                                     mCategoryTaskList.get(i).getTaskPriority(),
                                     false,
-                                    strUpdateTime));
+                                    strUpdateTime);
+
+                            taskList.add(item);
 
                             Logger.d(Constants.TAG, MSG + "Add/Edit item: ");
+                            item.LogD();
                         }
-
-                        Logger.d(Constants.TAG, MSG +
-                                "Categroy: " + mCategoryTaskList.get(i).getCategoryName() +
-                                " TaskName: " + mCategoryTaskList.get(i).getTaskName());
                     }
                 }
 
@@ -431,7 +434,7 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
                 if (getTextviewAddItemCategory().getText().toString().trim() != null &&
                         getEdittextAddItemTask().getText().toString().trim() != null) {
 
-                    taskList.add(new TaskDefineTable(
+                    TaskDefineTable item = new TaskDefineTable(
 //                            getTextviewAddItemCategory().getText().toString().trim(),
                             "Others",
                             getEdittextAddItemTask().getText().toString().trim(),
@@ -439,14 +442,12 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
                             "icon_sleep",
                             100,
                             true,
-                            strUpdateTime));
+                            strUpdateTime);
 
-                    Logger.d(Constants.TAG, MSG + "Add task: " +
-                            "Categroy: " + getTextviewAddItemCategory().getText().toString().trim() +
-                            " TaskName: " + getEdittextAddItemTask().getText().toString().trim() +
-                            " Color: " + "#000000" +
-                            " Icon: " + "icon_sleep" +
-                            " Priority: " + 100 );
+                    taskList.add(item);
+
+                    Logger.d(Constants.TAG, MSG + "Add task: ");
+                    item.LogD();
                 }
 
                 // 3. send asyncTask to update data
