@@ -11,16 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.kuanhsien.timemanagement.task.CategoryTaskListAdapter;
+import com.kuanhsien.timemanagement.task.CategoryTaskListContract;
+import com.kuanhsien.timemanagement.task.CategoryTaskListPresenter;
 import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
 import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTime;
 import com.kuanhsien.timemanagement.MainActivity;
 import com.kuanhsien.timemanagement.R;
 import com.kuanhsien.timemanagement.TimeManagementApplication;
-import com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyAdapter;
-import com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyContract;
-import com.kuanhsien.timemanagement.task.CategoryTaskListAdapter;
-import com.kuanhsien.timemanagement.task.CategoryTaskListContract;
-import com.kuanhsien.timemanagement.task.CategoryTaskListPresenter;
 import com.kuanhsien.timemanagement.utli.Constants;
 import com.kuanhsien.timemanagement.utli.Logger;
 
@@ -31,7 +29,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 
 /**
- * Created by Ken on 2018/9/29
+ * Created by Ken on 2018/9/24.
  *
  * A simple {@link Fragment} subclass.
  */
@@ -46,13 +44,14 @@ public class PlanWeeklyFragment extends Fragment implements PlanWeeklyContract.V
     private PlanWeeklyContract.Presenter mPresenter;
     private PlanWeeklyAdapter mPlanWeeklyAdapter;
     private int mIntPlanMode;
+    private int mIntTaskMode;
 
     public PlanWeeklyFragment() {
         // Required empty public constructor
     }
 
-    public static com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyFragment newInstance() {
-        return new com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyFragment();
+    public static PlanWeeklyFragment newInstance() {
+        return new PlanWeeklyFragment();
     }
 
     @Override
@@ -141,11 +140,6 @@ public class PlanWeeklyFragment extends Fragment implements PlanWeeklyContract.V
 
     public void setIntPlanMode(int intPlanMode) {
         mIntPlanMode = intPlanMode;
-    }
-
-    @Override
-    public void showCategoryListDialog() {
-
     }
 
 
@@ -244,4 +238,22 @@ public class PlanWeeklyFragment extends Fragment implements PlanWeeklyContract.V
         mPlanWeeklyAdapter.showCategoryTaskSelected(bean);
     }
 
+    @Override
+    public void refreshCategoryTaskUi(int mode) {
+        setIntTaskMode(mode);
+        mCategoryTaskListAdapter.refreshUiMode(mode);
+    }
+
+    @Override
+    public void showCategoryListDialog() {
+
+    }
+
+    public int getIntTaskMode() {
+        return mIntTaskMode;
+    }
+
+    public void setIntTaskMode(int intTaskMode) {
+        mIntTaskMode = intTaskMode;
+    }
 }

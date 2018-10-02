@@ -2,7 +2,6 @@ package com.kuanhsien.timemanagement.plan.weekly;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -19,10 +18,9 @@ import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTime;
 import com.kuanhsien.timemanagement.R;
 import com.kuanhsien.timemanagement.TimeManagementApplication;
 import com.kuanhsien.timemanagement.object.TimePlanningTable;
-import com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyContract;
 import com.kuanhsien.timemanagement.utli.Constants;
-import com.kuanhsien.timemanagement.utli.Logger;
 import com.kuanhsien.timemanagement.utli.ParseTime;
+import com.kuanhsien.timemanagement.utli.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,11 +28,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static android.view.View.GONE;
-
-
 /**
- * Created by Ken on 2018/9/29
+ * Created by Ken on 2018/9/24
  */
 public class PlanWeeklyAdapter extends RecyclerView.Adapter {
     private static final String MSG = "PlanWeeklyAdapter: ";
@@ -48,7 +43,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
     private int mIntPlanMode;
     private int mIntNewItemCostTime;
 
-    private com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyAdapter.PlanTopItemViewHolder mPlanTopItemViewHolder;
+    private PlanTopItemViewHolder mPlanTopItemViewHolder;
 
 
     public PlanWeeklyAdapter(List<GetTaskWithPlanTime> bean, PlanWeeklyContract.Presenter presenter) {
@@ -74,13 +69,13 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
             // create a new view
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_plan_top, parent, false);
-            return new com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyAdapter.PlanTopItemViewHolder(view);
+            return new PlanTopItemViewHolder(view);
 
         } else {
 
             // create a new view
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_plan_main, parent, false);
-            return new com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyAdapter.PlanMainItemViewHolder(view);
+            return new PlanMainItemViewHolder(view);
 
         }
     }
@@ -93,16 +88,16 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
         // - replace the contents of the view with that element
 //        Logger.d(Constants.TAG, MSG + "onBindViewHolder: position " + position + " " + mPlanningList.get(position));
 
-        if (holder instanceof com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyAdapter.PlanTopItemViewHolder) {
+        if (holder instanceof PlanTopItemViewHolder) {
             // create a new target
 
-            mPlanTopItemViewHolder = (com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyAdapter.PlanTopItemViewHolder) holder;
-            ((com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyAdapter.PlanTopItemViewHolder) holder).bindView();
+            mPlanTopItemViewHolder = (PlanTopItemViewHolder) holder;
+            ((PlanTopItemViewHolder) holder).bindView();
 
 
         } else {
             // current target list
-            ((com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyAdapter.PlanMainItemViewHolder) holder).bindView(mPlanningList.get(position - 1), position - 1);
+            ((PlanMainItemViewHolder) holder).bindView(mPlanningList.get(position - 1), position - 1);
         }
     }
 
@@ -140,7 +135,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
     }
 
     public void refreshUiMode(int mode) {
-        Logger.d(Constants.TAG, MSG + "refreshUiMode: " + (mode == Constants.MODE_PLAN_VIEW ? "VIEW_MODE" : "EDIT_MODE"));
+        Logger.d(Constants.TAG, MSG + "refreshUiMode: " + (mode == Constants.MODE_PLAN_VIEW ? "viewmode" : "editmode"));
 
         // if user request to change to MODE_PLAN_EDIT
         if (mode == Constants.MODE_PLAN_EDIT) {
@@ -155,7 +150,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
             // 2. [Edit] initialization
             // [TODO] add calendar mode Constants.MODE_CALENDAR
             // [TODO] add weekly mode
-            mIntMaxCostTime = 7 * 24 * 60;
+            mIntMaxCostTime = 24 * 60;
             mIntNewItemCostTime = 0;
             mIntAdjustCostTime = null;
 
@@ -183,7 +178,6 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public class PlanMainItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        // each data item is just a string in this case
 
         //** View mode
         private FrameLayout mFrameLayoutPlanTaskIcon;
@@ -374,10 +368,10 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
             if (getIntPlanMode() == Constants.MODE_PLAN_VIEW) {
 
-                getImageviewPlanTaskDeleteHint().setVisibility(GONE);
-                getSeekBarPlanTaskAdjustTime().setVisibility(GONE);
+                getImageviewPlanTaskDeleteHint().setVisibility(View.GONE);
+                getSeekBarPlanTaskAdjustTime().setVisibility(View.GONE);
 
-            } else { // getIntPlanMode() == Constants.MODE_PLAN_EDIT
+            } else { // getIntTaskMode() == Constants.MODE_PLAN_EDIT
 
                 getImageviewPlanTaskDeleteHint().setVisibility(View.VISIBLE);
                 getSeekBarPlanTaskAdjustTime().setVisibility(View.VISIBLE);
@@ -395,7 +389,6 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public class PlanTopItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        // each data item is just a string in this case
 
         //** View Mode
         private ConstraintLayout mConstraintLayoutPlanTopItem;
@@ -441,26 +434,23 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
             //** View Mode
             mTextviewPlanTopRemainingTime = (TextView) v.findViewById(R.id.textview_plan_top_remaining_time);
-            mConstraintLayoutPlanTopItem = (ConstraintLayout) v.findViewById(R.id.constraintlayout_plan_top_view_mode);
+            mConstraintLayoutPlanTopItem = (ConstraintLayout) v.findViewById(R.id.constraintlayout_plan_top_viewmode);
             mConstraintLayoutPlanTopItem.setOnClickListener(this);
 
             //** Edit Mode
             // Set Category
-            mTextviewSetTargetCategory = (TextView) v.findViewById(R.id.textview_addtask_editmode_category);
+            mTextviewSetTargetCategory = (TextView) v.findViewById(R.id.textview_plan_top_editmode_category);
 
             // Set Task
-            mTextviewSetTargetTask = (TextView) v.findViewById(R.id.textview_addtask_editmode_task);
+            mTextviewSetTargetTask = (TextView) v.findViewById(R.id.edittext_plan_top_editmode_task);
             mTextviewSetTargetTask.setOnClickListener(this);
 
             mTextviewSetTargetCostTime = (TextView) v.findViewById(R.id.textview_plan_set_target_cost_time);
-            mConstraintLayoutPlanSetTarget = (ConstraintLayout) v.findViewById(R.id.constraintlayout_add_task_edit_mode);
+            mConstraintLayoutPlanSetTarget = (ConstraintLayout) v.findViewById(R.id.constraintlayout_plan_top_editmode);
             mSeekBarSetTargetAdjustTime = (SeekBar) v.findViewById(R.id.seekbar_plan_set_target_cost_time_weekly);
 
-            v.findViewById(R.id.seekbar_plan_set_target_cost_time_daily).setVisibility(GONE);
-            mSeekBarSetTargetAdjustTime.setVisibility(View.VISIBLE);
-
-            ((ImageView) v.findViewById(R.id.imageview_add_task_edit_mode_save)).setOnClickListener(this);
-            ((ImageView) v.findViewById(R.id.imageview_add_task_edit_mode_cancel)).setOnClickListener(this);
+            ((ImageView) v.findViewById(R.id.imageview_plan_top_editmode_save)).setOnClickListener(this);
+            ((ImageView) v.findViewById(R.id.imageview_plan_top_editmode_cancel)).setOnClickListener(this);
 
             mSeekBarSetTargetAdjustTime.setOnSeekBarChangeListener(mSeekBarChangeListener);
         }
@@ -468,7 +458,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
         @Override
         public void onClick(View v) {
 
-            if (v.getId() == R.id.constraintlayout_plan_top_view_mode) {    // View mode
+            if (v.getId() == R.id.constraintlayout_plan_top_viewmode) {    // View mode
 
                 // Plan page 整頁切換為編輯模式
                 getTextviewSetTargetTask().setText("Choose a task");
@@ -482,7 +472,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                 // [TODO] 之後要增加一頁新的 category 可參考此處寫法
                 // mPresenter.showSetTargetUi();
 
-            } else if (v.getId() == R.id.imageview_add_task_edit_mode_save) {  // Edit mode - complete
+            } else if (v.getId() == R.id.imageview_plan_top_editmode_save) {  // Edit mode - complete
 
                 // [TODO] 未來可以一次新增多個 target (多加一個小打勾，像 trello 新增卡片)
                 // [TODO] 換成真正的 startTime, endTime
@@ -562,15 +552,11 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
                 mPresenter.refreshUi(Constants.MODE_PLAN_VIEW);
 
-            } else if (v.getId() == R.id.imageview_add_task_edit_mode_cancel) { // Edit mode - cancel
+            } else if (v.getId() == R.id.imageview_plan_top_editmode_cancel) { // Edit mode - cancel
 
                 mPresenter.refreshUi(Constants.MODE_PLAN_VIEW);
 
-            } else if (v.getId() == R.id.textview_addtask_editmode_category) {
-
-                mPresenter.showCategoryListDialog();
-
-            } else if (v.getId() == R.id.textview_addtask_editmode_task) {
+            } else if (v.getId() == R.id.edittext_plan_top_editmode_task) {
 
                 mPresenter.showTaskListDialog();
             }
@@ -656,11 +642,11 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
             if (getIntPlanMode() == Constants.MODE_PLAN_VIEW) {
 
                 mConstraintLayoutPlanTopItem.setVisibility(View.VISIBLE);
-                mConstraintLayoutPlanSetTarget.setVisibility(GONE);
+                mConstraintLayoutPlanSetTarget.setVisibility(View.GONE);
 
-            } else { // getIntPlanMode() == Constants.MODE_PLAN_EDIT
+            } else { // getIntTaskMode() == Constants.MODE_PLAN_EDIT
 
-                mConstraintLayoutPlanTopItem.setVisibility(GONE);
+                mConstraintLayoutPlanTopItem.setVisibility(View.GONE);
                 mConstraintLayoutPlanSetTarget.setVisibility(View.VISIBLE);
             }
         }
@@ -684,4 +670,3 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
     }
 
 }
-

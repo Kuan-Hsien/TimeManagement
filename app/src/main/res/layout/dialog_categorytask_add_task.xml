@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintlayout_addtask_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true" >
+    android:background="@android:color/white"
+    android:elevation="2dp" >
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintlayout_addtask_viewmode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" >
+        app:layout_constraintStart_toStartOf="parent"
+        android:clickable="true"
+        android:focusable="true" >
 
         <ImageView
             android:id="@+id/imageview_addtask_viewmode_button"
@@ -46,12 +49,14 @@
 
     </android.support.constraint.ConstraintLayout>
 
+
     <!-- Visible in edit mode -->
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintlayout_addtask_editmode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
+        tools:visibility="visible"
         app:layout_constraintTop_toBottomOf="@+id/constraintlayout_addtask_viewmode"
         app:layout_constraintStart_toStartOf="parent" >
 
@@ -133,7 +138,7 @@
             tools:text="Task" />
 
         <EditText
-            android:id="@+id/textview_addtask_editmode_task"
+            android:id="@+id/edittext_addtask_editmode_task"
             android:layout_width="@dimen/width_set_target_item"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -144,9 +149,7 @@
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textview_addtask_editmode_tasktitle"
-            android:text="Task name"
-            android:clickable="true"
-            android:focusable="true" />
+            android:text="Task name" />
 
         <!-- category -->
         <TextView
@@ -161,7 +164,7 @@
             android:textColor="@android:color/darker_gray"
             android:textSize="10sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview_addtask_editmode_task"
+            app:layout_constraintTop_toBottomOf="@+id/edittext_addtask_editmode_task"
             android:text="Category"
             tools:text="Category" />
 
@@ -177,7 +180,9 @@
             android:textSize="15sp"
             android:text="Choose a category"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview_addtask_editmode_categorytitle" />
+            app:layout_constraintTop_toBottomOf="@+id/textview_addtask_editmode_categorytitle"
+            android:clickable="true"
+            android:focusable="true" />
 
 
         <!-- TODO add green circle and white check for continuous adding -->

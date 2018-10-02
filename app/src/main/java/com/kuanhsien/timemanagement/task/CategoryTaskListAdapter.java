@@ -1,14 +1,13 @@
 package com.kuanhsien.timemanagement.task;
 
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,11 +15,14 @@ import android.widget.TextView;
 import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
 import com.kuanhsien.timemanagement.R;
 import com.kuanhsien.timemanagement.TimeManagementApplication;
+import com.kuanhsien.timemanagement.object.TaskDefineTable;
 import com.kuanhsien.timemanagement.utli.Constants;
 import com.kuanhsien.timemanagement.utli.Logger;
 
-import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,12 +34,12 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
     private CategoryTaskListContract.Presenter mPresenter;
     private List<GetCategoryTaskList> mCategoryTaskList;
     private boolean[] isDeleteArray;
-    private int mIntPlanMode;
+    private int mIntTaskMode;
 
     public CategoryTaskListAdapter(List<GetCategoryTaskList> bean, CategoryTaskListContract.Presenter presenter) {
 
         mPresenter = presenter;
-        setIntPlanMode(Constants.MODE_PLAN_VIEW);
+        setIntTaskMode(Constants.MODE_PLAN_VIEW);
         mCategoryTaskList = new ArrayList<>();
 
         for( int i = 0 ; i < bean.size() ; ++i ) {
@@ -53,14 +55,18 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
 
         Logger.d(Constants.TAG, MSG + "onCreateViewHolder: viewType = " + viewType);
 
-        if (viewType == Constants.VIEWTYPE_CATEGORY) {
+        if (viewType == Constants.VIEWTYPE_ADD_ITEM) {
 
-            // create a new view
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dialog_categorytask_add_task, parent, false);
+            return new AddItemViewHolder(view);
+
+        } else if (viewType == Constants.VIEWTYPE_CATEGORY) {
+
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dialog_categorytask_item_category, parent, false);
             return new CategoryItemViewHolder(view);
+
         } else {
 
-            // create a new view
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dialog_categorytask_item_task, parent, false);
             return new TaskItemViewHolder(view);
 
@@ -75,11 +81,16 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
         // - replace the contents of the view with that element
 //        Logger.d(Constants.TAG, MSG + "onBindViewHolder: position " + position + " " + mCategoryTaskList.get(position));
 
-        if (holder instanceof CategoryItemViewHolder) {
-            // detail ar
+        if (holder instanceof AddItemViewHolder) {
+
+            ((AddItemViewHolder) holder).bindView();
+
+        } else if (holder instanceof CategoryItemViewHolder) {
+
             ((CategoryItemViewHolder) holder).bindView(mCategoryTaskList.get(position), position);
+
         } else {
-            // comments
+
             ((TaskItemViewHolder) holder).bindView(mCategoryTaskList.get(position), position);
         }
     }
@@ -88,22 +99,25 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
 
-        return mCategoryTaskList.size();
+        return mCategoryTaskList.size() + 1;
     }
 
     @Override
     public int getItemViewType(int position) {
 //        Logger.d(Constants.TAG, MSG + "getItemViewType: position: " + position + "  View-Type: " + ((position == 0) ? Constants.VIEWTYPE_CATEGORY : Constants.VIEWTYPE_TASK));
 
-        if (Constants.ITEM_CATEGORY.equals(mCategoryTaskList.get(position).getItemCatg())) {
+        if (position == mCategoryTaskList.size()) { // last item would be add-item-layout
+
+            return Constants.VIEWTYPE_ADD_ITEM;
+
+        } else if (Constants.ITEM_CATEGORY.equals(mCategoryTaskList.get(position).getItemCatg())) { // Category item
 
             return Constants.VIEWTYPE_CATEGORY;
 
-        } else { // Constants.ITEM_TASK
+        } else { // Constants.ITEM_TASK.equals(mCategoryTaskList.get(position).getItemCatg())   // Task item
 
             return Constants.VIEWTYPE_TASK;
         }
-
     }
 
 
@@ -119,30 +133,30 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-//    public void refreshUiMode(int mode) {
-//        Logger.d(Constants.TAG, MSG + "refreshUiMode: " + (mode == Constants.MODE_PLAN_VIEW ? "VIEW_MODE" : "EDIT_MODE"));
-//
-//        // if user request to change to MODE_PLAN_EDIT
-//        if (mode == Constants.MODE_PLAN_EDIT) {
-//
-//            int intArraySize = mCategoryTaskList.size();
-//
-//            // 1. [Delete] initialization
-//            isDeleteArray = null;
-//            isDeleteArray = new boolean[intArraySize];
-//            Arrays.fill(isDeleteArray, false);  // in Java, boolean array default set false to all items. this setting is only for reading
-//        }
-//
-//        setIntPlanMode(mode);
-//        notifyDataSetChanged();
-//    }
+    public void refreshUiMode(int mode) {
+        Logger.d(Constants.TAG, MSG + "refreshUiMode: " + (mode == Constants.MODE_PLAN_VIEW ? "VIEW_MODE" : "EDIT_MODE"));
+
+        // if user request to change to MODE_PLAN_EDIT
+        if (mode == Constants.MODE_PLAN_EDIT) {
+
+            int intArraySize = mCategoryTaskList.size();
+
+            // 1. [Delete] initialization
+            isDeleteArray = null;
+            isDeleteArray = new boolean[intArraySize];
+            Arrays.fill(isDeleteArray, false);  // in Java, boolean array default set false to all items. this setting is only for reading
+        }
+
+        setIntTaskMode(mode);
+        notifyDataSetChanged();
+    }
 
 
+    // ViewHolder of Task
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public class TaskItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        // each data item is just a string in this case
 
         private ImageView mImageviewCategeoryColorLabel;
         private ImageView mImageviewTaskIcon;
@@ -232,27 +246,14 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
             getFrameLayoutTaskColor().setBackgroundColor(Color.parseColor(item.getTaskColor()));
             getImageviewTaskIcon().setImageDrawable(TimeManagementApplication.getIconResource(item.getTaskIcon()));
             getTextviewTaskName().setText(item.getTaskName());
-
             setPosition(pos);
-
-//            if (getIntPlanMode() == Constants.MODE_PLAN_VIEW) {
-//
-//                getImageviewPlanTaskDeleteHint().setVisibility(View.GONE);
-//
-//            } else { // getIntPlanMode() == Constants.MODE_PLAN_EDIT
-//
-//                getImageviewPlanTaskDeleteHint().setVisibility(View.VISIBLE);
-//            }
         }
 
     }
 
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
+    // ViewHolder of Category
     public class CategoryItemViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
 
         //** View Mode
         private ConstraintLayout mConstraintLayoutCategoryItem;
@@ -293,7 +294,6 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
             mImageviewCategorySeperation = (ImageView) v.findViewById(R.id.imageview_categorytask_separationline);
             mImageviewCategeoryColor = (ImageView) v.findViewById(R.id.imageview_categorytask_category_color);
             mTextviewCategoryName = (TextView) v.findViewById(R.id.textview_categorytask_category_name);
-
         }
 
         /**
@@ -306,30 +306,190 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
             getConstraintLayoutCategoryItem().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
             getImageviewCategeoryColor().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
             getTextviewCategoryName().setText(item.getCategoryName());
-
 //            getImageviewCategorySeperation().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
-
             setPosition(pos);
+        }
+    }
 
-//            if (getIntPlanMode() == Constants.MODE_PLAN_VIEW) {
-//
-//                mConstraintLayoutPlanTopItem.setVisibility(View.VISIBLE);
-//                mConstraintLayoutPlanSetTarget.setVisibility(View.GONE);
-//
-//            } else { // getIntPlanMode() == Constants.MODE_PLAN_EDIT
-//
-//                mConstraintLayoutPlanTopItem.setVisibility(View.GONE);
-//                mConstraintLayoutPlanSetTarget.setVisibility(View.VISIBLE);
-//            }
+    public class AddItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        //** View Mode
+        private ConstraintLayout mConstraintLayoutAddItemViewMode;
+
+        //** Edit Mode
+        private ConstraintLayout mConstraintLayoutAddItemEditMode;
+        private TextView mTextviewAddItemCategory;
+        private EditText mEdittextAddItemTask;
+
+        public ConstraintLayout getConstraintLayoutAddItemViewMode() {
+            return mConstraintLayoutAddItemViewMode;
+        }
+
+        public ConstraintLayout getConstraintLayoutAddItemEditMode() {
+            return mConstraintLayoutAddItemEditMode;
+        }
+
+        public TextView getTextviewAddItemCategory() {
+            return mTextviewAddItemCategory;
+        }
+
+        public EditText getEdittextAddItemTask() {
+            return mEdittextAddItemTask;
+        }
+
+        public AddItemViewHolder(View v) {
+            super(v);
+
+            //** View Mode
+            mConstraintLayoutAddItemViewMode = (ConstraintLayout) v.findViewById(R.id.constraintlayout_addtask_viewmode);
+            mConstraintLayoutAddItemViewMode.setOnClickListener(this);
+
+            //** Edit Mode
+            // Set Category
+            mTextviewAddItemCategory = (TextView) v.findViewById(R.id.textview_addtask_editmode_category);
+
+            // Set Task
+            mEdittextAddItemTask = (EditText) v.findViewById(R.id.edittext_addtask_editmode_task);
+            mEdittextAddItemTask.setOnClickListener(this);
+
+            mConstraintLayoutAddItemEditMode = (ConstraintLayout) v.findViewById(R.id.constraintlayout_addtask_editmode);
+
+            ((ImageView) v.findViewById(R.id.imageview_addtask_editmode_save)).setOnClickListener(this);
+            ((ImageView) v.findViewById(R.id.imageview_addtask_editmode_cancel)).setOnClickListener(this);
+
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            if (v.getId() == R.id.constraintlayout_addtask_viewmode) {    // View mode
+
+                // 切換為編輯模式
+                getTextviewAddItemCategory().setText("Choose a category");
+                getEdittextAddItemTask().setHint("enter task name ...");
+
+                mPresenter.refreshCategoryTaskUi(Constants.MODE_PLAN_EDIT);
+
+                // [TODO] 之後要增加一頁新的 category 可參考此處寫法
+                // mPresenter.showSetTargetUi();
+
+            } else if (v.getId() == R.id.imageview_addtask_editmode_save) {  // Edit mode - complete
+
+                // [TODO] 未來可以一次新增多個 task (多加一個小打勾，像 trello 新增卡片)
+                // 1. 取得現在時間當作 update_date
+                Date curDate = new Date();
+                SimpleDateFormat simpleUpdateDateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+                // 透過SimpleDateFormat的format方法將 Date 轉為字串
+                String strUpdateTime = simpleUpdateDateFormat.format(curDate);
+
+                // 2. 新增兩個 List 以 (1) 存放要存回 database 的資料 (2) 要從 database 刪除的資料
+                List<TaskDefineTable> taskList = new ArrayList<>();
+                List<TaskDefineTable> deleteTaskList = new ArrayList<>();
+
+                // 2.1 先針對現有所有目標清單做出 List<TaskDefineTable> 物件
+                for (int i = 0 ; i < mCategoryTaskList.size() ; ++i) {
+
+                    // only handle "Task" item in mCategoryTaskList array
+                    if (Constants.ITEM_TASK.equals(mCategoryTaskList.get(i).getItemCatg())) {
+
+                        // if user decides to delete this item, then delete from database
+                        if (isDeleteArray[i] == true) { // only could delete task item
+
+                            deleteTaskList.add(new TaskDefineTable(
+                                    mCategoryTaskList.get(i).getCategoryName(),
+                                    mCategoryTaskList.get(i).getTaskName(),
+                                    mCategoryTaskList.get(i).getTaskColor(),
+                                    mCategoryTaskList.get(i).getTaskIcon(),
+                                    mCategoryTaskList.get(i).getTaskPriority(),
+                                    false,
+                                    strUpdateTime));
+
+                            Logger.d(Constants.TAG, MSG + "Delete item: ");
+                        } else {
+                            // else add in database
+
+                            taskList.add(new TaskDefineTable(
+                                    mCategoryTaskList.get(i).getCategoryName(),
+                                    mCategoryTaskList.get(i).getTaskName(),
+                                    mCategoryTaskList.get(i).getTaskColor(),
+                                    mCategoryTaskList.get(i).getTaskIcon(),
+                                    mCategoryTaskList.get(i).getTaskPriority(),
+                                    false,
+                                    strUpdateTime));
+
+                            Logger.d(Constants.TAG, MSG + "Add/Edit item: ");
+                        }
+
+                        Logger.d(Constants.TAG, MSG +
+                                "Categroy: " + mCategoryTaskList.get(i).getCategoryName() +
+                                " TaskName: " + mCategoryTaskList.get(i).getTaskName());
+                    }
+                }
+
+                // 2.2 再把新 add 的 task 加在最後
+                // [TODO] 此處需判斷每個字串是否為空，還有對輸入的時間做檢查
+                if (getTextviewAddItemCategory().getText().toString().trim() != null &&
+                        getEdittextAddItemTask().getText().toString().trim() != null) {
+
+                    taskList.add(new TaskDefineTable(
+//                            getTextviewAddItemCategory().getText().toString().trim(),
+                            "Others",
+                            getEdittextAddItemTask().getText().toString().trim(),
+                            "#000000",
+                            "icon_sleep",
+                            100,
+                            true,
+                            strUpdateTime));
+
+                    Logger.d(Constants.TAG, MSG + "Add task: " +
+                            "Categroy: " + getTextviewAddItemCategory().getText().toString().trim() +
+                            " TaskName: " + getEdittextAddItemTask().getText().toString().trim() +
+                            " Color: " + "#000000" +
+                            " Icon: " + "icon_sleep" +
+                            " Priority: " + 100 );
+                }
+
+                // 3. send asyncTask to update data
+                mPresenter.saveTaskResults(taskList, deleteTaskList);
+
+                mPresenter.refreshCategoryTaskUi(Constants.MODE_PLAN_VIEW);
+
+            } else if (v.getId() == R.id.imageview_addtask_editmode_cancel) { // Edit mode - cancel
+
+                mPresenter.refreshCategoryTaskUi(Constants.MODE_PLAN_VIEW);
+
+            } else if (v.getId() == R.id.textview_addtask_editmode_category) {
+
+                mPresenter.showCategoryListDialog();
+            }
+        }
+
+        /**
+         * call by onBindViewHolder
+         */
+        public void bindView() {
+
+//            setPosition(pos);
+
+            if (getIntTaskMode() == Constants.MODE_PLAN_VIEW) {
+
+                mConstraintLayoutAddItemViewMode.setVisibility(View.VISIBLE);
+                mConstraintLayoutAddItemEditMode.setVisibility(View.GONE);
+
+            } else { // getIntTaskMode() == Constants.MODE_PLAN_EDIT
+
+                mConstraintLayoutAddItemViewMode.setVisibility(View.GONE);
+                mConstraintLayoutAddItemEditMode.setVisibility(View.VISIBLE);
+            }
         }
     }
 
 
-    public int getIntPlanMode() {
-        return mIntPlanMode;
+    public int getIntTaskMode() {
+        return mIntTaskMode;
     }
 
-    public void setIntPlanMode(int intPlanMode) {
-        mIntPlanMode = intPlanMode;
+    public void setIntTaskMode(int intTaskMode) {
+        mIntTaskMode = intTaskMode;
     }
 }

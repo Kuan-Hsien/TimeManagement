@@ -4,7 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintlayout_plan_main_item"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:elevation="2dp"
+    android:clickable="true"
+    android:focusable="true" >
 
     <FrameLayout
         android:id="@+id/framelayout_plan_task_icon"

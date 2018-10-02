@@ -44,6 +44,7 @@ public class PlanDailyFragment extends Fragment implements PlanDailyContract.Vie
     private PlanDailyContract.Presenter mPresenter;
     private PlanDailyAdapter mPlanDailyAdapter;
     private int mIntPlanMode;
+    private int mIntTaskMode;
 
     public PlanDailyFragment() {
         // Required empty public constructor
@@ -139,11 +140,6 @@ public class PlanDailyFragment extends Fragment implements PlanDailyContract.Vie
 
     public void setIntPlanMode(int intPlanMode) {
         mIntPlanMode = intPlanMode;
-    }
-
-    @Override
-    public void showCategoryListDialog() {
-
     }
 
 
@@ -242,4 +238,22 @@ public class PlanDailyFragment extends Fragment implements PlanDailyContract.Vie
         mPlanDailyAdapter.showCategoryTaskSelected(bean);
     }
 
+    @Override
+    public void refreshCategoryTaskUi(int mode) {
+        setIntTaskMode(mode);
+        mCategoryTaskListAdapter.refreshUiMode(mode);
+    }
+
+    @Override
+    public void showCategoryListDialog() {
+
+    }
+
+    public int getIntTaskMode() {
+        return mIntTaskMode;
+    }
+
+    public void setIntTaskMode(int intTaskMode) {
+        mIntTaskMode = intTaskMode;
+    }
 }

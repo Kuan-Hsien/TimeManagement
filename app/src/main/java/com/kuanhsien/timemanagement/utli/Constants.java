@@ -28,6 +28,7 @@ public class Constants {
     public static final String GENERAL_ERROR = "Internal Server Error.";
 
     // RecyclerView Adapter
+    public static final int VIEWTYPE_ADD_ITEM = 0;
     public static final int VIEWTYPE_TOP = 1;
     public static final int VIEWTYPE_NORMAL = 2;
     public static final int VIEWTYPE_LOADING = 3;

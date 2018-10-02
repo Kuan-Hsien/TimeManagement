@@ -326,11 +326,6 @@ public class PlanDailyPresenter implements PlanDailyContract.Presenter {
     }
 
     @Override
-    public void showCategoryListDialog() {
-        mPlanView.showCategoryListDialog();
-    }
-
-    @Override
     public void showTaskListDialog() {
         mPlanView.showTaskListDialog();
     }

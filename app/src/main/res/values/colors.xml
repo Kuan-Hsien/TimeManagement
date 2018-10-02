@@ -7,6 +7,7 @@
 
 
     <color name="bottom_navigation_item_normal">#aeaeae</color>
-    <color name="bottom_navigation_item_selected">#7436b9</color>
+    <color name="bottom_navigation_item_selected">#0066FF</color>
+    <!--<color name="bottom_navigation_item_selected">#7436b9</color>-->
 
 </resources>

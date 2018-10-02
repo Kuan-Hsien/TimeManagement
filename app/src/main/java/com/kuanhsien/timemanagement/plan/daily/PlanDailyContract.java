@@ -44,7 +44,6 @@ public interface PlanDailyContract {
 //        void showCategoryListDialog(List<GetTaskWithPlanTime> bean);
 //        void showTaskListDialog(List<GetTaskWithPlanTime> bean);
 
-        void showCategoryListDialog();
         void showTaskListDialog();
 
         void showSetTargetUi();
@@ -79,7 +78,7 @@ public interface PlanDailyContract {
         // (1-1, 1-2)
 
         // 3-1. [Send-to-View]
-        void showCategoryListDialog();
+//        void showCategoryListDialog();
         void showTaskListDialog();
 
         void showSetTargetUi();

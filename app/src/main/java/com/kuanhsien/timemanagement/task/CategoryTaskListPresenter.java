@@ -7,6 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
 import com.kuanhsien.timemanagement.dml.GetCategoryTaskListAsyncTask;
 import com.kuanhsien.timemanagement.dml.GetCategoryTaskListCallback;
+import com.kuanhsien.timemanagement.dml.SetTaskAsyncTask;
+import com.kuanhsien.timemanagement.dml.SetTaskCallback;
+import com.kuanhsien.timemanagement.object.TaskDefineTable;
 import com.kuanhsien.timemanagement.utli.Constants;
 import com.kuanhsien.timemanagement.utli.Logger;
 
@@ -77,10 +80,10 @@ public class CategoryTaskListPresenter implements CategoryTaskListContract.Prese
     }
 
     // 0-2. [Send-to-View] request fragment to refresh adapter (base on mode (view or edit))
-//    @Override
-//    public void refreshUi(int mode) {
-//        mTaskView.refreshUi(mode);
-//    }
+    @Override
+    public void refreshCategoryTaskUi(int mode) {
+        mTaskView.refreshCategoryTaskUi(mode);
+    }
 
 
     // 1-1. [Send-to-Model] database query to prepare data (query all targets)
@@ -134,44 +137,39 @@ public class CategoryTaskListPresenter implements CategoryTaskListContract.Prese
     }
 
     // 2-1. [Send-to-Model] database insert to update data (insert new targets or adjust time for existed targets)
-//    @Override
-//    public void saveTargetResults(List<TimePlanningTable> targetList, List<TimePlanningTable> deleteTargetList) {
-////    public void saveTargetResults(String strMode, String strCategory, String strTask, String strStartTime, String strEndTime, String strCostTime) {
-//
-//        // insert time_planning_table
-//        new SetTargetAsyncTask(targetList, deleteTargetList,  new SetTargetCallback() {
-//
-//            @Override
-//            public void onCompleted(List<TimePlanningTable> bean) {
-//
-//                Logger.d(Constants.TAG, MSG + "SetTarget onCompleted");
-//                for( int i = 0 ; i < bean.size() ; ++i) {
-//                    Logger.d(Constants.TAG, MSG + "TaskName: " + bean.get(i).getTaskName() + " Cost-time: " + bean.get(i).getCostTime());
-//                }
-//
-//                // [TODO] insert 資料後更新畫面，目前是將要更新的資料全部當作 bean
-//                // 假如有順利 insert，則跳回 Plan Fragment，但是裡面的內容要更新 (重新撈取資料或是把所有更新項目都塞進 list 中，也包含 edit 的時間結果)
-//                // (1) 方法 1: 用 LiveData 更新
-//                // (2) 方法 2: 從這裡回到 PlanDailyFragment，或是回到 MainActivity > MainPresenter > PlanDailyFragment 更新
-//                // *(3) 方法 3: [TODO] 把 TimePlanningTable 中增加 icon 和 color，就可以直接把這個物件當作畫面要顯示的內容。而不用另外再做一次畫面。也不用另外寫 GetCategoryTaskList 物件
-//                getTaskWithPlanTime();
-//            }
-//
-//            @Override
-//            public void onError(String errorMessage) {
-//
-//                Logger.d(Constants.TAG, MSG + "SetTarget onError, errorMessage: " + errorMessage);
-//
-//                refreshUi(Constants.MODE_PLAN_VIEW);
-//            }
-//        }).execute();
-//    }
-//
-//
-//    @Override
-//    public void showSetTargetUi() {
-//        mTaskView.showSetTargetUi();
-//    }
+    @Override
+    public void saveTaskResults(List<TaskDefineTable> targetList, List<TaskDefineTable> deleteTargetList) {
+//    public void saveTargetResults(String strMode, String strCategory, String strTask, String strStartTime, String strEndTime, String strCostTime) {
+
+        // insert time_planning_table
+        new SetTaskAsyncTask(targetList, deleteTargetList,  new SetTaskCallback() {
+
+            @Override
+            public void onCompleted(List<TaskDefineTable> bean) {
+
+                Logger.d(Constants.TAG, MSG + "SetTask onCompleted");
+                for( int i = 0 ; i < bean.size() ; ++i) {
+                    Logger.d(Constants.TAG, MSG + "TaskName: " + bean.get(i).getTaskName());
+                }
+
+                // [TODO] insert 資料後更新畫面，目前是將要更新的資料全部當作 bean
+                // 假如有順利 insert，則跳回 Plan Fragment，但是裡面的內容要更新 (重新撈取資料或是把所有更新項目都塞進 list 中，也包含 edit 的時間結果)
+                // (1) 方法 1: 用 LiveData 更新
+                // (2) 方法 2: 從這裡回到 PlanDailyFragment，或是回到 MainActivity > MainPresenter > PlanDailyFragment 更新
+                // *(3) 方法 3: [TODO] 把 TaskDefineTable 中增加 icon 和 color，就可以直接把這個物件當作畫面要顯示的內容。而不用另外再做一次畫面。也不用另外寫 GetCategoryTaskList 物件
+                getCategoryTaskList();
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+
+                Logger.d(Constants.TAG, MSG + "SetTask onError, errorMessage: " + errorMessage);
+
+                refreshCategoryTaskUi(Constants.MODE_PLAN_VIEW);
+            }
+        }).execute();
+    }
+
 
     public boolean isLoading() {
         return mLoading;
@@ -182,13 +180,9 @@ public class CategoryTaskListPresenter implements CategoryTaskListContract.Prese
     }
 
 
-//    @Override
-//    public void showCategoryListDialog() {
-//        mTaskView.showCategoryListDialog();
-//    }
-//
-//    @Override
-//    public void showTaskListDialog() {
-//        mTaskView.showTaskListDialog();
-//    }
+    @Override
+    public void showCategoryListDialog() {
+        mTaskView.showCategoryListDialog();
+    }
+
 }
