@@ -18,9 +18,9 @@ import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTime;
 import com.kuanhsien.timemanagement.R;
 import com.kuanhsien.timemanagement.TimeManagementApplication;
 import com.kuanhsien.timemanagement.object.TimePlanningTable;
-import com.kuanhsien.timemanagement.utli.Constants;
-import com.kuanhsien.timemanagement.utli.ParseTime;
-import com.kuanhsien.timemanagement.utli.Logger;
+import com.kuanhsien.timemanagement.utils.Constants;
+import com.kuanhsien.timemanagement.utils.ParseTime;
+import com.kuanhsien.timemanagement.utils.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

@@ -16,8 +16,8 @@ import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
 import com.kuanhsien.timemanagement.R;
 import com.kuanhsien.timemanagement.TimeManagementApplication;
 import com.kuanhsien.timemanagement.object.TaskDefineTable;
-import com.kuanhsien.timemanagement.utli.Constants;
-import com.kuanhsien.timemanagement.utli.Logger;
+import com.kuanhsien.timemanagement.utils.Constants;
+import com.kuanhsien.timemanagement.utils.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

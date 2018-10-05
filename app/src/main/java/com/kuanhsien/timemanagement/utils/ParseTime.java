@@ -1,4 +1,4 @@
-package com.kuanhsien.timemanagement.utli;
+package com.kuanhsien.timemanagement.utils;
 
 public class ParseTime {
 

@@ -57,6 +57,13 @@
     <dimen name="width_plan_adjust_time_panel">150dp</dimen>
     <dimen name="width_plan_item_delete">10dp</dimen>
 
+    <!-- Trace items -->
+    <dimen name="height_trace_period">28dp</dimen>
+    <dimen name="width_trace_top_add_item">223dp</dimen>
+    <dimen name="width_trace_task_name">80dp</dimen>
+    <dimen name="width_trace_task_time">40dp</dimen>
+    <dimen name="width_trace_adjust_time_panel">150dp</dimen>
+    <dimen name="width_trace_item_delete">10dp</dimen>
 
     <!-- Set target -->
     <dimen name="width_set_target_item">223dp</dimen>
@@ -69,6 +76,11 @@
     <dimen name="height_categroytask_category_item">30dp</dimen>
     <dimen name="height_categroytask_task_item">52dp</dimen>
 
+
+    <!-- Notification -->
+    <dimen name="height_notificaiton_daily_summary">86dp</dimen>
+    <dimen name="height_notificaiton_weekly_summary">86dp</dimen>
+    <dimen name="width_notificaiton_task_icon">11dp</dimen>
 
 
 

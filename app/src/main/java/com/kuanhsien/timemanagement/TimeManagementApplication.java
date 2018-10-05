@@ -1,13 +1,7 @@
 package com.kuanhsien.timemanagement;
 
 import android.app.Application;
-import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.os.Environment;
-
-import com.kuanhsien.timemanagement.utli.Constants;
-
-import java.io.File;
 
 /**
  * Created by Ken on 2018/9/24.

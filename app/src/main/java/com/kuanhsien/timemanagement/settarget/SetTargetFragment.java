@@ -4,22 +4,15 @@ package com.kuanhsien.timemanagement.settarget;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.kuanhsien.timemanagement.MainActivity;
 import com.kuanhsien.timemanagement.R;
-import com.kuanhsien.timemanagement.TimeManagementApplication;
-import com.kuanhsien.timemanagement.utli.Constants;
-import com.kuanhsien.timemanagement.utli.Logger;
+import com.kuanhsien.timemanagement.utils.Constants;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

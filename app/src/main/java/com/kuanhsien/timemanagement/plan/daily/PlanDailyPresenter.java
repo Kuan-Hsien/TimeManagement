@@ -16,8 +16,8 @@ import com.kuanhsien.timemanagement.TimeManagementApplication;
 import com.kuanhsien.timemanagement.database.AppDatabase;
 import com.kuanhsien.timemanagement.database.DatabaseDao;
 import com.kuanhsien.timemanagement.object.TimePlanningTable;
-import com.kuanhsien.timemanagement.utli.Constants;
-import com.kuanhsien.timemanagement.utli.Logger;
+import com.kuanhsien.timemanagement.utils.Constants;
+import com.kuanhsien.timemanagement.utils.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

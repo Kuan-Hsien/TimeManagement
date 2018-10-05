@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -18,7 +17,7 @@ import com.kuanhsien.timemanagement.plan.daily.PlanDailyFragment;
 import com.kuanhsien.timemanagement.plan.daily.PlanDailyPresenter;
 import com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyFragment;
 import com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyPresenter;
-import com.kuanhsien.timemanagement.utli.Constants;
+import com.kuanhsien.timemanagement.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -60,6 +60,23 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void transToTrace() {
 
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+
+        if (mFragmentManager.findFragmentByTag(FRAGMENT_TAG_SET_TARGET) != null) mFragmentManager.popBackStack();
+        if (mTraceFragment == null) mTraceFragment = TraceFragment.newInstance();
+        if (mPlanFragment != null) transaction.hide(mPlanFragment);
+//        if (mProfileFragment != null) transaction.hide(mProfileFragment);
+        if (!mTraceFragment.isAdded()) {
+            transaction.add(R.id.linearlayout_main_container, mTraceFragment, "FRAGMENT_TAG_TRACE");
+        } else {
+            transaction.show(mTraceFragment);
+        }
+        transaction.commit();
+
+//        if (mTracePresenter == null) {
+//            mTracePresenter = new TraceDailyPresenter(mTraceFragment);
+//        }
+
         mMainView.showTraceUi();
     }
 
@@ -70,7 +87,7 @@ public class MainPresenter implements MainContract.Presenter {
 
         if (mFragmentManager.findFragmentByTag(FRAGMENT_TAG_SET_TARGET) != null) mFragmentManager.popBackStack();
         if (mPlanFragment == null) mPlanFragment = PlanFragment.newInstance();
-//        if (mTraceFragment != null) transaction.hide(mTraceFragment);
+        if (mTraceFragment != null) transaction.hide(mTraceFragment);
 //        if (mProfileFragment != null) transaction.hide(mProfileFragment);
         if (!mPlanFragment.isAdded()) {
             transaction.add(R.id.linearlayout_main_container, mPlanFragment, "FRAGMENT_TAG_PLAN");
@@ -118,6 +135,6 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void start() {
-        transToPlan();
+        transToTrace();
     }
 }

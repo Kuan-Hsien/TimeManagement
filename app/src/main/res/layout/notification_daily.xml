@@ -1,0 +1,63 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearlayout_notification_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <!-- Summary -->
+    <!-- Daily -->
+        <!-- Daily notification title (optional) -->
+        <TextView android:id="@+id/textview_daily_summary_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Daily summary:"
+            android:textAppearance="@style/TextAppearance.Compat.Notification.Title"/>
+
+        <!-- Daily notification content -->
+        <GridLayout
+            android:id="@+id/linearlayout_notification_daily_summary"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/height_notificaiton_daily_summary"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal"
+            android:columnCount="2" >
+
+        </GridLayout>
+
+
+    <!-- Weekly -->
+        <!-- Weekly notification title -->
+        <TextView
+            android:id="@+id/textview_weekly_summary_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Weekly summary:"
+            android:textAppearance="@style/TextAppearance.Compat.Notification.Title"/>
+
+        <!-- Weekly notification content -->
+        <GridLayout
+            android:id="@+id/linearlayout_notification_week_summary"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/height_notificaiton_weekly_summary"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal"
+            android:background="@android:color/holo_blue_bright"
+            android:columnCount="2" >
+
+        </GridLayout>
+
+
+        <ImageView
+            android:id="@+id/linearlayout_r"
+            android:layout_width="fill_parent"
+            android:layout_height="200dp"
+            android:orientation="vertical"
+            android:background="@android:color/holo_orange_light" >
+
+        </ImageView>
+
+        <!-- Yesterday Records -->
+        <!-- Today plans -->
+
+</LinearLayout>

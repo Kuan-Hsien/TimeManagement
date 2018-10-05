@@ -1,4 +1,4 @@
-package com.kuanhsien.timemanagement.utli;
+package com.kuanhsien.timemanagement.utils;
 
 /**
  * Created by Ken on 2018/9/22.
@@ -45,6 +45,8 @@ public class Constants {
     // Plan Fragment Tab Layout
     public static final String TAB_DAILY = "DAY";
     public static final String TAB_WEEKLY = "WEEK";
+    public static final String TAB_MONTHLY = "MONTH";
+    public static final String TAB_YEARLY = "YEAR";
 
     // Plan
     public static final int MODE_PLAN_VIEW = 1;
@@ -74,4 +76,14 @@ public class Constants {
     public static final String CATEGORY_HEALTH = "HEALTH";
     public static final String CATEGORY_RELATIONSHIP = "RELATIONSHIP";
     public static final String CATEGORY_SELF = "SELF";
+
+
+    // Job Scheduler ID
+    public static final int SCHEDULE_JOB_ID_DAILY_SUMMARY = 101;
+    public static final int SCHEDULE_JOB_ID_COMPLETE_TASK = 102;
+    public static final int SCHEDULE_JOB_ID_REMAINING_TASK = 103;
+
+    // Notification ID
+
+
 }

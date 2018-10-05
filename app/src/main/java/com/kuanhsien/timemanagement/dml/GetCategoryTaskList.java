@@ -2,8 +2,8 @@ package com.kuanhsien.timemanagement.dml;
 
 import android.arch.persistence.room.ColumnInfo;
 
-import com.kuanhsien.timemanagement.utli.Constants;
-import com.kuanhsien.timemanagement.utli.Logger;
+import com.kuanhsien.timemanagement.utils.Constants;
+import com.kuanhsien.timemanagement.utils.Logger;
 
 /**
  * Created by Ken on 2018/9/30
