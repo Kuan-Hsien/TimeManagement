@@ -33,6 +33,8 @@ public interface MainContract {
 
         void showStatisticUi();
 
+        void showRecordUi();
+
 //        void refreshLikedUi();
 
     }
@@ -48,6 +50,8 @@ public interface MainContract {
         void transToStatistic();
 
         void transToSetTarget();
+
+        void transToRecord();
 
 //        void transToDetail(Article article);
 //

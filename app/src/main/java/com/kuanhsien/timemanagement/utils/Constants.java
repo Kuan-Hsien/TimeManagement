@@ -57,6 +57,10 @@ public class Constants {
     public static final String ITEM_TASK = "TASK";
 
 
+    // Record
+    public static final int RECORD_TASK_SPAN_COUNT = 4;
+
+
     // Database
     // Plan (set target)
     public static final String MODE_PERIOD = "MODE_PERIOD";

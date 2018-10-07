@@ -65,6 +65,15 @@
     <dimen name="width_trace_adjust_time_panel">150dp</dimen>
     <dimen name="width_trace_item_delete">10dp</dimen>
 
+
+    <!-- Record items -->
+    <dimen name="height_record_button">40dp</dimen>
+    <dimen name="width_record_task">80dp</dimen>
+    <dimen name="height_record_task">80dp</dimen>
+    <dimen name="width_record_task_name">76dp</dimen>
+    <dimen name="size_record_task_icon">28dp</dimen>
+
+
     <!-- Set target -->
     <dimen name="width_set_target_item">223dp</dimen>
     <dimen name="width_set_target_send_button">28dp</dimen>

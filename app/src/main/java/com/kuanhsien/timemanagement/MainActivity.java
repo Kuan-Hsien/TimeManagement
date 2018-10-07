@@ -224,7 +224,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
                 case R.id.navigation_profile:
 
-                    mPresenter.transToStatistic();
+//                    mPresenter.transToStatistic();
+                    mPresenter.transToRecord();
                     return true;
 
                 default:
@@ -253,8 +254,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         setToolbarTitle(getResources().getString(R.string.page_title_trace));
 
-
-        startJobScheduler();
+// [TODO] 找個合適的地方啟動 JobScheduler
+//        startJobScheduler();
 
     }
 
@@ -263,9 +264,17 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         setToolbarTitle(getResources().getString(R.string.page_title_statisic));
 
-        cancelAllJobScheduler();
-//        cancelJobScheduler(Constants.SCHEDULE_JOB_ID_DAILY_SUMMARY);
+//        cancelAllJobScheduler();
 
+//        cancelJobScheduler(Constants.SCHEDULE_JOB_ID_DAILY_SUMMARY);
+    }
+
+    @Override
+    public void showRecordUi() {
+
+        setToolbarTitle(getResources().getString(R.string.page_title_record));
+
+//        cancelAllJobScheduler();
     }
 
     public void transToPlan() {
@@ -275,9 +284,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public void transToSetTarget() {
         mPresenter.transToSetTarget();
     }
-
-
-
 
 
 
