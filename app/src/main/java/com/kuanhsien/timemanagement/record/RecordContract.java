@@ -23,6 +23,7 @@ import com.kuanhsien.timemanagement.BaseView;
 import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
 import com.kuanhsien.timemanagement.object.TaskDefineTable;
 import com.kuanhsien.timemanagement.object.TimePlanningTable;
+import com.kuanhsien.timemanagement.object.TimeTracingTable;
 
 import java.util.List;
 
@@ -44,12 +45,16 @@ public interface RecordContract {
         // 1-2 request adapter to show the target list (get query result)
         void showCategoryTaskList(List<GetCategoryTaskList> bean);
 
+        void showCurrentTraceItem(TimeTracingTable bean);
+
 //        void showCategoryListDialog(List<GetTaskWithPlanTime> bean);
 //        void showTaskListDialog(List<GetTaskWithPlanTime> bean);
 
 //        void showCategoryListDialog();
 //
 //        void showCategoryTaskSelected(GetCategoryTaskList bean);
+
+        void showTraceUi();
     }
 
     interface Presenter extends BasePresenter {
@@ -70,9 +75,21 @@ public interface RecordContract {
         // 1-2. [Send-to-View] request fragment to show data
         void showCategoryTaskList(List<GetCategoryTaskList> bean);
 
+
+        /////////////////.......0000----
+        // 1-1. [Send-to-Model] database query to prepare data (query all targets)
+        void getCurrentTraceItem(String strVerNo);
+
+        // 1-2. [Send-to-View] request fragment to show data
+        void showCurrentTraceItem(TimeTracingTable bean);
+
+
+
         // 2-1. [Send-to-Model] database insert to update data (insert new targets or adjust time for existed targets)
         // 2-2. [Send-to-Model] database delete to delete data (delete existed targets)
-        void saveTaskResults(List<TaskDefineTable> targetList, List<TaskDefineTable> deleteTargetList);
+//        void saveTaskResults(List<TaskDefineTable> targetList, List<TaskDefineTable> deleteTargetList);
+        void saveTraceResults(List<TimeTracingTable> traceList);
+
 
         // 2-3. [Send-to-View] request fragment to show data
         // once update data, query the target list again to refresh UI

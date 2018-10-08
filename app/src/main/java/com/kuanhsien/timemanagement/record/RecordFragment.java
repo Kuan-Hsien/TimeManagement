@@ -11,19 +11,24 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.kuanhsien.timemanagement.MainActivity;
 import com.kuanhsien.timemanagement.R;
 import com.kuanhsien.timemanagement.TimeManagementApplication;
 import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
 import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTime;
+import com.kuanhsien.timemanagement.object.TimeTracingTable;
 import com.kuanhsien.timemanagement.task.CategoryTaskListAdapter;
 import com.kuanhsien.timemanagement.task.CategoryTaskListContract;
 import com.kuanhsien.timemanagement.task.CategoryTaskListPresenter;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
+import com.kuanhsien.timemanagement.utils.ParseTime;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -46,6 +51,10 @@ public class RecordFragment extends Fragment implements RecordContract.View {
     private RecordAdapter mRecordAdapter;
     private int mIntPlanMode;
     private int mIntTaskMode;
+
+    private TextView mTextviewRecordCurrentTask;
+    private TextView mTextviewRecordCurrentTime;
+
 
     public RecordFragment() {
         // Required empty public constructor
@@ -79,6 +88,9 @@ public class RecordFragment extends Fragment implements RecordContract.View {
 
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_record, container, false);
+
+        mTextviewRecordCurrentTask = root.findViewById(R.id.textview_record_current_task);
+        mTextviewRecordCurrentTime = root.findViewById(R.id.textview_record_current_time);
 
         RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recyclerview_record_button);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), Constants.RECORD_TASK_SPAN_COUNT));
@@ -118,6 +130,16 @@ public class RecordFragment extends Fragment implements RecordContract.View {
     @Override
     public void showCategoryTaskList(List<GetCategoryTaskList> bean) {
         mRecordAdapter.updateData(bean);
+    }
+
+    @Override
+    public void showCurrentTraceItem(TimeTracingTable bean) {
+
+        mTextviewRecordCurrentTask.setText("Current Task: " + bean.getTaskName());
+        mTextviewRecordCurrentTime.setText("Since " + ParseTime.msToStr(bean.getStartTime())
+                + " (" + ParseTime.msToStrDiff(bean.getStartTime(), new Date().getTime()) + ")" );  // hour + "hr " + min + "min"
+
+        mRecordAdapter.updateCurrentTraceItem(bean);
     }
 
 
@@ -246,5 +268,11 @@ public class RecordFragment extends Fragment implements RecordContract.View {
 
     public void setIntTaskMode(int intTaskMode) {
         mIntTaskMode = intTaskMode;
+    }
+
+
+    @Override
+    public void showTraceUi() {
+        ((MainActivity) getActivity()).transToTrace();
     }
 }

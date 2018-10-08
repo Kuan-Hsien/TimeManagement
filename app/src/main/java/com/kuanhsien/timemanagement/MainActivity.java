@@ -277,8 +277,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 //        cancelAllJobScheduler();
     }
 
+    public void transToTrace() {
+        mButtomNavigation.findViewById(R.id.navigation_trace).performClick();   // mPresenter.transToTrace();
+    }
+
     public void transToPlan() {
-        mPresenter.transToPlan();
+        mButtomNavigation.findViewById(R.id.navigation_plan).performClick();   // mPresenter.transToPlan();
     }
 
     public void transToSetTarget() {

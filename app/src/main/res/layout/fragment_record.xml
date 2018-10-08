@@ -22,32 +22,36 @@
         android:focusable="true" >
 
         <TextView
-            android:id="@+id/textview_record_current_task_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Current Task: "
-            android:textSize="14dp" />
-
-        <TextView
             android:id="@+id/textview_record_current_task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="task name"
-            android:textSize="14dp" />
+            android:text="Current Task: task name"
+            android:fontFamily="sans-serif-medium"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="@android:color/black"
+            android:maxLines="1"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textview_record_current_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="@android:color/black"
+            android:maxLines="1"
+            android:textSize="14sp"
+            android:text="Since 09:18" />
+
 
         <TextView
             android:id="@+id/textview_record_tip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tips: Choose one task to start tracing and stop the current tracing"
-            android:textSize="14dp" />
-
-        <TextView
-            android:id="@+id/textview_record_current_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="09:18"
-            android:textSize="14dp" />
+            android:textSize="14sp" />
 
 
     </LinearLayout>

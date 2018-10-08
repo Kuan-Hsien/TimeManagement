@@ -11,6 +11,7 @@ import com.kuanhsien.timemanagement.object.CategoryDefineTable;
 import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTime;
 import com.kuanhsien.timemanagement.object.TaskDefineTable;
 import com.kuanhsien.timemanagement.object.TimePlanningTable;
+import com.kuanhsien.timemanagement.object.TimeTracingTable;
 
 import java.util.List;
 
@@ -47,7 +48,9 @@ public interface DatabaseDao {
     void deleteCategory(CategoryDefineTable item);
 
 
+
     //****** Task ******
+
     @Query("SELECT * FROM task_define_table")
     List<TaskDefineTable> getTaskList();
 
@@ -92,6 +95,7 @@ public interface DatabaseDao {
 
     @Delete()
     void deleteTask(TaskDefineTable item);
+
 
 
     // ****** Plan ******
@@ -182,4 +186,98 @@ public interface DatabaseDao {
 //            "ON t.task_name = p.task_name")
 //    List<GetTaskWithPlanTime> getAllTaskListWithPlanTime(String mode, String startTime, String endTime);
 
+
+
+
+
+
+
+
+
+
+
+
+    // ****** Trace ******
+
+
+    // 2.1 Query all trace list
+    @Query("SELECT * FROM time_tracing_table")
+    List<TimeTracingTable> getAllTraceList();
+
+    // 2.2 Query all trace list of a specific period (daily or weekly)
+//    @Query("SELECT * FROM time_tracing_table WHERE mode = :mode AND period = :period AND start_time = :startTime")
+//    List<TimeTracingTable> gettraceListByPeriod(String mode, String period, String startTime);
+
+    // 1.3 Query all trace list of a specific period (daily or weekly) join with TaskDefineTable to get task color and icons
+//    @Query("SELECT p.uid, p.category_name, p.task_name, p.cost_time, t.task_color, t.task_icon " +
+//             "FROM time_tracing_table p " +
+//            "INNER JOIN task_define_table t ON p.task_name = t.task_name " +
+//            "WHERE p.mode = :mode " +
+//              "AND p.period = :period ")
+//    List<TimeTracingTable> getTraceTaskListByPeriod(String mode, String period);
+
+
+    // *******
+    // 1.4 Query all tasks and left join with TimeTracingTable to get trace time (both daily or weekly)
+//    @Query("SELECT t.category_name, t.task_name, t.task_color, t.task_icon, IFNULL(p.cost_time, \"\") AS cost_time " +
+//             "FROM task_define_table t " +
+//             "LEFT JOIN (SELECT p.category_name, p.task_name, p.cost_time " +
+//                          "FROM time_tracing_table p " +
+//                         "WHERE p.mode = :mode " +
+//                           "AND p.start_time >= :startTime AND p.end_time < :endTime" +
+//                       ") p " +
+//               "ON t.task_name = p.task_name")
+//    List<GetTaskWithTraceTime> getAllTaskListWithTraceTime(String mode, String startTime, String endTime);
+
+    // 1.5 Query target-list (tasks inner join with TimeTracingTable to get trace time) (both daily or weekly)
+//    @Query("SELECT p.mode, t.category_name, c.category_color, c.category_priority, t.task_name, t.task_color, t.task_icon, t.task_priority, p.start_time, p.end_time, IFNULL(p.cost_time, \"\") AS cost_time " +
+//            "FROM task_define_table t " +
+//            "INNER JOIN (SELECT p.mode, p.category_name, p.task_name, p.start_time, p.end_time, p.cost_time " +
+//            "FROM time_tracing_table p " +
+//            "WHERE p.mode = :mode " +
+//            "AND p.start_time >= :startTime AND p.end_time < :endTime" +
+//            ") p " +
+//            "ON t.task_name = p.task_name " +
+//            "INNER JOIN category_define_table c " +
+//            "ON t.category_name = c.category_name " +
+//            "ORDER BY c.category_priority, t.task_priority")
+//    List<GetTaskWithTraceTime> getTaskListWithTraceTime(String mode, String startTime, String endTime);
+
+
+
+    @Query("SELECT * FROM time_tracing_table t " +
+            "WHERE t.category_name = :categoryName " +
+            "AND t.task_name = :taskName " +
+            "LIMIT 1")
+    TimeTracingTable getTraceTimeByTaskName(String categoryName, String taskName);
+
+
+    // Query current trace task
+    @Query("SELECT * FROM time_tracing_table t " +
+            "WHERE t.ver_no = :verNo " +
+              "AND t.end_time IS NULL " +
+            "ORDER By t.start_time DESC " +
+            "LIMIT 1")
+    TimeTracingTable getCurrentTraceTask(String verNo);
+
+
+
+//    @Insert
+//    void insertAll(TaskDefineTable... items);
+//
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void addTraceItem(TimeTracingTable item);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void addTraceList(List<TimeTracingTable> item);
+
+
+//    @Delete
+//    void deleteAllTrace(TimeTracingTable item);
+
+    @Delete()
+    void deleteTraceList(List<TimeTracingTable> item);
+
+    @Delete()
+    void deleteTraceItem(TimeTracingTable item);
 }

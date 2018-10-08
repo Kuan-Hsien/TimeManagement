@@ -1,29 +1,22 @@
 package com.kuanhsien.timemanagement.record;
 
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.kuanhsien.timemanagement.R;
 import com.kuanhsien.timemanagement.TimeManagementApplication;
 import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
-import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTime;
-import com.kuanhsien.timemanagement.object.TaskDefineTable;
+import com.kuanhsien.timemanagement.object.TimeTracingTable;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
-import com.kuanhsien.timemanagement.utils.ParseTime;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -40,6 +33,10 @@ public class RecordAdapter extends RecyclerView.Adapter {
     private List<GetCategoryTaskList> mCategoryTaskList;
     private boolean[] isDeleteArray;
     private int mIntTaskMode;
+
+    private TimeTracingTable mCurrentItem;
+
+
 
     public RecordAdapter(List<GetCategoryTaskList> bean, RecordContract.Presenter presenter) {
 
@@ -138,6 +135,13 @@ public class RecordAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    public void updateCurrentTraceItem(TimeTracingTable bean) {
+        Logger.d(Constants.TAG, MSG + "updateCurrentTraceItem");
+
+         mCurrentItem = new TimeTracingTable(bean);
+    }
+
+
     public void refreshUiMode(int mode) {
         Logger.d(Constants.TAG, MSG + "refreshUiMode: " + (mode == Constants.MODE_PLAN_VIEW ? "VIEW_MODE" : "EDIT_MODE"));
 
@@ -156,7 +160,7 @@ public class RecordAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-    // ViewHolder of Category
+    // [TODO] ViewHolder of Category
     public class CategoryItemViewHolder extends RecyclerView.ViewHolder {
 
         //** View Mode
@@ -270,27 +274,41 @@ public class RecordAdapter extends RecyclerView.Adapter {
                 // 表示選擇了此類別，此時要針對上一筆 (現在的 Task) 停止，並開始現在這筆
 
 
+                Date curDate = new Date();
+                Long longCurTime = curDate.getTime(); // 把毫秒 (Long) 轉成 String 存起來
+
+                List<TimeTracingTable> itemList = new ArrayList<>();
+
+                // (1) insert 上一筆的 endtime + costtime
+                TimeTracingTable lastItem = new TimeTracingTable(
+                        mCurrentItem.getVerNo(),
+                        mCurrentItem.getCategoryName(),
+                        mCurrentItem.getTaskName(),
+                        mCurrentItem.getStartTime(),
+                        longCurTime,
+                        longCurTime - mCurrentItem.getStartTime(),
+                        longCurTime
+                );
+                lastItem.LogD();
+                itemList.add(lastItem);
+
+                // (2) insert 新一筆但沒有 endtime
+                TimeTracingTable newItem = new TimeTracingTable(
+                        mCurrentItem.getVerNo(),
+                        mCategoryTaskList.get(getCurrentPosition()).getCategoryName(),
+                        mCategoryTaskList.get(getCurrentPosition()).getTaskName(),
+                        longCurTime,
+                        null,
+                        null,
+                        longCurTime
+                );
+
+                newItem.LogD();
+                itemList.add(newItem);
 
 
-//                mPresenter.showCategoryTaskSelected(mCategoryTaskList.get(getCurrentPosition()));
-
-
-
-//                // if original delete flag is on, than cancel. (change background color to white)
-//                if (isDeleteArray[getCurrentPosition()] == true) {
-//
-//                    isDeleteArray[getCurrentPosition()] = false;
-//                    mFrameLayoutTaskColor.setBackground(TimeManagementApplication.getAppContext().getDrawable(android.R.color.white));
-//
-//                } else {
-//                    // if original delete flag is off, than delete. (change background color with drawable)
-//
-//                    isDeleteArray[getCurrentPosition()] = true;
-//                    mFrameLayoutTaskColor.setBackground(TimeManagementApplication.getAppContext().getDrawable(R.drawable.toolbar_background));
-//
-//                }
-//
-//                Logger.d(Constants.TAG, MSG + "delete " + mCategoryTaskList.get(getCurrentPosition()).getTaskName() + " status: " + isDeleteArray[getCurrentPosition()]);
+                // (3) 交給 presenter 塞進資料庫
+                mPresenter.saveTraceResults(itemList);
             }
         }
 
@@ -361,7 +379,7 @@ public class RecordAdapter extends RecyclerView.Adapter {
         public void onClick(View v) {
 
             if (v.getId() == R.id.constraintlayout_record_add_task_item) {
-                // 進入新增 Task 事件
+                // [TODO] 進入新增 Task 事件
 
 //                mPresenter.showCategoryTaskSelected(mCategoryTaskList.get(getCurrentPosition()));
 
