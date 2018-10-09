@@ -8,28 +8,27 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Messenger;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.kuanhsien.timemanagement.database.AppDatabase;
 import com.kuanhsien.timemanagement.database.DatabaseDao;
 import com.kuanhsien.timemanagement.object.CategoryDefineTable;
 import com.kuanhsien.timemanagement.object.TaskDefineTable;
+import com.kuanhsien.timemanagement.service.JobSchedulerService;
+import com.kuanhsien.timemanagement.service.JobSchedulerServiceDailySummary;
+import com.kuanhsien.timemanagement.service.MainService;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
-import com.kuanhsien.timemanagement.utils.ParseTime;
 
 import java.util.List;
 
@@ -254,10 +253,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public void showTraceUi() {
 
         setToolbarTitle(getResources().getString(R.string.page_title_trace));
-
-// [TODO] 找個合適的地方啟動 JobScheduler
-        startJobSchedulerDailySummary();
-
     }
 
     @Override
@@ -266,7 +261,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         setToolbarTitle(getResources().getString(R.string.page_title_statisic));
 
 //        cancelAllJobScheduler();
-
 //        cancelJobScheduler(Constants.SCHEDULE_JOB_ID_DAILY_SUMMARY);
     }
 
@@ -275,7 +269,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         setToolbarTitle(getResources().getString(R.string.page_title_record));
 
-        cancelAllJobScheduler();
+//        cancelAllJobScheduler();
     }
 
     public void transToTrace() {
@@ -290,52 +284,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mPresenter.transToSetTarget();
     }
 
-
-
-    private void roomDatabase() {
-
-        // 和 Database 有關的操作不能放在 main-thread 中。不然會跳出錯誤：
-        // Cannot access database on the main thread since it may potentially lock the UI for a long period of time.
-
-        // 解決方式：(此處使用 2)
-        // 1. 在取得資料庫連線時增加 allowMainThreadQueries() 方法，強制在主程式中執行
-        // 2. 另開 thread 執行耗時工作 (建議採用此方法)，另開 thread 有多種寫法，按自己習慣作業即可。此處為測試是否寫入手機SQLite，故不考慮 callback，如下
-        AsyncTask.execute(new Runnable() {
-
-            @Override
-            public void run() {
-
-                DatabaseDao dao = AppDatabase.getDatabase(getApplicationContext()).getDatabaseDao();
-
-                // [INSERT]
-//                CategoryDefineTable categoryItem = new CategoryDefineTable(1, "Work", true, "Red", "Work", "High");
-//                TaskDefineTable taskItem = new TaskDefineTable(1, "Prepare final test", "Work", true);
-//
-//                dao.addCategory(categoryItem);
-//                dao.addTask(taskItem);
-//                dao.insertAllCategory();
-//                dao.insertAll(2, "First name", "Last name", "Address", null);
-
-
-                // [QUERY]
-                // 可以在這邊撈，目前寫在這邊可以撈出來當前塞進去的資料。
-                List<CategoryDefineTable> categoryList = dao.getAllCategoryList();
-                List<TaskDefineTable> taskList = dao.getTaskList();
-
-                for (int i = 0 ; i < categoryList.size() ; ++i) {
-                    Logger.d(Constants.TAG, categoryList.get(i).getCategoryName() + "" );
-                }
-
-                for (int i = 0 ; i < categoryList.size() ; ++i) {
-                    Logger.d(Constants.TAG, taskList.get(i).getTaskName() + "" );
-                }
-
-            }
-        });
-
-
-
-    }
 
 
 
@@ -381,32 +329,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         }
     }
 
-    private void startJobSchedulerDaily() {
 
-        Logger.d(Constants.TAG, MSG + "Start scheduling job");
-
-        ComponentName componentName = new ComponentName(this, JobSchedulerService.class.getName());   // service name
-
-        JobInfo jobInfo = new JobInfo.Builder(Constants.SCHEDULE_JOB_ID_DAILY_SUMMARY, componentName)
-//                .setPeriodic(10 * 1000)
-
-                .setMinimumLatency(10*1000)
-                .setOverrideDeadline(10*1000)
-                .setPersisted(true)     // 為了讓重開機還能繼續執行此 job
-//                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED) // 只有網路不限流量時 (e.g. WIFI)
-//                .setRequiresDeviceIdle(false)
-//                .setRequiresCharging(false)
-                .build();
-
-
-        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-
-        int result = scheduler.schedule(jobInfo);   // start a jobScheduler task, return sucessful job id (return 0 if failed)
-        if (result == JobScheduler.RESULT_SUCCESS) {
-            Logger.d(Constants.TAG, MSG + "Job scheduled successfully!");
-        }
-
-    }
 
     private void cancelJobScheduler(int jobId) {
 

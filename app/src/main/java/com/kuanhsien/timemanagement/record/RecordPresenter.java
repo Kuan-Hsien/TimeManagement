@@ -68,9 +68,6 @@ public class RecordPresenter implements RecordContract.Presenter {
     @Override
     public void start() {
 
-//        prepareRoomDatabase();
-
-
         // (1) Task List
         getCategoryTaskList();
 
@@ -634,48 +631,6 @@ public class RecordPresenter implements RecordContract.Presenter {
 
         mNotificationManager.notify(Constants.NOTIFY_ID_ONGOING, mBuilder.build());   // 用 notify 並指定 ID，隨後可用此 ID 做進一步的更新或是取消等等操作
     }
-
-
-
-    private void prepareRoomDatabase() {
-
-        // 和 Database 有關的操作不能放在 main-thread 中。不然會跳出錯誤：
-        // Cannot access database on the main thread since it may potentially lock the UI for a long period of time.
-
-        // 解決方式：(此處使用 2)
-        // 1. 在取得資料庫連線時增加 allowMainThreadQueries() 方法，強制在主程式中執行
-        // 2. 另開 thread 執行耗時工作 (建議採用此方法)，另開 thread 有多種寫法，按自己習慣作業即可。此處為測試是否寫入手機SQLite，故不考慮 callback，如下
-        AsyncTask.execute(new Runnable() {
-
-            @Override
-            public void run() {
-
-                // 取得現在時間
-                Date curDate = new Date();
-                // 定義時間格式
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-                // 透過SimpleDateFormat的format方法將 Date 轉為字串
-                String strVerNo = simpleDateFormat.format(curDate);
-
-                DatabaseDao dao = AppDatabase.getDatabase(TimeManagementApplication.getAppContext()).getDatabaseDao();
-
-                dao.addTraceItem(new TimeTracingTable(strVerNo, "Health", "Sleep",  new Date().getTime(), null, null, new Date().getTime()));
-
-
-                // [QUERY]
-                // 可以在這邊撈，目前寫在這邊可以撈出來當前塞進去的資料。
-                List<TimeTracingTable> traceList = dao.getAllTraceList();
-
-                Logger.d(Constants.TAG, MSG + "Prepare first trace");
-
-                for (int i = 0 ; i < traceList.size() ; ++i) {
-                    traceList.get(i).LogD();
-                }
-
-            }
-        });
-    }
-
 
 }
 

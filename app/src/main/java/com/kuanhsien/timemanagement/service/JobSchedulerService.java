@@ -1,4 +1,4 @@
-package com.kuanhsien.timemanagement;
+package com.kuanhsien.timemanagement.service;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -13,21 +13,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.opengl.Visibility;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.kuanhsien.timemanagement.MainActivity;
+import com.kuanhsien.timemanagement.R;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
 

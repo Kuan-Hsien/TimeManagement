@@ -25,20 +25,20 @@
         </activity>
 
         <service
-            android:name=".MainService"
+            android:name=".service.MainService"
             android:enabled="true"
             android:exported="true">
         </service>
 
         <service
-            android:name=".JobSchedulerService"
+            android:name=".service.JobSchedulerService"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE">
         </service>
 
         <service
-            android:name=".JobSchedulerServiceDailySummary"
+            android:name=".service.JobSchedulerServiceDailySummary"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE">

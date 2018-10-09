@@ -166,8 +166,6 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void start() {
 
-//        prepareRoomDatabase();
-
         transToPlan();
     }
 }

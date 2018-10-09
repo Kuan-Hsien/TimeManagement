@@ -1,4 +1,4 @@
-package com.kuanhsien.timemanagement;
+package com.kuanhsien.timemanagement.service;
 
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -12,6 +12,8 @@ import android.graphics.BitmapFactory;
 import android.os.IBinder;
 import android.service.dreams.DreamService;
 
+import com.kuanhsien.timemanagement.MainActivity;
+import com.kuanhsien.timemanagement.R;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
 

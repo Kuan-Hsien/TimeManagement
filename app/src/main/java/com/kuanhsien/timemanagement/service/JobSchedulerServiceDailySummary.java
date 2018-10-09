@@ -1,4 +1,4 @@
-package com.kuanhsien.timemanagement;
+package com.kuanhsien.timemanagement.service;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -18,22 +18,20 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
-import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.kuanhsien.timemanagement.MainActivity;
+import com.kuanhsien.timemanagement.R;
+import com.kuanhsien.timemanagement.TimeManagementApplication;
 import com.kuanhsien.timemanagement.dml.GetTraceDailySummaryAsyncTask;
 import com.kuanhsien.timemanagement.dml.GetTraceDailySummaryCallback;
 import com.kuanhsien.timemanagement.dml.GetTraceDetail;
-import com.kuanhsien.timemanagement.dml.GetTraceDetailAsyncTask;
-import com.kuanhsien.timemanagement.dml.GetTraceDetailCallback;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
 import com.kuanhsien.timemanagement.utils.ParseTime;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -340,7 +338,6 @@ public class JobSchedulerServiceDailySummary extends JobService {
 
         NotificationManager mNotificationManager =
                 (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-
 
 
 

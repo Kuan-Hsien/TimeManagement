@@ -41,6 +41,11 @@ public class Constants {
     public static final String BUNDLE_DETAIL_ARTICLE = "bundle_detail_article";
 
 
+    // Main Function Flow
+    // SharePreference
+    public static final String FILENAME_USER_DATA = "FILENAME_USER_DATA";
+    public static final String IS_FIRST_FLAG = "IS_FIRST_FLAG";
+
 
     // Plan Fragment Tab Layout
     public static final String TAB_DAILY = "DAY";

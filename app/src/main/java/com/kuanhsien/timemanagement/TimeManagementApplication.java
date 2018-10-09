@@ -1,14 +1,38 @@
 package com.kuanhsien.timemanagement;
 
 import android.app.Application;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+
+import com.kuanhsien.timemanagement.database.AppDatabase;
+import com.kuanhsien.timemanagement.database.DatabaseDao;
+import com.kuanhsien.timemanagement.object.CategoryDefineTable;
+import com.kuanhsien.timemanagement.object.TaskDefineTable;
+import com.kuanhsien.timemanagement.object.TimePlanningTable;
+import com.kuanhsien.timemanagement.object.TimeTracingTable;
+import com.kuanhsien.timemanagement.service.JobSchedulerServiceDailySummary;
+import com.kuanhsien.timemanagement.utils.Constants;
+import com.kuanhsien.timemanagement.utils.Logger;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Ken on 2018/9/24.
  */
 public class TimeManagementApplication extends Application {
+    private static final String MSG = "TimeManagementApplication: ";
 
     private static TimeManagementApplication mContext;
+    private static SharedPreferences mSharePreferences;
+    private static boolean mIsFirstLogin;
+
 //    public static DbFavoriteArticle dbFavoriteArticle;
 
 //    public static int appModeValue;
@@ -17,6 +41,19 @@ public class TimeManagementApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = this;
+
+        if ("FALSE".equals(
+                getSharedPreferences(Constants.FILENAME_USER_DATA, Context.MODE_PRIVATE)
+                        .getString(Constants.IS_FIRST_FLAG, "FALSE"))) {
+
+            setFirstLogin(false);
+
+            firstLogin();
+
+        } else {
+
+            setFirstLogin(true);
+        }
 
 //        dbFavoriteArticle = new DbFavoriteArticle(applicationContext);
 //
@@ -137,4 +174,156 @@ public class TimeManagementApplication extends Application {
             return R.drawable.icon_sleep;
         }
     }
+
+    public static boolean isFirstLogin() {
+        return mIsFirstLogin;
+    }
+
+    public static void setFirstLogin(boolean isFirstLogin) {
+        mIsFirstLogin = isFirstLogin;
+    }
+
+
+    public void firstLogin() {
+
+        // (0) greeting (?)
+        // (1) prepare default tasks and categories
+        // (2) tips
+        // (3) set daily summary notificaitons
+        // (x) prepare testing data
+        prepareRoomDatabase();
+        startJobSchedulerDailySummary();
+
+        mSharePreferences = getSharedPreferences(Constants.FILENAME_USER_DATA, Context.MODE_PRIVATE);
+        mSharePreferences.edit()
+                .putString(Constants.IS_FIRST_FLAG, "TRUE")
+                .apply();
+    }
+
+
+    private void prepareRoomDatabase() {
+
+        // 和 Database 有關的操作不能放在 main-thread 中。不然會跳出錯誤：
+        // Cannot access database on the main thread since it may potentially lock the UI for a long period of time.
+
+        // 解決方式：(此處使用 2)
+        // 1. 在取得資料庫連線時增加 allowMainThreadQueries() 方法，強制在主程式中執行
+        // 2. 另開 thread 執行耗時工作 (建議採用此方法)，另開 thread 有多種寫法，按自己習慣作業即可。此處為測試是否寫入手機SQLite，故不考慮 callback，如下
+        AsyncTask.execute(new Runnable() {
+
+            @Override
+            public void run() {
+
+                DatabaseDao dao = AppDatabase.getDatabase(getAppContext()).getDatabaseDao();
+
+                // 取得現在時間
+                Date curDate = new Date();
+                // 定義時間格式
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                // 透過SimpleDateFormat的format方法將 Date 轉為字串
+                String strCurrentTime = simpleDateFormat.format(curDate);
+
+                // Prepare default category
+                dao.addCategory(new CategoryDefineTable("Health", false, "#32CD32", 1));
+                dao.addCategory(new CategoryDefineTable("Family", false, "#C71585", 2));
+                dao.addCategory(new CategoryDefineTable("Personal", false, "#FFD700", 3));
+                dao.addCategory(new CategoryDefineTable("Friend", false, "#F4A460", 4));
+                dao.addCategory(new CategoryDefineTable("Work", false, "#1E90FF", 5));
+                dao.addCategory(new CategoryDefineTable("Transportation", false, "#B0C4DE", 6));
+                dao.addCategory(new CategoryDefineTable("Others", false, "#4682B4", 7));
+
+                // Prepare default task
+                dao.addTask(new TaskDefineTable("Work", "Work", "#4169E1", "icon_work", 8, false));
+                dao.addTask(new TaskDefineTable("Personal", "Study", "#008B8B", "icon_book", 7, false));
+                dao.addTask(new TaskDefineTable("Family", "Family", "#FF69B4", "icon_home", 4, false));
+                dao.addTask(new TaskDefineTable("Friend", "Friend", "#D2691E", "icon_friend", 6, false));
+                dao.addTask(new TaskDefineTable("Family", "Lover", "#C71585", "icon_lover", 5, false));
+                dao.addTask(new TaskDefineTable("Health", "Sleep", "#191970", "icon_sleep", 1, false));
+                dao.addTask(new TaskDefineTable("Health", "Eat", "#008B8B", "icon_food", 2, false));
+                dao.addTask(new TaskDefineTable("Health", "Swim", "#87CEFA", "icon_swim", 3, false));
+                dao.addTask(new TaskDefineTable("Transportation", "Walk", "#B0C4DE", "icon_walk", 13, false));
+                dao.addTask(new TaskDefineTable("Transportation", "Car", "#BDB76B", "icon_car", 15, false));
+                dao.addTask(new TaskDefineTable("Transportation", "Bike", "#3CB371", "icon_bike", 14, false));
+                dao.addTask(new TaskDefineTable("Others", "Computer", "#000000", "icon_computer", 12, false));
+                dao.addTask(new TaskDefineTable("Others", "Music", "#F08080", "icon_music", 10, false));
+                dao.addTask(new TaskDefineTable("Others", "Pet", "#FFB6C1", "icon_paw", 9, false));
+                dao.addTask(new TaskDefineTable("Others", "Phone", "#FF6347", "icon_phonecall", 11, false));
+
+                // Prepare sample plan
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Sleep", strCurrentTime, strCurrentTime, 480, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Eat", strCurrentTime, strCurrentTime, 120, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Family", "Family", strCurrentTime, strCurrentTime, 120, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Personal", "Study", strCurrentTime, strCurrentTime, 75, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Friend", "Friend", strCurrentTime, strCurrentTime, 75, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Swim", strCurrentTime, strCurrentTime, 75, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Others", "Music", strCurrentTime, strCurrentTime, 75, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Sleep", strCurrentTime, strCurrentTime, 4800, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Eat", strCurrentTime, strCurrentTime, 1200, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Family", "Family", strCurrentTime, strCurrentTime, 1200, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Personal", "Study", strCurrentTime, strCurrentTime, 75, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Friend", "Friend", strCurrentTime, strCurrentTime, 75, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Swim", strCurrentTime, strCurrentTime, 75, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Others", "Music", strCurrentTime, strCurrentTime, 75, strCurrentTime));
+
+                // Prepare first trace
+                dao.addTraceItem(new TimeTracingTable(strCurrentTime, "Health", "Sleep",  new Date().getTime(), null, null, new Date().getTime()));
+
+                // [QUERY]
+                // 可以在這邊撈，目前寫在這邊可以撈出來當前塞進去的資料。
+                List<CategoryDefineTable> categoryList = dao.getAllCategoryList();
+                List<TaskDefineTable> taskList = dao.getAllTaskList();
+                List<TimePlanningTable> planningTableList = dao.getAllPlanList();
+                List<TimeTracingTable> traceList = dao.getAllTraceList();
+
+                Logger.d(Constants.TAG, MSG + "Prepare default category");
+                for (int i = 0 ; i < categoryList.size() ; ++i) {
+                    categoryList.get(i).LogD();
+                }
+
+                Logger.d(Constants.TAG, MSG + "Prepare default task");
+                for (int i = 0 ; i < taskList.size() ; ++i) {
+                    taskList.get(i).LogD();
+                }
+
+                Logger.d(Constants.TAG, MSG + "Prepare sample plan");
+                for (int i = 0 ; i < planningTableList.size() ; ++i) {
+                    planningTableList.get(i).LogD();
+                }
+
+                Logger.d(Constants.TAG, MSG + "Prepare first trace");
+                for (int i = 0 ; i < traceList.size() ; ++i) {
+                    traceList.get(i).LogD();
+                }
+
+            }
+        });
+    }
+
+
+    private void startJobSchedulerDailySummary() {
+
+        Logger.d(Constants.TAG, MSG + "Start scheduling job");
+
+        ComponentName componentName = new ComponentName(this, JobSchedulerServiceDailySummary.class.getName());   // service name
+
+        JobInfo jobInfo = new JobInfo.Builder(Constants.SCHEDULE_JOB_ID_DAILY_SUMMARY, componentName)
+//                .setPeriodic(10 * 1000)
+
+                .setMinimumLatency(10*1000)
+                .setOverrideDeadline(10*1000)
+                .setPersisted(true)     // 為了讓重開機還能繼續執行此 job
+//                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED) // 只有網路不限流量時 (e.g. WIFI)
+//                .setRequiresDeviceIdle(false)
+//                .setRequiresCharging(false)
+                .build();
+
+        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+
+        int result = scheduler.schedule(jobInfo);   // start a jobScheduler task, return successful job id (return 0 if failed)
+
+        if (result == JobScheduler.RESULT_SUCCESS) {
+            Logger.d(Constants.TAG, MSG + "Job scheduled successfully!");
+        }
+    }
+
 }

@@ -299,6 +299,7 @@ public interface DatabaseDao {
     List<GetTraceSummary> getTraceSummary(String startVerNo, String endVerNo, String categoryList, String taskList);
 
 
+    // 這是 Daily 會撈出一週七天的版本
     // Query record-list (records inner join with task/category master table to get detail trace result) (both daily or weekly)
     // mode could be one of { "DAILY", "WEEKLY", "ALL" }
     // category and task also could be ALL
@@ -329,6 +330,7 @@ public interface DatabaseDao {
     List<GetTraceDetail> getTraceDetail(String mode, String startVerNo, String endVerNo, String categoryList, String taskList);
 
 
+    // 這是 Daily 只會撈出前一天的版本
     @Query("SELECT record.mode, record.ver_no, t.category_name, c.category_color, c.category_priority, t.task_name, t.task_color, t.task_icon, t.task_priority, record.cost_time AS cost_time " +
             " FROM (SELECT 'DAY' AS mode, t.ver_no, t.category_name, t.task_name, SUM(t.cost_time) AS cost_time " +
             "         FROM time_tracing_table t " +
