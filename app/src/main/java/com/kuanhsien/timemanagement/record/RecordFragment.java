@@ -4,29 +4,22 @@ package com.kuanhsien.timemanagement.record;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.kuanhsien.timemanagement.MainActivity;
 import com.kuanhsien.timemanagement.R;
-import com.kuanhsien.timemanagement.TimeManagementApplication;
 import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
-import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTime;
 import com.kuanhsien.timemanagement.object.TimeTracingTable;
-import com.kuanhsien.timemanagement.task.CategoryTaskListAdapter;
-import com.kuanhsien.timemanagement.task.CategoryTaskListContract;
-import com.kuanhsien.timemanagement.task.CategoryTaskListPresenter;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
 import com.kuanhsien.timemanagement.utils.ParseTime;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,7 +32,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * A simple {@link Fragment} subclass.
  */
-public class RecordFragment extends Fragment implements RecordContract.View {
+public class RecordFragment extends Fragment implements RecordContract.View, View.OnClickListener {
 
     private static final String MSG = "RecordFragment: ";
 
@@ -54,6 +47,8 @@ public class RecordFragment extends Fragment implements RecordContract.View {
 
     private TextView mTextviewRecordCurrentTask;
     private TextView mTextviewRecordCurrentTime;
+    private Button mButtonRecordLater;
+    private Button mButtonRecordSummit;
 
 
     public RecordFragment() {
@@ -92,6 +87,13 @@ public class RecordFragment extends Fragment implements RecordContract.View {
         mTextviewRecordCurrentTask = root.findViewById(R.id.textview_record_current_task);
         mTextviewRecordCurrentTime = root.findViewById(R.id.textview_record_current_time);
 
+        mButtonRecordLater = root.findViewById(R.id.button_record_later);
+        mButtonRecordLater.setOnClickListener(this);
+
+        mButtonRecordSummit = root.findViewById(R.id.button_record_submit);
+        mButtonRecordSummit.setOnClickListener(this);
+
+
         RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recyclerview_record_button);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), Constants.RECORD_TASK_SPAN_COUNT));
         recyclerView.setAdapter(mRecordAdapter);
@@ -127,6 +129,26 @@ public class RecordFragment extends Fragment implements RecordContract.View {
         mPresenter.start();
     }
 
+
+    @Override
+    public void onClick(View v) {
+
+        if (v.getId() == R.id.button_record_later) {
+
+            // user choose ask later
+            showTraceUi();
+
+        } else if (v.getId() == R.id.button_record_submit) {
+
+            // user click summit
+            showTraceUi();
+
+        } else {
+            Logger.d(Constants.TAG, MSG + "Exception: enter else of onClick, view.getId is " + v.getId());
+        }
+    }
+
+
     @Override
     public void showCategoryTaskList(List<GetCategoryTaskList> bean) {
         mRecordAdapter.updateData(bean);
@@ -137,7 +159,7 @@ public class RecordFragment extends Fragment implements RecordContract.View {
 
         mTextviewRecordCurrentTask.setText("Current Task: " + bean.getTaskName());
         mTextviewRecordCurrentTime.setText("Since " + ParseTime.msToStr(bean.getStartTime())
-                + " (" + ParseTime.msToStrDiff(bean.getStartTime(), new Date().getTime()) + ")" );  // hour + "hr " + min + "min"
+                + " (" + ParseTime.msToHourMinDiff(bean.getStartTime(), new Date().getTime()) + ")" );  // hour + "hr " + min + "min"
 
         mRecordAdapter.updateCurrentTraceItem(bean);
     }
@@ -275,4 +297,5 @@ public class RecordFragment extends Fragment implements RecordContract.View {
     public void showTraceUi() {
         ((MainActivity) getActivity()).transToTrace();
     }
+
 }

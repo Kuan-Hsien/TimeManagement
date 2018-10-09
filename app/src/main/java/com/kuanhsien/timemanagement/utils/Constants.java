@@ -61,6 +61,31 @@ public class Constants {
     public static final int RECORD_TASK_SPAN_COUNT = 4;
 
 
+    // ** Notification
+    // 通知頻道的 ID
+    public static final String NOTIFICATION_CHANNEL_ID_ONGOING = "ongoing_task";
+    public static final String NOTIFICATION_CHANNEL_ID_COMPLETE = "complete_task";
+    public static final String NOTIFICATION_CHANNEL_ID_REMAINING_TIME = "remaining_time";
+    public static final String NOTIFICATION_CHANNEL_ID_SUMMARY = "summary";
+
+    public static final String NOTIFICATION_CHANNEL_NAME_ONGOING = "Ongoing task";
+    public static final String NOTIFICATION_CHANNEL_NAME_COMPLETE = "Complete task";
+    public static final String NOTIFICATION_CHANNEL_NAME_REMAINING_TIME = "Remaining time";
+    public static final String NOTIFICATION_CHANNEL_NAME_SUMMARY = "Summary";
+
+    // notify ID
+    public static final int NOTIFY_ID_ONGOING = 9001;
+    public static final int NOTIFY_ID_COMPLETE = 9002;
+    public static final int NOTIFY_ID_REMAINING_TIME = 9003;
+    public static final int NOTIFY_ID_SUMMARY = 9004;
+
+    // notification time
+//    public static final int NOTIFICATION_TIME_ONGOING = 9001;
+//    public static final int NOTIFICATION_TIME_COMPLETE = 9001;
+//    public static final int NOTIFICATION_TIME_REMAINING_TIME = 9001;
+    public static final int NOTIFICATION_TIME_SUMMARY = 1000;
+
+
     // Database
     // Plan (set target)
     public static final String MODE_PERIOD = "MODE_PERIOD";

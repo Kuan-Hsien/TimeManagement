@@ -29,6 +29,7 @@ import com.kuanhsien.timemanagement.object.CategoryDefineTable;
 import com.kuanhsien.timemanagement.object.TaskDefineTable;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
+import com.kuanhsien.timemanagement.utils.ParseTime;
 
 import java.util.List;
 
@@ -255,7 +256,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         setToolbarTitle(getResources().getString(R.string.page_title_trace));
 
 // [TODO] 找個合適的地方啟動 JobScheduler
-//        startJobScheduler();
+        startJobSchedulerDailySummary();
 
     }
 
@@ -274,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         setToolbarTitle(getResources().getString(R.string.page_title_record));
 
-//        cancelAllJobScheduler();
+        cancelAllJobScheduler();
     }
 
     public void transToTrace() {
@@ -354,7 +355,33 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     // ****** Create JobScheduler to start a schedule job ******
     // (start JobSchedulerService at specific time to create a notification)
 
-    private void startJobScheduler() {
+    private void startJobSchedulerDailySummary() {
+
+        Logger.d(Constants.TAG, MSG + "Start scheduling job");
+
+        ComponentName componentName = new ComponentName(this, JobSchedulerServiceDailySummary.class.getName());   // service name
+
+        JobInfo jobInfo = new JobInfo.Builder(Constants.SCHEDULE_JOB_ID_DAILY_SUMMARY, componentName)
+//                .setPeriodic(10 * 1000)
+
+                .setMinimumLatency(10*1000)
+                .setOverrideDeadline(10*1000)
+                .setPersisted(true)     // 為了讓重開機還能繼續執行此 job
+//                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED) // 只有網路不限流量時 (e.g. WIFI)
+//                .setRequiresDeviceIdle(false)
+//                .setRequiresCharging(false)
+                .build();
+
+        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+
+        int result = scheduler.schedule(jobInfo);   // start a jobScheduler task, return successful job id (return 0 if failed)
+
+        if (result == JobScheduler.RESULT_SUCCESS) {
+            Logger.d(Constants.TAG, MSG + "Job scheduled successfully!");
+        }
+    }
+
+    private void startJobSchedulerDaily() {
 
         Logger.d(Constants.TAG, MSG + "Start scheduling job");
 
@@ -380,7 +407,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         }
 
     }
-
 
     private void cancelJobScheduler(int jobId) {
 

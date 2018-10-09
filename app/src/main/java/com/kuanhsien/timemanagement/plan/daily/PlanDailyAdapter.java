@@ -360,7 +360,7 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
             Logger.d(Constants.TAG, MSG + "bindView setColor: " + item.getTaskColor() + " Taskname: " + item.getTaskName());
 
             getFrameLayoutPlanTaskIcon().setBackgroundColor(Color.parseColor(item.getTaskColor()));
-            getImageviewPlanTaskIcon().setImageDrawable(TimeManagementApplication.getIconResource(item.getTaskIcon()));
+            getImageviewPlanTaskIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(item.getTaskIcon()));
             getTextviewPlanTaskName().setText(item.getTaskName());
             getTextviewPlanTaskCostTime().setText(ParseTime.intToHourMin(item.getCostTime()));
 

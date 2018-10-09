@@ -48,10 +48,10 @@ public class JobSchedulerService extends JobService {
     }
 
     /*
-        START_STICKY : Service被殺掉, 系統會重啟, 但是Intent會是null。
-        START_NOT_STICKY : Service被系統殺掉, 不會重啟。
-        START_REDELIVER_INTENT : Service被系統殺掉, 重啟且Intent會重傳。
-        透過以上的參數, 放在onStartCommand的return參數就可以使用重啟的功能了。
+        START_STICKY : Service 被殺掉, 系統會重啟, 但是 Intent 會是 null。
+        START_NOT_STICKY : Service 被系統殺掉, 不會重啟。
+        START_REDELIVER_INTENT : Service 被系統殺掉, 重啟且 Intent 會重傳。
+        透過以上的參數, 放在 onStartCommand 的 return 參數就可以使用重啟的功能了。
     */
 
     @Override
@@ -63,8 +63,8 @@ public class JobSchedulerService extends JobService {
     }
 
 
-    // 返回true，表示该工作耗时，同时工作处理完成后需要调用onStopJob销毁（jobFinished）
-    // 返回false，任务运行不需要很长时间，到return时已完成任务处理
+    // 返回 true，表示該工作耗時，工作處理完成後需要调用 onStopJob 销毁（jobFinished）
+    // 返回 false，代表任務不需要很長時間，到 return 時已完成任務處理
     @Override
     public boolean onStartJob(JobParameters params) {
         Logger.i(Constants.TAG, MSG + "onStartJob");
@@ -79,8 +79,8 @@ public class JobSchedulerService extends JobService {
     }
 
 
-    // 有且仅有onStartJob返回值为true时，才会调用onStopJob来销毁job
-    // 返回false来销毁这个工作
+    // 有且僅有 onStartJob 返回值為 true 時，才會調用 onStopJob 銷毀 job
+    // 返回 false 來直接銷毀這個工作
     @Override
     public boolean onStopJob(JobParameters params) {
         Logger.i(Constants.TAG, MSG + "onStopJob");
@@ -108,7 +108,7 @@ public class JobSchedulerService extends JobService {
 
         JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
 
-        int result = scheduler.schedule(jobInfo);   // start a jobScheduler task, return sucessful job id (return 0 if failed)
+        int result = scheduler.schedule(jobInfo);   // start a jobScheduler task, return successful job id (return 0 if failed)
         if (result == JobScheduler.RESULT_SUCCESS) {
             Logger.d(Constants.TAG, MSG + "Job scheduled successfully!");
         }
@@ -120,6 +120,7 @@ public class JobSchedulerService extends JobService {
 
 
 
+    // 立即發送一個 notification
     private void startNotification() {
         int id = 9487;  // 設一個自己知道的 ID 就可以
         String TEST_NOTIFY_ID = "test"; // 通知頻道的 ID

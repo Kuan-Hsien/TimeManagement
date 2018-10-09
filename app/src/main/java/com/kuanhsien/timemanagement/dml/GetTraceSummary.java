@@ -1,7 +1,6 @@
-package com.kuanhsien.timemanagement.object;
+package com.kuanhsien.timemanagement.dml;
 
 import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
 import android.support.annotation.NonNull;
 
 import com.kuanhsien.timemanagement.utils.Constants;
@@ -9,13 +8,11 @@ import com.kuanhsien.timemanagement.utils.Logger;
 
 
 /**
- * Created by Ken on 2018/10/07
+ * Created by Ken on 2018/10/08
  */
-@Entity(tableName = "time_tracing_table",      // table-name (case-sensitive)
-        primaryKeys = {"ver_no", "category_name", "task_name", "start_time"})
-public class TimeTracingTable {
+public class GetTraceSummary {
 
-    private static final String MSG = "TimeTracingTable: ";
+    private static final String MSG = "GetTraceSummary: ";
 
     @NonNull
     @ColumnInfo(name = "ver_no")
@@ -28,13 +25,6 @@ public class TimeTracingTable {
     @NonNull
     @ColumnInfo(name = "task_name")
     private String mTaskName;
-
-    @NonNull
-    @ColumnInfo(name = "start_time")
-    private Long mStartTime;
-
-    @ColumnInfo(name = "end_time")
-    private Long mEndTime;
 
     @ColumnInfo(name = "cost_time")
     private Long mCostTime;
@@ -59,14 +49,6 @@ public class TimeTracingTable {
         return mTaskName;
     }
 
-    public Long getStartTime() {
-        return mStartTime;
-    }
-
-    public Long getEndTime() {
-        return mEndTime;
-    }
-
     public Long getCostTime() {
         return mCostTime;
     }
@@ -87,14 +69,6 @@ public class TimeTracingTable {
         mTaskName = taskName;
     }
 
-    public void setStartTime(@NonNull Long startTime) {
-        mStartTime = startTime;
-    }
-
-    public void setEndTime(Long endTime) {
-        mEndTime = endTime;
-    }
-
     public void setCostTime(Long costTime) {
         mCostTime = costTime;
     }
@@ -103,46 +77,38 @@ public class TimeTracingTable {
         mUpdateDate = updateDate;
     }
 
-    public TimeTracingTable() {
+    public GetTraceSummary() {
 
     }
 
-    public TimeTracingTable(TimeTracingTable bean) {
+    public GetTraceSummary(GetTraceSummary bean) {
         mVerNo = bean.getVerNo();
         mCategoryName = bean.getCategoryName();
         mTaskName = bean.getTaskName();
-        mStartTime = bean.getStartTime();
-        mEndTime = bean.getEndTime();
         mCostTime = bean.getCostTime();
         mUpdateDate = bean.getUpdateDate();
     }
 
-    public TimeTracingTable(@NonNull String verNo, @NonNull String categoryName, @NonNull String taskName, @NonNull Long startTime, Long endTime, Long costTime) {
+    public GetTraceSummary(@NonNull String verNo, @NonNull String categoryName, @NonNull String taskName, Long costTime) {
         mVerNo = verNo;
         mCategoryName = categoryName;
         mTaskName = taskName;
-        mStartTime = startTime;
-        mEndTime = endTime;
         mCostTime = costTime;
     }
 
-    public TimeTracingTable(@NonNull String verNo, @NonNull String categoryName, @NonNull String taskName, @NonNull Long startTime, Long endTime, Long costTime, Long updateDate) {
+    public GetTraceSummary(@NonNull String verNo, @NonNull String categoryName, @NonNull String taskName, Long costTime, Long updateDate) {
         mVerNo = verNo;
         mCategoryName = categoryName;
         mTaskName = taskName;
-        mStartTime = startTime;
-        mEndTime = endTime;
         mCostTime = costTime;
         mUpdateDate = updateDate;
     }
 
     public void LogD () {
-        Logger.d(Constants.TAG, MSG + "--------------------- Trace -------------------------");
+        Logger.d(Constants.TAG, MSG + "--------------------- GetTraceSummary -------------------------");
         Logger.d(Constants.TAG, MSG + "VerNo: " + getVerNo());
         Logger.d(Constants.TAG, MSG + "CategoryName: " + getCategoryName());
         Logger.d(Constants.TAG, MSG + "TaskName: " + getTaskName());
-        Logger.d(Constants.TAG, MSG + "StartTime: " + getStartTime());
-        Logger.d(Constants.TAG, MSG + "EndTime: " + getEndTime());
         Logger.d(Constants.TAG, MSG + "CostTime: " + getCostTime());
         Logger.d(Constants.TAG, MSG + "-----------------------------------------------------");
     }

@@ -7,6 +7,8 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
+import com.kuanhsien.timemanagement.dml.GetTraceDetail;
+import com.kuanhsien.timemanagement.dml.GetTraceSummary;
 import com.kuanhsien.timemanagement.object.CategoryDefineTable;
 import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTime;
 import com.kuanhsien.timemanagement.object.TaskDefineTable;
@@ -280,4 +282,78 @@ public interface DatabaseDao {
 
     @Delete()
     void deleteTraceItem(TimeTracingTable item);
+
+
+
+
+    // Query summary trace result in a specific time period
+    // category and task could be ALL
+    @Query("SELECT t.ver_no, t.category_name, t.task_name, SUM(t.cost_time) AS cost_time " +
+            " FROM time_tracing_table t " +
+            "WHERE t.ver_no >= :startVerNo " +
+            "  AND t.ver_no <= :endVerNo " +
+            "  AND ( (t.category_name = 'ALL') OR (t.category_name IN (:categoryList)) ) " +
+            "  AND ( (t.task_name = 'ALL') OR (t.task_name IN (:taskList)) ) " +
+            "GROUP BY t.ver_no, t.category_name, t.task_name " +
+            "ORDER BY t.ver_no, t.category_name, t.task_name")
+    List<GetTraceSummary> getTraceSummary(String startVerNo, String endVerNo, String categoryList, String taskList);
+
+
+    // Query record-list (records inner join with task/category master table to get detail trace result) (both daily or weekly)
+    // mode could be one of { "DAILY", "WEEKLY", "ALL" }
+    // category and task also could be ALL
+    @Query("SELECT record.mode, record.ver_no, t.category_name, c.category_color, c.category_priority, t.task_name, t.task_color, t.task_icon, t.task_priority, record.cost_time AS cost_time " +
+            " FROM (SELECT 'DAY' AS mode, t.ver_no, t.category_name, t.task_name, SUM(t.cost_time) AS cost_time " +
+            "         FROM time_tracing_table t " +
+            "        WHERE t.ver_no >= :startVerNo " +
+            "          AND t.ver_no <= :endVerNo " +
+            "          AND ( (t.category_name = 'ALL') OR (t.category_name IN (:categoryList)) ) " +
+            "          AND ( (t.task_name = 'ALL') OR (t.task_name IN (:taskList)) ) " +
+            "          AND (:mode = 'DAILY' OR :mode = 'ALL') " +
+            "        GROUP BY t.ver_no, t.category_name, t.task_name" +
+            "        UNION ALL " +
+            "       SELECT 'WEEK' AS mode, :startVerNo AS ver_no, t.category_name, t.task_name, SUM(t.cost_time) AS cost_time " +
+            "         FROM time_tracing_table t " +
+            "        WHERE t.ver_no >= :startVerNo " +
+            "          AND t.ver_no <= :endVerNo " +
+            "          AND ( (t.category_name = 'ALL') OR (t.category_name IN (:categoryList)) ) " +
+            "          AND ( (t.task_name = 'ALL') OR (t.task_name IN (:taskList)) ) " +
+            "          AND (:mode = 'WEEKLY' OR :mode = 'ALL') " +
+            "        GROUP BY t.category_name, t.task_name" +
+            "      ) record " +
+            "INNER JOIN task_define_table t " +
+            "   ON record.task_name = t.task_name " +
+            "INNER JOIN category_define_table c " +
+            "   ON record.category_name = c.category_name " +
+            "ORDER BY record.mode, record.ver_no, c.category_priority, t.task_priority")
+    List<GetTraceDetail> getTraceDetail(String mode, String startVerNo, String endVerNo, String categoryList, String taskList);
+
+
+    @Query("SELECT record.mode, record.ver_no, t.category_name, c.category_color, c.category_priority, t.task_name, t.task_color, t.task_icon, t.task_priority, record.cost_time AS cost_time " +
+            " FROM (SELECT 'DAY' AS mode, t.ver_no, t.category_name, t.task_name, SUM(t.cost_time) AS cost_time " +
+            "         FROM time_tracing_table t " +
+            "        WHERE t.ver_no = :endVerNo " +
+            "          AND ( (t.category_name = 'ALL') OR (t.category_name IN (:categoryList)) ) " +
+            "          AND ( (t.task_name = 'ALL') OR (t.task_name IN (:taskList)) ) " +
+            "          AND (:mode = 'DAILY' OR :mode = 'ALL') " +
+            "        GROUP BY t.ver_no, t.category_name, t.task_name" +
+            "        UNION ALL " +
+            "       SELECT 'WEEK' AS mode, :startVerNo AS ver_no, t.category_name, t.task_name, SUM(t.cost_time) AS cost_time " +
+            "         FROM time_tracing_table t " +
+            "        WHERE t.ver_no >= :startVerNo " +
+            "          AND t.ver_no <= :endVerNo " +
+            "          AND ( (t.category_name = 'ALL') OR (t.category_name IN (:categoryList)) ) " +
+            "          AND ( (t.task_name = 'ALL') OR (t.task_name IN (:taskList)) ) " +
+            "          AND (:mode = 'WEEKLY' OR :mode = 'ALL') " +
+            "        GROUP BY t.category_name, t.task_name" +
+            "      ) record " +
+            "INNER JOIN task_define_table t " +
+            "   ON record.task_name = t.task_name " +
+            "INNER JOIN category_define_table c " +
+            "   ON record.category_name = c.category_name " +
+            "ORDER BY record.mode, record.ver_no, c.category_priority, t.task_priority")
+    List<GetTraceDetail> getTraceDailySummary(String mode, String startVerNo, String endVerNo, String categoryList, String taskList);
+
+
+
 }

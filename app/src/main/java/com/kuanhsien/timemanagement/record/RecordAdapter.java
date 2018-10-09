@@ -289,6 +289,7 @@ public class RecordAdapter extends RecyclerView.Adapter {
                         longCurTime - mCurrentItem.getStartTime(),
                         longCurTime
                 );
+                Logger.d(Constants.TAG, MSG + "stop current task: ");
                 lastItem.LogD();
                 itemList.add(lastItem);
 
@@ -302,13 +303,13 @@ public class RecordAdapter extends RecyclerView.Adapter {
                         null,
                         longCurTime
                 );
-
+                Logger.d(Constants.TAG, MSG + "start new task: ");
                 newItem.LogD();
                 itemList.add(newItem);
 
 
                 // (3) 交給 presenter 塞進資料庫
-                mPresenter.saveTraceResults(itemList);
+                mPresenter.saveTraceResults(itemList, mCurrentItem.getVerNo(), mCurrentItem.getVerNo(), mCurrentItem.getCategoryName(), mCurrentItem.getTaskName());
             }
         }
 
@@ -326,7 +327,7 @@ public class RecordAdapter extends RecyclerView.Adapter {
 //            getFrameLayoutTaskColor().setBackgroundColor(Color.parseColor(item.getTaskColor()));
 
             getConstraintLayoutTaskItem().setBackgroundColor(Color.parseColor(item.getTaskColor()));
-            getImageviewTaskIcon().setImageDrawable(TimeManagementApplication.getIconResource(item.getTaskIcon()));
+            getImageviewTaskIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(item.getTaskIcon()));
             getTextviewTaskName().setText(item.getTaskName());
             setPosition(pos);
         }

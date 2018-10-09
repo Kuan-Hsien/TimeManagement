@@ -360,7 +360,7 @@ public class TraceDailyAdapter extends RecyclerView.Adapter {
             Logger.d(Constants.TAG, MSG + "bindView setColor: " + item.getTaskColor() + " Taskname: " + item.getTaskName());
 
             getFrameLayoutTraceTaskIcon().setBackgroundColor(Color.parseColor(item.getTaskColor()));
-            getImageviewTraceTaskIcon().setImageDrawable(TimeManagementApplication.getIconResource(item.getTaskIcon()));
+            getImageviewTraceTaskIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(item.getTaskIcon()));
             getTextviewTraceTaskName().setText(item.getTaskName());
             getTextviewTraceTaskCostTime().setText(ParseTime.intToHourMin(item.getCostTime()));
 

@@ -244,7 +244,7 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
             getImageviewCategeoryColorLabel().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
 
             getFrameLayoutTaskColor().setBackgroundColor(Color.parseColor(item.getTaskColor()));
-            getImageviewTaskIcon().setImageDrawable(TimeManagementApplication.getIconResource(item.getTaskIcon()));
+            getImageviewTaskIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(item.getTaskIcon()));
             getTextviewTaskName().setText(item.getTaskName());
             setPosition(pos);
         }

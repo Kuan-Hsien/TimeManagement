@@ -88,7 +88,7 @@ public interface RecordContract {
         // 2-1. [Send-to-Model] database insert to update data (insert new targets or adjust time for existed targets)
         // 2-2. [Send-to-Model] database delete to delete data (delete existed targets)
 //        void saveTaskResults(List<TaskDefineTable> targetList, List<TaskDefineTable> deleteTargetList);
-        void saveTraceResults(List<TimeTracingTable> traceList);
+        void saveTraceResults(List<TimeTracingTable> traceList, String startVerNo, String endVerNo, String categoryList, String taskList);
 
 
         // 2-3. [Send-to-View] request fragment to show data

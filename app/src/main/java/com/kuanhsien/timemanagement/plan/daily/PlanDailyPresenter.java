@@ -39,6 +39,7 @@ public class PlanDailyPresenter implements PlanDailyContract.Presenter {
     private int mfirstVisibleItemPosition;
 
     private boolean mLoading = false;
+    private boolean isFirst = false;
 
 
     public PlanDailyPresenter(PlanDailyContract.View mainView) {
@@ -48,8 +49,10 @@ public class PlanDailyPresenter implements PlanDailyContract.Presenter {
 
     @Override
     public void start() {
-        prepareRoomDatabase();
-//        getTaskWithPlanTime();
+
+//        prepareRoomDatabase();
+        getTaskWithPlanTime();
+
     }
 
 

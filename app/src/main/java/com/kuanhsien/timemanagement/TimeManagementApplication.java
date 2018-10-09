@@ -60,7 +60,7 @@ public class TimeManagementApplication extends Application {
 
 
 
-    public static Drawable getIconResource(String strIcon) {
+    public static Drawable getIconResourceDrawable(String strIcon) {
 
         if (strIcon.equals("icon_sleep")) {
             return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_sleep);
@@ -96,6 +96,45 @@ public class TimeManagementApplication extends Application {
             return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_work);
         } else {
             return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_sleep);
+        }
+    }
+
+    public static int getIconResourceId(String strIcon) {
+
+        if (strIcon.equals("icon_sleep")) {
+            return R.drawable.icon_sleep;
+        } else if (strIcon.equals("icon_bike")) {
+            return R.drawable.icon_bike;
+        } else if (strIcon.equals("icon_book")) {
+            return R.drawable.icon_book;
+        } else if (strIcon.equals("icon_car")) {
+            return R.drawable.icon_car;
+        } else if (strIcon.equals("icon_computer")) {
+            return R.drawable.icon_computer;
+        } else if (strIcon.equals("icon_drunk")) {
+            return R.drawable.icon_drunk;
+        } else if (strIcon.equals("icon_friend")) {
+            return R.drawable.icon_friend;
+        } else if (strIcon.equals("icon_food")) {
+            return R.drawable.icon_food;
+        } else if (strIcon.equals("icon_home")) {
+            return R.drawable.icon_home;
+        } else if (strIcon.equals("icon_lover")) {
+            return R.drawable.icon_lover;
+        } else if (strIcon.equals("icon_music")) {
+            return R.drawable.icon_music;
+        } else if (strIcon.equals("icon_paw")) {
+            return R.drawable.icon_paw;
+        } else if (strIcon.equals("icon_phonecall")) {
+            return R.drawable.icon_phonecall;
+        } else if (strIcon.equals("icon_swim")) {
+            return R.drawable.icon_swim;
+        } else if (strIcon.equals("icon_walk")) {
+            return R.drawable.icon_walk;
+        } else if (strIcon.equals("icon_work")) {
+            return R.drawable.icon_work;
+        } else {
+            return R.drawable.icon_sleep;
         }
     }
 }

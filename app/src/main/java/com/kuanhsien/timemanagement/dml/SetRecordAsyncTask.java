@@ -15,40 +15,51 @@ import java.util.List;
 /**
  * Created by Ken on 2018/10/07
  */
-public class SetRecordAsyncTask extends AsyncTask<Object, Void, List<TimeTracingTable>> {
+public class SetRecordAsyncTask extends AsyncTask<Object, Void, List<GetTraceSummary>> {
 
     private static final String MSG = "SetRecordAsyncTask:";
     private SetRecordCallback mCallback;
 
     private String mErrorMessage;
+
     private List<TimeTracingTable> mRecordList;
+    private String mStartVerNo;
+    private String mEndVerNo;
+    private String mCategoryList;
+    private String mTaskList;
 
 
-    public SetRecordAsyncTask(List<TimeTracingTable> recordList, SetRecordCallback callback) {
+    public SetRecordAsyncTask(List<TimeTracingTable> recordList,
+                              String startVerNo, String endVerNo, String categoryList, String taskList,
+                              SetRecordCallback callback) {
         mCallback = callback;
         mErrorMessage = "";
 
         mRecordList = recordList;
+        mStartVerNo = startVerNo;
+        mEndVerNo = endVerNo;
+        mCategoryList = categoryList;
+        mTaskList = taskList;
     }
 
     @Override
-    protected List<TimeTracingTable> doInBackground(Object[] objects) {
+    protected List<GetTraceSummary> doInBackground(Object[] objects) {
 
 //        try {
 
         DatabaseDao dao = AppDatabase.getDatabase(TimeManagementApplication.getAppContext()).getDatabaseDao();
 
-        // edit and add record
+        // (1) insert trace results and new-start task
         for (int i = 0 ; i < mRecordList.size() ; ++i) {
             dao.addTraceItem(mRecordList.get(i));
         }
 
-        //[TODO] delete log
-        Logger.d(Constants.TAG, MSG + "Trace List: ");
-        List<TimeTracingTable> recordList = dao.getAllTraceList();
+        // (2) Query trace summary in a specific period
+        Logger.d(Constants.TAG, MSG + "Trace summary from " + mStartVerNo + " to " + mEndVerNo + " : ");
+        List<GetTraceSummary> traceSummaryList = dao.getTraceSummary(mStartVerNo, mEndVerNo, mCategoryList, mTaskList);
         // edit and add record
-        for (int i = 0 ; i < recordList.size() ; ++i) {
-            recordList.get(i).LogD();
+        for (int i = 0 ; i < traceSummaryList.size() ; ++i) {
+            traceSummaryList.get(i).LogD();
         }
 
 
@@ -71,11 +82,11 @@ public class SetRecordAsyncTask extends AsyncTask<Object, Void, List<TimeTracing
 //            e.printStackTrace();
 //        }
 
-        return mRecordList;
+        return traceSummaryList;
     }
 
     @Override
-    protected void onPostExecute(List<TimeTracingTable> bean) {
+    protected void onPostExecute(List<GetTraceSummary> bean) {
         super.onPostExecute(bean);
 
         if (bean != null) {

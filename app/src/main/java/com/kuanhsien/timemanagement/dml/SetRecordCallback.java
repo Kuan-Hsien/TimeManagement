@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface SetRecordCallback {
 
-    public void onCompleted(List<TimeTracingTable> bean);
+    public void onCompleted(List<GetTraceSummary> bean);
 
     public void onError(String errorMessage);
 }
