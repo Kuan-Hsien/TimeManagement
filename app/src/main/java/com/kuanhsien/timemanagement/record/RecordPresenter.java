@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -29,8 +28,6 @@ import com.kuanhsien.timemanagement.dml.GetTraceSummary;
 import com.kuanhsien.timemanagement.dml.SetRecordAsyncTask;
 import com.kuanhsien.timemanagement.dml.SetRecordCallback;
 import com.kuanhsien.timemanagement.TimeManagementApplication;
-import com.kuanhsien.timemanagement.database.AppDatabase;
-import com.kuanhsien.timemanagement.database.DatabaseDao;
 import com.kuanhsien.timemanagement.object.TimeTracingTable;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
@@ -76,7 +73,7 @@ public class RecordPresenter implements RecordContract.Presenter {
         // 取得現在時間
         Date curDate = new Date();
         // 定義時間格式
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO);
         // 透過SimpleDateFormat的format方法將 Date 轉為字串
         String strVerNo = simpleDateFormat.format(curDate);
 
@@ -241,6 +238,7 @@ public class RecordPresenter implements RecordContract.Presenter {
         // insert time_tracing_table
         new SetRecordAsyncTask(recordList, startVerNo, endVerNo, categoryList, taskList, new SetRecordCallback() {
 
+            // after insert a new record, need to get the current trace summary and show in notification
             @Override
             public void onCompleted(List<GetTraceSummary> bean) {
 
@@ -257,7 +255,7 @@ public class RecordPresenter implements RecordContract.Presenter {
                 // 取得現在時間
                 Date curDate = new Date();
                 // 定義時間格式
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO);
                 // 透過SimpleDateFormat的format方法將 Date 轉為字串
                 String strVerNo = simpleDateFormat.format(curDate);
 

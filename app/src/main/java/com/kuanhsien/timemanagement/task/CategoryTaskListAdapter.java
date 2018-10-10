@@ -378,7 +378,7 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
                 // [TODO] 未來可以一次新增多個 task (多加一個小打勾，像 trello 新增卡片)
                 // 1. 取得現在時間當作 update_date
                 Date curDate = new Date();
-                SimpleDateFormat simpleUpdateDateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+                SimpleDateFormat simpleUpdateDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_UPDATE_DATE);
                 // 透過SimpleDateFormat的format方法將 Date 轉為字串
                 String strUpdateTime = simpleUpdateDateFormat.format(curDate);
 

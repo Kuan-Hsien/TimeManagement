@@ -96,7 +96,7 @@ public class CategoryTaskListPresenter implements CategoryTaskListContract.Prese
 
             // 取得現在時間
             Date currentTime = new Date();
-            String mStrStartTime = new SimpleDateFormat("yyyy/MM/dd").format(currentTime); // 擷取到日期
+            String mStrStartTime = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO).format(currentTime); // 擷取到日期
 
             // 新增一個Calendar,並且指定時間
             Calendar calendar = Calendar.getInstance();
@@ -104,7 +104,7 @@ public class CategoryTaskListPresenter implements CategoryTaskListContract.Prese
             calendar.add(Calendar.HOUR, 24);    // +24 小時
 
             Date tomorrowNow = calendar.getTime();  // 取得 24 小時後的現在時間
-            String mStrEndTime = new SimpleDateFormat("yyyy/MM/dd").format(tomorrowNow);   // 擷取到日期
+            String mStrEndTime = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO).format(tomorrowNow);   // 擷取到日期
 
 
             new GetCategoryTaskListAsyncTask(new GetCategoryTaskListCallback() {

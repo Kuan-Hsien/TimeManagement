@@ -156,7 +156,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
             mIntAdjustCostTime = new int[intArraySize];
             for (int i = 0 ; i < intArraySize ; ++i) {
-                mIntAdjustCostTime[i] = mPlanningList.get(i).getCostTime();
+                mIntAdjustCostTime[i] = mPlanningList.get(i).getCostTime() / (60*1000);;
             }
 
             Logger.d(Constants.TAG, MSG + "max-costTime: " + mIntMaxCostTime);
@@ -164,7 +164,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
         mIntTotalCostTime = 0;
         for (int i = 0 ; i < mPlanningList.size() ; ++i) {
-            mIntTotalCostTime += mPlanningList.get(i).getCostTime();
+            mIntTotalCostTime += mPlanningList.get(i).getCostTime() / (60*1000);;
         }
 
         Logger.d(Constants.TAG, MSG + "total-costTime: " + mIntTotalCostTime);
@@ -362,7 +362,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
             getFrameLayoutPlanTaskIcon().setBackgroundColor(Color.parseColor(item.getTaskColor()));
             getImageviewPlanTaskIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(item.getTaskIcon()));
             getTextviewPlanTaskName().setText(item.getTaskName());
-            getTextviewPlanTaskCostTime().setText(ParseTime.intToHourMin(item.getCostTime()));
+            getTextviewPlanTaskCostTime().setText(ParseTime.msToHourMin(item.getCostTime()));
 
             setPosition(pos);
 
@@ -375,7 +375,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
                 getImageviewPlanTaskDeleteHint().setVisibility(View.VISIBLE);
                 getSeekBarPlanTaskAdjustTime().setVisibility(View.VISIBLE);
-                getSeekBarPlanTaskAdjustTime().setProgress(item.getCostTime());
+                getSeekBarPlanTaskAdjustTime().setProgress(item.getCostTime() / (60 * 1000));
                 getSeekBarPlanTaskAdjustTime().getProgressDrawable().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.SRC_IN);
 //                getSeekBarPlanTaskAdjustTime().getProgressDrawable().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.SRC_ATOP); // 疑似也是改 thumb
                 getSeekBarPlanTaskAdjustTime().getThumb().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.MULTIPLY);
@@ -480,14 +480,15 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                 // 1.1 做成 startTime, endTime
                 Date curDate = new Date();
                 // 定義時間格式
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO);
                 // 透過SimpleDateFormat的format方法將 Date 轉為字串
                 String strStartTime = simpleDateFormat.format(curDate);
+                String strEndTime = Constants.DB_ENDLESS_DATE;
 
                 // 1.2 update_date
-                SimpleDateFormat simpleUpdateDateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+                SimpleDateFormat simpleUpdateDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_UPDATE_DATE);
                 // 透過SimpleDateFormat的format方法將 Date 轉為字串
-                String strCurrentTime = simpleDateFormat.format(curDate);
+                String strCurrentTime = simpleUpdateDateFormat.format(curDate);
 
                 // 2. 新增兩個 List 以 (1) 存放要存回 database 的資料 (2) 要從 database 刪除的資料
                 List<TimePlanningTable> targetList = new ArrayList<>();
@@ -517,7 +518,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                                 mPlanningList.get(i).getTaskName(),
                                 mPlanningList.get(i).getStartTime(),
                                 mPlanningList.get(i).getEndTime(),
-                                mIntAdjustCostTime[i], // origin: mPlanningList.get(i).getCostTime(),
+                                mIntAdjustCostTime[i] * 60 * 1000, // origin: mPlanningList.get(i).getCostTime(),
                                 strCurrentTime));
 
                         Logger.d(Constants.TAG, MSG + "Add/Edit item: ");
@@ -541,8 +542,8 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                             getTextviewSetTargetCategory().getText().toString().trim(),
                             getTextviewSetTargetTask().getText().toString().trim(),
                             strStartTime,
-                            strStartTime,
-                            mIntNewItemCostTime,
+                            strEndTime,
+                            (long)(mIntNewItemCostTime * 60 * 1000),
                             strCurrentTime
                     ));
                 }

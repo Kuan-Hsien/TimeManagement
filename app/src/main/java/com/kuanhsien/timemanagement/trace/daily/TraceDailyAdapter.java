@@ -156,7 +156,7 @@ public class TraceDailyAdapter extends RecyclerView.Adapter {
 
             mIntAdjustCostTime = new int[intArraySize];
             for (int i = 0 ; i < intArraySize ; ++i) {
-                mIntAdjustCostTime[i] = mTraceningList.get(i).getCostTime();
+                mIntAdjustCostTime[i] = mTraceningList.get(i).getCostTime() / (60 * 1000);
             }
 
             Logger.d(Constants.TAG, MSG + "max-costTime: " + mIntMaxCostTime);
@@ -164,7 +164,7 @@ public class TraceDailyAdapter extends RecyclerView.Adapter {
 
         mIntTotalCostTime = 0;
         for (int i = 0 ; i < mTraceningList.size() ; ++i) {
-            mIntTotalCostTime += mTraceningList.get(i).getCostTime();
+            mIntTotalCostTime += mTraceningList.get(i).getCostTime() / (60 * 1000);
         }
 
         Logger.d(Constants.TAG, MSG + "total-costTime: " + mIntTotalCostTime);
@@ -362,7 +362,7 @@ public class TraceDailyAdapter extends RecyclerView.Adapter {
             getFrameLayoutTraceTaskIcon().setBackgroundColor(Color.parseColor(item.getTaskColor()));
             getImageviewTraceTaskIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(item.getTaskIcon()));
             getTextviewTraceTaskName().setText(item.getTaskName());
-            getTextviewTraceTaskCostTime().setText(ParseTime.intToHourMin(item.getCostTime()));
+            getTextviewTraceTaskCostTime().setText(ParseTime.msToHourMin(item.getCostTime()));
 
             setPosition(pos);
 
@@ -375,7 +375,7 @@ public class TraceDailyAdapter extends RecyclerView.Adapter {
 
                 getImageviewTraceTaskDeleteHint().setVisibility(View.VISIBLE);
                 getSeekBarTraceTaskAdjustTime().setVisibility(View.VISIBLE);
-                getSeekBarTraceTaskAdjustTime().setProgress(item.getCostTime());
+                getSeekBarTraceTaskAdjustTime().setProgress(item.getCostTime() / (60 * 1000));
                 getSeekBarTraceTaskAdjustTime().getProgressDrawable().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.SRC_IN);
 //                getSeekBarTraceTaskAdjustTime().getProgressDrawable().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.SRC_ATOP); // 疑似也是改 thumb
                 getSeekBarTraceTaskAdjustTime().getThumb().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.MULTIPLY);
@@ -480,12 +480,12 @@ public class TraceDailyAdapter extends RecyclerView.Adapter {
                 // 1.1 做成 startTime, endTime
                 Date curDate = new Date();
                 // 定義時間格式
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO);
                 // 透過SimpleDateFormat的format方法將 Date 轉為字串
                 String strStartTime = simpleDateFormat.format(curDate);
 
                 // 1.2 update_date
-                SimpleDateFormat simpleUpdateDateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+                SimpleDateFormat simpleUpdateDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_UPDATE_DATE);
                 // 透過SimpleDateFormat的format方法將 Date 轉為字串
                 String strCurrentTime = simpleDateFormat.format(curDate);
 

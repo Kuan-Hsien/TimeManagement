@@ -111,7 +111,7 @@ public class SetTargetFragment extends Fragment implements SetTargetContract.Vie
             // 取得現在時間
             Date curDate = new Date();
             // 定義時間格式
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO);
             // 透過SimpleDateFormat的format方法將 Date 轉為字串
             String strCurrentTime = simpleDateFormat.format(curDate);
 

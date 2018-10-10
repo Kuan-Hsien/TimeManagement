@@ -216,12 +216,22 @@ public class TimeManagementApplication extends Application {
 
                 DatabaseDao dao = AppDatabase.getDatabase(getAppContext()).getDatabaseDao();
 
-                // 取得現在時間
+                // 1. 取得現在時間
+                // 1.1 做成 startTime, endTime
                 Date curDate = new Date();
                 // 定義時間格式
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO);
                 // 透過SimpleDateFormat的format方法將 Date 轉為字串
-                String strCurrentTime = simpleDateFormat.format(curDate);
+                String strVerNo = simpleDateFormat.format(curDate);
+                String strStartTime = simpleDateFormat.format(curDate);
+                String strEndTime = Constants.DB_ENDLESS_DATE;
+
+                // 1.2 update_date
+                SimpleDateFormat simpleUpdateDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_UPDATE_DATE);
+                // 透過SimpleDateFormat的format方法將 Date 轉為字串
+                String strCurrentTime = simpleUpdateDateFormat.format(curDate);
+
+
 
                 // Prepare default category
                 dao.addCategory(new CategoryDefineTable("Health", false, "#32CD32", 1));
@@ -250,23 +260,23 @@ public class TimeManagementApplication extends Application {
                 dao.addTask(new TaskDefineTable("Others", "Phone", "#FF6347", "icon_phonecall", 11, false));
 
                 // Prepare sample plan
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Sleep", strCurrentTime, strCurrentTime, 480, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Eat", strCurrentTime, strCurrentTime, 120, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Family", "Family", strCurrentTime, strCurrentTime, 120, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Personal", "Study", strCurrentTime, strCurrentTime, 75, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Friend", "Friend", strCurrentTime, strCurrentTime, 75, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Swim", strCurrentTime, strCurrentTime, 75, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Others", "Music", strCurrentTime, strCurrentTime, 75, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Sleep", strCurrentTime, strCurrentTime, 4800, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Eat", strCurrentTime, strCurrentTime, 1200, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Family", "Family", strCurrentTime, strCurrentTime, 1200, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Personal", "Study", strCurrentTime, strCurrentTime, 75, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Friend", "Friend", strCurrentTime, strCurrentTime, 75, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Swim", strCurrentTime, strCurrentTime, 75, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Others", "Music", strCurrentTime, strCurrentTime, 75, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Sleep", strStartTime, strEndTime, 480 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Eat", strStartTime, strEndTime, 120 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Family", "Family", strStartTime, strEndTime, 120 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Personal", "Study", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Friend", "Friend", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Swim", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Others", "Music", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Sleep", strStartTime, strEndTime, 4800 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Eat", strStartTime, strEndTime, 1200 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Family", "Family", strStartTime, strEndTime, 1200 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Personal", "Study", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Friend", "Friend", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Swim", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Others", "Music", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
 
                 // Prepare first trace
-                dao.addTraceItem(new TimeTracingTable(strCurrentTime, "Health", "Sleep",  new Date().getTime(), null, null, new Date().getTime()));
+                dao.addTraceItem(new TimeTracingTable(strVerNo, "Health", "Sleep",  curDate.getTime(), null, null, strCurrentTime));
 
                 // [QUERY]
                 // 可以在這邊撈，目前寫在這邊可以撈出來當前塞進去的資料。

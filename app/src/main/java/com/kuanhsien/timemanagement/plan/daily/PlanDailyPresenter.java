@@ -1,6 +1,5 @@
 package com.kuanhsien.timemanagement.plan.daily;
 
-import android.os.AsyncTask;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,11 +9,6 @@ import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTimeAsyncTask;
 import com.kuanhsien.timemanagement.dml.SetTargetAsyncTask;
 import com.kuanhsien.timemanagement.dml.SetTargetCallback;
 import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTime;
-import com.kuanhsien.timemanagement.object.CategoryDefineTable;
-import com.kuanhsien.timemanagement.object.TaskDefineTable;
-import com.kuanhsien.timemanagement.TimeManagementApplication;
-import com.kuanhsien.timemanagement.database.AppDatabase;
-import com.kuanhsien.timemanagement.database.DatabaseDao;
 import com.kuanhsien.timemanagement.object.TimePlanningTable;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
@@ -116,19 +110,19 @@ public class PlanDailyPresenter implements PlanDailyContract.Presenter {
 
             // 取得現在時間
             Date currentTime = new Date();
-            String mStrStartTime = new SimpleDateFormat("yyyy/MM/dd").format(currentTime); // 擷取到日期
+            String strCurrentTime = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO).format(currentTime); // 擷取到日期
 
             // 新增一個Calendar,並且指定時間
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(currentTime);
-            calendar.add(Calendar.HOUR, 24);    // +24 小時
-
-            Date tomorrowNow = calendar.getTime();  // 取得 24 小時後的現在時間
-            String mStrEndTime = new SimpleDateFormat("yyyy/MM/dd").format(tomorrowNow);   // 擷取到日期
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.setTime(currentTime);
+//            calendar.add(Calendar.HOUR, 24);    // +24 小時
+//
+//            Date tomorrowNow = calendar.getTime();  // 取得 24 小時後的現在時間
+//            String mStrEndTime = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO).format(tomorrowNow);   // 擷取到日期
 
 
             new GetTaskWithPlanTimeAsyncTask(
-                    Constants.MODE_DAILY, mStrStartTime, mStrEndTime, new GetTaskWithPlanTimeCallback() {
+                    Constants.MODE_DAILY, strCurrentTime, strCurrentTime, new GetTaskWithPlanTimeCallback() {
 
                 @Override
                 public void onCompleted(List<GetTaskWithPlanTime> bean) {

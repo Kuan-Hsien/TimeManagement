@@ -27,23 +27,21 @@
         <service
             android:name=".service.MainService"
             android:enabled="true"
-            android:exported="true">
-        </service>
-
+            android:exported="true"></service>
         <service
             android:name=".service.JobSchedulerService"
             android:enabled="true"
             android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE">
-        </service>
-
+            android:permission="android.permission.BIND_JOB_SERVICE"></service>
         <service
             android:name=".service.JobSchedulerServiceDailySummary"
             android:enabled="true"
             android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE">
-        </service>
-
+            android:permission="android.permission.BIND_JOB_SERVICE"></service>
+        <service
+            android:name=".service.JobSchedulerServiceComplete"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

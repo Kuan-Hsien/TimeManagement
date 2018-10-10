@@ -17,6 +17,7 @@ import com.kuanhsien.timemanagement.object.TimeTracingTable;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -274,8 +275,15 @@ public class RecordAdapter extends RecyclerView.Adapter {
                 // 表示選擇了此類別，此時要針對上一筆 (現在的 Task) 停止，並開始現在這筆
 
 
+                // current time as startTime
                 Date curDate = new Date();
-                Long longCurTime = curDate.getTime(); // 把毫秒 (Long) 轉成 String 存起來
+                Long longCurTime = curDate.getTime(); // 把毫秒 (Long) 存起來
+
+                // update_date
+                SimpleDateFormat simpleUpdateDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_UPDATE_DATE);
+                // 透過SimpleDateFormat的format方法將 Date 轉為字串
+                String strCurrentTime = simpleUpdateDateFormat.format(curDate);
+
 
                 List<TimeTracingTable> itemList = new ArrayList<>();
 
@@ -287,7 +295,7 @@ public class RecordAdapter extends RecyclerView.Adapter {
                         mCurrentItem.getStartTime(),
                         longCurTime,
                         longCurTime - mCurrentItem.getStartTime(),
-                        longCurTime
+                        strCurrentTime
                 );
                 Logger.d(Constants.TAG, MSG + "stop current task: ");
                 lastItem.LogD();
@@ -301,7 +309,7 @@ public class RecordAdapter extends RecyclerView.Adapter {
                         longCurTime,
                         null,
                         null,
-                        longCurTime
+                        strCurrentTime
                 );
                 Logger.d(Constants.TAG, MSG + "start new task: ");
                 newItem.LogD();

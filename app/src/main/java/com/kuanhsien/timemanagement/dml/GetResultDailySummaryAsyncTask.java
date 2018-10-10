@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import com.kuanhsien.timemanagement.TimeManagementApplication;
 import com.kuanhsien.timemanagement.database.AppDatabase;
 import com.kuanhsien.timemanagement.database.DatabaseDao;
-import com.kuanhsien.timemanagement.object.TimeTracingTable;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
 
@@ -13,29 +12,28 @@ import java.util.List;
 
 
 /**
- * Created by Ken on 2018/10/07
+ * Created by Ken on 2018/10/10
  */
-public class SetRecordAsyncTask extends AsyncTask<Object, Void, List<GetTraceSummary>> {
+public class GetResultDailySummaryAsyncTask extends AsyncTask<Object, Void, List<GetResultDailySummary>> {
 
-    private static final String MSG = "SetRecordAsyncTask:";
-    private SetRecordCallback mCallback;
+    private static final String MSG = "GetResultDailySummaryAsyncTask:";
+    private GetResultDailySummaryCallback mCallback;
 
     private String mErrorMessage;
 
-    private List<TimeTracingTable> mRecordList;
+    private String mMode;
     private String mStartVerNo;
     private String mEndVerNo;
     private String mCategoryList;
     private String mTaskList;
 
 
-    public SetRecordAsyncTask(List<TimeTracingTable> recordList,
-                              String startVerNo, String endVerNo, String categoryList, String taskList,
-                              SetRecordCallback callback) {
+    public GetResultDailySummaryAsyncTask(String mode, String startVerNo, String endVerNo, String categoryList, String taskList,
+                                         GetResultDailySummaryCallback callback) {
         mCallback = callback;
         mErrorMessage = "";
 
-        mRecordList = recordList;
+        mMode = mode;
         mStartVerNo = startVerNo;
         mEndVerNo = endVerNo;
         mCategoryList = categoryList;
@@ -43,23 +41,18 @@ public class SetRecordAsyncTask extends AsyncTask<Object, Void, List<GetTraceSum
     }
 
     @Override
-    protected List<GetTraceSummary> doInBackground(Object[] objects) {
+    protected List<GetResultDailySummary> doInBackground(Object[] objects) {
 
 //        try {
 
         DatabaseDao dao = AppDatabase.getDatabase(TimeManagementApplication.getAppContext()).getDatabaseDao();
 
-        // (1) insert trace results and new-start task
-        for (int i = 0 ; i < mRecordList.size() ; ++i) {
-            dao.addTraceItem(mRecordList.get(i));
-        }
-
-        // (2) Query trace summary in a specific period
-        Logger.d(Constants.TAG, MSG + "Trace summary from " + mStartVerNo + " to " + mEndVerNo + " : ");
-        List<GetTraceSummary> traceSummaryList = dao.getTraceSummary(mStartVerNo, mEndVerNo, mCategoryList, mTaskList);
+        // (1) Query trace summary in a specific period
+        Logger.d(Constants.TAG, MSG + "Reuslt daily summary: Mode: " + mMode + " From " + mStartVerNo + " To " + mEndVerNo + " : ");
+        List<GetResultDailySummary> resultDailySummaryList = dao.getResultDailySummary(mMode, mStartVerNo, mEndVerNo, mCategoryList, mTaskList);
         // edit and add record
-        for (int i = 0 ; i < traceSummaryList.size() ; ++i) {
-            traceSummaryList.get(i).LogD();
+        for (int i = 0 ; i < resultDailySummaryList.size() ; ++i) {
+            resultDailySummaryList.get(i).LogD();
         }
 
         // [TODO] add exception handling
@@ -74,26 +67,26 @@ public class SetRecordAsyncTask extends AsyncTask<Object, Void, List<GetTraceSum
 //            e.printStackTrace();
 //        }
 
-        return traceSummaryList;
+        return resultDailySummaryList;
     }
 
     @Override
-    protected void onPostExecute(List<GetTraceSummary> bean) {
+    protected void onPostExecute(List<GetResultDailySummary> bean) {
         super.onPostExecute(bean);
 
         if (bean != null) {
 
-            Logger.d(Constants.TAG, MSG + "SetRecordAsyncTask success");
+            Logger.d(Constants.TAG, MSG + "GetResultDailySummaryAsyncTask success");
             mCallback.onCompleted(bean);
 
         } else if (!mErrorMessage.equals("")) {
 
-            Logger.d(Constants.TAG, MSG + "SetRecordAsyncTask error");
+            Logger.d(Constants.TAG, MSG + "GetResultDailySummaryAsyncTask error");
             mCallback.onError(mErrorMessage);
 
         } else {
 
-            Logger.d(Constants.TAG, MSG + "SetRecordAsyncTask fail");
+            Logger.d(Constants.TAG, MSG + "GetResultDailySummaryAsyncTask fail");
         }
     }
 }

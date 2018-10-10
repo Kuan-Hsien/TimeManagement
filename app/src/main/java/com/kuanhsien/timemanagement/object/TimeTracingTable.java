@@ -40,7 +40,7 @@ public class TimeTracingTable {
     private Long mCostTime;
 
     @ColumnInfo(name = "update_date")
-    private Long mUpdateDate;
+    private String mUpdateDate;
 
 
     // Getters and setters are ignored for brevity,
@@ -71,7 +71,7 @@ public class TimeTracingTable {
         return mCostTime;
     }
 
-    public Long getUpdateDate() {
+    public String getUpdateDate() {
         return mUpdateDate;
     }
 
@@ -99,7 +99,7 @@ public class TimeTracingTable {
         mCostTime = costTime;
     }
 
-    public void setUpdateDate(Long updateDate) {
+    public void setUpdateDate(String updateDate) {
         mUpdateDate = updateDate;
     }
 
@@ -126,7 +126,7 @@ public class TimeTracingTable {
         mCostTime = costTime;
     }
 
-    public TimeTracingTable(@NonNull String verNo, @NonNull String categoryName, @NonNull String taskName, @NonNull Long startTime, Long endTime, Long costTime, Long updateDate) {
+    public TimeTracingTable(@NonNull String verNo, @NonNull String categoryName, @NonNull String taskName, @NonNull Long startTime, Long endTime, Long costTime, String updateDate) {
         mVerNo = verNo;
         mCategoryName = categoryName;
         mTaskName = taskName;

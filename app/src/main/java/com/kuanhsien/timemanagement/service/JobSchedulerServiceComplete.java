@@ -18,16 +18,12 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
-import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.kuanhsien.timemanagement.MainActivity;
 import com.kuanhsien.timemanagement.R;
 import com.kuanhsien.timemanagement.TimeManagementApplication;
-import com.kuanhsien.timemanagement.dml.GetResultDailySummary;
-import com.kuanhsien.timemanagement.dml.GetResultDailySummaryAsyncTask;
-import com.kuanhsien.timemanagement.dml.GetResultDailySummaryCallback;
 import com.kuanhsien.timemanagement.dml.GetTraceDailySummaryAsyncTask;
 import com.kuanhsien.timemanagement.dml.GetTraceDailySummaryCallback;
 import com.kuanhsien.timemanagement.dml.GetTraceDetail;
@@ -40,13 +36,14 @@ import java.util.Date;
 import java.util.List;
 
 
+
 // JobService 在 main thread 中執行，所有耗时邏輯應寫在背景執行緒中
-public class JobSchedulerServiceDailySummary extends JobService {
+public class JobSchedulerServiceComplete extends JobService {
 
-    private static final String MSG = "JobSchedulerServiceDailySummary: ";
+    private static final String MSG = "JobSchedulerServiceComplete: ";
 
 
-    public JobSchedulerServiceDailySummary() {
+    public JobSchedulerServiceComplete() {
     }
 
     @Override
@@ -88,17 +85,11 @@ public class JobSchedulerServiceDailySummary extends JobService {
         // （Method-2) 昨天日期
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO);
 
-        // 找出昨天日期，當作 endVerNo 傳入，以撈取昨天統計資料
-        // Weekly 的統計中，暫定是星期一到星期天為一週
-        //  如果昨天是星期一，則 Weekly 也只撈一天 (beginVerNo = endVerNo)
-        //  如果昨天是星期二，則 Weekly 撈兩天 (beginVerNo = endVerNo - 1)
         Date date = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24);
         String endVerNo = simpleDateFormat.format(date);
 
-        int intWeekDay = Integer.parseInt(ParseTime.date2Day(date));    // 把昨天傳入，回傳星期幾 (1 = 星期一，2 = 星期二)
-
-        // 計算 Weekly 的開始時間 (beginVerNo)
-        date = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * intWeekDay); // 如果昨天是星期一，則 Weekly 也只撈一天 (beginVerNo = endVerNo)，和 endVerNo 一樣只往回減一天
+        // 上週日期
+        date = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * 7);
         String beginVerNo = simpleDateFormat.format(date);
 
 
@@ -119,9 +110,9 @@ public class JobSchedulerServiceDailySummary extends JobService {
 
         Logger.d(Constants.TAG, MSG + "Start scheduling job");
 
-        ComponentName componentName = new ComponentName(this, JobSchedulerServiceDailySummary.class.getName());   // service name
+        ComponentName componentName = new ComponentName(this, JobSchedulerServiceComplete.class.getName());   // service name
 
-        JobInfo jobInfo = new JobInfo.Builder(Constants.SCHEDULE_JOB_ID_DAILY_SUMMARY, componentName)
+        JobInfo jobInfo = new JobInfo.Builder(Constants.SCHEDULE_JOB_ID_COMPLETE_TASK, componentName)
 //                .setPeriodic(10 * 1000)
 
                 .setMinimumLatency(longNextTime)
@@ -146,19 +137,19 @@ public class JobSchedulerServiceDailySummary extends JobService {
     public void getAndNotifyTraceResults(final JobParameters params, String mode, String startVerNo, String endVerNo, String categoryList, String taskList) {
 
         // insert time_tracing_table
-        new GetResultDailySummaryAsyncTask(mode, startVerNo, endVerNo, categoryList, taskList, new GetResultDailySummaryCallback() {
+        new GetTraceDailySummaryAsyncTask(mode, startVerNo, endVerNo, categoryList, taskList, new GetTraceDailySummaryCallback() {
 
             @Override
-            public void onCompleted(List<GetResultDailySummary> bean) {
+            public void onCompleted(List<GetTraceDetail> bean) {
 
-                Logger.d(Constants.TAG, MSG + "GetResultDailySummary onCompleted");
+                Logger.d(Constants.TAG, MSG + "GetTraceDailySummary onCompleted");
                 for( int i = 0 ; i < bean.size() ; ++i) {
                     bean.get(i).LogD();
                 }
 
                 // (1) Notifcaiton title/ subtext/ content
                 String strTitle = ""; //"Save " + ParseTime.msToHourMinDiff(recordList.get(0).getStartTime(), recordList.get(0).getEndTime()) + " to " + recordList.get(0).getTaskName();
-                String strSubtext = ""; //"Current task: " + recordList.get(recordList.size()-1).getTaskName(); // last element would be the current tracing item
+                String strSubtext = "Complete Task"; //"Current task: " + recordList.get(recordList.size()-1).getTaskName(); // last element would be the current tracing item
                 String strContent = ""; //"Today's total: ";
 
                 Logger.d(Constants.TAG, MSG + "Title: " + strTitle);
@@ -168,7 +159,6 @@ public class JobSchedulerServiceDailySummary extends JobService {
                 startNotification(bean, strTitle, strSubtext, strContent);    // use remoteViews to customized title and content
 
 
-                // [TODO] 修改為下次提醒時間 (user input)
                 // (2) 算出下次通知時間並註冊 Job
                 startJobScheduler(ParseTime.getNextDailyNotifyMills("08:00:00"));
 
@@ -180,13 +170,13 @@ public class JobSchedulerServiceDailySummary extends JobService {
             @Override
             public void onError(String errorMessage) {
 
-                Logger.d(Constants.TAG, MSG + "GetResultDailySummary onError, errorMessage: " + errorMessage);
+                Logger.d(Constants.TAG, MSG + "GetTraceDailySummary onError, errorMessage: " + errorMessage);
             }
         }).execute();
     }
 
     // 立即發送一個 notification
-    private void startNotification(List<GetResultDailySummary> bean, String strTitle, String strSubText, String strContent) {
+    private void startNotification(List<GetTraceDetail> bean, String strTitle, String strSubText, String strContent) {
 
         // Large Icon 作法 1
         Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_launcher_xxhdpi);
@@ -202,7 +192,7 @@ public class JobSchedulerServiceDailySummary extends JobService {
 //                manager.notify(BASIC_ID, notification);
 
         // 建立通知物件 作法 2: 透過 builder
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, Constants.NOTIFICATION_CHANNEL_ID_SUMMARY);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, Constants.NOTIFICATION_CHANNEL_ID_COMPLETE);
 
         // 設置小圖標
         mBuilder.setSmallIcon(R.drawable.btn_like_selected);
@@ -258,44 +248,14 @@ public class JobSchedulerServiceDailySummary extends JobService {
         // 在 notification 中新增每一個 Task Items
         for(int i = 0 ; i < bean.size() ; ++i) {
 
-            // [TODO] 可以設計一下只有計畫卻沒有結果的項目該怎麼顯示，目前先跳過這種項目
-            // 如果沒有 cost_time，表示有計劃 (target) 但完全沒有相關紀錄 (record)
-            if (bean.get(i).getCostTime() == -1) {
-                continue;
-            }
-
             remoteViewsItem = new RemoteViews(this.getPackageName(), R.layout.notification_item);   // bind the view
 
             // (1) set icon
             remoteViewsItem.setImageViewResource(R.id.imageview_notificaiton_task_icon, TimeManagementApplication.getIconResourceId(bean.get(i).getTaskIcon()));
             remoteViewsItem.setInt(R.id.imageview_notificaiton_task_icon, "setColorFilter", Color.parseColor(bean.get(i).getTaskColor()));
 
-            // 檢查是否已經完成 (花費時間 >= 計畫時間，就代表已經花足夠時間了，可以把此 target 劃掉)
-            if ( (bean.get(i).getCostTime() - bean.get(i).getPlanTime()) >= 0 ) {
-
-                // (2) set task name
-                remoteViewsItem.setTextViewText(R.id.textview_notification_task_name_complete, bean.get(i).getTaskName());
-
-                // (3) set cost time
-                remoteViewsItem.setTextViewText(R.id.textview_notification_cost_time_complete, ParseTime.intToHrM(bean.get(i).getCostTime()));
-
-                // 完成項目的不同顏色和刪除線等等直接用另一個 view 畫出來
-                remoteViewsItem.setInt(R.id.textview_notification_task_name_complete, "setVisibility", View.VISIBLE);
-                remoteViewsItem.setInt(R.id.textview_notification_cost_time_complete, "setVisibility", View.VISIBLE);
-                remoteViewsItem.setInt(R.id.textview_notification_task_name, "setVisibility", View.GONE);
-                remoteViewsItem.setInt(R.id.textview_notification_cost_time, "setVisibility", View.GONE);
-
-                // 刪除線
-                remoteViewsItem.setInt(R.id.image_notification_strikethrough_complete, "setVisibility", View.VISIBLE);
-
-            } else { // 否則就要把此紀錄顯示為原本的顏色
-
-                // (2) set task name & time
-                remoteViewsItem.setTextViewText(R.id.textview_notification_task_name, bean.get(i).getTaskName());
-
-                // (3) set cost time
-                remoteViewsItem.setTextViewText(R.id.textview_notification_cost_time, ParseTime.intToHrM(bean.get(i).getCostTime()));
-            }
+            // (2) set task name
+            remoteViewsItem.setTextViewText(R.id.textview_notification_task_name, bean.get(i).getTaskName());
 
             // (2.1) set textView color
 //        remoteViewsItem.setTextColor(R.id.textview_notification_task_name_complete, Color.parseColor(bean.get(i).getTaskColor()));
@@ -303,14 +263,35 @@ public class JobSchedulerServiceDailySummary extends JobService {
             // (2.2) set textView strikethrough (刪除線)
 //        remoteViewsItem.setInt(R.id.textview_notification_task_name_complete, "setPaintFlags", Paint.STRIKE_THRU_TEXT_FLAG);
 
+            // (3) set cost time
+            remoteViewsItem.setTextViewText(R.id.textview_notification_cost_time, ParseTime.intToHrM(bean.get(i).getCostTime()));
 
-            if (bean.get(i).getMode().equals(Constants.MODE_DAILY))
+
+
+            // [TODO] 多撈出同一個時段的 PLAN 才能知道是否有完成 (FULL OUTER JOIN)
+            // 完成項目的不同顏色和刪除線等等直接用另一個 view 畫出來
+            // 完成的話要改下方寫法
+//            // (2) set task name
+//            remoteViewsItem.setTextViewText(R.id.textview_notification_task_name_complete, bean.get(i).getTaskName());
+//            // (3) set cost time
+//            remoteViewsItem.setTextViewText(R.id.textview_notification_cost_time_complete, ParseTime.intToHrM(bean.get(i).getCostTime()));
+//
+//            remoteViewsItem.setInt(R.id.textview_notification_task_name_complete, "setVisibility", View.VISIBLE);
+//            remoteViewsItem.setInt(R.id.textview_notification_cost_time_complete, "setVisibility", View.VISIBLE);
+//            remoteViewsItem.setInt(R.id.textview_notification_task_name, "setVisibility", View.GONE);
+//            remoteViewsItem.setInt(R.id.textview_notification_cost_time, "setVisibility", View.GONE);
+//
+//            remoteViewsItem.setInt(R.id.image_notification_strikethrough_complete, "setVisibility", View.VISIBLE);
+
+
+
+            if (bean.get(i).getMode().equals(Constants.TAB_DAILY))
             {
                 // Daily
                 Logger.d(Constants.TAG, MSG + "Daily: " + bean.get(i).getTaskName());
                 contentView.addView(R.id.linearlayout_notification_daily_summary, remoteViewsItem);
 
-            } else if (bean.get(i).getMode().equals(Constants.MODE_WEEKLY)) {
+            } else if (bean.get(i).getMode().equals(Constants.TAB_WEEKLY)) {
 
                 // Weekly
                 Logger.d(Constants.TAG, MSG + "Weekly: " + bean.get(i).getTaskName());
@@ -319,6 +300,7 @@ public class JobSchedulerServiceDailySummary extends JobService {
             } else {
                 Logger.d(Constants.TAG, MSG + "ELSE: " + bean.get(i).getTaskName());
             }
+
         }
 
 
@@ -366,13 +348,13 @@ public class JobSchedulerServiceDailySummary extends JobService {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             channel = new NotificationChannel(
-                    Constants.NOTIFICATION_CHANNEL_ID_SUMMARY,             // 此 ID 用來分辨不同的通知頻道
-                    Constants.NOTIFICATION_CHANNEL_NAME_SUMMARY,
+                    Constants.NOTIFICATION_CHANNEL_ID_COMPLETE,             // 此 ID 用來分辨不同的通知頻道
+                    Constants.NOTIFICATION_CHANNEL_NAME_COMPLETE,
                     NotificationManager.IMPORTANCE_HIGH);   // 設為 IMPORTANCE_HIGH 以上才會在上方懸掛跳出來
 
             mNotificationManager.createNotificationChannel(channel);    // 使用 NotificationManager 加入這個頻道
 
-            mBuilder.setChannelId(Constants.NOTIFICATION_CHANNEL_ID_SUMMARY);  // 呼叫 setChannelId 通知這個 Notification 的所屬頻道 ID
+            mBuilder.setChannelId(Constants.NOTIFICATION_CHANNEL_ID_COMPLETE);  // 呼叫 setChannelId 通知這個 Notification 的所屬頻道 ID
 
         } else {
 
@@ -380,7 +362,7 @@ public class JobSchedulerServiceDailySummary extends JobService {
                     .setVisibility(Notification.VISIBILITY_PUBLIC);
         }
 
-        mNotificationManager.notify(Constants.NOTIFY_ID_SUMMARY, mBuilder.build());   // 用 notify 並指定 ID，隨後可用此 ID 做進一步的更新或是取消等等操作
+        mNotificationManager.notify(Constants.NOTIFY_ID_COMPLETE, mBuilder.build());   // 用 notify 並指定 ID，隨後可用此 ID 做進一步的更新或是取消等等操作
     }
 
 }

@@ -108,7 +108,7 @@ public class TraceDailyPresenter implements TraceDailyContract.Presenter {
 
             // 取得現在時間
             Date currentTime = new Date();
-            String mStrStartTime = new SimpleDateFormat("yyyy/MM/dd").format(currentTime); // 擷取到日期
+            String mStrStartTime = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO).format(currentTime); // 擷取到日期
 
             // 新增一個Calendar,並且指定時間
             Calendar calendar = Calendar.getInstance();
@@ -116,7 +116,7 @@ public class TraceDailyPresenter implements TraceDailyContract.Presenter {
             calendar.add(Calendar.HOUR, 24);    // +24 小時
 
             Date tomorrowNow = calendar.getTime();  // 取得 24 小時後的現在時間
-            String mStrEndTime = new SimpleDateFormat("yyyy/MM/dd").format(tomorrowNow);   // 擷取到日期
+            String mStrEndTime = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO).format(tomorrowNow);   // 擷取到日期
 
 
             new GetTaskWithPlanTimeAsyncTask(
@@ -159,7 +159,6 @@ public class TraceDailyPresenter implements TraceDailyContract.Presenter {
                 Logger.d(Constants.TAG, MSG + "SetTarget onCompleted");
                 for( int i = 0 ; i < bean.size() ; ++i) {
                     bean.get(i).LogD();
-//                    Logger.d(Constants.TAG, MSG + "TaskName: " + bean.get(i).getTaskName() + " Cost-time: " + bean.get(i).getCostTime());
                 }
 
                 // [TODO] insert 資料後更新畫面，目前是將要更新的資料全部當作 bean
