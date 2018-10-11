@@ -90,11 +90,11 @@ public class RecordFragment extends Fragment implements RecordContract.View, Vie
         mButtonRecordLater = root.findViewById(R.id.button_record_later);
         mButtonRecordLater.setOnClickListener(this);
 
-        mButtonRecordSummit = root.findViewById(R.id.button_record_submit);
+        mButtonRecordSummit = root.findViewById(R.id.button_record_view_statistics);
         mButtonRecordSummit.setOnClickListener(this);
 
 
-        RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recyclerview_record_button);
+        RecyclerView recyclerView = root.findViewById(R.id.recyclerview_record_button);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), Constants.RECORD_TASK_SPAN_COUNT));
         recyclerView.setAdapter(mRecordAdapter);
 //        recyclerView.addItemDecoration(new DividerItemDecoration(TimeManagementApplication.getAppContext(), DividerItemDecoration.VERTICAL));
@@ -138,7 +138,7 @@ public class RecordFragment extends Fragment implements RecordContract.View, Vie
             // user choose ask later
             showTraceUi();
 
-        } else if (v.getId() == R.id.button_record_submit) {
+        } else if (v.getId() == R.id.button_record_view_statistics) {
 
             // user click summit
             showTraceUi();
@@ -157,8 +157,9 @@ public class RecordFragment extends Fragment implements RecordContract.View, Vie
     @Override
     public void showCurrentTraceItem(TimeTracingTable bean) {
 
-        mTextviewRecordCurrentTask.setText("Current Task: " + bean.getTaskName());
-        mTextviewRecordCurrentTime.setText("Since " + ParseTime.msToStr(bean.getStartTime())
+//        mTextviewRecordCurrentTask.setText("Current Task: " + bean.getTaskName());
+        mTextviewRecordCurrentTask.setText(bean.getTaskName());
+        mTextviewRecordCurrentTime.setText("current task | since " + ParseTime.msToStr(bean.getStartTime())
                 + " (" + ParseTime.msToHourMinDiff(bean.getStartTime(), new Date().getTime()) + ")" );  // hour + "hr " + min + "min"
 
         mRecordAdapter.updateCurrentTraceItem(bean);

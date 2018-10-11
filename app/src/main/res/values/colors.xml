@@ -10,4 +10,17 @@
     <color name="bottom_navigation_item_selected">#0066FF</color>
     <!--<color name="bottom_navigation_item_selected">#7436b9</color>-->
 
+
+    <!-- 1. record page -->
+    <!-- 1.1 action button -->
+    <color name="color_recordpage_button_background">#000000</color>
+    <color name="color_recordpage_button_ripple_mask">#FFFFFF</color>
+    <color name="color_recordpage_button_ripple_color">#FFFFFF</color>
+    <color name="color_recordpage_button_text">#FFFFFF</color>
+
+
+    <!-- x. default color (modify by code) -->
+    <color name="color_task_default_background">#191970</color>
+    <color name="color_task_default_icon">#FFFFFF</color>
+
 </resources>

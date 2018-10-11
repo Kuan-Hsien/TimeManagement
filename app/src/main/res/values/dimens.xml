@@ -70,8 +70,10 @@
     <dimen name="height_record_button">40dp</dimen>
     <dimen name="width_record_task">80dp</dimen>
     <dimen name="height_record_task">80dp</dimen>
-    <dimen name="width_record_task_name">76dp</dimen>
+    <dimen name="width_record_task_name">72dp</dimen>
     <dimen name="size_record_task_icon">28dp</dimen>
+    <dimen name="padding_record_button">12dp</dimen>
+    <dimen name="padding_record_task_icon">8dp</dimen>
 
 
     <!-- Set target -->

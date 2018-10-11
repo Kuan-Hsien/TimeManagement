@@ -64,26 +64,26 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void transToTrace() {
+    public void transToRecord() {
 
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
         if (mFragmentManager.findFragmentByTag(FRAGMENT_TAG_SET_TARGET) != null) mFragmentManager.popBackStack();
-        if (mTraceFragment == null) mTraceFragment = TraceFragment.newInstance();
+        if (mRecordFragment == null) mRecordFragment = RecordFragment.newInstance();
         if (mPlanFragment != null) transaction.hide(mPlanFragment);
-        if (mRecordFragment != null) transaction.hide(mRecordFragment);
-        if (!mTraceFragment.isAdded()) {
-            transaction.add(R.id.linearlayout_main_container, mTraceFragment, "FRAGMENT_TAG_TRACE");
+        if (mTraceFragment != null) transaction.hide(mTraceFragment);
+        if (!mRecordFragment.isAdded()) {
+            transaction.add(R.id.linearlayout_main_container, mRecordFragment, "FRAGMENT_TAG_RECORD");
         } else {
-            transaction.show(mTraceFragment);
+            transaction.show(mRecordFragment);
         }
         transaction.commit();
 
-//        if (mTracePresenter == null) {
-//            mTracePresenter = new TraceDailyPresenter(mTraceFragment);
-//        }
+        if (mRecordPresenter == null) {
+            mRecordPresenter = new RecordPresenter(mRecordFragment);
+        }
 
-        mMainView.showTraceUi();
+        mMainView.showRecordUi();
     }
 
     @Override
@@ -110,32 +110,32 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void transToStatistic() {
-
-        mMainView.showStatisticUi();
-    }
-
-    @Override
-    public void transToRecord() {
+    public void transToTrace() {
 
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
         if (mFragmentManager.findFragmentByTag(FRAGMENT_TAG_SET_TARGET) != null) mFragmentManager.popBackStack();
-        if (mRecordFragment == null) mRecordFragment = RecordFragment.newInstance();
+        if (mTraceFragment == null) mTraceFragment = TraceFragment.newInstance();
         if (mPlanFragment != null) transaction.hide(mPlanFragment);
-        if (mTraceFragment != null) transaction.hide(mTraceFragment);
-        if (!mRecordFragment.isAdded()) {
-            transaction.add(R.id.linearlayout_main_container, mRecordFragment, "FRAGMENT_TAG_RECORD");
+        if (mRecordFragment != null) transaction.hide(mRecordFragment);
+        if (!mTraceFragment.isAdded()) {
+            transaction.add(R.id.linearlayout_main_container, mTraceFragment, "FRAGMENT_TAG_TRACE");
         } else {
-            transaction.show(mRecordFragment);
+            transaction.show(mTraceFragment);
         }
         transaction.commit();
 
-        if (mRecordPresenter == null) {
-            mRecordPresenter = new RecordPresenter(mRecordFragment);
-        }
+//        if (mTracePresenter == null) {
+//            mTracePresenter = new TraceDailyPresenter(mTraceFragment);
+//        }
 
-        mMainView.showRecordUi();
+        mMainView.showTraceUi();
+    }
+
+    @Override
+    public void transToStatistic() {
+
+        mMainView.showStatisticUi();
     }
 
 
@@ -166,6 +166,6 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void start() {
 
-        transToPlan();
+        transToRecord();
     }
 }

@@ -39,14 +39,27 @@
         <!--<item name="android:windowSoftInputMode">stateAlwaysVisible|adjustResize</item>-->
     <!--</style>-->
 
-    <!--<style name="ProfileButton" parent="Widget.AppCompat.Button.Borderless">-->
-        <!--<item name="android:layout_width">@dimen/width_profile_itembutton</item>-->
-        <!--<item name="android:layout_height">@dimen/height_profile_itembutton</item>-->
-        <!--<item name="android:textColor">@color/black_24</item>-->
-        <!--<item name="android:textSize">16sp</item>-->
-        <!--<item name="android:background">@drawable/profile_itembutton_ripple</item>-->
-        <!--<item name="android:gravity">center</item>-->
-    <!--</style>-->
+    <style name="RecordPageActionButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/height_record_button</item>
+        <item name="android:textColor">@color/color_recordpage_button_text</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:padding">@dimen/padding_record_button</item>
+        <item name="android:background">@drawable/ripple_recordpage_button</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+    <!-- parent="Widget.AppCompat.Button.Borderless" -->
+    <!-- <item name="android:textAllCaps">false</item> -->
 
+    <style name="RecordPageTask">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/height_record_task</item>
+        <item name="android:textColor">@color/color_recordpage_button_text</item>
+        <item name="android:background">@drawable/shape_recordpage_task</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+    <!-- <item name="android:elevation">2dp</item> -->
 
 </resources>

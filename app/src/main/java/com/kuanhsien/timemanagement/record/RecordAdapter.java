@@ -1,6 +1,7 @@
 package com.kuanhsien.timemanagement.record;
 
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -334,7 +335,12 @@ public class RecordAdapter extends RecyclerView.Adapter {
 
 //            getFrameLayoutTaskColor().setBackgroundColor(Color.parseColor(item.getTaskColor()));
 
-            getConstraintLayoutTaskItem().setBackgroundColor(Color.parseColor(item.getTaskColor()));
+
+//            getConstraintLayoutTaskItem().setBackgroundColor(Color.parseColor(item.getTaskColor()));
+
+            GradientDrawable gradientDrawable = (GradientDrawable) getConstraintLayoutTaskItem().getBackground();
+            gradientDrawable.setColor(Color.parseColor(item.getTaskColor()));
+
             getImageviewTaskIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(item.getTaskIcon()));
             getTextviewTaskName().setText(item.getTaskName());
             setPosition(pos);
@@ -423,8 +429,8 @@ public class RecordAdapter extends RecyclerView.Adapter {
 
 //            getFrameLayoutTaskColor().setBackgroundColor(Color.parseColor(item.getTaskColor()));
 
-            // 白底黑字
-            getConstraintLayoutTaskItem().setBackgroundColor(Color.parseColor("#FFFFFF"));
+            // 白底黑字 (7F 表示透明度 50%)
+            getConstraintLayoutTaskItem().setBackgroundColor(Color.parseColor("#7FFFFFFF"));
             getImageviewTaskIcon().setColorFilter(Color.parseColor("#000000"));
             getTextviewTaskName().setTextColor(Color.parseColor("#000000"));
 

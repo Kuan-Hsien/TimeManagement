@@ -6,7 +6,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
@@ -20,11 +19,6 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
-import com.kuanhsien.timemanagement.database.AppDatabase;
-import com.kuanhsien.timemanagement.database.DatabaseDao;
-import com.kuanhsien.timemanagement.object.CategoryDefineTable;
-import com.kuanhsien.timemanagement.object.TaskDefineTable;
-import com.kuanhsien.timemanagement.service.JobSchedulerService;
 import com.kuanhsien.timemanagement.service.JobSchedulerServiceDailySummary;
 import com.kuanhsien.timemanagement.service.MainService;
 import com.kuanhsien.timemanagement.utils.Constants;
@@ -212,9 +206,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
             switch (item.getItemId()) {
-                case R.id.navigation_trace:
 
-                    mPresenter.transToTrace();
+                case R.id.navigation_add_record:
+
+                    mPresenter.transToRecord();
                     return true;
 
                 case R.id.navigation_plan:
@@ -222,11 +217,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                     mPresenter.transToPlan();
                     return true;
 
-                case R.id.navigation_profile:
+                case R.id.navigation_trace:
 
 //                    mPresenter.transToStatistic();
-                    mPresenter.transToRecord();
+                    mPresenter.transToTrace();
                     return true;
+
 
                 default:
             }
@@ -272,12 +268,16 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 //        cancelAllJobScheduler();
     }
 
-    public void transToTrace() {
-        mButtomNavigation.findViewById(R.id.navigation_trace).performClick();   // mPresenter.transToTrace();
+    public void transToRecord() {
+        mButtomNavigation.findViewById(R.id.navigation_add_record).performClick();   // mPresenter.transToTrace();
     }
 
     public void transToPlan() {
         mButtomNavigation.findViewById(R.id.navigation_plan).performClick();   // mPresenter.transToPlan();
+    }
+
+    public void transToTrace() {
+        mButtomNavigation.findViewById(R.id.navigation_trace).performClick();   // mPresenter.transToTrace();
     }
 
     public void transToSetTarget() {

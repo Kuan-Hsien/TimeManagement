@@ -34,6 +34,7 @@ import com.kuanhsien.timemanagement.utils.Logger;
 import com.kuanhsien.timemanagement.utils.ParseTime;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -136,7 +137,17 @@ public class RecordPresenter implements RecordContract.Presenter {
                 @Override
                 public void onCompleted(List<GetCategoryTaskList> bean) {
                     setLoading(false);
-                    showCategoryTaskList(bean);
+
+                    // create a new task list (without category items, only show tasks to choose on record page)
+                    List<GetCategoryTaskList> taskLists = new ArrayList<>();
+
+                    for (int i = 0 ; i < bean.size() ; ++i) {
+                        if (Constants.ITEM_TASK.equals(bean.get(i).getItemCatg())) {
+                            taskLists.add(bean.get(i));
+                        }
+                    }
+
+                    showCategoryTaskList(taskLists);
                 }
 
                 @Override
