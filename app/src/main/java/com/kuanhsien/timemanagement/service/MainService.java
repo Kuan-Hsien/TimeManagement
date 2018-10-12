@@ -8,22 +8,28 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.BitmapFactory;
 import android.os.IBinder;
 import android.service.dreams.DreamService;
 
 import com.kuanhsien.timemanagement.MainActivity;
+import com.kuanhsien.timemanagement.PowerButtonReceiver;
 import com.kuanhsien.timemanagement.R;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
 
-
+/**
+ * Created by Ken on 2018/10/11.
+ */
 public class MainService extends Service {
     private static final String MSG = "MainService: ";
 
-    private AlarmManager mAlarmManager;
+//    private AlarmManager mAlarmManager;
     private NotificationManager mNotificationManager;
-    private PendingIntent mPendingIntentBroadcast;
+//    private PendingIntent mPendingIntentBroadcast;
+
+    private PowerButtonReceiver mPowerButtonReceiver;
 
 
     public MainService() {
@@ -48,15 +54,16 @@ public class MainService extends Service {
 
 
             // Step1.5 create notification channel for version > Android 8.0(API level 26)
-            String strChannelId = "voyage.channel";
-            NotificationChannel channelLove = new NotificationChannel(
-                    strChannelId, "Voyage Channel", NotificationManager.IMPORTANCE_HIGH);
-            channelLove.setDescription("voyage notification");
-            channelLove.enableLights(true);
-            channelLove.enableVibration(true);
+            NotificationChannel channel = new NotificationChannel(
+                    Constants.NOTIFICATION_CHANNEL_ID_LOCKSCREEN_RECEIVER,
+                    Constants.NOTIFICATION_CHANNEL_NAME_LOCKSCREEN_RECEIVER,
+                    NotificationManager.IMPORTANCE_HIGH);
 
-            mNotificationManager.createNotificationChannel(channelLove);
+            channel.setDescription("This notification needs to be enabled to let you timely switch current tracing task after unlock screen. You could also enter this APP by click this notification");
+            channel.enableLights(true);
+            channel.enableVibration(true);
 
+            mNotificationManager.createNotificationChannel(channel);
 
 
 
@@ -69,18 +76,18 @@ public class MainService extends Service {
 
 
             //Step3. 透過 Notification.Builder 來建構 notification，
-            //並直接使用其.build() 的方法將設定好屬性的 Builder 轉換
-            //成 notification，最後開始將顯示通知訊息發送至狀態列上。
+            // 並直接使用其.build() 的方法將設定好屬性的 Builder 轉換
+            // 成 notification，最後開始將顯示通知訊息發送至狀態列上。
             Notification notification
                     = new Notification.Builder(this)
                     .setContentIntent(pendingIntentNotify) // 設置 PendingIntent
                     .setSmallIcon(R.mipmap.ic_launcher) // 設置狀態列裡面的圖示（小圖示）　　
                     .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher)) // 下拉下拉清單裡面的圖示（大圖示）
-                    .setTicker("notification on status bar.") // 設置狀態列的顯示的資訊
+                    .setTicker(getString(R.string.notificaiton_content_lockscreen)) // 設置狀態列的顯示的資訊
                     .setWhen(System.currentTimeMillis()) // 設置通知發生時間
                     .setAutoCancel(true) // 設置通知被使用者點擊後是否清除  //notification.flags = Notification.FLAG_AUTO_CANCEL;
-                    .setContentTitle("Notification Title") // 設置下拉清單裡的標題
-                    .setContentText("Notification Content") // 設置上下文內容
+                    .setContentTitle(getString(R.string.app_name)) // 設置下拉清單裡的標題
+                    .setContentText(getString(R.string.notificaiton_content_lockscreen)) // 設置上下文內容
                     .setOngoing(false) // true 使 notification 變為 ongoing，用戶不能手動清除  // notification.flags = Notification.FLAG_ONGOING_EVENT; notification.flags = Notification.FLAG_NO_CLEAR;
 
 //                    .setDefaults(Notification.DEFAULT_ALL) //使用所有默認值，比如聲音，震動，閃屏等等
@@ -92,14 +99,14 @@ public class MainService extends Service {
                     // .setVibrate(vibrate) //自訂震動長度
                     // .setSound(uri) //自訂鈴聲
                     // .setLights(0xff00ff00, 300, 1000) //自訂燈光閃爍 (ledARGB, ledOnMS, ledOffMS)
-                    .setChannelId(strChannelId)
+                    .setChannelId(Constants.NOTIFICATION_CHANNEL_ID_LOCKSCREEN_RECEIVER)
                     .build();
 
             // 把指定ID的通知持久的發送到狀態條上
-            mNotificationManager.notify(0, notification);
+//            mNotificationManager.notify(Constants.NOTIFY_ID_LOCKSCREEN_RECEIVER, notification);
 
             Logger.d(Constants.TAG, MSG + "onStartCommand : before startForeground");
-            startForeground(110, notification); // start service at foreground
+            startForeground(Constants.NOTIFY_ID_LOCKSCREEN_RECEIVER, notification); // start service at foreground
             Logger.d(Constants.TAG, MSG + "onStartCommand : after startForeground");
         }
 
@@ -114,22 +121,11 @@ public class MainService extends Service {
 //        mPendingIntentBroadcast = PendingIntent.getBroadcast(this, 0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
+        registerPowerButtonReceiver();
 
-
-
-        // Create alarmManager
-        Logger.d(Constants.TAG, MSG + "onStartCommand : before alarmManager");
-
-        mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 10 * 1000, mPendingIntentBroadcast);
-        Logger.d(Constants.TAG, MSG + "onStartCommand : after alarmManager");
-
-//        sendBroadcast(serviceIntent); //發送廣播訊息
 //        stopSelf();
 
         return super.onStartCommand(intent, flags, startId);
-
-
     }
 
     @Override
@@ -155,16 +151,44 @@ public class MainService extends Service {
     public void onDestroy() {
         Logger.d(Constants.TAG, MSG + "onDestroy : ");
 
-        mAlarmManager.cancel(mPendingIntentBroadcast);
+
+        unregisterPowerButtonReceiver();
 
         // if service run in foreground
         stopForeground(true);
-
 
 
         super.onDestroy();
     }
 
 
+    private void registerPowerButtonReceiver() {
 
+        Logger.d(Constants.TAG, MSG + "registerReceiver");
+
+        // 1. add BroadcastReceiver & IntentFilter
+        mPowerButtonReceiver = new PowerButtonReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+
+        // 2. add Action for intent filter of broadcast-receiver
+//        intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
+        intentFilter.addAction(Intent.ACTION_SCREEN_ON);
+//        intentFilter.addAction(Intent.ACTION_USER_PRESENT);   // user 解鎖畫面會傳入這個 intent
+//        intentFilter.addAction("android.intent.action.SCREEN_OFF");
+//        intentFilter.addAction("android.intent.action.SCREEN_ON");
+//        intentFilter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+//        intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
+//        intentFilter.addAction(Intent.ACTION_BATTERY_LOW);   // x
+//        intentFilter.addAction(Intent.ACTION_BATTERY_OKAY);  // x
+//        intentFilter.addAction(Intent.ACTION_BOOT_COMPLETED);
+
+        // 3. dynamic register: use Context.registerReceiver
+        registerReceiver(mPowerButtonReceiver, intentFilter);
+    }
+
+    private void unregisterPowerButtonReceiver() {
+
+        Logger.d(Constants.TAG, MSG + "unregisterReceiver");
+        unregisterReceiver(mPowerButtonReceiver);
+    }
 }

@@ -218,6 +218,7 @@ public class JobSchedulerServiceDailySummary extends JobService {
 
         // 點擊後清除
         mBuilder.setAutoCancel(true);
+
         //显示指定文本
 
         mBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
@@ -240,7 +241,7 @@ public class JobSchedulerServiceDailySummary extends JobService {
         mBuilder.setVibrate(new long[]{0, 1000, 1000, 1000});
 
         //mBuilder.setContentInfo("Info");
-        //与setContentInfo类似，但如果设置了setContentInfo则无效果
+        //与setContentInfo类似，但如果设置了 setContentInfo 则无效果
         //用于当显示了多个相同ID的Notification时，显示消息总数
         //mBuilder.setNumber(2);
         //通知在状态栏显示时的文本

@@ -5,6 +5,7 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private BottomNavigationViewEx mButtomNavigation;
     private Toolbar mToolbar;
     private TextView mToolbarTitle;
+
+    private PowerButtonReceiver mPowerButtonReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -242,11 +245,17 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void showPlanUi() {
 
+        mToolbar.setVisibility(View.VISIBLE);
+        mButtomNavigation.setVisibility(View.VISIBLE);
+
         setToolbarTitle(getResources().getString(R.string.page_title_plan));
     }
 
     @Override
     public void showTraceUi() {
+
+        mToolbar.setVisibility(View.VISIBLE);
+        mButtomNavigation.setVisibility(View.VISIBLE);
 
         setToolbarTitle(getResources().getString(R.string.page_title_trace));
     }
@@ -254,8 +263,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void showStatisticUi() {
 
-        setToolbarTitle(getResources().getString(R.string.page_title_statisic));
+        mToolbar.setVisibility(View.VISIBLE);
+        mButtomNavigation.setVisibility(View.VISIBLE);
 
+        setToolbarTitle(getResources().getString(R.string.page_title_statisic));
 //        cancelAllJobScheduler();
 //        cancelJobScheduler(Constants.SCHEDULE_JOB_ID_DAILY_SUMMARY);
     }
@@ -264,6 +275,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public void showRecordUi() {
 
         setToolbarTitle(getResources().getString(R.string.page_title_record));
+
+        mToolbar.setVisibility(View.GONE);
+        mButtomNavigation.setVisibility(View.GONE);
 
 //        cancelAllJobScheduler();
     }
@@ -285,78 +299,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
 
-
-
-    // ****** Service ******
-    // Service to process time and trigger notification
-
-    private void startTimeService() {
-        Intent timeService = new Intent(this, MainService.class);
-        startService(timeService);
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
-    private void stopTimeService() {
-        stopService(new Intent(MainActivity.this, MainService.class));    // 停止更新時間服務
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
-
-
-    // ****** Create JobScheduler to start a schedule job ******
-    // (start JobSchedulerService at specific time to create a notification)
-
-    private void startJobSchedulerDailySummary() {
-
-        Logger.d(Constants.TAG, MSG + "Start scheduling job");
-
-        ComponentName componentName = new ComponentName(this, JobSchedulerServiceDailySummary.class.getName());   // service name
-
-        JobInfo jobInfo = new JobInfo.Builder(Constants.SCHEDULE_JOB_ID_DAILY_SUMMARY, componentName)
-//                .setPeriodic(10 * 1000)
-
-                .setMinimumLatency(10*1000)
-                .setOverrideDeadline(10*1000)
-                .setPersisted(true)     // 為了讓重開機還能繼續執行此 job
-//                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED) // 只有網路不限流量時 (e.g. WIFI)
-//                .setRequiresDeviceIdle(false)
-//                .setRequiresCharging(false)
-                .build();
-
-        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-
-        int result = scheduler.schedule(jobInfo);   // start a jobScheduler task, return successful job id (return 0 if failed)
-
-        if (result == JobScheduler.RESULT_SUCCESS) {
-            Logger.d(Constants.TAG, MSG + "Job scheduled successfully!");
-        }
-    }
-
-
-
-    private void cancelJobScheduler(int jobId) {
-
-        Logger.d(Constants.TAG, MSG + "Cancel scheduling job");
-
-        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        scheduler.cancel(jobId);
-
-        Logger.d(Constants.TAG, MSG + "Cancel job: id = " + jobId + " successfully!");
-    }
-
-    private void cancelAllJobScheduler() {
-
-        Logger.d(Constants.TAG, MSG + "Cancel all scheduling job");
-
-        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-
-        List<JobInfo> allPendingJobs = scheduler.getAllPendingJobs();
-        for (JobInfo info : allPendingJobs) {
-            int id = info.getId();
-            scheduler.cancel(id);
-        }
-        //or
-        // scheduler.cancelAll();
-
-        Logger.d(Constants.TAG, MSG + "Cancel all scheduled jobs successfully!");
-
-    }
-
 }
+

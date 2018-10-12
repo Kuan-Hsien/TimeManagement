@@ -70,6 +70,7 @@ public class Constants {
     // ****** Notification ******
 
     // notification ID
+    public static final int NOTIFY_ID_LOCKSCREEN_RECEIVER = 9000;
     public static final int NOTIFY_ID_ONGOING = 9001;
     public static final int NOTIFY_ID_SUMMARY = 9002;
     public static final int NOTIFY_ID_COMPLETE = 9003;
@@ -83,6 +84,7 @@ public class Constants {
     public static final int NOTIFICATION_TIME_SUMMARY = 1000;
 
     // (> Android 8.0) 通知頻道的 ID
+    public static final String NOTIFICATION_CHANNEL_ID_LOCKSCREEN_RECEIVER = "lock_screen_track";
     public static final String NOTIFICATION_CHANNEL_ID_ONGOING = "ongoing_task";
     public static final String NOTIFICATION_CHANNEL_ID_SUMMARY = "summary";
     public static final String NOTIFICATION_CHANNEL_ID_COMPLETE = "complete_task";
@@ -90,6 +92,7 @@ public class Constants {
 
 
     // (> Android 8.0) 通知頻道的 NAME
+    public static final String NOTIFICATION_CHANNEL_NAME_LOCKSCREEN_RECEIVER = "Lock screen track";
     public static final String NOTIFICATION_CHANNEL_NAME_ONGOING = "Ongoing task";
     public static final String NOTIFICATION_CHANNEL_NAME_SUMMARY = "Summary";
     public static final String NOTIFICATION_CHANNEL_NAME_COMPLETE = "Complete task";

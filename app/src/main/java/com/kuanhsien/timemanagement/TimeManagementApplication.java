@@ -5,9 +5,12 @@ import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Build;
 
 import com.kuanhsien.timemanagement.database.AppDatabase;
 import com.kuanhsien.timemanagement.database.DatabaseDao;
@@ -16,6 +19,7 @@ import com.kuanhsien.timemanagement.object.TaskDefineTable;
 import com.kuanhsien.timemanagement.object.TimePlanningTable;
 import com.kuanhsien.timemanagement.object.TimeTracingTable;
 import com.kuanhsien.timemanagement.service.JobSchedulerServiceDailySummary;
+import com.kuanhsien.timemanagement.service.MainService;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
 
@@ -54,6 +58,25 @@ public class TimeManagementApplication extends Application {
 
             setFirstLogin(true);
         }
+
+
+        Logger.d(Constants.TAG, MSG + "start-service for broadcast-receiver of power-button");
+
+        Intent intentService = new Intent(this, MainService.class);
+
+        // after Android 8, need to start service at foreground
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            Logger.d(Constants.TAG, MSG + "start foreground service");
+            startForegroundService(intentService);
+
+        } else {
+
+            Logger.d(Constants.TAG, MSG + "start background service");
+            startService(intentService);
+        }
+
+
 
 //        dbFavoriteArticle = new DbFavoriteArticle(applicationContext);
 //
@@ -309,6 +332,8 @@ public class TimeManagementApplication extends Application {
         });
     }
 
+    // ****** Create JobScheduler to start a schedule job ******
+    // (start JobSchedulerService at specific time to create a notification)
 
     private void startJobSchedulerDailySummary() {
 
@@ -334,6 +359,34 @@ public class TimeManagementApplication extends Application {
         if (result == JobScheduler.RESULT_SUCCESS) {
             Logger.d(Constants.TAG, MSG + "Job scheduled successfully!");
         }
+    }
+
+    private void cancelJobScheduler(int jobId) {
+
+        Logger.d(Constants.TAG, MSG + "Cancel scheduling job");
+
+        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        scheduler.cancel(jobId);
+
+        Logger.d(Constants.TAG, MSG + "Cancel job: id = " + jobId + " successfully!");
+    }
+
+    private void cancelAllJobScheduler() {
+
+        Logger.d(Constants.TAG, MSG + "Cancel all scheduling job");
+
+        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+
+        List<JobInfo> allPendingJobs = scheduler.getAllPendingJobs();
+        for (JobInfo info : allPendingJobs) {
+            int id = info.getId();
+            scheduler.cancel(id);
+        }
+        //or
+        // scheduler.cancelAll();
+
+        Logger.d(Constants.TAG, MSG + "Cancel all scheduled jobs successfully!");
+
     }
 
 }
