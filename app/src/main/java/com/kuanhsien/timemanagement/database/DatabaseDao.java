@@ -358,10 +358,15 @@ public interface DatabaseDao {
     List<GetTraceDetail> getTraceDailySummary(String mode, String startVerNo, String endVerNo, String categoryList, String taskList);
 
 
-    // Daily 會撈出 endVerNo 當天的版本 + Weekly 一整週 (如果輸入星期天到星期四，就是總共撈 5 天資料)
-    // 撈出 Daily + Weekly 的 record + target
+    // ****** 撈出 Daily + Weekly 的 record + target
+    // Daily 會撈出 endVerNo 當天的版本 + Weekly 一整週 (如果輸入星期一到星期四，就是總共撈 4 天資料)
+    // trace 的日期精準到 (long) mills
+    //   第一版先做成過濾掉正在進行的項目，不列入統計 (等 user 存入現在在進行的項目才會被撈出來)
+    // plan 的 start_time 和 end_time 用來當作版號，是 yyyy/mm/dd 的字串 (即 trace 的 ver_no)
+
+
     // [TODO] plan 目前沒有分版本，未來可再把版號加回 p..ver_no = :endVerNo，現在先用 endVerNo 當作 daily 版號，用 startVerNo 當作 weekly 版號 (因為撈出 daily 和 weekly 之後就直接顯示了)
-    // trace 的日期用的是精準到 mills 的 long，plan 的 start_time 和 end_time 則是 yyyymmdd 的字串，用來當作版號 (類似 trace 的 ver_no)
+
     @Query("WITH record " +
             " AS (SELECT 'MODE_DAILY' AS mode, t.ver_no, t.category_name, t.task_name, SUM(t.cost_time) AS cost_time " +
             "       FROM time_tracing_table t " +
@@ -369,6 +374,7 @@ public interface DatabaseDao {
             "        AND t.ver_no = :endVerNo" +            // Daily 只看一天: endVerNo
             "        AND ( (:categoryList = 'ALL') OR (t.category_name IN (:categoryList)) ) " +
             "        AND ( (:taskList = 'ALL') OR (t.task_name IN (:taskList)) ) " +
+            "        AND t.end_time IS NOT NULL " +
             "      GROUP BY t.ver_no, t.category_name, t.task_name" +
             "      UNION ALL " +
             "     SELECT 'MODE_WEEKLY' AS mode, :startVerNo AS ver_no, t.category_name, t.task_name, SUM(t.cost_time) AS cost_time " +
@@ -378,6 +384,7 @@ public interface DatabaseDao {
             "        AND t.ver_no <= :endVerNo " +
             "        AND ( (:categoryList = 'ALL') OR (t.category_name IN (:categoryList)) ) " +
             "        AND ( (:taskList = 'ALL') OR (t.task_name IN (:taskList)) ) " +
+            "        AND t.end_time IS NOT NULL " +
             "      GROUP BY t.category_name, t.task_name" +
             "    ), " +
             "    target " +

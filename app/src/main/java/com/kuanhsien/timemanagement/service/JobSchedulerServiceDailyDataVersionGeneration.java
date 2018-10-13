@@ -148,7 +148,7 @@ public class JobSchedulerServiceDailyDataVersionGeneration extends JobService {
 
         // 透過SimpleDateFormat的format方法將 Date 轉為字串
         String strTodayVer = simpleDateFormatDate.format(curDate); // yyyy/MM/dd
-        String strTodayTime = simpleDateFormatDate.format(curDate) + Constants.NOTIFICATION_TIME_DAILY_DATA_VERGEN; // "yyyy/MM/dd 00:00:00"
+        String strTodayTime = simpleDateFormatDate.format(curDate) + " " + Constants.NOTIFICATION_TIME_DAILY_DATA_VERGEN; // "yyyy/MM/dd 00:00:00"
 
 
         // 字串轉回 Date，為了可以精確的算出毫秒

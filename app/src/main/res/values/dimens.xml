@@ -78,6 +78,7 @@
 
 
     <!-- Analysis -->
+    <dimen name="width_analysis_period">300dp</dimen>
     <dimen name="size_analysis_piechart">250dp</dimen>
     <dimen name="width_analysis_topitem_percent">100dp</dimen>
 
