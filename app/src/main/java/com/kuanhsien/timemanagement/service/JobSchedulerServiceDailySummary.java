@@ -40,7 +40,11 @@ import java.util.Date;
 import java.util.List;
 
 
-// JobService 在 main thread 中執行，所有耗时邏輯應寫在背景執行緒中
+/**
+ * Created by Ken on 2018/10/06
+ *
+ * JobService 在 main thread 中執行，所有耗时邏輯應寫在背景執行緒中
+ */
 public class JobSchedulerServiceDailySummary extends JobService {
 
     private static final String MSG = "JobSchedulerServiceDailySummary: ";
@@ -116,34 +120,6 @@ public class JobSchedulerServiceDailySummary extends JobService {
         return false;
     }
 
-    private void startJobScheduler(long longNextTime) {
-
-        Logger.d(Constants.TAG, MSG + "Start scheduling job");
-
-        ComponentName componentName = new ComponentName(this, JobSchedulerServiceDailySummary.class.getName());   // service name
-
-        JobInfo jobInfo = new JobInfo.Builder(Constants.SCHEDULE_JOB_ID_DAILY_SUMMARY, componentName)
-//                .setPeriodic(10 * 1000)
-
-                .setMinimumLatency(longNextTime)
-                .setOverrideDeadline(longNextTime)
-                .setPersisted(true)     // 為了讓重開機還能繼續執行此 job
-//                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED) // 只有網路不限流量時 (e.g. WIFI)
-//                .setRequiresDeviceIdle(false)
-//                .setRequiresCharging(false)
-                .build();
-
-        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-
-        int result = scheduler.schedule(jobInfo);   // start a jobScheduler task, return successful job id (return 0 if failed)
-
-        if (result == JobScheduler.RESULT_SUCCESS) {
-            Logger.d(Constants.TAG, MSG + "Job scheduled successfully!");
-        }
-    }
-
-
-
     public void getAndNotifyTraceResults(final JobParameters params, String mode, String startVerNo, String endVerNo, String categoryList, String taskList) {
 
         if (!isLoading()) {
@@ -175,7 +151,11 @@ public class JobSchedulerServiceDailySummary extends JobService {
 
                     // [TODO] 修改為下次提醒時間 (user input)
                     // (2) 算出下次通知時間並註冊 Job
-                    startJobScheduler(ParseTime.getNextDailyNotifyMills("08:00:00"));
+                    TimeManagementApplication.startJobScheduler(
+                            Constants.SCHEDULE_JOB_ID_DAILY_SUMMARY,
+                            JobSchedulerServiceDailySummary.class.getName(),
+                            ParseTime.getNextDailyNotifyMills(Constants.NOTIFICATION_TIME_DAILY_SUMMARY),
+                            true);
 
                     // (3) 宣布當前的 job 已完成
                     jobFinished(params, false);
@@ -402,4 +382,29 @@ public class JobSchedulerServiceDailySummary extends JobService {
         mLoading = loading;
     }
 
+//    private void startJobScheduler(long longNextTime) {
+//
+//        Logger.d(Constants.TAG, MSG + "Start scheduling job");
+//
+//        ComponentName componentName = new ComponentName(this, JobSchedulerServiceDailySummary.class.getName());   // service name
+//
+//        JobInfo jobInfo = new JobInfo.Builder(Constants.SCHEDULE_JOB_ID_DAILY_SUMMARY, componentName)
+////                .setPeriodic(10 * 1000)
+//
+//                .setMinimumLatency(longNextTime)
+//                .setOverrideDeadline(longNextTime)
+//                .setPersisted(true)     // 為了讓重開機還能繼續執行此 job
+////                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED) // 只有網路不限流量時 (e.g. WIFI)
+////                .setRequiresDeviceIdle(false)
+////                .setRequiresCharging(false)
+//                .build();
+//
+//        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+//
+//        int result = scheduler.schedule(jobInfo);   // start a jobScheduler task, return successful job id (return 0 if failed)
+//
+//        if (result == JobScheduler.RESULT_SUCCESS) {
+//            Logger.d(Constants.TAG, MSG + "Job scheduled successfully!");
+//        }
+//    }
 }

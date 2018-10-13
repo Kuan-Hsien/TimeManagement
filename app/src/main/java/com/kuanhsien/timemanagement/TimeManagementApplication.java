@@ -23,6 +23,7 @@ import com.kuanhsien.timemanagement.service.JobSchedulerServiceDailySummary;
 import com.kuanhsien.timemanagement.service.MainService;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
+import com.kuanhsien.timemanagement.utils.ParseTime;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -47,16 +48,17 @@ public class TimeManagementApplication extends Application {
         super.onCreate();
         mContext = this;
 
-        if ("FALSE".equals(
+        // [IS_FIRST_FLAG = true] if first login
+        if ("TRUE".equals(
                 getSharedPreferences(Constants.FILENAME_USER_DATA, Context.MODE_PRIVATE)
-                        .getString(Constants.IS_FIRST_FLAG, "FALSE"))) {
+                        .getString(Constants.IS_FIRST_FLAG, "TRUE"))) {
 
-            setFirstLogin(false);
+            setFirstLogin(true);
+            firstLogin();
 
         } else {
 
-            firstLogin();
-            setFirstLogin(true);
+            setFirstLogin(false);
         }
 
         init();
@@ -195,21 +197,27 @@ public class TimeManagementApplication extends Application {
         // (0) greeting (?)
         // (1) prepare default tasks and categories
         // (2) tips
-        // (3) set daily summary notificaitons
-        // (4) set daily generate version job (for both planning data and tracing data)
         // (x) prepare testing data
-        prepareRoomDatabase();
-        startJobSchedulerDailySummary(JobSchedulerServiceDailySummary.class.getName(), 1000, true);
-        startJobSchedulerDailySummary(JobSchedulerServiceDailyDataVersionGeneration.class.getName(), 1000, true);
+        // (x) save is_first_flag into shared-preferences
 
+
+        // (1) prepare default tasks and categories
+        prepareRoomDatabase();
+
+        // (2) tips
+
+        // once login, would save is_first_flag into shared-preferences
         mSharePreferences = getSharedPreferences(Constants.FILENAME_USER_DATA, Context.MODE_PRIVATE);
         mSharePreferences.edit()
-                .putString(Constants.IS_FIRST_FLAG, "TRUE")
+                .putString(Constants.IS_FIRST_FLAG, "FALSE")
                 .apply();
     }
 
 
     private void init() {
+
+        // (3) set daily summary notificaitons
+        // (4) set daily generate version job (for both planning data and tracing data)
 
         // (0) start foreground service for lock-screen listener
         Logger.d(Constants.TAG, MSG + "start-service for broadcast-receiver of power-button");
@@ -227,6 +235,21 @@ public class TimeManagementApplication extends Application {
             Logger.d(Constants.TAG, MSG + "start background service");
             startService(intentService);
         }
+
+
+        // (3) set daily summary notificaitons
+        startJobScheduler(
+                Constants.SCHEDULE_JOB_ID_DAILY_SUMMARY,
+                JobSchedulerServiceDailySummary.class.getName(),
+                ParseTime.getNextDailyNotifyMills(Constants.NOTIFICATION_TIME_DAILY_SUMMARY),
+                true);
+
+        // (4) set daily generate version job (for both planning data and tracing data)
+        startJobScheduler(
+                Constants.SCHEDULE_JOB_ID_DAILY_DATA_VERGEN,
+                JobSchedulerServiceDailyDataVersionGeneration.class.getName(),
+                ParseTime.getNextDailyNotifyMills(Constants.NOTIFICATION_TIME_DAILY_DATA_VERGEN),
+                true);
     }
 
     private void prepareRoomDatabase() {
@@ -340,13 +363,13 @@ public class TimeManagementApplication extends Application {
     // ****** Create JobScheduler to start a schedule job ******
     // (start JobSchedulerService at specific time to create a notification)
 
-    private void startJobSchedulerDailySummary(String strClassName, long longLatencyMills, boolean isPersisted) {
+    public static void startJobScheduler(int jobId, String strClassName, long longLatencyMills, boolean isPersisted) {
 
         Logger.d(Constants.TAG, MSG + "Start scheduling job");
 
-        ComponentName componentName = new ComponentName(this, strClassName);   // service name
+        ComponentName componentName = new ComponentName(mContext, strClassName);   // service name
 
-        JobInfo jobInfo = new JobInfo.Builder(Constants.SCHEDULE_JOB_ID_DAILY_SUMMARY, componentName)
+        JobInfo jobInfo = new JobInfo.Builder(jobId, componentName)
 //                .setPeriodic(10 * 1000)
                 .setMinimumLatency(longLatencyMills)
                 .setOverrideDeadline(longLatencyMills)
@@ -356,7 +379,7 @@ public class TimeManagementApplication extends Application {
 //                .setRequiresCharging(false)
                 .build();
 
-        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        JobScheduler scheduler = (JobScheduler) mContext.getSystemService(Context.JOB_SCHEDULER_SERVICE);
 
         int result = scheduler.schedule(jobInfo);   // start a jobScheduler task, return successful job id (return 0 if failed)
 

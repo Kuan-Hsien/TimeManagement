@@ -188,7 +188,7 @@ public class RecordPresenter implements RecordContract.Presenter {
                 @Override
                 public void onError(String errorMessage) {
                     setLoadingCurrentTracing(false);
-                    Logger.e(Constants.TAG, "GetGetCurrentTraceTask.onError, errorMessage: " + errorMessage);
+                    Logger.e(Constants.TAG, MSG + "GetGetCurrentTraceTask.onError, errorMessage: " + errorMessage);
                 }
             }).execute();
         }

@@ -275,7 +275,6 @@ public class RecordAdapter extends RecyclerView.Adapter {
             if (v.getId() == R.id.constraintlayout_record_choose_task_item) {
                 // 表示選擇了此類別，此時要針對上一筆 (現在的 Task) 停止，並開始現在這筆
 
-
                 // current time as startTime
                 Date curDate = new Date();
                 Long longCurTime = curDate.getTime(); // 把毫秒 (Long) 存起來

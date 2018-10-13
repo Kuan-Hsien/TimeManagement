@@ -293,8 +293,8 @@ public interface DatabaseDao {
             " FROM time_tracing_table t " +
             "WHERE t.ver_no >= :startVerNo " +
             "  AND t.ver_no <= :endVerNo " +
-            "  AND ( (t.category_name = 'ALL') OR (t.category_name IN (:categoryList)) ) " +
-            "  AND ( (t.task_name = 'ALL') OR (t.task_name IN (:taskList)) ) " +
+            "  AND ( (:categoryList = 'ALL') OR (t.category_name IN (:categoryList)) ) " +
+            "  AND ( (:taskList = 'ALL') OR (t.task_name IN (:taskList)) ) " +
             "GROUP BY t.ver_no, t.category_name, t.task_name " +
             "ORDER BY t.ver_no, t.category_name, t.task_name")
     List<GetTraceSummary> getTraceSummary(String startVerNo, String endVerNo, String categoryList, String taskList);
@@ -404,17 +404,11 @@ public interface DatabaseDao {
             "       FROM record r " +
             "       LEFT JOIN target t " +
             "      USING (mode, category_name, task_name) " +
-//            "         ON r.mode = t.mode" +
-//            "        AND r.category_name = t.category_name" +
-//            "        AND r.task_name = t.task_name " +
             "      UNION ALL " +
             "     SELECT t.mode, t.ver_no, t.category_name, t.task_name, r.cost_time, t.plan_time " +
             "       FROM target t " +
             "       LEFT JOIN record r " +
             "      USING (mode, category_name, task_name) " +
-//            "         ON r.mode = t.mode " +
-//            "        AND r.category_name = t.category_name" +
-//            "        AND r.task_name = t.task_name " +
             "      WHERE r.cost_time IS NULL " +    // removes rows that already included in the result set of the first SELECT statement. (only need to append rows which has plan but no record(no cost_time))
             "    )" +
             "SELECT result.mode, result.ver_no, result.category_name, c.category_color, c.category_priority, result.task_name, t.task_color, t.task_icon, t.task_priority, IFNULL(result.cost_time, 0) AS cost_time, IFNULL(result.plan_time, 0) AS plan_time " +
