@@ -27,13 +27,13 @@ public interface MainContract {
 
     interface View extends BaseView<Presenter> {
 
+        void showRecordUi();
+
         void showPlanUi();
 
         void showTraceUi();
 
-        void showStatisticUi();
-
-        void showRecordUi();
+        void showAnalysisUi();
 
 //        void refreshLikedUi();
 
@@ -45,9 +45,7 @@ public interface MainContract {
 
         void transToPlan();
 
-        void transToTrace();
-
-        void transToStatistic();
+        void transToAnalysis();
 
         void transToSetTarget();
 

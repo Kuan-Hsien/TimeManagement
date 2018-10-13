@@ -72,7 +72,7 @@ public class JobSchedulerServiceComplete extends JobService {
     @Override
     public boolean onStartJob(JobParameters params) {
         Logger.i(Constants.TAG, MSG + "onStartJob");
-        Toast.makeText(this, "onStartJob", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "onStartJob", Toast.LENGTH_LONG).show();
 
         // （Method-1) 昨天日期
 //        Calendar calendar = Calendar.getInstance();

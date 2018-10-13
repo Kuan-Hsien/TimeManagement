@@ -310,8 +310,8 @@ public interface DatabaseDao {
             "        WHERE ( (:mode = 'MODE_DAILY') OR (:mode = 'ALL') ) " +
             "          AND t.ver_no >= :startVerNo " +
             "          AND t.ver_no <= :endVerNo " +
-            "          AND ( (t.category_name = 'ALL') OR (t.category_name IN (:categoryList)) ) " +
-            "          AND ( (t.task_name = 'ALL') OR (t.task_name IN (:taskList)) ) " +
+            "          AND ( (:categoryList = 'ALL') OR (t.category_name IN (:categoryList)) ) " +
+            "          AND ( (:taskList = 'ALL') OR (t.task_name IN (:taskList)) ) " +
             "        GROUP BY t.ver_no, t.category_name, t.task_name" +
             "        UNION ALL " +
             "       SELECT 'MODE_WEEKLY' AS mode, :startVerNo AS ver_no, t.category_name, t.task_name, SUM(t.cost_time) AS cost_time " +
@@ -319,8 +319,8 @@ public interface DatabaseDao {
             "        WHERE ( (:mode = 'MODE_WEEKLY') OR (:mode = 'ALL') ) " +
             "          AND t.ver_no >= :startVerNo " +
             "          AND t.ver_no <= :endVerNo " +
-            "          AND ( (t.category_name = 'ALL') OR (t.category_name IN (:categoryList)) ) " +
-            "          AND ( (t.task_name = 'ALL') OR (t.task_name IN (:taskList)) ) " +
+            "          AND ( (:categoryList = 'ALL') OR (t.category_name IN (:categoryList)) ) " +
+            "          AND ( (:taskList = 'ALL') OR (t.task_name IN (:taskList)) ) " +
             "        GROUP BY t.category_name, t.task_name" +
             "      ) record " +
             "INNER JOIN task_define_table t " +
@@ -337,8 +337,8 @@ public interface DatabaseDao {
             "         FROM time_tracing_table t " +
             "        WHERE ( (:mode = 'MODE_DAILY') OR (:mode = 'ALL') ) " +
             "          AND t.ver_no = :endVerNo " +
-            "          AND ( (t.category_name = 'ALL') OR (t.category_name IN (:categoryList)) ) " +
-            "          AND ( (t.task_name = 'ALL') OR (t.task_name IN (:taskList)) ) " +
+            "          AND ( (:categoryList = 'ALL') OR (t.category_name IN (:categoryList)) ) " +
+            "          AND ( (:taskList = 'ALL') OR (t.task_name IN (:taskList)) ) " +
             "        GROUP BY t.ver_no, t.category_name, t.task_name" +
             "        UNION ALL " +
             "       SELECT 'MODE_WEEKLY' AS mode, :startVerNo AS ver_no, t.category_name, t.task_name, SUM(t.cost_time) AS cost_time " +
@@ -346,8 +346,8 @@ public interface DatabaseDao {
             "        WHERE ( (:mode = 'MODE_WEEKLY') OR (:mode = 'ALL') ) " +
             "          AND t.ver_no >= :startVerNo " +
             "          AND t.ver_no <= :endVerNo " +
-            "          AND ( (t.category_name = 'ALL') OR (t.category_name IN (:categoryList)) ) " +
-            "          AND ( (t.task_name = 'ALL') OR (t.task_name IN (:taskList)) ) " +
+            "          AND ( (:categoryList = 'ALL') OR (t.category_name IN (:categoryList)) ) " +
+            "          AND ( (:taskList = 'ALL') OR (t.task_name IN (:taskList)) ) " +
             "        GROUP BY t.category_name, t.task_name" +
             "      ) record " +
             "INNER JOIN task_define_table t " +
@@ -367,8 +367,8 @@ public interface DatabaseDao {
             "       FROM time_tracing_table t " +
             "      WHERE ( (:mode = 'MODE_DAILY') OR (:mode = 'ALL') ) " +
             "        AND t.ver_no = :endVerNo" +            // Daily 只看一天: endVerNo
-            "        AND ( (t.category_name = 'ALL') OR (t.category_name IN (:categoryList)) ) " +
-            "        AND ( (t.task_name = 'ALL') OR (t.task_name IN (:taskList)) ) " +
+            "        AND ( (:categoryList = 'ALL') OR (t.category_name IN (:categoryList)) ) " +
+            "        AND ( (:taskList = 'ALL') OR (t.task_name IN (:taskList)) ) " +
             "      GROUP BY t.ver_no, t.category_name, t.task_name" +
             "      UNION ALL " +
             "     SELECT 'MODE_WEEKLY' AS mode, :startVerNo AS ver_no, t.category_name, t.task_name, SUM(t.cost_time) AS cost_time " +
@@ -376,41 +376,50 @@ public interface DatabaseDao {
             "      WHERE ( (:mode = 'MODE_WEEKLY') OR (:mode = 'ALL') ) " +
             "        AND t.ver_no >= :startVerNo " +
             "        AND t.ver_no <= :endVerNo " +
-            "        AND ( (t.category_name = 'ALL') OR (t.category_name IN (:categoryList)) ) " +
-            "        AND ( (t.task_name = 'ALL') OR (t.task_name IN (:taskList)) ) " +
+            "        AND ( (:categoryList = 'ALL') OR (t.category_name IN (:categoryList)) ) " +
+            "        AND ( (:taskList = 'ALL') OR (t.task_name IN (:taskList)) ) " +
             "      GROUP BY t.category_name, t.task_name" +
             "    ), " +
             "    target " +
-            " AS (SELECT p.mode, :endVerNo AS ver_no, p.category_name, p.task_name, p.cost_time AS plan_time" +
+            " AS (SELECT p.mode, :endVerNo AS ver_no, p.category_name, p.task_name, p.cost_time AS plan_time " +
             "       FROM time_planning_table p " +
-            "      WHERE ( (p.mode = 'MODE_DAILY') OR (p.mode = 'ALL') ) " +
+            "      WHERE ( (p.mode = 'MODE_DAILY') OR (:mode = 'ALL') ) " +
+            "        AND p.mode = 'MODE_DAILY' " +
             "        AND (:endVerNo >= p.start_time) " +    // Daily 只看一天: endVerNo
             "        AND (:endVerNo <= p.end_time) " +
-            "        AND ( (p.category_name = 'ALL') OR (p.category_name IN (:categoryList)) ) " +
-            "        AND ( (p.task_name = 'ALL') OR (p.task_name IN (:taskList)) ) " +
-            "      GROUP BY p.category_name, p.task_name" +
+            "        AND ( (:categoryList = 'ALL') OR (p.category_name IN (:categoryList)) ) " +
+            "        AND ( (:taskList = 'ALL') OR (p.task_name IN (:taskList)) ) " +
             "      UNION ALL " +
-            "     SELECT p.mode, :startVerNo AS ver_no, p.category_name, p.task_name, p.cost_time " +
+            "     SELECT p.mode, :startVerNo AS ver_no, p.category_name, p.task_name, p.cost_time AS plan_time " +
             "       FROM time_planning_table p " +
-            "      WHERE (p.mode = 'MODE_WEEKLY' OR p.mode = 'ALL') " +
+            "      WHERE (p.mode = 'MODE_WEEKLY' OR :mode = 'ALL') " +
+            "        AND p.mode = 'MODE_WEEKLY' " +
             "        AND (:startVerNo >= p.start_time) " +
             "        AND (:endVerNo <= p.end_time) " +
-            "        AND ( (p.category_name = 'ALL') OR (p.category_name IN (:categoryList)) ) " +
-            "        AND ( (p.task_name = 'ALL') OR (p.task_name IN (:taskList)) ) " +
+            "        AND ( (:categoryList = 'ALL') OR (p.category_name IN (:categoryList)) ) " +
+            "        AND ( (:taskList = 'ALL') OR (p.task_name IN (:taskList)) ) " +
             "    )," +
             "    result " +     // record vs target
-            " AS (SELECT r.mode, r.ver_no, r.category_name, r.task_name, r.cost_time, IFNULL(t.plan_time, -1) AS plan_time " +
+            " AS (SELECT r.mode, r.ver_no, r.category_name, r.task_name, r.cost_time, t.plan_time" +
             "       FROM record r " +
-            "       LEFT JOIN target t USING(mode, category_name, task_name) " +
+            "       LEFT JOIN target t " +
+            "      USING (mode, category_name, task_name) " +
+//            "         ON r.mode = t.mode" +
+//            "        AND r.category_name = t.category_name" +
+//            "        AND r.task_name = t.task_name " +
             "      UNION ALL " +
-            "     SELECT t.mode, t.ver_no, t.category_name, t.task_name, IFNULL(r.cost_time, -1) AS cost_time, t.plan_time " +
+            "     SELECT t.mode, t.ver_no, t.category_name, t.task_name, r.cost_time, t.plan_time " +
             "       FROM target t " +
-            "       LEFT JOIN record r USING(mode, category_name, task_name)" +
+            "       LEFT JOIN record r " +
+            "      USING (mode, category_name, task_name) " +
+//            "         ON r.mode = t.mode " +
+//            "        AND r.category_name = t.category_name" +
+//            "        AND r.task_name = t.task_name " +
             "      WHERE r.cost_time IS NULL " +    // removes rows that already included in the result set of the first SELECT statement. (only need to append rows which has plan but no record(no cost_time))
             "    )" +
-            "SELECT result.mode, result.ver_no, result.category_name, c.category_color, c.category_priority, result.task_name, t.task_color, t.task_icon, t.task_priority, result.cost_time, result.plan_time " +
+            "SELECT result.mode, result.ver_no, result.category_name, c.category_color, c.category_priority, result.task_name, t.task_color, t.task_icon, t.task_priority, IFNULL(result.cost_time, 0) AS cost_time, IFNULL(result.plan_time, 0) AS plan_time " +
             "  FROM result result " +
-            " INNER JOIN task_define_table t USING(task_name) " +
+            " INNER JOIN task_define_table t USING(category_name, task_name) " +
             " INNER JOIN category_define_table c USING(category_name) " +
             " ORDER BY result.mode, result.ver_no, c.category_priority, t.task_priority ")
     List<GetResultDailySummary> getResultDailySummary(String mode, String startVerNo, String endVerNo, String categoryList, String taskList);

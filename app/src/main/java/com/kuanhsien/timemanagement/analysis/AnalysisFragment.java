@@ -1,9 +1,7 @@
-package com.kuanhsien.timemanagement.trace;
+package com.kuanhsien.timemanagement.analysis;
 
 import android.os.Bundle;
-
 import android.support.design.widget.TabLayout;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -12,76 +10,76 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kuanhsien.timemanagement.R;
-import com.kuanhsien.timemanagement.trace.daily.TraceDailyFragment;
-import com.kuanhsien.timemanagement.trace.daily.TraceDailyPresenter;
-//import com.kuanhsien.timemanagement.trace.weekly.TraceWeeklyFragment;
-//import com.kuanhsien.timemanagement.trace.weekly.TraceWeeklyPresenter;
+import com.kuanhsien.timemanagement.analysis.daily.AnalysisDailyFragment;
+import com.kuanhsien.timemanagement.analysis.daily.AnalysisDailyPresenter;
 import com.kuanhsien.timemanagement.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * Created by Ken on 2018/10/02.
+ * Created by Ken on 2018/10/12.
  *
  * A simple {@link android.app.Fragment} subclass.
  */
-public class TraceFragment extends Fragment {
 
-    private TraceDailyFragment mTraceDailyFragment;
-    private TraceDailyPresenter mTraceDailyPresenter;
+public class AnalysisFragment extends Fragment {
 
-//    private TraceWeeklyFragment mTraceWeeklyFragment;
-//    private TraceWeeklyPresenter mTraceWeeklyPresenter;
+    private AnalysisDailyFragment mAnalysisDailyFragment;
+    private AnalysisDailyPresenter mAnalysisDailyPresenter;
+
+//    private AnalysisWeeklyFragment mAnalysisWeeklyFragment;
+//    private AnalysisWeeklyPresenter mAnalysisWeeklyPresenter;
 
     private TabLayout mTablayout;
     private ViewPager mViewPager;
     private List<Fragment> mFragmentList;
 
-    public TraceFragment() {
+    public AnalysisFragment() {
         // Required empty public constructor
     }
 
-    public static TraceFragment newInstance() {
-        return new TraceFragment();
+    public static com.kuanhsien.timemanagement.analysis.AnalysisFragment newInstance() {
+        return new com.kuanhsien.timemanagement.analysis.AnalysisFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_trace, container, false);
+        View root = inflater.inflate(R.layout.fragment_analysis, container, false);
 
-        if (mTraceDailyFragment == null) {
-            mTraceDailyFragment = TraceDailyFragment.newInstance();
+        if (mAnalysisDailyFragment == null) {
+            mAnalysisDailyFragment = AnalysisDailyFragment.newInstance();
         }
-        if (mTraceDailyPresenter == null) {
-            mTraceDailyPresenter = new TraceDailyPresenter(mTraceDailyFragment);
+        if (mAnalysisDailyPresenter == null) {
+            mAnalysisDailyPresenter = new AnalysisDailyPresenter(mAnalysisDailyFragment);
         }
 
-//        if (mTraceWeeklyFragment == null) {
-//            mTraceWeeklyFragment = mTraceWeeklyFragment.newInstance();
+//        if (mAnalysisWeeklyFragment == null) {
+//            mAnalysisWeeklyFragment = mAnalysisWeeklyFragment.newInstance();
 //        }
-//        if (mTraceWeeklyPresenter == null) {
-//            mTraceWeeklyPresenter = new TraceWeeklyPresenter(mTraceWeeklyFragment);
+//        if (mAnalysisWeeklyPresenter == null) {
+//            mAnalysisWeeklyPresenter = new AnalysisWeeklyPresenter(mAnalysisWeeklyFragment);
 //        }
 
 
         mFragmentList = new ArrayList<>();
-        mFragmentList.add(mTraceDailyFragment);
-//        mFragmentList.add(mTraceDailyFragment);
-//        mFragmentList.add(mTraceDailyFragment);
-//        mFragmentList.add(mTraceDailyFragment);
-//        mFragmentList.add(mTraceWeeklyFragment);
+        mFragmentList.add(mAnalysisDailyFragment);
+//        mFragmentList.add(mAnalysisDailyFragment);
+//        mFragmentList.add(mAnalysisDailyFragment);
+//        mFragmentList.add(mAnalysisDailyFragment);
+//        mFragmentList.add(mAnalysisWeeklyFragment);
 
-        mTablayout = (TabLayout) root.findViewById(R.id.tab_trace_period);
+        mTablayout = (TabLayout) root.findViewById(R.id.tab_analysis_period);
         mTablayout.addTab(mTablayout.newTab().setText(Constants.TAB_DAILY));
 //        mTablayout.addTab(mTablayout.newTab().setText(Constants.TAB_WEEKLY));
 //        mTablayout.addTab(mTablayout.newTab().setText(Constants.TAB_MONTHLY));
 //        mTablayout.addTab(mTablayout.newTab().setText(Constants.TAB_YEARLY));
 //        mTablayout.addTab(mTablayout.newTab().setText("Page three"))
 
-        mViewPager = (ViewPager) root.findViewById(R.id.viewpager_trace_period);
+        mViewPager = (ViewPager) root.findViewById(R.id.viewpager_analysis_period);
         mViewPager.setAdapter(new FragmentStatePagerAdapter(getActivity().getSupportFragmentManager()) {
             @Override
             public int getCount() {
@@ -121,3 +119,6 @@ public class TraceFragment extends Fragment {
         mTablayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
     }
 }
+
+
+

@@ -166,6 +166,7 @@ public class GetResultDailySummary {
         Logger.d(Constants.TAG, MSG + "TaskIcon: " + getTaskIcon());
         Logger.d(Constants.TAG, MSG + "TaskPriority: " + getTaskPriority());
         Logger.d(Constants.TAG, MSG + "CostTime: " + getCostTime());
+        Logger.d(Constants.TAG, MSG + "PlanTime: " + getPlanTime());
         Logger.d(Constants.TAG, MSG + "-----------------------------------------------------");
     }
 

@@ -67,9 +67,9 @@ public class GetTaskWithPlanTimeAsyncTask extends AsyncTask<Object, Void, List<G
 
         if (bean != null) {
 
-            Logger.d(Constants.TAG, MSG + "GetTaskWithPlanTime success");
+            Logger.d(Constants.TAG, MSG + "GetTaskWithPlanTime success: bean.size() = " + bean.size());
             for (int i = 0 ; i < bean.size() ; ++i) {
-                Logger.d(Constants.TAG, MSG + bean.get(i).getTaskName() + " " );
+                bean.get(i).LogD();
             }
 
             mCallback.onCompleted(bean);

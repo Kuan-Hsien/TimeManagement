@@ -11,7 +11,7 @@ import com.kuanhsien.timemanagement.record.RecordFragment;
 import com.kuanhsien.timemanagement.record.RecordPresenter;
 import com.kuanhsien.timemanagement.settarget.SetTargetFragment;
 import com.kuanhsien.timemanagement.settarget.SetTargetPresenter;
-import com.kuanhsien.timemanagement.trace.TraceFragment;
+import com.kuanhsien.timemanagement.analysis.AnalysisFragment;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -44,14 +44,12 @@ public class MainPresenter implements MainContract.Presenter {
     public static final String FRAGMENT_TAG_DETAIL      = "FRAGMENT_TAG_DETAIL";
 
     //Fragment and related presenter
-    private TraceFragment mTraceFragment;
-    private PlanFragment mPlanFragment;
-//    private ProfileFragment mProfileFragment;
     private RecordFragment mRecordFragment;
+    private AnalysisFragment mAnalysisFragment;
+    private PlanFragment mPlanFragment;
 
-//    private TracePresenter mTracePresenter;
+//    private AnalysisPresenter mAnalysisPresenter;
 //    private PlanPresenter mPlanPresenter;
-//    private ProfilePresenter mProfilePresenter;
     private RecordPresenter mRecordPresenter;
     private SetTargetPresenter mSetTargetPresenter;
 
@@ -71,7 +69,7 @@ public class MainPresenter implements MainContract.Presenter {
         if (mFragmentManager.findFragmentByTag(FRAGMENT_TAG_SET_TARGET) != null) mFragmentManager.popBackStack();
         if (mRecordFragment == null) mRecordFragment = RecordFragment.newInstance();
         if (mPlanFragment != null) transaction.hide(mPlanFragment);
-        if (mTraceFragment != null) transaction.hide(mTraceFragment);
+        if (mAnalysisFragment != null) transaction.hide(mAnalysisFragment);
         if (!mRecordFragment.isAdded()) {
             transaction.add(R.id.linearlayout_main_container, mRecordFragment, "FRAGMENT_TAG_RECORD");
         } else {
@@ -93,7 +91,7 @@ public class MainPresenter implements MainContract.Presenter {
 
         if (mFragmentManager.findFragmentByTag(FRAGMENT_TAG_SET_TARGET) != null) mFragmentManager.popBackStack();
         if (mPlanFragment == null) mPlanFragment = PlanFragment.newInstance();
-        if (mTraceFragment != null) transaction.hide(mTraceFragment);
+        if (mAnalysisFragment != null) transaction.hide(mAnalysisFragment);
         if (mRecordFragment != null) transaction.hide(mRecordFragment);
         if (!mPlanFragment.isAdded()) {
             transaction.add(R.id.linearlayout_main_container, mPlanFragment, "FRAGMENT_TAG_PLAN");
@@ -110,32 +108,26 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void transToTrace() {
+    public void transToAnalysis() {
 
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
         if (mFragmentManager.findFragmentByTag(FRAGMENT_TAG_SET_TARGET) != null) mFragmentManager.popBackStack();
-        if (mTraceFragment == null) mTraceFragment = TraceFragment.newInstance();
+        if (mAnalysisFragment == null) mAnalysisFragment = AnalysisFragment.newInstance();
         if (mPlanFragment != null) transaction.hide(mPlanFragment);
         if (mRecordFragment != null) transaction.hide(mRecordFragment);
-        if (!mTraceFragment.isAdded()) {
-            transaction.add(R.id.linearlayout_main_container, mTraceFragment, "FRAGMENT_TAG_TRACE");
+        if (!mAnalysisFragment.isAdded()) {
+            transaction.add(R.id.linearlayout_main_container, mAnalysisFragment, "FRAGMENT_TAG_TRACE");
         } else {
-            transaction.show(mTraceFragment);
+            transaction.show(mAnalysisFragment);
         }
         transaction.commit();
 
-//        if (mTracePresenter == null) {
-//            mTracePresenter = new TraceDailyPresenter(mTraceFragment);
+//        if (mAnalysisPresenter == null) {
+//            mAnalysisPresenter = new AnalysisDailyPresenter(mAnalysisFragment);
 //        }
 
-        mMainView.showTraceUi();
-    }
-
-    @Override
-    public void transToStatistic() {
-
-        mMainView.showStatisticUi();
+        mMainView.showAnalysisUi();
     }
 
 
@@ -148,8 +140,8 @@ public class MainPresenter implements MainContract.Presenter {
             transaction.hide(mPlanFragment);
             transaction.addToBackStack(FRAGMENT_TAG_PLAN);
         }
-//        if (mTraceFragment != null && !mTraceFragment.isHidden()) {
-//            transaction.hide(mTraceFragment);
+//        if (mAnalysisFragment != null && !mAnalysisFragment.isHidden()) {
+//            transaction.hide(mAnalysisFragment);
 //            transaction.addToBackStack(FRAGMENT_TAG_TRACE);
 //        }
 //        if (mProfileFragment != null && !mProfileFragment.isHidden()) {

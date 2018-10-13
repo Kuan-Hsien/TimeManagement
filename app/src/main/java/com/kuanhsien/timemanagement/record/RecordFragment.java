@@ -296,7 +296,7 @@ public class RecordFragment extends Fragment implements RecordContract.View, Vie
 
     @Override
     public void showTraceUi() {
-        ((MainActivity) getActivity()).transToTrace();
+        ((MainActivity) getActivity()).transToAnalysis();
     }
 
 }

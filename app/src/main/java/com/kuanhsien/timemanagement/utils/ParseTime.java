@@ -106,7 +106,10 @@ public class ParseTime {
         SimpleDateFormat simpleDateFormatHMS = new SimpleDateFormat(Constants.DB_FORMAT_HMS);
 
         String strCurTimeHms = simpleDateFormatHMS.format(curDate);    // 現在時間是 21:04:55
-        Logger.d(Constants.TAG, MSG + "getNextDailyNotifyMills -> strCurHms: " + strCurTimeHms);
+//        Logger.d(Constants.TAG, MSG + "getNextDailyNotifyMills -> yyyy/MM/dd: " + simpleDateFormatDate.format(curDate));
+//        Logger.d(Constants.TAG, MSG + "getNextDailyNotifyMills -> yyyy/MM/dd HH:mm:ss: " + simpleDateFormatTime.format(curDate));
+        Logger.d(Constants.TAG, MSG + "getNextDailyNotifyMills -> strCurHms: " + simpleDateFormatHMS.format(curDate));
+        Logger.d(Constants.TAG, MSG + "getNextDailyNotifyMills -> strNotificationTime: " + strNotificationTime);
 
         String strNextDate = null;
         String strNextTime = null;

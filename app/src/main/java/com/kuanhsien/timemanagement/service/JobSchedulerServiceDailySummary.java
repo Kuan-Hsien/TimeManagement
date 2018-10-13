@@ -44,6 +44,7 @@ import java.util.List;
 public class JobSchedulerServiceDailySummary extends JobService {
 
     private static final String MSG = "JobSchedulerServiceDailySummary: ";
+    private boolean mLoading = false;
 
 
     public JobSchedulerServiceDailySummary() {
@@ -75,7 +76,7 @@ public class JobSchedulerServiceDailySummary extends JobService {
     @Override
     public boolean onStartJob(JobParameters params) {
         Logger.i(Constants.TAG, MSG + "onStartJob");
-        Toast.makeText(this, "onStartJob", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "onStartJob", Toast.LENGTH_LONG).show();
 
         // （Method-1) 昨天日期
 //        Calendar calendar = Calendar.getInstance();
@@ -145,44 +146,52 @@ public class JobSchedulerServiceDailySummary extends JobService {
 
     public void getAndNotifyTraceResults(final JobParameters params, String mode, String startVerNo, String endVerNo, String categoryList, String taskList) {
 
-        // insert time_tracing_table
-        new GetResultDailySummaryAsyncTask(mode, startVerNo, endVerNo, categoryList, taskList, new GetResultDailySummaryCallback() {
+        if (!isLoading()) {
+            setLoading(true);
 
-            @Override
-            public void onCompleted(List<GetResultDailySummary> bean) {
+            // get daily summary of tracing and planning result
+            new GetResultDailySummaryAsyncTask(mode, startVerNo, endVerNo, categoryList, taskList, new GetResultDailySummaryCallback() {
 
-                Logger.d(Constants.TAG, MSG + "GetResultDailySummary onCompleted");
-                for( int i = 0 ; i < bean.size() ; ++i) {
-                    bean.get(i).LogD();
+                @Override
+                public void onCompleted(List<GetResultDailySummary> bean) {
+
+                    Logger.d(Constants.TAG, MSG + "GetResultDailySummary onCompleted");
+                    for (int i = 0; i < bean.size(); ++i) {
+                        bean.get(i).LogD();
+                    }
+
+                    // (1) Notifcaiton title/ subtext/ content
+                    String strTitle = ""; //"Save " + ParseTime.msToHourMinDiff(recordList.get(0).getStartTime(), recordList.get(0).getEndTime()) + " to " + recordList.get(0).getTaskName();
+                    String strSubtext = ""; //"Current task: " + recordList.get(recordList.size()-1).getTaskName(); // last element would be the current tracing item
+                    String strContent = ""; //"Today's total: ";
+
+                    Logger.d(Constants.TAG, MSG + "Title: " + strTitle);
+                    Logger.d(Constants.TAG, MSG + "Subtext: " + strSubtext);
+                    Logger.d(Constants.TAG, MSG + "Content: " + strContent);
+
+                    startNotification(bean, strTitle, strSubtext, strContent);    // use remoteViews to customized title and content
+
+                    setLoading(false);
+
+                    // [TODO] 修改為下次提醒時間 (user input)
+                    // (2) 算出下次通知時間並註冊 Job
+                    startJobScheduler(ParseTime.getNextDailyNotifyMills("08:00:00"));
+
+                    // (3) 宣布當前的 job 已完成
+                    jobFinished(params, false);
+
                 }
 
-                // (1) Notifcaiton title/ subtext/ content
-                String strTitle = ""; //"Save " + ParseTime.msToHourMinDiff(recordList.get(0).getStartTime(), recordList.get(0).getEndTime()) + " to " + recordList.get(0).getTaskName();
-                String strSubtext = ""; //"Current task: " + recordList.get(recordList.size()-1).getTaskName(); // last element would be the current tracing item
-                String strContent = ""; //"Today's total: ";
+                @Override
+                public void onError(String errorMessage) {
 
-                Logger.d(Constants.TAG, MSG + "Title: " + strTitle);
-                Logger.d(Constants.TAG, MSG + "Subtext: " + strSubtext);
-                Logger.d(Constants.TAG, MSG + "Content: " + strContent);
+                    setLoading(false);
+                    Logger.d(Constants.TAG, MSG + "GetResultDailySummary onError, errorMessage: " + errorMessage);
 
-                startNotification(bean, strTitle, strSubtext, strContent);    // use remoteViews to customized title and content
+                }
 
-
-                // [TODO] 修改為下次提醒時間 (user input)
-                // (2) 算出下次通知時間並註冊 Job
-                startJobScheduler(ParseTime.getNextDailyNotifyMills("08:00:00"));
-
-                // (3) 宣布當前的 job 已完成
-                jobFinished(params,false);
-
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-
-                Logger.d(Constants.TAG, MSG + "GetResultDailySummary onError, errorMessage: " + errorMessage);
-            }
-        }).execute();
+            }).execute();
+        }
     }
 
     // 立即發送一個 notification
@@ -382,6 +391,15 @@ public class JobSchedulerServiceDailySummary extends JobService {
         }
 
         mNotificationManager.notify(Constants.NOTIFY_ID_SUMMARY, mBuilder.build());   // 用 notify 並指定 ID，隨後可用此 ID 做進一步的更新或是取消等等操作
+    }
+
+
+    public boolean isLoading() {
+        return mLoading;
+    }
+
+    public void setLoading(boolean loading) {
+        mLoading = loading;
     }
 
 }

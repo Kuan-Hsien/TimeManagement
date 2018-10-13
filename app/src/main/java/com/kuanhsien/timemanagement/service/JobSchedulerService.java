@@ -64,7 +64,7 @@ public class JobSchedulerService extends JobService {
     @Override
     public boolean onStartJob(JobParameters params) {
         Logger.i(Constants.TAG, MSG + "onStartJob");
-        Toast.makeText(this, "onStartJob", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "onStartJob", Toast.LENGTH_LONG).show();
 
         startNotification();
         

@@ -1,11 +1,5 @@
 package com.kuanhsien.timemanagement;
 
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -20,12 +14,8 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
-import com.kuanhsien.timemanagement.service.JobSchedulerServiceDailySummary;
-import com.kuanhsien.timemanagement.service.MainService;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
-
-import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -220,10 +210,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                     mPresenter.transToPlan();
                     return true;
 
-                case R.id.navigation_trace:
+                case R.id.navigation_analysis:
 
-//                    mPresenter.transToStatistic();
-                    mPresenter.transToTrace();
+                    mPresenter.transToAnalysis();
                     return true;
 
 
@@ -261,14 +250,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void showStatisticUi() {
+    public void showAnalysisUi() {
 
         mToolbar.setVisibility(View.VISIBLE);
         mButtomNavigation.setVisibility(View.VISIBLE);
 
-        setToolbarTitle(getResources().getString(R.string.page_title_statisic));
-//        cancelAllJobScheduler();
-//        cancelJobScheduler(Constants.SCHEDULE_JOB_ID_DAILY_SUMMARY);
+        setToolbarTitle(getResources().getString(R.string.page_title_analysis));
     }
 
     @Override
@@ -283,15 +270,15 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     public void transToRecord() {
-        mButtomNavigation.findViewById(R.id.navigation_add_record).performClick();   // mPresenter.transToTrace();
+        mButtomNavigation.findViewById(R.id.navigation_add_record).performClick();   // mPresenter.transToAnalysis();
     }
 
     public void transToPlan() {
         mButtomNavigation.findViewById(R.id.navigation_plan).performClick();   // mPresenter.transToPlan();
     }
 
-    public void transToTrace() {
-        mButtomNavigation.findViewById(R.id.navigation_trace).performClick();   // mPresenter.transToTrace();
+    public void transToAnalysis() {
+        mButtomNavigation.findViewById(R.id.navigation_analysis).performClick();   // mPresenter.transToAnalysis();
     }
 
     public void transToSetTarget() {

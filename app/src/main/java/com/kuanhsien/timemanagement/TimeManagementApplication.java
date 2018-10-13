@@ -18,6 +18,7 @@ import com.kuanhsien.timemanagement.object.CategoryDefineTable;
 import com.kuanhsien.timemanagement.object.TaskDefineTable;
 import com.kuanhsien.timemanagement.object.TimePlanningTable;
 import com.kuanhsien.timemanagement.object.TimeTracingTable;
+import com.kuanhsien.timemanagement.service.JobSchedulerServiceDailyDataVersionGeneration;
 import com.kuanhsien.timemanagement.service.JobSchedulerServiceDailySummary;
 import com.kuanhsien.timemanagement.service.MainService;
 import com.kuanhsien.timemanagement.utils.Constants;
@@ -52,31 +53,13 @@ public class TimeManagementApplication extends Application {
 
             setFirstLogin(false);
 
-            firstLogin();
-
         } else {
 
+            firstLogin();
             setFirstLogin(true);
         }
 
-
-        Logger.d(Constants.TAG, MSG + "start-service for broadcast-receiver of power-button");
-
-        Intent intentService = new Intent(this, MainService.class);
-
-        // after Android 8, need to start service at foreground
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-            Logger.d(Constants.TAG, MSG + "start foreground service");
-            startForegroundService(intentService);
-
-        } else {
-
-            Logger.d(Constants.TAG, MSG + "start background service");
-            startService(intentService);
-        }
-
-
+        init();
 
 //        dbFavoriteArticle = new DbFavoriteArticle(applicationContext);
 //
@@ -213,9 +196,11 @@ public class TimeManagementApplication extends Application {
         // (1) prepare default tasks and categories
         // (2) tips
         // (3) set daily summary notificaitons
+        // (4) set daily generate version job (for both planning data and tracing data)
         // (x) prepare testing data
         prepareRoomDatabase();
-        startJobSchedulerDailySummary();
+        startJobSchedulerDailySummary(JobSchedulerServiceDailySummary.class.getName(), 1000, true);
+        startJobSchedulerDailySummary(JobSchedulerServiceDailyDataVersionGeneration.class.getName(), 1000, true);
 
         mSharePreferences = getSharedPreferences(Constants.FILENAME_USER_DATA, Context.MODE_PRIVATE);
         mSharePreferences.edit()
@@ -223,6 +208,26 @@ public class TimeManagementApplication extends Application {
                 .apply();
     }
 
+
+    private void init() {
+
+        // (0) start foreground service for lock-screen listener
+        Logger.d(Constants.TAG, MSG + "start-service for broadcast-receiver of power-button");
+
+        Intent intentService = new Intent(this, MainService.class);
+
+        // after Android 8, need to start service at foreground
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            Logger.d(Constants.TAG, MSG + "start foreground service");
+            startForegroundService(intentService);
+
+        } else {
+
+            Logger.d(Constants.TAG, MSG + "start background service");
+            startService(intentService);
+        }
+    }
 
     private void prepareRoomDatabase() {
 
@@ -335,18 +340,17 @@ public class TimeManagementApplication extends Application {
     // ****** Create JobScheduler to start a schedule job ******
     // (start JobSchedulerService at specific time to create a notification)
 
-    private void startJobSchedulerDailySummary() {
+    private void startJobSchedulerDailySummary(String strClassName, long longLatencyMills, boolean isPersisted) {
 
         Logger.d(Constants.TAG, MSG + "Start scheduling job");
 
-        ComponentName componentName = new ComponentName(this, JobSchedulerServiceDailySummary.class.getName());   // service name
+        ComponentName componentName = new ComponentName(this, strClassName);   // service name
 
         JobInfo jobInfo = new JobInfo.Builder(Constants.SCHEDULE_JOB_ID_DAILY_SUMMARY, componentName)
 //                .setPeriodic(10 * 1000)
-
-                .setMinimumLatency(10*1000)
-                .setOverrideDeadline(10*1000)
-                .setPersisted(true)     // 為了讓重開機還能繼續執行此 job
+                .setMinimumLatency(longLatencyMills)
+                .setOverrideDeadline(longLatencyMills)
+                .setPersisted(isPersisted)     // 為了讓重開機還能繼續執行此 job
 //                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED) // 只有網路不限流量時 (e.g. WIFI)
 //                .setRequiresDeviceIdle(false)
 //                .setRequiresCharging(false)
@@ -357,7 +361,7 @@ public class TimeManagementApplication extends Application {
         int result = scheduler.schedule(jobInfo);   // start a jobScheduler task, return successful job id (return 0 if failed)
 
         if (result == JobScheduler.RESULT_SUCCESS) {
-            Logger.d(Constants.TAG, MSG + "Job scheduled successfully!");
+            Logger.d(Constants.TAG, MSG + "Job scheduled successfully: " + strClassName);
         }
     }
 

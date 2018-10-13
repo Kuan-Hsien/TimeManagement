@@ -1,5 +1,4 @@
-package com.kuanhsien.timemanagement.trace.daily;
-
+package com.kuanhsien.timemanagement.analysis.daily;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -30,14 +29,15 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.kuanhsien.timemanagement.task.CategoryTaskListAdapter;
-import com.kuanhsien.timemanagement.task.CategoryTaskListContract;
-import com.kuanhsien.timemanagement.task.CategoryTaskListPresenter;
-import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
-import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTime;
 import com.kuanhsien.timemanagement.MainActivity;
 import com.kuanhsien.timemanagement.R;
 import com.kuanhsien.timemanagement.TimeManagementApplication;
+import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
+import com.kuanhsien.timemanagement.dml.GetResultDailySummary;
+import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTime;
+import com.kuanhsien.timemanagement.task.CategoryTaskListAdapter;
+import com.kuanhsien.timemanagement.task.CategoryTaskListContract;
+import com.kuanhsien.timemanagement.task.CategoryTaskListPresenter;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
 
@@ -46,15 +46,14 @@ import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-
 /**
- * Created by Ken on 2018/10/02
+ * Created by Ken on 2018/10/12
  *
  * A simple {@link Fragment} subclass.
  */
-public class TraceDailyFragment extends Fragment implements TraceDailyContract.View, CategoryTaskListContract.View {
+public class AnalysisDailyFragment extends Fragment implements AnalysisDailyContract.View, CategoryTaskListContract.View {
 
-    private static final String MSG = "TraceDailyFragment: ";
+    private static final String MSG = "AnalysisDailyFragment: ";
 
 
     private LinearLayout mLinearLayoutPeriod;
@@ -63,31 +62,30 @@ public class TraceDailyFragment extends Fragment implements TraceDailyContract.V
     private CategoryTaskListAdapter mCategoryTaskListAdapter;
     private AlertDialog mDialog;
 
-    private TraceDailyContract.Presenter mPresenter;
-    private TraceDailyAdapter mTraceDailyAdapter;
-    private int mIntTraceMode;
+    private AnalysisDailyContract.Presenter mPresenter;
+    private AnalysisDailyAdapter mAnalysisDailyAdapter;
+    private int mIntAnalysisMode;
     private int mIntTaskMode;
-    private PieChart mPieChart;
 
-    public TraceDailyFragment() {
+    public AnalysisDailyFragment() {
         // Required empty public constructor
     }
 
-    public static com.kuanhsien.timemanagement.trace.daily.TraceDailyFragment newInstance() {
-        return new com.kuanhsien.timemanagement.trace.daily.TraceDailyFragment();
+    public static AnalysisDailyFragment newInstance() {
+        return new AnalysisDailyFragment();
     }
 
     @Override
-    public void setPresenter(TraceDailyContract.Presenter presenter) {
+    public void setPresenter(AnalysisDailyContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//[TODO] TraceDailyFragment onCreate
+//[TODO] AnalysisDailyFragment onCreate
 //        ((MainActivity) getActivity()).showUserInfoLog();
-        mTraceDailyAdapter = new TraceDailyAdapter(new ArrayList<GetTaskWithPlanTime>(), mPresenter);
+        mAnalysisDailyAdapter = new AnalysisDailyAdapter(new ArrayList<GetResultDailySummary>(), mPresenter);
 
     }
 
@@ -101,11 +99,11 @@ public class TraceDailyFragment extends Fragment implements TraceDailyContract.V
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_trace_daily, container, false);
+        View root = inflater.inflate(R.layout.fragment_analysis_daily, container, false);
 
-        RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recyclerview_trace_daily);
+        RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recyclerview_analysis_daily);
         recyclerView.setLayoutManager(new LinearLayoutManager(TimeManagementApplication.getAppContext()));
-        recyclerView.setAdapter(mTraceDailyAdapter);
+        recyclerView.setAdapter(mAnalysisDailyAdapter);
 //        recyclerView.addItemDecoration(new DividerItemDecoration(TimeManagementApplication.getAppContext(), DividerItemDecoration.VERTICAL));
 
 
@@ -130,22 +128,16 @@ public class TraceDailyFragment extends Fragment implements TraceDailyContract.V
 
 
         // [TODO] delete this part
-        mLinearLayoutPeriod = root.findViewById(R.id.linearlayout_trace_period_daily);
-        mLinearLayoutPeriod.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                Logger.d(Constants.TAG, MSG + "Create a notification");
-
-
-            }   // end of onClick
-        });
-
-
-
-        // Get the piechart
-        mPieChart = root.findViewById(R.id.piechart_analysis_top_item);
+//        mLinearLayoutPeriod = root.findViewById(R.id.linearlayout_analysis_period_daily);
+//        mLinearLayoutPeriod.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//
+//                Logger.d(Constants.TAG, MSG + "Create a notification");
+//
+//            }   // end of onClick
+//        });
 
 
         return root;
@@ -158,41 +150,15 @@ public class TraceDailyFragment extends Fragment implements TraceDailyContract.V
     }
 
     @Override
-    public void showTaskListWithTraceTime(List<GetTaskWithPlanTime> bean) {
-        mTraceDailyAdapter.updateData(bean);
-
-        setupPieChart();
-    }
-
-    private void setupPieChart() {
-        // Populating a list of PieEntries
-        List<PieEntry> pieEntries = new ArrayList<>();
-
-        pieEntries.add(new PieEntry(10f, "Green"));   // label is just a string
-        pieEntries.add(new PieEntry(26.7f, "Yellow"));
-        pieEntries.add(new PieEntry(24.0f, "Red"));
-        pieEntries.add(new PieEntry(30.8f, "Blue"));
-
-        PieDataSet pieDataSet = new PieDataSet(pieEntries, "Statistic Results");
-        pieDataSet.setColors(ColorTemplate.JOYFUL_COLORS);
-        pieDataSet.setSliceSpace(5f);   // 每塊扇形之間的間距
-        PieData pieData = new PieData(pieDataSet);
-
-
-        mPieChart.setData(pieData);
-//        mPieChart.setTransparentCircleAlpha(0); // 設定中心透明圓形的透明度 (0-255)
-
-        mPieChart.setDrawHoleEnabled(true);
-        mPieChart.animateY(1000);
-        mPieChart.invalidate(); // refresh pie chart
-
+    public void showResultDailySummary(List<GetResultDailySummary> bean) {
+        mAnalysisDailyAdapter.updateData(bean);
     }
 
 
     @Override
     public void refreshUi(int mode) {
-        setIntTraceMode(mode);
-        mTraceDailyAdapter.refreshUiMode(mode);
+        setIntAnalysisMode(mode);
+        mAnalysisDailyAdapter.refreshUiMode(mode);
     }
 
 
@@ -202,13 +168,12 @@ public class TraceDailyFragment extends Fragment implements TraceDailyContract.V
     }
 
 
-
-    public int getIntTraceMode() {
-        return mIntTraceMode;
+    public int getIntAnalysisMode() {
+        return mIntAnalysisMode;
     }
 
-    public void setIntTraceMode(int intTraceMode) {
-        mIntTraceMode = intTraceMode;
+    public void setIntAnalysisMode(int intAnalysisMode) {
+        mIntAnalysisMode = intAnalysisMode;
     }
 
 
@@ -305,7 +270,7 @@ public class TraceDailyFragment extends Fragment implements TraceDailyContract.V
         mDialog.dismiss();
 
         Logger.d(Constants.TAG, MSG + "Category: " + bean.getCategoryName() + " Task: " + bean.getTaskName());
-        mTraceDailyAdapter.showCategoryTaskSelected(bean);
+        mAnalysisDailyAdapter.showCategoryTaskSelected(bean);
     }
 
     @Override

@@ -15,7 +15,7 @@
         android:checked="true" />
 
     <item
-        android:id="@+id/navigation_trace"
+        android:id="@+id/navigation_analysis"
         android:icon="@drawable/page_pie_chart"
         android:title=""/>
 

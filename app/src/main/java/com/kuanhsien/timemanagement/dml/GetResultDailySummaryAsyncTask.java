@@ -76,7 +76,7 @@ public class GetResultDailySummaryAsyncTask extends AsyncTask<Object, Void, List
 
         if (bean != null) {
 
-            Logger.d(Constants.TAG, MSG + "GetResultDailySummaryAsyncTask success");
+            Logger.d(Constants.TAG, MSG + "GetResultDailySummaryAsyncTask success: bean.size() = " + bean.size());
             mCallback.onCompleted(bean);
 
         } else if (!mErrorMessage.equals("")) {
