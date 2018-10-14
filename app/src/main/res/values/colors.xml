@@ -12,12 +12,16 @@
 
 
     <!-- 1. record page -->
+    <!-- 1.0 transparent background -->
+    <color name="color_recordpage_black_transparent">#7F000000</color>
+    <color name="color_recordpage_white_transparent">#C8FFFFFF</color>
+
+
     <!-- 1.1 action button -->
     <color name="color_recordpage_button_background">#000000</color>
     <color name="color_recordpage_button_ripple_mask">#FFFFFF</color>
     <color name="color_recordpage_button_ripple_color">#FFFFFF</color>
     <color name="color_recordpage_button_text">#FFFFFF</color>
-
 
     <!-- x. default color (modify by code) -->
     <color name="color_task_default_background">#191970</color>

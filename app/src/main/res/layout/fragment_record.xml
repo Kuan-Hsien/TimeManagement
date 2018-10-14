@@ -5,45 +5,87 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_rings_20"
+
     tools:context=".record.RecordFragment">
 
 
+    <ImageView
+        android:id="@+id/imageview_record_black_transparent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_recordpage_black_transparent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+
     <!-- 1. Record description -->
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/linearlayout_record_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="visible"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@android:color/white"
+        android:background="@color/color_recordpage_black_transparent"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:clickable="true"
         android:focusable="true"
-        tools:background="@android:color/holo_orange_dark">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:background="@color/color_recordpage_black_transparent">
 
         <TextView
             android:id="@+id/textview_record_current_task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
             android:layout_marginTop="10dp"
-            android:text="Family"
+            android:text="Transportaion"
             android:shadowDx="1"
             android:shadowDy="3"
             android:shadowRadius="5"
-            android:shadowColor="@android:color/darker_gray"
+            android:shadowColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:elevation="2dp"
             android:fontFamily="sans-serif-medium"
             android:ellipsize="end"
             android:lines="1"
-            android:textColor="@android:color/black"
             android:maxLines="1"
-            android:textSize="30sp" />
+            android:textSize="36sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
 
         <TextView
             android:id="@+id/textview_record_current_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:fontFamily="sans-serif-medium"
+            android:ellipsize="end"
+            android:lines="1"
+            android:shadowDx="1"
+            android:shadowDy="3"
+            android:shadowRadius="5"
+            android:shadowColor="@android:color/black"
+            android:textColor="@android:color/white"
+            android:maxLines="1"
+            android:textSize="13sp"
+            android:text="Current task | Since 09:18"
+            app:layout_constraintTop_toBottomOf="@+id/textview_record_current_task"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <TextView
+            android:id="@+id/textview_record_current_time_bk"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -51,31 +93,45 @@
             android:fontFamily="sans-serif-medium"
             android:ellipsize="end"
             android:lines="1"
-            android:textColor="@android:color/black"
+            android:shadowDx="1"
+            android:shadowDy="3"
+            android:shadowRadius="5"
+            android:shadowColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:maxLines="1"
             android:textSize="13sp"
-            android:text="Since 09:18" />
+            android:text="Since 09:18"
+            android:visibility="gone"
+            android:gravity="left|end"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
             android:id="@+id/textview_record_tip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
-            android:textColor="@android:color/darker_gray"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:padding="4dp"
+            android:textColor="@android:color/white"
             android:gravity="center"
-            android:textStyle="italic|bold"
+            android:textStyle="italic"
             android:text="Choose a task to start tracing and stop the current task"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:background="@drawable/shape_textview_white_border"
+            app:layout_constraintTop_toBottomOf="@+id/textview_record_current_time"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-    </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 
     <!-- 2. RecyclerView of tasks list -->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_record_button"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#FFFFFF"
+        android:layout_marginTop="5dp"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
         android:paddingBottom="8dp"
