@@ -36,4 +36,10 @@
     <color name="color_app_default_green">#B8F9D2</color>
     <color name="color_app_default_grey">#aeaeae</color>
 
+
+    <color name="color_app_clock_blue">#2963C6</color>
+    <color name="color_app_clock_yellow">#FFEA68</color>
+    <color name="color_app_clock_dark_blue">#10306C</color>
+    <color name="color_app_clock_light_blue">#6FE6F3</color>
+
 </resources>

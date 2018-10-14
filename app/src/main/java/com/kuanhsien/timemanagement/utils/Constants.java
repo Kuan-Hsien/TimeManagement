@@ -89,7 +89,7 @@ public class Constants {
     public static final int NOTIFICATION_TIME_SUMMARY = 1000;
 
     public static final String NOTIFICATION_TIME_DAILY_DATA_VERGEN = "00:00:00";
-    public static final String NOTIFICATION_TIME_DAILY_SUMMARY = "22:50:00";
+    public static final String NOTIFICATION_TIME_DAILY_SUMMARY = "06:38:00";
 
     // (> Android 8.0) 通知頻道的 ID
     public static final String NOTIFICATION_CHANNEL_ID_LOCKSCREEN_RECEIVER = "lock_screen_track";

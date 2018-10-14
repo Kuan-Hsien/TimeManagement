@@ -62,4 +62,19 @@
     </style>
     <!-- <item name="android:elevation">2dp</item> -->
 
+
+    <style name="Tablayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="tabIndicatorColor">@android:color/white</item>
+        <item name="tabIndicatorHeight">3dp</item>
+        <item name="tabTextColor">@color/color_app_default_grey</item>
+        <item name="tabSelectedTextColor">@android:color/white</item>
+        <item name="tabBackground">@color/color_app_clock_dark_blue</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+
+    </style>
+    <!-- <item name="android:elevation">2dp</item> -->
+
 </resources>

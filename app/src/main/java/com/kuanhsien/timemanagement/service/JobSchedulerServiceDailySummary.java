@@ -260,14 +260,15 @@ public class JobSchedulerServiceDailySummary extends JobService {
             remoteViewsItem.setImageViewResource(R.id.imageview_notificaiton_task_icon, TimeManagementApplication.getIconResourceId(bean.get(i).getTaskIcon()));
             remoteViewsItem.setInt(R.id.imageview_notificaiton_task_icon, "setColorFilter", Color.parseColor(bean.get(i).getTaskColor()));
 
-            // 檢查是否已經完成 (花費時間 >= 計畫時間，就代表已經花足夠時間了，可以把此 target 劃掉)
-            if ( (bean.get(i).getCostTime() - bean.get(i).getPlanTime()) >= 0 ) {
+            // 檢查是否已經完成 (本來有計劃，且花費時間 >= 計畫時間，就代表已經花足夠時間了，可以把此 target 劃掉)
+            if (  (bean.get(i).getPlanTime() > 0)  &&
+                    ((bean.get(i).getCostTime() - bean.get(i).getPlanTime()) >= 0)  ) {
 
                 // (2) set task name
                 remoteViewsItem.setTextViewText(R.id.textview_notification_task_name_complete, bean.get(i).getTaskName());
 
                 // (3) set cost time
-                remoteViewsItem.setTextViewText(R.id.textview_notification_cost_time_complete, ParseTime.intToHrM(bean.get(i).getCostTime()));
+                remoteViewsItem.setTextViewText(R.id.textview_notification_cost_time_complete, ParseTime.msToHrM(bean.get(i).getCostTime()));
 
                 // 完成項目的不同顏色和刪除線等等直接用另一個 view 畫出來
                 remoteViewsItem.setInt(R.id.textview_notification_task_name_complete, "setVisibility", View.VISIBLE);
@@ -284,7 +285,7 @@ public class JobSchedulerServiceDailySummary extends JobService {
                 remoteViewsItem.setTextViewText(R.id.textview_notification_task_name, bean.get(i).getTaskName());
 
                 // (3) set cost time
-                remoteViewsItem.setTextViewText(R.id.textview_notification_cost_time, ParseTime.intToHrM(bean.get(i).getCostTime()));
+                remoteViewsItem.setTextViewText(R.id.textview_notification_cost_time, ParseTime.msToHrM(bean.get(i).getCostTime()));
             }
 
             // (2.1) set textView color

@@ -95,8 +95,8 @@
 
 
     <!-- Notification -->
-    <dimen name="height_notificaiton_daily_summary">86dp</dimen>
-    <dimen name="height_notificaiton_weekly_summary">86dp</dimen>
+    <dimen name="height_notificaiton_daily_summary">75dp</dimen>
+    <dimen name="height_notificaiton_weekly_summary">60dp</dimen>
     <dimen name="width_notificaiton_task_icon">11dp</dimen>
 
 
