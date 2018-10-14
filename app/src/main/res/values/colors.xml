@@ -5,7 +5,6 @@
     <color name="colorAccent">#FF4081</color>
 
 
-
     <color name="bottom_navigation_item_normal">#aeaeae</color>
     <color name="bottom_navigation_item_selected">#0066FF</color>
     <!--<color name="bottom_navigation_item_selected">#7436b9</color>-->
@@ -23,8 +22,18 @@
     <color name="color_recordpage_button_ripple_color">#FFFFFF</color>
     <color name="color_recordpage_button_text">#FFFFFF</color>
 
+
     <!-- x. default color (modify by code) -->
-    <color name="color_task_default_background">#191970</color>
+    <color name="color_task_default_background">#2B3A67</color>
     <color name="color_task_default_icon">#FFFFFF</color>
+
+
+    <!-- x. app main color -->
+    <color name="color_app_default_blue">#2B3A67</color>
+    <color name="color_app_default_yellow">#FFFD82</color>
+    <color name="color_app_default_orange">#FF9B71</color>
+    <color name="color_app_default_red">#E83A5B</color>
+    <color name="color_app_default_green">#B8F9D2</color>
+    <color name="color_app_default_grey">#aeaeae</color>
 
 </resources>

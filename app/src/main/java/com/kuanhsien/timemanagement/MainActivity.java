@@ -3,6 +3,8 @@ package com.kuanhsien.timemanagement;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
 
@@ -202,16 +205,19 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
                 case R.id.navigation_add_record:
 
+                    Logger.d(Constants.TAG, MSG + "BottomNavigation select: Record");
                     mPresenter.transToRecord();
                     return true;
 
                 case R.id.navigation_plan:
 
+                    Logger.d(Constants.TAG, MSG + "BottomNavigation select: Plan");
                     mPresenter.transToPlan();
                     return true;
 
                 case R.id.navigation_analysis:
 
+                    Logger.d(Constants.TAG, MSG + "BottomNavigation select: Analysis");
                     mPresenter.transToAnalysis();
                     return true;
 
@@ -230,6 +236,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mPresenter = checkNotNull(presenter);
     }
 
+    @Override
+    public void showRecordUi() {
+
+        setToolbarTitle(getResources().getString(R.string.page_title_record));
+
+        mToolbar.setVisibility(View.GONE);
+        mButtomNavigation.setVisibility(View.GONE);
+    }
 
     @Override
     public void showPlanUi() {
@@ -259,14 +273,21 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void showRecordUi() {
+    public void showTaskListUi() {
 
-        setToolbarTitle(getResources().getString(R.string.page_title_record));
-
-        mToolbar.setVisibility(View.GONE);
+        mToolbar.setVisibility(View.VISIBLE);
         mButtomNavigation.setVisibility(View.GONE);
 
-//        cancelAllJobScheduler();
+        setToolbarTitle(getResources().getString(R.string.page_title_tasklist));
+    }
+
+    @Override
+    public void showAddTaskUi() {
+
+        mToolbar.setVisibility(View.VISIBLE);
+        mButtomNavigation.setVisibility(View.GONE);
+
+        setToolbarTitle(getResources().getString(R.string.page_title_addtask));
     }
 
     public void transToRecord() {
@@ -281,9 +302,19 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mButtomNavigation.findViewById(R.id.navigation_analysis).performClick();   // mPresenter.transToAnalysis();
     }
 
+    public void transToTaskList() {
+        mPresenter.transToTaskList();
+    }
+
+    public void transToAddTask() {
+        mPresenter.transToAddTask();
+    }
+
     public void transToSetTarget() {
         mPresenter.transToSetTarget();
     }
+
+
 
 
     @Override
@@ -295,5 +326,52 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     protected void onPause() {
         super.onPause();
     }
+
+
+
+    // onBackPressed handle by activity
+    @Override
+    public void onBackPressed() {
+        Logger.d(Constants.TAG, MSG + "onBackPressed: ");
+
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//
+//        } else if (getIntLaunchMode() == LAUNCH_OTHER) {
+//            // if launch by other application, then close the app (do not enter the other page)
+//            super.onBackPressed();
+//
+//        } else
+
+
+        if (mPresenter.isFragmentTaskListVisible()) {
+
+            // call presenter to hide this fragment and show the original one
+            mButtomNavigation.setSelectedItemId(mButtomNavigation.getSelectedItemId());
+
+        } else if (mPresenter.isFragmentAddTaskVisible()) {
+
+            // call presenter to hide this fragment and show the original one
+            mButtomNavigation.setSelectedItemId(mButtomNavigation.getSelectedItemId());
+
+        } else if (mPresenter.isFragmentRecordVisible()) {
+
+            // block back-key
+            ;
+
+        } else {
+            // if current view is main-fragment, than leave the app
+            super.onBackPressed();
+        }
+    }
+//
+//    public void hideTaskListUi() {
+//        mToolbarMain.setVisibility(View.VISIBLE);
+//        mLinearLayoutMain.setVisibility(View.VISIBLE);
+//
+//        mFragmentTransactionMain = mFragmentManagerMain.beginTransaction();
+//        mFragmentTransactionMain.hide(mFragmentDetail).commit();
+//    }
 }
 

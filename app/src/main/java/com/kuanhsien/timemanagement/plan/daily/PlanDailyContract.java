@@ -20,6 +20,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.kuanhsien.timemanagement.BasePresenter;
 import com.kuanhsien.timemanagement.BaseView;
+import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
 import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTime;
 import com.kuanhsien.timemanagement.object.TimePlanningTable;
 
@@ -47,6 +48,16 @@ public interface PlanDailyContract {
         void showTaskListDialog();
 
         void showSetTargetUi();
+
+
+
+
+        // (fragment-ver) select task while add target
+        void showTaskListUi();
+
+        void showTaskSelected(GetCategoryTaskList bean);
+
+
 
     }
 
@@ -79,7 +90,20 @@ public interface PlanDailyContract {
 
         // 3-1. [Send-to-View]
 //        void showCategoryListDialog();
+
+
+
+        // (dialog-ver) select task while add target
         void showTaskListDialog();
+
+
+        // (fragment-ver) select task while add target
+        void showTaskListUi();
+
+        void selectTaskToPlan(GetCategoryTaskList bean);
+
+
+
 
         void showSetTargetUi();
     }

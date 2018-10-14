@@ -4,6 +4,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.kuanhsien.timemanagement.MainContract;
 import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
 import com.kuanhsien.timemanagement.dml.GetCategoryTaskListAsyncTask;
 import com.kuanhsien.timemanagement.dml.GetCategoryTaskListCallback;
@@ -22,12 +23,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 
 /**
- * Created by Ken on 2018/9/30
+ * Created by Ken on 2018/10/14
  */
-public class CategoryTaskListPresenter implements CategoryTaskListContract.Presenter {
-    private static final String MSG = "CategoryTaskListPresenter: ";
+public class TaskListPresenter implements TaskListContract.Presenter {
+    private static final String MSG = "TaskListPresenter: ";
 
-    private final CategoryTaskListContract.View mTaskView;
+    private final TaskListContract.View mTaskView;
+    private MainContract.Presenter mMainPresenter;
 
     private int mlastVisibleItemPosition;
     private int mfirstVisibleItemPosition;
@@ -35,14 +37,15 @@ public class CategoryTaskListPresenter implements CategoryTaskListContract.Prese
     private boolean mLoading = false;
 
 
-    public CategoryTaskListPresenter(CategoryTaskListContract.View mainView) {
-        mTaskView = checkNotNull(mainView, "taskView cannot be null!");
-        mTaskView.setCategoryTaskListPresenter(this);
+    public TaskListPresenter(TaskListContract.View view,  MainContract.Presenter mainPresenter) {
+        mTaskView = checkNotNull(view, "taskView cannot be null!");
+        mTaskView.setPresenter(this);
+        mMainPresenter = mainPresenter;
     }
 
     @Override
     public void start() {
-        getCategoryTaskList();
+        getTaskList();
     }
 
 
@@ -84,11 +87,76 @@ public class CategoryTaskListPresenter implements CategoryTaskListContract.Prese
     }
 
     // 0-2. [Send-to-View] request fragment to refresh adapter (base on mode (view or edit))
+
+    @Override
+    public void refreshUi(int mode) {
+        mTaskView.refreshUi(mode);
+    }
+
+    // 1-1. [Send-to-Model] database query to prepare data (query all targets)
+    @Override
+    public void getTaskList() {
+        if (!isLoading()) {
+            setLoading(true);
+
+            // [TODO] 要改為用畫面上的元件讀取
+
+            // 取得現在時間
+            Date currentTime = new Date();
+            String mStrStartTime = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO).format(currentTime); // 擷取到日期
+
+            // 新增一個Calendar,並且指定時間
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(currentTime);
+            calendar.add(Calendar.HOUR, 24);    // +24 小時
+
+            Date tomorrowNow = calendar.getTime();  // 取得 24 小時後的現在時間
+            String mStrEndTime = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO).format(tomorrowNow);   // 擷取到日期
+
+
+            new GetCategoryTaskListAsyncTask(new GetCategoryTaskListCallback() {
+
+                @Override
+                public void onCompleted(List<GetCategoryTaskList> bean) {
+                    setLoading(false);
+                    showTaskList(bean);
+                }
+
+                @Override
+                public void onError(String errorMessage) {
+                    setLoading(false);
+                    Logger.e(Constants.TAG, "GetCategoryTaskList.onError, errorMessage: " + errorMessage);
+                }
+            }).execute();
+        }
+    }
+
+    // 1-2. [Send-to-View] request fragment to show data
+    @Override
+    public void showTaskList(List<GetCategoryTaskList> bean) {
+        mTaskView.showTaskList(bean);
+    }
+
+    @Override
+    public void showTaskSelected(GetCategoryTaskList bean) {
+
+//        mTaskView.showTaskSelected(bean);
+        Logger.d(Constants.TAG, MSG + "Select Task: ");
+        bean.LogD();
+
+        mMainPresenter.selectTaskToPlan(bean);
+    }
+
+
+
+
+
+
+
     @Override
     public void refreshCategoryTaskUi(int mode) {
         mTaskView.refreshCategoryTaskUi(mode);
     }
-
 
     // 1-1. [Send-to-Model] database query to prepare data (query all targets)
     @Override
@@ -116,7 +184,7 @@ public class CategoryTaskListPresenter implements CategoryTaskListContract.Prese
                 @Override
                 public void onCompleted(List<GetCategoryTaskList> bean) {
                     setLoading(false);
-                    showCategoryTaskList(bean);
+                    showTaskList(bean);
                 }
 
                 @Override
@@ -127,7 +195,6 @@ public class CategoryTaskListPresenter implements CategoryTaskListContract.Prese
             }).execute();
         }
     }
-
 
     // 1-2. [Send-to-View] request fragment to show data
     @Override

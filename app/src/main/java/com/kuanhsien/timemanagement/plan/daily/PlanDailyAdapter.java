@@ -744,7 +744,8 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
 
             } else if (v.getId() == R.id.edittext_plan_top_editmode_task) {
 
-                mPresenter.showTaskListDialog();
+//                mPresenter.showTaskListDialog();
+                mPresenter.showTaskListUi();
             }
         }
 

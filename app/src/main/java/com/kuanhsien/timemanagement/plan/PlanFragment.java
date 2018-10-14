@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kuanhsien.timemanagement.R;
+import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
 import com.kuanhsien.timemanagement.plan.daily.PlanDailyFragment;
 import com.kuanhsien.timemanagement.plan.daily.PlanDailyPresenter;
 import com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyFragment;
@@ -43,6 +44,12 @@ public class PlanFragment extends Fragment {
     private TabLayout mTablayout;
     private ViewPager mViewPager;
     private List<Fragment> mFragmentList;
+
+
+    // [TODO] 可考慮是否要把 add plan 獨立放到另外一頁
+    // selected task to add new plan
+    private boolean isRefresh = true;
+
 
     public PlanFragment() {
         // Required empty public constructor
@@ -85,6 +92,7 @@ public class PlanFragment extends Fragment {
 
         mViewPager = (ViewPager) root.findViewById(R.id.viewpager_plan_period);
         mViewPager.setAdapter(new FragmentStatePagerAdapter(getActivity().getSupportFragmentManager()) {
+
             @Override
             public int getCount() {
                 return mFragmentList.size();
@@ -134,9 +142,43 @@ public class PlanFragment extends Fragment {
         } else {  //重新顯示到最前端 (被 show())
             Logger.d(Constants.TAG, MSG + "onHiddenChanged: hidden = false => SHOW");
 
-            mPlanDailyPresenter.start();
-            mPlanWeeklyPresenter.start();
+            if (isRefresh()) {
+
+                mPlanDailyPresenter.start();
+                mPlanWeeklyPresenter.start();
+
+            } else {    // false 表示正在新增 task，有收到回傳的 task
+                setRefresh(true);   // 事件已在 selectTaskToPlan 中完成，下次再進 onHiddenChanged 就要更新畫面
+            }
+
         }
     }
 
+
+    // 由 main presenter 傳入在 tasklistFragment 中選擇的 task
+    public void selectTaskToPlan(GetCategoryTaskList bean) {
+
+        setRefresh(false);
+
+        if (mFragmentList.get(mTablayout.getSelectedTabPosition()).equals(mPlanDailyFragment)) {
+
+            Logger.d(Constants.TAG, MSG + "selectTaskToPlan: mPlanDailyFragment");
+            mPlanDailyPresenter.selectTaskToPlan(bean);
+
+        } else {    // mFragmentList.get(mTablayout.getSelectedTabPosition()).equals(mPlanWeeklyFragment)
+
+            Logger.d(Constants.TAG, MSG + "selectTaskToPlan: mPlanWeeklyFragment");
+//            mPlanWeeklyPresenter.selectTaskToPlan(bean);
+        }
+
+        // 針對現在被選擇的 page 更新
+    }
+
+    public boolean isRefresh() {
+        return isRefresh;
+    }
+
+    public void setRefresh(boolean refresh) {
+        isRefresh = refresh;
+    }
 }

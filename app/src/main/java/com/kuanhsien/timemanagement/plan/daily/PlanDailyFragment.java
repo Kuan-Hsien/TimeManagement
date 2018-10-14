@@ -105,7 +105,6 @@ public class PlanDailyFragment extends Fragment implements PlanDailyContract.Vie
             }
         });
 
-
         return root;
     }
 
@@ -256,5 +255,27 @@ public class PlanDailyFragment extends Fragment implements PlanDailyContract.Vie
 
     public void setIntTaskMode(int intTaskMode) {
         mIntTaskMode = intTaskMode;
+    }
+
+
+
+
+
+
+
+
+
+    @Override
+    public void showTaskListUi() {
+        ((MainActivity) getActivity()).transToTaskList();
+    }
+
+    @Override
+    public void showTaskSelected(GetCategoryTaskList bean) {
+
+        Logger.d(Constants.TAG, MSG + "showTaskSelected: task: ");
+        bean.LogD();
+
+        mPlanDailyAdapter.showCategoryTaskSelected(bean);
     }
 }

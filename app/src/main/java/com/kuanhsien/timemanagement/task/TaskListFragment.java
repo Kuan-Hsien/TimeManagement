@@ -1,43 +1,24 @@
-package com.kuanhsien.timemanagement.analysis.daily;
+package com.kuanhsien.timemanagement.task;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.RemoteViews;
 
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.kuanhsien.timemanagement.MainActivity;
 import com.kuanhsien.timemanagement.R;
 import com.kuanhsien.timemanagement.TimeManagementApplication;
 import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
-import com.kuanhsien.timemanagement.dml.GetResultDailySummary;
 import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTime;
-import com.kuanhsien.timemanagement.task.CategoryTaskListAdapter;
-import com.kuanhsien.timemanagement.task.CategoryTaskListContract;
-import com.kuanhsien.timemanagement.task.CategoryTaskListPresenter;
+import com.kuanhsien.timemanagement.task.TaskListAdapter;
+import com.kuanhsien.timemanagement.task.TaskListContract;
+import com.kuanhsien.timemanagement.task.TaskListFragment;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
 
@@ -47,46 +28,48 @@ import java.util.List;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Created by Ken on 2018/10/12
+ * Created by Ken on 2018/10/14.
  *
  * A simple {@link Fragment} subclass.
  */
-public class AnalysisDailyFragment extends Fragment implements AnalysisDailyContract.View, CategoryTaskListContract.View {
+public class TaskListFragment extends Fragment implements TaskListContract.View, CategoryTaskListContract.View {
 
-    private static final String MSG = "AnalysisDailyFragment: ";
-
-
-    private LinearLayout mLinearLayoutPeriod;
+    private static final String MSG = "TaskListFragment: ";
 
     private CategoryTaskListContract.Presenter mCategroyTaskListContractPresenter;
     private CategoryTaskListAdapter mCategoryTaskListAdapter;
     private AlertDialog mDialog;
 
-    private AnalysisDailyContract.Presenter mPresenter;
-    private AnalysisDailyAdapter mAnalysisDailyAdapter;
-    private int mIntAnalysisMode;
+    private TaskListContract.Presenter mPresenter;
+    private TaskListAdapter mTaskListAdapter;
+    private int mIntPlanMode;
     private int mIntTaskMode;
 
-    public AnalysisDailyFragment() {
+    public TaskListFragment() {
         // Required empty public constructor
     }
 
-    public static AnalysisDailyFragment newInstance() {
-        return new AnalysisDailyFragment();
+    public static TaskListFragment newInstance() {
+        return new TaskListFragment();
     }
 
     @Override
-    public void setPresenter(AnalysisDailyContract.Presenter presenter) {
+    public void setPresenter(TaskListContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//[TODO] AnalysisDailyFragment onCreate
+//[TODO] TaskListFragment onCreate
 //        ((MainActivity) getActivity()).showUserInfoLog();
-        mAnalysisDailyAdapter = new AnalysisDailyAdapter(new ArrayList<GetResultDailySummary>(), mPresenter);
+        mTaskListAdapter = new TaskListAdapter(new ArrayList<GetCategoryTaskList>(), mPresenter);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -94,11 +77,11 @@ public class AnalysisDailyFragment extends Fragment implements AnalysisDailyCont
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_analysis_daily, container, false);
+        View root = inflater.inflate(R.layout.fragment_task_list, container, false);
 
-        RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recyclerview_analysis_daily);
+        RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recyclerview_tasklist);
         recyclerView.setLayoutManager(new LinearLayoutManager(TimeManagementApplication.getAppContext()));
-        recyclerView.setAdapter(mAnalysisDailyAdapter);
+        recyclerView.setAdapter(mTaskListAdapter);
 //        recyclerView.addItemDecoration(new DividerItemDecoration(TimeManagementApplication.getAppContext(), DividerItemDecoration.VERTICAL));
 
 
@@ -121,20 +104,6 @@ public class AnalysisDailyFragment extends Fragment implements AnalysisDailyCont
             }
         });
 
-
-        // [TODO] delete this part
-//        mLinearLayoutPeriod = root.findViewById(R.id.linearlayout_analysis_period_daily);
-//        mLinearLayoutPeriod.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//
-//                Logger.d(Constants.TAG, MSG + "Create a notification");
-//
-//            }   // end of onClick
-//        });
-
-
         return root;
     }
 
@@ -145,36 +114,85 @@ public class AnalysisDailyFragment extends Fragment implements AnalysisDailyCont
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        Logger.d(Constants.TAG, MSG + "onHiddenChanged: hidden = " + hidden);
 
-    @Override
-    public void showResultDailySummary(List<GetResultDailySummary> bean) {
-        mAnalysisDailyAdapter.updateData(bean);
+        if (hidden) {  // 不在最前端介面顯示 (被 hide())
+            ;
+        } else {  //重新顯示到最前端 (被 show())
+            Logger.d(Constants.TAG, MSG + "onHiddenChanged: hidden = false => SHOW");
+            mPresenter.start();
+        }
     }
-
 
     @Override
     public void refreshUi(int mode) {
-        setIntAnalysisMode(mode);
-        mAnalysisDailyAdapter.refreshUiMode(mode);
+        setIntPlanMode(mode);
+        mTaskListAdapter.refreshUiMode(mode);
+    }
+
+    @Override
+    public void showTaskList(List<GetCategoryTaskList> bean) {
+        mTaskListAdapter.updateData(bean);
+    }
+
+    @Override
+    public void showTaskSelected(GetCategoryTaskList bean) {
+
+//        Logger.d(Constants.TAG, MSG + "Select Task: ");
+//        bean.LogD();
+//
+//        // (1) 把選到的 category 傳回 (e.g. Plan page)
+//        // (2) 把自己這頁關掉
+//        mPresenter.show
+//
+//        Bundle bundle = new Bundle();
+//        bundle.pu
+//        bundle.putString("article_id", mArticlesList.get(mPosition).getId());
+//        bundle.putString("article_author_id", mArticlesList.get(mPosition).getAuthor().getId());
+//        bundle.putString("article_author_name", mArticlesList.get(mPosition).getAuthor().getName());
+//        bundle.putString("article_author_image", mArticlesList.get(mPosition).getAuthor().getImage());
+//        bundle.putString("article_title", mArticlesList.get(mPosition).getTitle());
+//        bundle.putString("article_content", mArticlesList.get(mPosition).getContent());
+//        bundle.putString("article_createdtime", mArticlesList.get(mPosition).getCreatedTime());
+//        bundle.putString("article_place", mArticlesList.get(mPosition).getPlace());
+//        // [TODO] picture need to send all the list item
+//        bundle.putString("article_picture", mArticlesList.get(mPosition).getPictures().toString());
+//        bundle.putInt("article_interests", mArticlesList.get(mPosition).getInterests());
+//        bundle.putInt("article_interested_in", mArticlesList.get(mPosition).isInterestedIn() == true ? 1 : 0);
+//
+//        mMainActivity.getFragmentDetail().setArguments(bundle);
+//        mMainActivity.displayArticleDetail();
+//
+//
+//
+//        mTaskListAdapter.showTaskSelected(bean);
+
+
+
     }
 
 
+    // [TODO] 可刪
     @Override
     public void showSetTargetUi() {
         ((MainActivity) getActivity()).transToSetTarget();
     }
 
-
-    public int getIntAnalysisMode() {
-        return mIntAnalysisMode;
+    public int getIntPlanMode() {
+        return mIntPlanMode;
     }
 
-    public void setIntAnalysisMode(int intAnalysisMode) {
-        mIntAnalysisMode = intAnalysisMode;
+    public void setIntPlanMode(int intPlanMode) {
+        mIntPlanMode = intPlanMode;
     }
+
+
+
+
+
+
 
 
 
@@ -270,7 +288,11 @@ public class AnalysisDailyFragment extends Fragment implements AnalysisDailyCont
         mDialog.dismiss();
 
         Logger.d(Constants.TAG, MSG + "Category: " + bean.getCategoryName() + " Task: " + bean.getTaskName());
-        mAnalysisDailyAdapter.showCategoryTaskSelected(bean);
+        //$
+        //$
+        //$
+        //$
+//        mTaskListAdapter.showCategoryTaskSelected(bean);    // 這是為了要把選到的 category 送回到 Plan page
     }
 
     @Override
@@ -291,7 +313,4 @@ public class AnalysisDailyFragment extends Fragment implements AnalysisDailyCont
     public void setIntTaskMode(int intTaskMode) {
         mIntTaskMode = intTaskMode;
     }
-
-
 }
-

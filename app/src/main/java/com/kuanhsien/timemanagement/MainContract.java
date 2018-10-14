@@ -17,6 +17,8 @@
 
 package com.kuanhsien.timemanagement;
 
+import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
+
 /**
  * Created by Ken on 2018/9/23.
  *
@@ -35,25 +37,50 @@ public interface MainContract {
 
         void showAnalysisUi();
 
-//        void refreshLikedUi();
+        void showTaskListUi();
 
+        void showAddTaskUi();
+
+//        void refreshLikedUi();
     }
 
     interface Presenter extends BasePresenter {
 
 //        void result(int requestCode, int resultCode);
+        void transToRecord();
 
         void transToPlan();
 
         void transToAnalysis();
 
+        void transToTaskList();
+
+        void transToAddTask();
+
         void transToSetTarget();
 
-        void transToRecord();
+
 
 //        void transToDetail(Article article);
 //
 //        void refreshLiked();
+
+        boolean isFragmentRecordVisible();
+
+        boolean isFragmentPlanVisible();
+
+        boolean isFragmentAnalysisVisible();
+
+        boolean isFragmentTaskListVisible();
+
+        boolean isFragmentAddTaskVisible();
+
+
+        // return select task
+        void selectTaskToPlan(GetCategoryTaskList bean);
+
+        // call when set task complete
+        void addTaskComplete();
 
     }
 }

@@ -1,12 +1,16 @@
 <resources>
     <string name="app_name">Time Management</string>
 
+    <string name="page_title_record">Record</string>
     <string name="page_title_plan">Plan</string>
     <string name="page_title_trace">Trace</string>
     <string name="page_title_analysis">Statistic</string>
-    <string name="page_title_record">Record</string>
+    <string name="page_title_tasklist">Choose a task</string>
+    <string name="page_title_addtask">Add a task</string>
+
 
 <!-- TODO: Remove or change this placeholder text -->
+
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="record_page_button_view_statistics">Statistics</string>

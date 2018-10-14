@@ -395,6 +395,7 @@ public class RecordAdapter extends RecyclerView.Adapter {
             if (v.getId() == R.id.constraintlayout_record_add_task_item) {
                 // [TODO] 進入新增 Task 事件
 
+                mPresenter.showAddTaskUi();
 //                mPresenter.showCategoryTaskSelected(mCategoryTaskList.get(getCurrentPosition()));
 
 

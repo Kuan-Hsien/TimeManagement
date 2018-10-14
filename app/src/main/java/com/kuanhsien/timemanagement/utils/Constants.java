@@ -129,15 +129,16 @@ public class Constants {
     public static final String MODE_YEARLY = "MODE_YEARLY";
 
     // Default Tasks
-    public static final String TASK_SLEEP = "SLEEP";
-    public static final String TASK_FREE = "FREE";
-    public static final String TASK_FAMILY = "FAMILY";
-    public static final String TASK_FRIEND = "FRIEND";
+    public static final String TASK_SLEEP = "Sleep";
+    public static final String TASK_FREE = "Free";
+    public static final String TASK_FAMILY = "Family";
+    public static final String TASK_FRIEND = "Friend";
 
     // Default Category
-    public static final String CATEGORY_HEALTH = "HEALTH";
-    public static final String CATEGORY_RELATIONSHIP = "RELATIONSHIP";
-    public static final String CATEGORY_SELF = "SELF";
+    public static final String CATEGORY_OTHERS = "Others";
+    public static final String CATEGORY_HEALTH = "Health";
+    public static final String CATEGORY_RELATIONSHIP = "Relationship";
+    public static final String CATEGORY_SELF = "Self";
 
 
 }

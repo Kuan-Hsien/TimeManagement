@@ -4,6 +4,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
 import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTimeCallback;
 import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTimeAsyncTask;
 import com.kuanhsien.timemanagement.dml.SetTargetAsyncTask;
@@ -199,5 +200,20 @@ public class PlanDailyPresenter implements PlanDailyContract.Presenter {
     @Override
     public void showTaskListDialog() {
         mPlanView.showTaskListDialog();
+    }
+
+
+
+
+
+
+    @Override
+    public void showTaskListUi() {
+        mPlanView.showTaskListUi();
+    }
+
+    @Override
+    public void selectTaskToPlan(GetCategoryTaskList bean) {
+        mPlanView.showTaskSelected(bean);
     }
 }

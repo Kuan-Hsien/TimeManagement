@@ -326,10 +326,13 @@ public class RecordPresenter implements RecordContract.Presenter {
         mLoadingCurrentTracing = loadingCurrentTracing;
     }
 
-    //    @Override
-//    public void showCategoryListDialog() {
-//        mRecordView.showCategoryListDialog();
-//    }
+
+
+
+    @Override
+    public void showAddTaskUi() {
+        mRecordView.showAddTaskUi();
+    }
 
 
 

@@ -294,10 +294,6 @@ public class RecordFragment extends Fragment implements RecordContract.View, Vie
 //        mCategoryTaskListAdapter.refreshUiMode(mode);
 //    }
 
-//    @Override
-//    public void showCategoryListDialog() {
-//
-//    }
 
     public int getIntTaskMode() {
         return mIntTaskMode;
@@ -311,6 +307,11 @@ public class RecordFragment extends Fragment implements RecordContract.View, Vie
     @Override
     public void showTraceUi() {
         ((MainActivity) getActivity()).transToAnalysis();
+    }
+
+    @Override
+    public void showAddTaskUi() {
+        ((MainActivity) getActivity()).transToAddTask();
     }
 
 }
