@@ -20,6 +20,40 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 
+    <ImageView
+        android:id="@+id/imageview_analysis_topitem_trace_placeholder"
+        android:layout_width="@dimen/size_analysis_piechart"
+        android:layout_height="@dimen/size_analysis_piechart"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/l_icon2"
+        app:srcCompat="@drawable/l_icon2"
+        tools:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/textview_analysis_topitem_trace_placeholder"
+        android:layout_width="@dimen/size_analysis_piechart"
+        android:layout_height="@dimen/size_analysis_piechart"
+        android:layout_margin="10dp"
+        android:padding="36dp"
+        android:visibility="gone"
+        android:background="@drawable/shape_textview_white_transparent"
+        android:text="Add current tracing task to see the pie chart"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@android:color/black"
+        android:textStyle="italic|bold"
+        android:textSize="15sp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:visibility="visible"/>
+
     <!-- TODO add defualt content while there is no analysis result -->
 
     <android.support.constraint.ConstraintLayout

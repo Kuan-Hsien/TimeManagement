@@ -178,7 +178,7 @@ public class JobSchedulerServiceDailySummary extends JobService {
     private void startNotification(List<GetResultDailySummary> bean, String strTitle, String strSubText, String strContent) {
 
         // Large Icon 作法 1
-        Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_launcher_xxhdpi);
+        Drawable drawable = ContextCompat.getDrawable(this, TimeManagementApplication.getIconResourceId(Constants.APP_ICON_BIG));
         Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
 
         // Large Icon 作法 2
@@ -194,7 +194,7 @@ public class JobSchedulerServiceDailySummary extends JobService {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, Constants.NOTIFICATION_CHANNEL_ID_SUMMARY);
 
         // 設置小圖標
-        mBuilder.setSmallIcon(R.drawable.btn_like_selected);
+        mBuilder.setSmallIcon(TimeManagementApplication.getIconResourceId(Constants.APP_ICON_SMALL));
         // 設置大圖標
         mBuilder.setLargeIcon(bitmap);
 

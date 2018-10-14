@@ -9,13 +9,18 @@ import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.IBinder;
 import android.service.dreams.DreamService;
+import android.support.v4.content.ContextCompat;
 
 import com.kuanhsien.timemanagement.MainActivity;
 import com.kuanhsien.timemanagement.PowerButtonReceiver;
 import com.kuanhsien.timemanagement.R;
+import com.kuanhsien.timemanagement.TimeManagementApplication;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
 
@@ -78,11 +83,12 @@ public class MainService extends Service {
             //Step3. 透過 Notification.Builder 來建構 notification，
             // 並直接使用其.build() 的方法將設定好屬性的 Builder 轉換
             // 成 notification，最後開始將顯示通知訊息發送至狀態列上。
+
             Notification notification
                     = new Notification.Builder(this)
                     .setContentIntent(pendingIntentNotify) // 設置 PendingIntent
-                    .setSmallIcon(R.mipmap.ic_launcher) // 設置狀態列裡面的圖示（小圖示）　　
-                    .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher)) // 下拉下拉清單裡面的圖示（大圖示）
+                    .setSmallIcon(TimeManagementApplication.getIconResourceId(Constants.APP_ICON_SMALL)) // 設置狀態列裡面的圖示（小圖示）　　
+                    .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), TimeManagementApplication.getIconResourceId(Constants.APP_ICON_BIG))) // 下拉下拉清單裡面的圖示（大圖示）
                     .setTicker(getString(R.string.notificaiton_content_lockscreen)) // 設置狀態列的顯示的資訊
                     .setWhen(System.currentTimeMillis()) // 設置通知發生時間
                     .setAutoCancel(true) // 設置通知被使用者點擊後是否清除  //notification.flags = Notification.FLAG_AUTO_CANCEL;

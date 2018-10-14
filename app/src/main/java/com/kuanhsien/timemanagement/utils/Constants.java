@@ -69,6 +69,11 @@ public class Constants {
 
     // ****** Notification ******
 
+    // APP ICON
+    public static final String APP_ICON_SMALL = "l_icon0";
+    public static final String APP_ICON_BIG = "l_icon2";
+
+
     // notification ID
     public static final int NOTIFY_ID_LOCKSCREEN_RECEIVER = 9000;
     public static final int NOTIFY_ID_ONGOING = 9001;

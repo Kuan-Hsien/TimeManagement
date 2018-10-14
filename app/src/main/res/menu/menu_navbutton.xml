@@ -10,7 +10,7 @@
 
     <item
         android:id="@+id/navigation_plan"
-        android:icon="@drawable/page_alarm"
+        android:icon="@drawable/page_plan"
         android:title=""
         android:checked="true" />
 

@@ -446,6 +446,8 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
         private TextView mTextviewAnalysisTopItemTaskName;
         private TextView mTextviewAnalysisTopItemPercent;
         private TextView mTextviewAnalysisTopItemCostTime;
+        private TextView mTextviewAnalysisTopItemPlaceholder;
+        private ImageView mImageviewAnalysisTopItemPlaceholder;
 
         public TextView getTextviewAnalysisTopItemTaskName() {
             return mTextviewAnalysisTopItemTaskName;
@@ -471,6 +473,10 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
             mTextviewAnalysisTopItemTaskName = v.findViewById(R.id.textview_analysis_topitem_taskname);
             mTextviewAnalysisTopItemCostTime = v.findViewById(R.id.textview_analysis_topitem_costtime);
             mTextviewAnalysisTopItemPercent = v.findViewById(R.id.textview_analysis_topitem_costtime_precent);
+
+            // place-holder
+            mTextviewAnalysisTopItemPlaceholder = v.findViewById(R.id.textview_analysis_topitem_trace_placeholder);
+            mImageviewAnalysisTopItemPlaceholder = v.findViewById(R.id.imageview_analysis_topitem_trace_placeholder);
         }
 
         /**
@@ -480,6 +486,18 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
 
             // 更新 pie chart 的內容
             setupPieChart();
+
+            // 設定 pie chart 時會加總 mLongTotalCostTime，如果為 0 表示一比 trace 都沒有
+            if (mLongTotalCostTime == 0) {
+
+                mImageviewAnalysisTopItemPlaceholder.setVisibility(View.VISIBLE);
+                mTextviewAnalysisTopItemPlaceholder.setVisibility(View.VISIBLE);
+
+            } else {
+
+                mImageviewAnalysisTopItemPlaceholder.setVisibility(View.GONE);
+                mTextviewAnalysisTopItemPlaceholder.setVisibility(View.GONE);
+            }
 
         }
 

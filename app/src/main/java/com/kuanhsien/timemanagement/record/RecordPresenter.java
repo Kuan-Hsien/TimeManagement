@@ -342,7 +342,7 @@ public class RecordPresenter implements RecordContract.Presenter {
     private void startNotificationOngoing(String strTitle, String strSubText, String strContent) {
 
         // Large Icon 作法 1
-        Drawable drawable = ContextCompat.getDrawable(TimeManagementApplication.getAppContext(), R.drawable.ic_launcher_xxhdpi);
+        Drawable drawable = ContextCompat.getDrawable(TimeManagementApplication.getAppContext(), TimeManagementApplication.getIconResourceId(Constants.APP_ICON_BIG));
         Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
 
         // Large Icon 作法 2
@@ -358,7 +358,7 @@ public class RecordPresenter implements RecordContract.Presenter {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(TimeManagementApplication.getAppContext(), Constants.NOTIFICATION_CHANNEL_ID_ONGOING);
 
         // 設置小圖標
-        mBuilder.setSmallIcon(R.drawable.btn_like_selected);
+        mBuilder.setSmallIcon(TimeManagementApplication.getIconResourceId(Constants.APP_ICON_SMALL));
         // 設置大圖標
         mBuilder.setLargeIcon(bitmap);
 

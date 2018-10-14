@@ -107,7 +107,12 @@ public class TimeManagementApplication extends Application {
 
     public static Drawable getIconResourceDrawable(String strIcon) {
 
-        if (strIcon.equals("icon_sleep")) {
+        if (strIcon.equals(Constants.APP_ICON_SMALL)) {
+            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.l_icon0);
+        } else if (strIcon.equals(Constants.APP_ICON_BIG)) {
+            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.l_icon2);
+
+        } else if (strIcon.equals("icon_sleep")) {
             return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_sleep);
         } else if (strIcon.equals("icon_bike")) {
             return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_bike);
@@ -146,7 +151,12 @@ public class TimeManagementApplication extends Application {
 
     public static int getIconResourceId(String strIcon) {
 
-        if (strIcon.equals("icon_sleep")) {
+        if (strIcon.equals(Constants.APP_ICON_SMALL)) {
+            return R.drawable.l_icon0;
+        } else if (strIcon.equals(Constants.APP_ICON_BIG)) {
+            return R.drawable.l_icon2;
+
+        } else if (strIcon.equals("icon_sleep")) {
             return R.drawable.icon_sleep;
         } else if (strIcon.equals("icon_bike")) {
             return R.drawable.icon_bike;
