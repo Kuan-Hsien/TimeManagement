@@ -21,6 +21,7 @@ import com.kuanhsien.timemanagement.utils.Logger;
 import com.kuanhsien.timemanagement.utils.ParseTime;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -129,6 +130,19 @@ public class RecordFragment extends Fragment implements RecordContract.View, Vie
         mPresenter.start();
     }
 
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        Logger.d(Constants.TAG, MSG + "onHiddenChanged: hidden = " + hidden);
+
+        if (hidden) {  // 不在最前端介面顯示 (被 hide())
+            ;
+        } else {  //重新顯示到最前端 (被 show())
+            Logger.d(Constants.TAG, MSG + "onHiddenChanged: hidden = false => SHOW");
+            mPresenter.start();
+        }
+    }
 
     @Override
     public void onClick(View v) {

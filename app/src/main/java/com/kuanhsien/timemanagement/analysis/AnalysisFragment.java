@@ -13,6 +13,7 @@ import com.kuanhsien.timemanagement.R;
 import com.kuanhsien.timemanagement.analysis.daily.AnalysisDailyFragment;
 import com.kuanhsien.timemanagement.analysis.daily.AnalysisDailyPresenter;
 import com.kuanhsien.timemanagement.utils.Constants;
+import com.kuanhsien.timemanagement.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,8 @@ import java.util.List;
  */
 
 public class AnalysisFragment extends Fragment {
+    private static final String MSG = "AnalysisFragment: ";
+
 
     private AnalysisDailyFragment mAnalysisDailyFragment;
     private AnalysisDailyPresenter mAnalysisDailyPresenter;
@@ -117,6 +120,22 @@ public class AnalysisFragment extends Fragment {
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTablayout));
         mTablayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+    }
+
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        Logger.d(Constants.TAG, MSG + "onHiddenChanged: hidden = " + hidden);
+
+        if (hidden) {  // 不在最前端介面顯示 (被 hide())
+            ;
+        } else {  //重新顯示到最前端 (被 show())
+            Logger.d(Constants.TAG, MSG + "onHiddenChanged: hidden = false => SHOW");
+
+            mAnalysisDailyPresenter.start();
+//            mAnalysisWeeklyPresenter.start(); // [TODO]
+        }
     }
 }
 

@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,9 @@ import com.kuanhsien.timemanagement.plan.daily.PlanDailyFragment;
 import com.kuanhsien.timemanagement.plan.daily.PlanDailyPresenter;
 import com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyFragment;
 import com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyPresenter;
+import com.kuanhsien.timemanagement.record.RecordFragment;
 import com.kuanhsien.timemanagement.utils.Constants;
+import com.kuanhsien.timemanagement.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +31,8 @@ import java.util.List;
  * A simple {@link android.app.Fragment} subclass.
  */
 public class PlanFragment extends Fragment {
+    private static final String MSG = "PlanFragment: ";
+
 
     private PlanDailyFragment mPlanDailyFragment;
     private PlanDailyPresenter mPlanDailyPresenter;
@@ -116,6 +121,22 @@ public class PlanFragment extends Fragment {
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTablayout));
         mTablayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+    }
+
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        Logger.d(Constants.TAG, MSG + "onHiddenChanged: hidden = " + hidden);
+
+        if (hidden) {  // 不在最前端介面顯示 (被 hide())
+            ;
+        } else {  //重新顯示到最前端 (被 show())
+            Logger.d(Constants.TAG, MSG + "onHiddenChanged: hidden = false => SHOW");
+
+            mPlanDailyPresenter.start();
+            mPlanWeeklyPresenter.start();
+        }
     }
 
 }

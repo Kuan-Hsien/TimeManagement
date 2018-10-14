@@ -90,11 +90,6 @@ public class AnalysisDailyFragment extends Fragment implements AnalysisDailyCont
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -147,6 +142,11 @@ public class AnalysisDailyFragment extends Fragment implements AnalysisDailyCont
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mPresenter.start();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
