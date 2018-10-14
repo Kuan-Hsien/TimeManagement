@@ -308,6 +308,7 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
 
                     Logger.d(Constants.TAG, MSG + "Meet the max-time, reset progress to current maximum");
                     Logger.d(Constants.TAG, MSG + "MaxTime: " + mIntMaxCostTime + " Total costTime: " + mIntTotalCostTime + " Progress: " + progress);
+
                     return;
                 }
 
@@ -334,6 +335,10 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
 //
 //                //取得各RGB之值，為多少
 //                background_rgb.setText("R:"+seekR+" G:"+seekG+" B:"+seekB);
+
+
+
+
             }
 
             //onStartTrackingTouch  進度條開始拖動就觸發此事件（僅一次觸發事件）
@@ -474,77 +479,256 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
 
             } else if (v.getId() == R.id.imageview_plan_top_editmode_save) {  // Edit mode - complete
 
+                // Delete 的目標，表示要把 endTime 押在這個 plan 週期之前，如果是 Daily，endTime 就是昨天，如果是 Weekly，endTime 就是上週日
+                // [TODO] 可檢查是否本來 startTime 在這個 plan 週期，如果是的話就真的刪掉，如果不是的話就照上面處理
+                // [TODO] plan 週期需要能讀畫面上元件內容
+                // 或是用 job 在 DB 裡面刪掉
+                // Edit 表示要更新，把 StartTime 在這個 plan 週期之前的全部押上 endTime，並開一個新的目標
+                //   StartTime 設定為這個週期的第一天
+                //   EndTime 設定為 4000/01/01
                 // [TODO] 未來可以一次新增多個 target (多加一個小打勾，像 trello 新增卡片)
                 // [TODO] 換成真正的 startTime, endTime
-                // 1. 取得現在時間
-                // 1.1 做成 startTime, endTime
+
+                // 1. 取得時間 // [TODO] 未來要改取畫面上時間
                 Date curDate = new Date();
                 // 定義時間格式
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO);
-                // 透過SimpleDateFormat的format方法將 Date 轉為字串
-                String strStartTime = simpleDateFormat.format(curDate);
-                String strEndTime = Constants.DB_ENDLESS_DATE;
+                SimpleDateFormat simpleUpdateDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_UPDATE_DATE);
+
+                // 1.1 做出新增 Task 的 startTime, endTime
+                String curEndVerNo = Constants.DB_ENDLESS_DATE;
+
+                // Daily 的 startTime 是當天
+                String curStartVerNoDaily = simpleDateFormat.format(curDate);
+
+                // Weekly 的 startTime 是當週的週一
+                int intWeekDay = Integer.parseInt(ParseTime.date2Day(curDate));    // 把今天傳入，回傳今天是星期幾 (1 = 星期一，2 = 星期二)
+                // 如果今天是星期一，則需從今天往回減 0 天。
+                // 如果今天是星期二，則需從今天往回減 1 天。
+                Date thisMonday = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * (intWeekDay - 1)); // 找出本週一
+                String curStartVerNoWeekly = simpleDateFormat.format(thisMonday);
+
 
                 // 1.2 update_date
-                SimpleDateFormat simpleUpdateDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_UPDATE_DATE);
                 // 透過SimpleDateFormat的format方法將 Date 轉為字串
                 String strCurrentTime = simpleUpdateDateFormat.format(curDate);
+
+
+                // 1.3 取得上一個 planning 週期的 endTime (daily 為昨天，weekly 為上週日)
+                Date yesterday = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24);
+                String lastEndVerNoDaily = simpleDateFormat.format(yesterday);
+
+                // 計算 Weekly 的上一個週期 endTime
+                // 如果今天是星期一，則需從今天往回減 1 天。
+                // 如果今天是星期二，則需從今天往回減 2 天。
+                Date lastSunday = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * intWeekDay); // 找出上週日
+                String lastEndVerNoWeekly = simpleDateFormat.format(lastSunday);
+
+
 
                 // 2. 新增兩個 List 以 (1) 存放要存回 database 的資料 (2) 要從 database 刪除的資料
                 List<TimePlanningTable> targetList = new ArrayList<>();
                 List<TimePlanningTable> deleteTargetList = new ArrayList<>();
 
                 // 2.1 先針對現有所有目標清單做出 TimePlanning Table 物件
+                // [TODO] Weekly 要另外判斷
                 for (int i = 0 ; i < mPlanningList.size() ; ++i) {
 
-                    // if user decides to delete this item, then delete from database
+                    // [Delete] if user decides to delete this item, then delete from database
                     if (isDeleteArray[i] == true) {
 
-                        TimePlanningTable item = new TimePlanningTable(mPlanningList.get(i).getMode(),
-                                mPlanningList.get(i).getCategoryName(),
-                                mPlanningList.get(i).getTaskName(),
-                                mPlanningList.get(i).getStartTime(),
-                                mPlanningList.get(i).getEndTime(),
-                                mPlanningList.get(i).getCostTime(),
-                                strCurrentTime);
+                        if (Constants.MODE_DAILY.equals(mPlanningList.get(i).getMode())) {
+                            // Daily
 
-                        deleteTargetList.add(item);
+                            // 是否該 item 的 startTime 在這個 plan 週期 (startTime >= curStartVerNoDaily)，是的話就真的刪掉
+                            if (mPlanningList.get(i).getStartTime().compareTo(curStartVerNoDaily) >= 0) {
 
-                        Logger.d(Constants.TAG, MSG + "Delete item: ");
-                        item.LogD();
+                                TimePlanningTable item = new TimePlanningTable(mPlanningList.get(i).getMode(),
+                                        mPlanningList.get(i).getCategoryName(),
+                                        mPlanningList.get(i).getTaskName(),
+                                        mPlanningList.get(i).getStartTime(),
+                                        mPlanningList.get(i).getEndTime(),
+                                        mPlanningList.get(i).getCostTime(),
+                                        strCurrentTime);
 
-                    } else {
-                        // else add in database
-                        // [TODO] 需修改 startTime 和 endTime
-                        TimePlanningTable item = new TimePlanningTable(mPlanningList.get(i).getMode(),
-                                mPlanningList.get(i).getCategoryName(),
-                                mPlanningList.get(i).getTaskName(),
-                                mPlanningList.get(i).getStartTime(),
-                                mPlanningList.get(i).getEndTime(),
-                                mPlanningList.get(i).getCostTime(),
-                                strCurrentTime);
+                                deleteTargetList.add(item);
 
-                        targetList.add(item);
+                                Logger.d(Constants.TAG, MSG + "Delete item: ");
+                                item.LogD();
 
-                        Logger.d(Constants.TAG, MSG + "Add/Edit item: ");
-                        item.LogD();
-                    }
-                }
+                            } else {    // startTime 在之前的 plan 週期 (startTime < curStartVerNoDaily)，如果是的話把原本的 target 押上 lastEndVerNoDaily
+
+                                TimePlanningTable item = new TimePlanningTable(mPlanningList.get(i).getMode(),
+                                        mPlanningList.get(i).getCategoryName(),
+                                        mPlanningList.get(i).getTaskName(),
+                                        mPlanningList.get(i).getStartTime(),
+                                        lastEndVerNoDaily,
+                                        mPlanningList.get(i).getCostTime(),
+                                        strCurrentTime);
+
+                                targetList.add(item);
+
+                                Logger.d(Constants.TAG, MSG + "Add/Edit item: ");
+                                item.LogD();
+                            }
+
+
+                        } else {    // if (Constants.MODE_WEEKLY.equals(mPlanningList.get(i).getMode()))
+
+                            // Weekly
+                            // 是否該 item 的 startTime 在這個 plan 週期 (startTime >= curStartVerNoWeekly)，是的話就真的刪掉
+                            if (mPlanningList.get(i).getStartTime().compareTo(curStartVerNoWeekly) >= 0) {
+
+                                TimePlanningTable item = new TimePlanningTable(mPlanningList.get(i).getMode(),
+                                        mPlanningList.get(i).getCategoryName(),
+                                        mPlanningList.get(i).getTaskName(),
+                                        mPlanningList.get(i).getStartTime(),
+                                        mPlanningList.get(i).getEndTime(),
+                                        mPlanningList.get(i).getCostTime(),
+                                        strCurrentTime);
+
+                                deleteTargetList.add(item);
+
+                                Logger.d(Constants.TAG, MSG + "Delete item: ");
+                                item.LogD();
+
+                            } else {    // startTime 在之前的 plan 週期 (startTime < curStartVerNoWeekly)，如果是的話把原本的 target 押上 lastEndVerNoWeekly
+
+                                TimePlanningTable item = new TimePlanningTable(mPlanningList.get(i).getMode(),
+                                        mPlanningList.get(i).getCategoryName(),
+                                        mPlanningList.get(i).getTaskName(),
+                                        mPlanningList.get(i).getStartTime(),
+                                        lastEndVerNoWeekly,
+                                        mPlanningList.get(i).getCostTime(),
+                                        strCurrentTime);
+
+                                targetList.add(item);
+
+                                Logger.d(Constants.TAG, MSG + "Add/Edit item: ");
+                                item.LogD();
+                            }
+                        }
+
+                        // end of [Delete]
+                    } else { // [Edit]
+
+                        if (Constants.MODE_DAILY.equals(mPlanningList.get(i).getMode())) {
+                            // Daily
+
+                            // 是否該 item 的 startTime 在這個 plan 週期 (startTime >= curStartVerNoDaily)，是的話就直接 update (add 相同 key 的 item)
+                            if (mPlanningList.get(i).getStartTime().compareTo(curStartVerNoDaily) >= 0) {
+
+                                TimePlanningTable item = new TimePlanningTable(mPlanningList.get(i).getMode(),
+                                        mPlanningList.get(i).getCategoryName(),
+                                        mPlanningList.get(i).getTaskName(),
+                                        mPlanningList.get(i).getStartTime(),
+                                        mPlanningList.get(i).getEndTime(),
+                                        ((long) mIntAdjustCostTime[i]) * 60000, // 存調整後的 costTime
+                                        strCurrentTime);
+
+                                targetList.add(item);
+
+                                Logger.d(Constants.TAG, MSG + "Add/Edit item: (1. adjust current target of this plan-period)");
+                                item.LogD();
+
+                            } else {    // startTime 在之前的 plan 週期 (startTime < curStartVerNoDaily)，如果是的話把原本的 target 押上 lastEndVerNoDaily，並加一筆新的
+
+                                TimePlanningTable item = new TimePlanningTable(mPlanningList.get(i).getMode(),
+                                        mPlanningList.get(i).getCategoryName(),
+                                        mPlanningList.get(i).getTaskName(),
+                                        mPlanningList.get(i).getStartTime(),
+                                        lastEndVerNoDaily,
+                                        mPlanningList.get(i).getCostTime(),
+                                        strCurrentTime);
+
+                                targetList.add(item);
+
+                                Logger.d(Constants.TAG, MSG + "Add/Edit item: (2.1. save current target to last plan-period)");
+                                item.LogD();
+
+
+                                item = new TimePlanningTable(mPlanningList.get(i).getMode(),
+                                        mPlanningList.get(i).getCategoryName(),
+                                        mPlanningList.get(i).getTaskName(),
+                                        curStartVerNoDaily,
+                                        curEndVerNo,
+                                        ((long) mIntAdjustCostTime[i]) * 60000, // 存調整後的 costTime
+                                        strCurrentTime);
+
+                                targetList.add(item);
+
+                                Logger.d(Constants.TAG, MSG + "Add/Edit item: (2.2 add a new target to this plan-period)");
+                                item.LogD();
+                            }
+
+
+                        } else {    // if (Constants.MODE_WEEKLY.equals(mPlanningList.get(i).getMode()))
+
+                            // Weekly
+                            // 是否該 item 的 startTime 在這個 plan 週期 (startTime >= curStartVerNoWeekly)，是的話就直接 update (add 相同 key 的 item)
+                            if (mPlanningList.get(i).getStartTime().compareTo(curStartVerNoWeekly) >= 0) {
+
+                                TimePlanningTable item = new TimePlanningTable(mPlanningList.get(i).getMode(),
+                                        mPlanningList.get(i).getCategoryName(),
+                                        mPlanningList.get(i).getTaskName(),
+                                        mPlanningList.get(i).getStartTime(),
+                                        mPlanningList.get(i).getEndTime(),
+                                        ((long) mIntAdjustCostTime[i]) * 60000, // 存調整後的 costTime
+                                        strCurrentTime);
+
+                                targetList.add(item);
+
+                                Logger.d(Constants.TAG, MSG + "Add/Edit item: (1. adjust current target of this plan-period)");
+                                item.LogD();
+
+                            } else {    // startTime 在之前的 plan 週期 (startTime < curStartVerNoWeekly)，如果是的話把原本的 target 押上 lastEndVerNoWeekly，並加一筆新的
+
+                                TimePlanningTable item = new TimePlanningTable(mPlanningList.get(i).getMode(),
+                                        mPlanningList.get(i).getCategoryName(),
+                                        mPlanningList.get(i).getTaskName(),
+                                        mPlanningList.get(i).getStartTime(),
+                                        lastEndVerNoWeekly,
+                                        mPlanningList.get(i).getCostTime(),
+                                        strCurrentTime);
+
+                                targetList.add(item);
+
+                                Logger.d(Constants.TAG, MSG + "Add/Edit item: (2.1. save current target to last plan-period)");
+                                item.LogD();
+
+
+                                item = new TimePlanningTable(mPlanningList.get(i).getMode(),
+                                        mPlanningList.get(i).getCategoryName(),
+                                        mPlanningList.get(i).getTaskName(),
+                                        curStartVerNoWeekly,
+                                        curEndVerNo,
+                                        ((long) mIntAdjustCostTime[i]) * 60000, // 存調整後的 costTime
+                                        strCurrentTime);
+
+                                targetList.add(item);
+
+                                Logger.d(Constants.TAG, MSG + "Add/Edit item: (2.2 add a new target to this plan-period)");
+                                item.LogD();
+                            }
+                        }
+                    }   // end of [EDIT]
+
+                }   // end of for each item
 
                 // 2.2 再把最新 add 的目標加在最後
-                // [TODO] 此處需判斷每個字串是否為空，還有對輸入的時間做檢查
+                // [TODO] 此處需判斷每個字串是否為空，還有對輸入的時間做檢查 / Add Weekly
                 if (getTextviewSetTargetCategory().getText().toString().trim() != null &&
                         getTextviewSetTargetTask().getText().toString().trim() != null &&
-                        strStartTime != null &&
-                        strStartTime != null) {
+                        curStartVerNoDaily != null &&
+                        curEndVerNo != null) {
 
                     targetList.add(new TimePlanningTable(
                             Constants.MODE_DAILY,
                             getTextviewSetTargetCategory().getText().toString().trim(),
                             getTextviewSetTargetTask().getText().toString().trim(),
-                            strStartTime,
-                            strEndTime,
-                            (long)(mIntNewItemCostTime * 60 * 1000),
+                            curStartVerNoDaily,
+                            curEndVerNo,
+                            (long)(mIntNewItemCostTime * 60000),
                             strCurrentTime
                     ));
                 }

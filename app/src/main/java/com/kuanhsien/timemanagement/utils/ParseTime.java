@@ -89,8 +89,10 @@ public class ParseTime {
     public static String msToHourMinDiff(long begin, long end) {
 
         long diff = end - begin;
-        long hour = diff / (1000 * 60 * 60);
-        long min = diff / (1000 * 60);
+        long diffMin = diff / (1000 * 60);  // 先換成總共多少分鐘
+
+        long hour = diffMin / 60;
+        long min = diffMin % 60;
 
         return (hour + "hr " + min + "min") ;
     }

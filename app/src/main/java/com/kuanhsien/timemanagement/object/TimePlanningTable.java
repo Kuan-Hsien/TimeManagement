@@ -11,7 +11,7 @@ import com.kuanhsien.timemanagement.utils.Logger;
  * Created by Ken on 2018/9/24
  */
 @Entity(tableName = "time_planning_table",      // table-name (case-sensitive)
-        primaryKeys = {"mode", "category_name", "task_name", "start_time", "end_time"})
+        primaryKeys = {"mode", "category_name", "task_name", "start_time"})
 public class TimePlanningTable {
 
     @NonNull
