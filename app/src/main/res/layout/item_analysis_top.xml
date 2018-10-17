@@ -34,8 +34,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/l_icon2"
-        app:srcCompat="@drawable/l_icon2"
+        android:background="@drawable/deteclife_icon_fill"
+        app:srcCompat="@drawable/deteclife_icon_fill"
         tools:visibility="visible"/>
 
     <TextView

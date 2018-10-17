@@ -23,7 +23,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="69" />
+                                                <entry key="scalingPercent" value="46" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -34,10 +34,9 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="ffea68" />
-                                      <entry key="foregroundImage" value="$PROJECT_DIR$/app/src/main/res/drawable/l_icon2.png" />
+                                      <entry key="backgroundColor" value="f5e26a" />
+                                      <entry key="foregroundImage" value="$PROJECT_DIR$/app/src/main/res/drawable/DetecLife_icon_fill.png" />
                                       <entry key="legacyIconShape" value="NONE" />
-                                      <entry key="webIconShape" value="NONE" />
                                     </map>
                                   </option>
                                 </PersistentState>
