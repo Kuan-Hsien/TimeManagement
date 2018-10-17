@@ -2,6 +2,7 @@ package com.kuanhsien.timemanagement.object;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.support.annotation.NonNull;
 
 import com.kuanhsien.timemanagement.utils.Constants;
@@ -103,10 +104,12 @@ public class TimePlanningTable {
         mUpdateDate = updateDate;
     }
 
+    @Ignore
     public TimePlanningTable() {
 
     }
 
+    @Ignore
     // no update_date constructor for delete data
     public TimePlanningTable(@NonNull String mode, @NonNull String categoryName, @NonNull String taskName, @NonNull String startTime, @NonNull String endTime, long costTime) {
         mMode = mode;

@@ -120,6 +120,12 @@ public class PlanWeeklyPresenter implements PlanWeeklyContract.Presenter {
 //            String mStrEndTime = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO).format(tomorrowNow);   // 擷取到日期
 
 
+            Logger.d(Constants.TAG, MSG + "getTaskWithPlanTime: ");
+            Logger.d(Constants.TAG, MSG + "mode: " + Constants.MODE_WEEKLY);
+            Logger.d(Constants.TAG, MSG + "start ver: " + strCurrentTime);
+            Logger.d(Constants.TAG, MSG + "end ver : " + strCurrentTime);
+
+
             new GetTaskWithPlanTimeAsyncTask(
                     Constants.MODE_WEEKLY, strCurrentTime, strCurrentTime, new GetTaskWithPlanTimeCallback() {
 

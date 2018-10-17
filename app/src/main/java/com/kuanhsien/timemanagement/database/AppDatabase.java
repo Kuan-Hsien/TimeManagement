@@ -13,7 +13,7 @@ import com.kuanhsien.timemanagement.object.TimeTracingTable;
 /**
  * Created by Ken on 2018/9/24
  */
-@Database(entities = {TimePlanningTable.class, TimeTracingTable.class, CategoryDefineTable.class,TaskDefineTable.class}, version = 1, exportSchema = false)
+@Database(entities = {TimePlanningTable.class, TimeTracingTable.class, CategoryDefineTable.class, TaskDefineTable.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase sInstance;

@@ -179,7 +179,7 @@ public class JobSchedulerServiceComplete extends JobService {
     private void startNotification(List<GetTraceDetail> bean, String strTitle, String strSubText, String strContent) {
 
         // Large Icon 作法 1
-        Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_launcher_xxhdpi);
+        Drawable drawable = ContextCompat.getDrawable(this, TimeManagementApplication.getIconResourceId(Constants.APP_ICON_BIG));
         Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
 
         // Large Icon 作法 2

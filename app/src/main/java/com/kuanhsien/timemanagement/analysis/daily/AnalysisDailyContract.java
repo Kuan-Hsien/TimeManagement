@@ -21,9 +21,6 @@ import android.support.v7.widget.RecyclerView;
 import com.kuanhsien.timemanagement.BasePresenter;
 import com.kuanhsien.timemanagement.BaseView;
 import com.kuanhsien.timemanagement.dml.GetResultDailySummary;
-import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTime;
-import com.kuanhsien.timemanagement.object.TimePlanningTable;
-import com.kuanhsien.timemanagement.analysis.daily.AnalysisDailyContract;
 
 import java.util.List;
 

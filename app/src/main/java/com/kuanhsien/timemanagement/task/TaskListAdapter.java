@@ -171,6 +171,7 @@ public class TaskListAdapter extends RecyclerView.Adapter {
         private ImageView mImageviewCategeoryColorLabel;
         private ImageView mImageviewTaskIcon;
         private TextView mTextviewTaskName;
+        private TextView mTextviewCategoryName;
         private FrameLayout mFrameLayoutTaskColor;
         private ConstraintLayout mConstraintLayoutTaskItem;
 
@@ -196,6 +197,10 @@ public class TaskListAdapter extends RecyclerView.Adapter {
             return mTextviewTaskName;
         }
 
+        public TextView getTextviewCategoryName() {
+            return mTextviewCategoryName;
+        }
+
         public FrameLayout getFrameLayoutTaskColor() {
             return mFrameLayoutTaskColor;
         }
@@ -213,6 +218,7 @@ public class TaskListAdapter extends RecyclerView.Adapter {
             mImageviewCategeoryColorLabel = (ImageView) v.findViewById(R.id.imageview_categorytask_categorycolor);
             mImageviewTaskIcon = (ImageView) v.findViewById(R.id.imageview_categorytask_task_icon);
             mTextviewTaskName = (TextView) v.findViewById(R.id.textview_categorytask_task_name);
+            mTextviewCategoryName = (TextView) v.findViewById(R.id.textview_categorytask_category_name);
             mFrameLayoutTaskColor = (FrameLayout) v.findViewById(R.id.framelayout_categorytask_task_icon);
             mConstraintLayoutTaskItem = (ConstraintLayout) v.findViewById(R.id.constraintlayout_categorytask_task_item);
             mConstraintLayoutTaskItem.setOnClickListener(this);
@@ -251,11 +257,14 @@ public class TaskListAdapter extends RecyclerView.Adapter {
             // 把相對應位置的 task 顯示在此 viewHolder
 
             Logger.d(Constants.TAG, MSG + "bindView setColor: " + item.getTaskColor() + " Taskname: " + item.getTaskName());
+
             getImageviewCategeoryColorLabel().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
+            getImageviewCategeoryColorLabel().setVisibility(View.GONE);
 
             getFrameLayoutTaskColor().setBackgroundColor(Color.parseColor(item.getTaskColor()));
             getImageviewTaskIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(item.getTaskIcon()));
             getTextviewTaskName().setText(item.getTaskName());
+            getTextviewCategoryName().setText(item.getCategoryName());
             setPosition(pos);
         }
 

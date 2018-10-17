@@ -6,8 +6,14 @@
     android:id="@+id/constraintlayout_addtask_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
-    android:elevation="2dp" >
+    android:layout_marginTop="@dimen/height_analysis_item_margin"
+    android:layout_marginBottom="@dimen/height_analysis_item_margin"
+    android:layout_marginStart="@dimen/width_analysis_item_margin"
+    android:layout_marginEnd="@dimen/width_analysis_item_margin"
+    android:background="@drawable/shape_layout_white_radius_card"
+    android:elevation="2dp"
+    android:clickable="true"
+    android:focusable="true" >
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintlayout_addtask_viewmode"
@@ -26,11 +32,10 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:scaleType="centerCrop"
-            android:background="@android:color/holo_orange_light"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:srcCompat="@drawable/btn_add" />
+            app:srcCompat="@drawable/btn_add_line" />
 
         <TextView
             android:id="@+id/textview_addtask_viewmode_title"
@@ -86,10 +91,9 @@
             android:clickable="true"
             android:focusable="true"
             android:scaleType="centerCrop"
-            android:background="@android:color/holo_orange_light"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/btn_check" />
+            app:srcCompat="@drawable/btn_add_line" />
 
         <!-- cancel button -->
         <ImageView
@@ -101,10 +105,9 @@
             android:clickable="true"
             android:focusable="true"
             android:scaleType="centerCrop"
-            android:background="@android:color/holo_orange_light"
             app:layout_constraintEnd_toStartOf="@+id/imageview_addtask_editmode_save"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/btn_add" />
+            app:srcCompat="@drawable/btn_cancel_line" />
 
         <ImageView
             android:id="@+id/imageview_addtask_editmode_separationline"

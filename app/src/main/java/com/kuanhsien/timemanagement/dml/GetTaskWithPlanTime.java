@@ -1,6 +1,7 @@
 package com.kuanhsien.timemanagement.dml;
 
 import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Ignore;
 
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
@@ -134,6 +135,7 @@ public class GetTaskWithPlanTime {
         mCostTime = costTime;
     }
 
+
     public GetTaskWithPlanTime() {
     }
 
@@ -152,13 +154,13 @@ public class GetTaskWithPlanTime {
     }
 
     // 這是新增一個選項時，畫面上能選擇的項目
-    public GetTaskWithPlanTime(String categoryName, String taskName, String taskColor, String taskIcon, int costTime) {
-        mCategoryName = categoryName;
-        mTaskName = taskName;
-        mTaskColor = taskColor;
-        mTaskIcon = taskIcon;
-        mCostTime = costTime;
-    }
+//    public GetTaskWithPlanTime(String categoryName, String taskName, String taskColor, String taskIcon, int costTime) {
+//        mCategoryName = categoryName;
+//        mTaskName = taskName;
+//        mTaskColor = taskColor;
+//        mTaskIcon = taskIcon;
+//        mCostTime = costTime;
+//    }
 
 
     private static final String MSG = "GetTaskWithPlanTime: ";

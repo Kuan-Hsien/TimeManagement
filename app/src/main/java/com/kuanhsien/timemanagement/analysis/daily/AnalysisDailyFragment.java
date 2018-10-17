@@ -34,7 +34,6 @@ import com.kuanhsien.timemanagement.R;
 import com.kuanhsien.timemanagement.TimeManagementApplication;
 import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
 import com.kuanhsien.timemanagement.dml.GetResultDailySummary;
-import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTime;
 import com.kuanhsien.timemanagement.task.CategoryTaskListAdapter;
 import com.kuanhsien.timemanagement.task.CategoryTaskListContract;
 import com.kuanhsien.timemanagement.task.CategoryTaskListPresenter;

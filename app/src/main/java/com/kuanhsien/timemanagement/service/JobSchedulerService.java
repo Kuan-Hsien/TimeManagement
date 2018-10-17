@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.kuanhsien.timemanagement.MainActivity;
 import com.kuanhsien.timemanagement.R;
+import com.kuanhsien.timemanagement.TimeManagementApplication;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
 
@@ -122,7 +123,7 @@ public class JobSchedulerService extends JobService {
         String TEST_NOTIFY_ID = "test"; // 通知頻道的 ID
 
         // Large Icon 作法 1
-        Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_launcher_xxhdpi);
+        Drawable drawable = ContextCompat.getDrawable(this, TimeManagementApplication.getIconResourceId(Constants.APP_ICON_BIG));
         Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
 
         // Large Icon 作法 2

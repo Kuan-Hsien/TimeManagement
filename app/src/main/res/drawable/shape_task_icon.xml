@@ -30,8 +30,8 @@
 
     <!-- 形狀大小 -->
     <size
-        android:width="48dp"
-        android:height="48dp" />
+        android:width="@dimen/size_all_item_image"
+        android:height="@dimen/size_all_item_image" />
 
     <!--stroke: 邊框線
         android:color 框線的顏色

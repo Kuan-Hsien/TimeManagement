@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import com.kuanhsien.timemanagement.R;
 import com.kuanhsien.timemanagement.analysis.daily.AnalysisDailyFragment;
 import com.kuanhsien.timemanagement.analysis.daily.AnalysisDailyPresenter;
+import com.kuanhsien.timemanagement.analysis.weekly.AnalysisWeeklyFragment;
+import com.kuanhsien.timemanagement.analysis.weekly.AnalysisWeeklyPresenter;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
 
@@ -32,8 +34,8 @@ public class AnalysisFragment extends Fragment {
     private AnalysisDailyFragment mAnalysisDailyFragment;
     private AnalysisDailyPresenter mAnalysisDailyPresenter;
 
-//    private AnalysisWeeklyFragment mAnalysisWeeklyFragment;
-//    private AnalysisWeeklyPresenter mAnalysisWeeklyPresenter;
+    private AnalysisWeeklyFragment mAnalysisWeeklyFragment;
+    private AnalysisWeeklyPresenter mAnalysisWeeklyPresenter;
 
     private TabLayout mTablayout;
     private ViewPager mViewPager;
@@ -60,12 +62,12 @@ public class AnalysisFragment extends Fragment {
             mAnalysisDailyPresenter = new AnalysisDailyPresenter(mAnalysisDailyFragment);
         }
 
-//        if (mAnalysisWeeklyFragment == null) {
-//            mAnalysisWeeklyFragment = mAnalysisWeeklyFragment.newInstance();
-//        }
-//        if (mAnalysisWeeklyPresenter == null) {
-//            mAnalysisWeeklyPresenter = new AnalysisWeeklyPresenter(mAnalysisWeeklyFragment);
-//        }
+        if (mAnalysisWeeklyFragment == null) {
+            mAnalysisWeeklyFragment = mAnalysisWeeklyFragment.newInstance();
+        }
+        if (mAnalysisWeeklyPresenter == null) {
+            mAnalysisWeeklyPresenter = new AnalysisWeeklyPresenter(mAnalysisWeeklyFragment);
+        }
 
 
         mFragmentList = new ArrayList<>();
@@ -73,11 +75,11 @@ public class AnalysisFragment extends Fragment {
 //        mFragmentList.add(mAnalysisDailyFragment);
 //        mFragmentList.add(mAnalysisDailyFragment);
 //        mFragmentList.add(mAnalysisDailyFragment);
-//        mFragmentList.add(mAnalysisWeeklyFragment);
+        mFragmentList.add(mAnalysisWeeklyFragment);
 
         mTablayout = (TabLayout) root.findViewById(R.id.tab_analysis_period);
         mTablayout.addTab(mTablayout.newTab().setText(Constants.TAB_DAILY));
-//        mTablayout.addTab(mTablayout.newTab().setText(Constants.TAB_WEEKLY));
+        mTablayout.addTab(mTablayout.newTab().setText(Constants.TAB_WEEKLY));
 //        mTablayout.addTab(mTablayout.newTab().setText(Constants.TAB_MONTHLY));
 //        mTablayout.addTab(mTablayout.newTab().setText(Constants.TAB_YEARLY));
 //        mTablayout.addTab(mTablayout.newTab().setText("Page three"))
@@ -134,7 +136,7 @@ public class AnalysisFragment extends Fragment {
             Logger.d(Constants.TAG, MSG + "onHiddenChanged: hidden = false => SHOW");
 
             mAnalysisDailyPresenter.start();
-//            mAnalysisWeeklyPresenter.start(); // [TODO]
+            mAnalysisWeeklyPresenter.start();
         }
     }
 }

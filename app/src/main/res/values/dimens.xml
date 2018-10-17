@@ -41,8 +41,8 @@
     <dimen name="size_profile_logouticon">24dp</dimen>
 
     <!-- All items -->
-    <dimen name="size_all_add_item">28dp</dimen>
-    <dimen name="size_all_item_image">28dp</dimen>
+    <dimen name="size_all_add_item">38dp</dimen>
+    <dimen name="size_all_item_image">38dp</dimen>
 
     <dimen name="size_all_authorimage">36dp</dimen>
     <dimen name="size_all_createdtime">14dp</dimen>
@@ -81,6 +81,13 @@
     <dimen name="width_analysis_period">300dp</dimen>
     <dimen name="size_analysis_piechart">250dp</dimen>
     <dimen name="width_analysis_topitem_percent">100dp</dimen>
+    <dimen name="height_analysis_mainitem_margin">8dp</dimen>
+    <dimen name="height_analysis_category_margin_top">6dp</dimen>
+
+    <dimen name="width_analysis_item_margin">6dp</dimen>
+    <dimen name="height_analysis_item_margin">3dp</dimen>
+
+
 
     <!-- Set target -->
     <dimen name="width_set_target_item">223dp</dimen>

@@ -333,7 +333,7 @@ public class TraceDailyFragment extends Fragment implements TraceDailyContract.V
         String TEST_NOTIFY_ID = "test"; // 通知頻道的 ID
 
         // Large Icon 作法 1
-        Drawable drawable = ContextCompat.getDrawable(getActivity(), R.drawable.ic_launcher_xxhdpi);
+        Drawable drawable = ContextCompat.getDrawable(getActivity(), TimeManagementApplication.getIconResourceId(Constants.APP_ICON_BIG));
         Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
 
         // Large Icon 作法 2

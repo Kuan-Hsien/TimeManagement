@@ -45,10 +45,9 @@
             android:clickable="true"
             android:focusable="true"
             android:scaleType="centerCrop"
-            android:background="@android:color/holo_orange_light"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/btn_check" />
+            app:srcCompat="@drawable/btn_add_line" />
 
         <!-- cancel button -->
         <ImageView
@@ -60,10 +59,9 @@
             android:clickable="true"
             android:focusable="true"
             android:scaleType="centerCrop"
-            android:background="@android:color/holo_orange_light"
             app:layout_constraintEnd_toStartOf="@+id/imageview_addtask_editmode_save"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/btn_add" />
+            app:srcCompat="@drawable/btn_cancel_line" />
 
         <ImageView
             android:id="@+id/imageview_addtask_editmode_separationline"

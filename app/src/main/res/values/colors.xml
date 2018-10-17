@@ -10,6 +10,8 @@
     <!--<color name="bottom_navigation_item_selected">#7436b9</color>-->
 
 
+
+
     <!-- 1. record page -->
     <!-- 1.0 transparent background -->
     <color name="color_recordpage_black_transparent">#7F000000</color>
@@ -40,6 +42,10 @@
     <color name="color_app_clock_blue">#2963C6</color>
     <color name="color_app_clock_yellow">#FFEA68</color>
     <color name="color_app_clock_dark_blue">#10306C</color>
-    <color name="color_app_clock_light_blue">#6FE6F3</color>
+    <color name="color_app_clock_light_blue">#dFE6F3</color>
+
+
+    <color name="color_app_card_background_grey">#d9d9d9</color>
+
 
 </resources>

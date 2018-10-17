@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import com.kuanhsien.timemanagement.TimeManagementApplication;
 import com.kuanhsien.timemanagement.database.AppDatabase;
 import com.kuanhsien.timemanagement.database.DatabaseDao;
+import com.kuanhsien.timemanagement.object.TimePlanningTable;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
 
@@ -43,8 +44,20 @@ public class GetTaskWithPlanTimeAsyncTask extends AsyncTask<Object, Void, List<G
 
 //        try {
 
+
             DatabaseDao dao = AppDatabase.getDatabase(TimeManagementApplication.getAppContext()).getDatabaseDao();
+
+            List<TimePlanningTable> planningTableList = dao.getAllPlanList();
+
+            Logger.d(Constants.TAG, MSG + "Prepare sample plan");
+            for (int i = 0 ; i < planningTableList.size() ; ++i) {
+                planningTableList.get(i).LogD();
+            }
+
             bean = dao.getTaskListWithPlanTime(mMode, mStrStartTime, mStrEndTime);
+
+
+//
 
             // [TODO] add exception handling
 //        } catch (VoyageInvalidTokenException e) {

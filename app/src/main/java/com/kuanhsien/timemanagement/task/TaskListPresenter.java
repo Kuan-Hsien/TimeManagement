@@ -15,6 +15,7 @@ import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -118,8 +119,18 @@ public class TaskListPresenter implements TaskListContract.Presenter {
 
                 @Override
                 public void onCompleted(List<GetCategoryTaskList> bean) {
+
+                    // create a new task list (without category items, only show tasks to choose on record page)
+                    List<GetCategoryTaskList> taskLists = new ArrayList<>();
+
+                    for (int i = 0 ; i < bean.size() ; ++i) {
+                        if (Constants.ITEM_TASK.equals(bean.get(i).getItemCatg())) {
+                            taskLists.add(bean.get(i));
+                        }
+                    }
+
                     setLoading(false);
-                    showTaskList(bean);
+                    showTaskList(taskLists);
                 }
 
                 @Override

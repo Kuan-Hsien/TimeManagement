@@ -34,7 +34,6 @@ public class PlanDailyPresenter implements PlanDailyContract.Presenter {
     private int mfirstVisibleItemPosition;
 
     private boolean mLoading = false;
-    private boolean isFirst = false;
 
 
     public PlanDailyPresenter(PlanDailyContract.View mainView) {
@@ -47,7 +46,6 @@ public class PlanDailyPresenter implements PlanDailyContract.Presenter {
 
         getTaskWithPlanTime();
     }
-
 
     // 0-1. recyclerView Scroll event
     @Override
@@ -109,6 +107,7 @@ public class PlanDailyPresenter implements PlanDailyContract.Presenter {
 //        String strCurrentTime = simpleDateFormat.format(curDate);
 
 
+
             // 取得現在時間
             Date currentTime = new Date();
             String strCurrentTime = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO).format(currentTime); // 擷取到日期
@@ -120,6 +119,12 @@ public class PlanDailyPresenter implements PlanDailyContract.Presenter {
 //
 //            Date tomorrowNow = calendar.getTime();  // 取得 24 小時後的現在時間
 //            String mStrEndTime = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO).format(tomorrowNow);   // 擷取到日期
+
+
+            Logger.d(Constants.TAG, MSG + "getTaskWithPlanTime: ");
+            Logger.d(Constants.TAG, MSG + "mode: " + Constants.MODE_DAILY);
+            Logger.d(Constants.TAG, MSG + "start ver: " + strCurrentTime);
+            Logger.d(Constants.TAG, MSG + "end ver : " + strCurrentTime);
 
 
             new GetTaskWithPlanTimeAsyncTask(

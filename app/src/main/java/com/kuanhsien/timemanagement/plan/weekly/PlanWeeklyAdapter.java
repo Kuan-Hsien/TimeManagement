@@ -2,6 +2,7 @@ package com.kuanhsien.timemanagement.plan.weekly;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -183,10 +184,12 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
         private FrameLayout mFrameLayoutPlanTaskIcon;
         private ImageView mImageviewPlanTaskIcon;
         private TextView mTextviewPlanTaskName;
+        private TextView mTextviewPlanCategoryName;
         private TextView mTextviewPlanTaskCostTime;
         private ConstraintLayout mConstraintLayoutPlanMainItem;
 
         //** Edit mode
+        private FrameLayout mFrameLayoutPlanTaskDelete;
         private ImageView mImageviewPlanTaskDeleteHint;
         private SeekBar mSeekBarPlanTaskAdjustTime;
 
@@ -208,8 +211,16 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
             return mImageviewPlanTaskIcon;
         }
 
+        public FrameLayout getFrameLayoutPlanTaskDelete() {
+            return mFrameLayoutPlanTaskDelete;
+        }
+
         public TextView getTextviewPlanTaskName() {
             return mTextviewPlanTaskName;
+        }
+
+        public TextView getTextviewPlanCategoryName() {
+            return mTextviewPlanCategoryName;
         }
 
         public TextView getTextviewPlanTaskCostTime() {
@@ -233,6 +244,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
             mFrameLayoutPlanTaskIcon = (FrameLayout) v.findViewById(R.id.framelayout_plan_task_icon);
             mImageviewPlanTaskIcon = (ImageView) v.findViewById(R.id.imageview_plan_task_icon);
             mConstraintLayoutPlanMainItem = (ConstraintLayout) v.findViewById(R.id.constraintlayout_plan_main_item);
+            mTextviewPlanCategoryName = v.findViewById(R.id.textview_plan_category_name);
             mTextviewPlanTaskName = (TextView) v.findViewById(R.id.textview_plan_task_name);
             mTextviewPlanTaskCostTime = (TextView) v.findViewById(R.id.textview_plan_task_cost_time);
 
@@ -246,6 +258,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 //            });
 
             //** Edit mode
+            mFrameLayoutPlanTaskDelete = v.findViewById(R.id.framelayout_plan_task_delete_hint);
             mImageviewPlanTaskDeleteHint = (ImageView) v.findViewById(R.id.imageview_plan_task_delete_hint);
             mImageviewPlanTaskDeleteHint.setOnClickListener(this);
             // [TODO] 有可能需要改用 weekly 的 seekbar, 或是可以透過程式根據 weekly-view 或 weekly-view 設定 max 大小
@@ -264,14 +277,20 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                 if (isDeleteArray[getCurrentPosition()] == true) {
 
                     isDeleteArray[getCurrentPosition()] = false;
-                    mConstraintLayoutPlanMainItem.setBackground(TimeManagementApplication.getAppContext().getDrawable(android.R.color.white));
+//                    mConstraintLayoutPlanMainItem.setBackground(TimeManagementApplication.getAppContext().getDrawable(android.R.color.darker_gray));
+
+                    GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutPlanTaskDelete().getBackground();
+                    gradientDrawable.setColor(Color.parseColor("#d9d9d9"));
 
                 } else {
                     // if original delete flag is off, than delete. (change background color with drawable)
 
                     isDeleteArray[getCurrentPosition()] = true;
-                    mConstraintLayoutPlanMainItem.setBackground(TimeManagementApplication.getAppContext().getDrawable(R.drawable.toolbar_background));
+//                    mConstraintLayoutPlanMainItem.setBackground(TimeManagementApplication.getAppContext().getDrawable(android.R.color.holo_red_light));
 
+
+                    GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutPlanTaskDelete().getBackground();
+                    gradientDrawable.setColor(Color.parseColor("#f44336"));
                 }
 
                 Logger.d(Constants.TAG, MSG + "delete " + mPlanningList.get(getCurrentPosition()).getTaskName() + " status: " + isDeleteArray[getCurrentPosition()]);
@@ -362,19 +381,26 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
             getFrameLayoutPlanTaskIcon().setBackgroundColor(Color.parseColor(item.getTaskColor()));
             getImageviewPlanTaskIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(item.getTaskIcon()));
             getTextviewPlanTaskName().setText(item.getTaskName());
+            getTextviewPlanCategoryName().setText(item.getCategoryName());
             getTextviewPlanTaskCostTime().setText(ParseTime.msToHourMin(item.getCostTime()));
 
             setPosition(pos);
 
             if (getIntPlanMode() == Constants.MODE_PLAN_VIEW) {
 
+                getFrameLayoutPlanTaskDelete().setVisibility(View.GONE);
                 getImageviewPlanTaskDeleteHint().setVisibility(View.GONE);
                 getSeekBarPlanTaskAdjustTime().setVisibility(View.GONE);
 
             } else { // getIntTaskMode() == Constants.MODE_PLAN_EDIT
 
+                getFrameLayoutPlanTaskDelete().setVisibility(View.VISIBLE);
                 getImageviewPlanTaskDeleteHint().setVisibility(View.VISIBLE);
                 getSeekBarPlanTaskAdjustTime().setVisibility(View.VISIBLE);
+
+                GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutPlanTaskDelete().getBackground();
+                gradientDrawable.setColor(Color.parseColor("#d9d9d9"));
+
                 getSeekBarPlanTaskAdjustTime().setProgress(item.getCostTime() / (60 * 1000));
                 getSeekBarPlanTaskAdjustTime().getProgressDrawable().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.SRC_IN);
 //                getSeekBarPlanTaskAdjustTime().getProgressDrawable().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.SRC_ATOP); // 疑似也是改 thumb

@@ -18,6 +18,7 @@ package com.kuanhsien.timemanagement.analysis.daily;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -43,9 +44,6 @@ import com.kuanhsien.timemanagement.R;
 import com.kuanhsien.timemanagement.TimeManagementApplication;
 import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
 import com.kuanhsien.timemanagement.dml.GetResultDailySummary;
-import com.kuanhsien.timemanagement.dml.GetTaskWithPlanTime;
-import com.kuanhsien.timemanagement.object.TimePlanningTable;
-import com.kuanhsien.timemanagement.analysis.daily.AnalysisDailyContract;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
 import com.kuanhsien.timemanagement.utils.ParseTime;
@@ -219,6 +217,7 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
 
         //** View mode
         private FrameLayout mFrameLayoutAnalysisTaskIcon;
+        private FrameLayout mFrameLayoutAnalysisTaskDeleteHint;
         private ImageView mImageviewAnalysisTaskIcon;
         private TextView mTextviewAnalysisTaskName;
         private TextView mTextviewAnalysisCategoryName;
@@ -242,6 +241,10 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
 
         public FrameLayout getFrameLayoutAnalysisTaskIcon() {
             return mFrameLayoutAnalysisTaskIcon;
+        }
+
+        public FrameLayout getFrameLayoutAnalysisTaskDeleteHint() {
+            return mFrameLayoutAnalysisTaskDeleteHint;
         }
 
         public ImageView getImageviewAnalysisTaskIcon() {
@@ -296,6 +299,7 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
 //            });
 
             //** Edit mode
+            mFrameLayoutAnalysisTaskDeleteHint = v.findViewById(R.id.framelayout_analysis_task_delete_hint);
             mImageviewAnalysisTaskDeleteHint = (ImageView) v.findViewById(R.id.imageview_analysis_task_delete_hint);
             mImageviewAnalysisTaskDeleteHint.setOnClickListener(this);
             // [TODO] 有可能需要改用 weekly 的 seekbar, 或是可以透過程式根據 daily-view 或 weekly-view 設定 max 大小
@@ -314,13 +318,14 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
                 if (isDeleteArray[getCurrentPosition()] == true) {
 
                     isDeleteArray[getCurrentPosition()] = false;
-                    mConstraintLayoutAnalysisMainItem.setBackground(TimeManagementApplication.getAppContext().getDrawable(android.R.color.white));
+
+//                    mConstraintLayoutAnalysisMainItem.setBackground(TimeManagementApplication.getAppContext().getDrawable(android.R.color.darker_gray));
 
                 } else {
                     // if original delete flag is off, than delete. (change background color with drawable)
 
                     isDeleteArray[getCurrentPosition()] = true;
-                    mConstraintLayoutAnalysisMainItem.setBackground(TimeManagementApplication.getAppContext().getDrawable(R.drawable.toolbar_background));
+//                    mConstraintLayoutAnalysisMainItem.setBackground(TimeManagementApplication.getAppContext().getDrawable(android.R.color.holo_red_light));
 
                 }
 
@@ -409,7 +414,10 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
 
             Logger.d(Constants.TAG, MSG + "bindView setColor: " + item.getTaskColor() + " Taskname: " + item.getTaskName());
 
-            getFrameLayoutAnalysisTaskIcon().setBackgroundColor(Color.parseColor(item.getTaskColor()));
+//            getFrameLayoutAnalysisTaskIcon().setBackgroundColor(Color.parseColor(item.getTaskColor()));
+            GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutAnalysisTaskIcon().getBackground();
+            gradientDrawable.setColor(Color.parseColor(item.getTaskColor()));
+
             getImageviewAnalysisTaskIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(item.getTaskIcon()));
             getTextviewAnalysisCategoryName().setText(item.getCategoryName());
             getTextviewAnalysisTaskName().setText(item.getTaskName());
@@ -420,12 +428,17 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
 
             if (getIntAnalysisMode() == Constants.MODE_PLAN_VIEW) {
 
+                getFrameLayoutAnalysisTaskDeleteHint().setVisibility(View.GONE);
                 getImageviewAnalysisTaskDeleteHint().setVisibility(View.GONE);
                 getSeekBarAnalysisTaskAdjustTime().setVisibility(View.GONE);
 
             } else { // getIntTaskMode() == Constants.MODE_PLAN_EDIT
 
+                getFrameLayoutAnalysisTaskDeleteHint().setVisibility(View.VISIBLE);
                 getImageviewAnalysisTaskDeleteHint().setVisibility(View.VISIBLE);
+                gradientDrawable = (GradientDrawable) getFrameLayoutAnalysisTaskDeleteHint().getBackground();
+                gradientDrawable.setColor(Color.parseColor("#d9d9d9"));
+
                 getSeekBarAnalysisTaskAdjustTime().setVisibility(View.VISIBLE);
                 getSeekBarAnalysisTaskAdjustTime().setProgress(item.getCostTime() / (60 * 1000));
                 getSeekBarAnalysisTaskAdjustTime().getProgressDrawable().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.SRC_IN);

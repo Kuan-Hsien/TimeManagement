@@ -28,7 +28,11 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_category_task_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/height_analysis_item_margin"
+        android:paddingBottom="@dimen/height_analysis_item_margin"
+        android:background="@color/color_app_card_background_grey"
+        >
 
     </android.support.v7.widget.RecyclerView>
 

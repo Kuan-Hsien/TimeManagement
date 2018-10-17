@@ -135,18 +135,35 @@ public interface DatabaseDao {
 //    List<GetTaskWithPlanTime> getAllTaskListWithPlanTime(String mode, String startTime, String endTime);
 
     // 1.5 Query target-list (tasks inner join with TimePlanningTable to get plan time) (both daily or weekly)
-    @Query("SELECT p.mode, t.category_name, c.category_color, c.category_priority, t.task_name, t.task_color, t.task_icon, t.task_priority, p.start_time, p.end_time, IFNULL(p.cost_time, \"\") AS cost_time " +
-             "FROM task_define_table t " +
-            "INNER JOIN (SELECT p.mode, p.category_name, p.task_name, p.start_time, p.end_time, p.cost_time " +
-                          "FROM time_planning_table p " +
-                         "WHERE p.mode = :mode " +
-                           "AND :startTime >= p.start_time AND :endTime <= p.end_time" +
-                       ") p " +
-               "ON t.task_name = p.task_name " +
-            "INNER JOIN category_define_table c " +
-               "ON t.category_name = c.category_name " +
-            "ORDER BY c.category_priority, t.task_priority")
+//    @Query("SELECT p.mode, t.category_name, c.category_color, c.category_priority, t.task_name, t.task_color, t.task_icon, t.task_priority, p.start_time, p.end_time, IFNULL(p.cost_time, \"\") AS cost_time " +
+//             "FROM task_define_table t " +
+//            "INNER JOIN (SELECT p.mode, p.category_name, p.task_name, p.start_time, p.end_time, p.cost_time " +
+//                          "FROM time_planning_table p " +
+//                         "WHERE p.mode = :mode " +
+//                           "AND :startTime >= p.start_time AND :endTime <= p.end_time" +
+//                       ") p " +
+//               "ON t.task_name = p.task_name AND t.category_name = p.category_name " +
+//            "INNER JOIN category_define_table c " +
+//               "ON t.category_name = c.category_name " +
+//            "ORDER BY c.category_priority, t.task_priority")
+//    List<GetTaskWithPlanTime> getTaskListWithPlanTime(String mode, String startTime, String endTime);
+
+    @Query("WITH target " +
+            " AS (SELECT p.mode, p.category_name, p.task_name, p.start_time, p.end_time, p.cost_time " +
+            "       FROM time_planning_table p " +
+            "      WHERE p.mode = :mode " +
+            "        AND :startTime >= p.start_time AND :endTime <= p.end_time " +
+            "    ) " +
+            "SELECT * " +
+            "  FROM (" +
+            "        SELECT target.mode AS mode, t.category_name, c.category_color, c.category_priority, t.task_name, t.task_color, t.task_icon, t.task_priority, target.start_time AS start_time, target.end_time AS end_time, IFNULL(target.cost_time, 0) AS cost_time " +
+            "          FROM target target " +
+            "          LEFT JOIN task_define_table t USING (category_name, task_name) " +
+            "          LEFT JOIN category_define_table c USING (category_name)" +
+            "       ) " +
+            " ORDER BY category_priority, task_priority")
     List<GetTaskWithPlanTime> getTaskListWithPlanTime(String mode, String startTime, String endTime);
+
 
 
 
@@ -390,7 +407,7 @@ public interface DatabaseDao {
             "    target " +
             " AS (SELECT p.mode, :endVerNo AS ver_no, p.category_name, p.task_name, p.cost_time AS plan_time " +
             "       FROM time_planning_table p " +
-            "      WHERE ( (p.mode = 'MODE_DAILY') OR (:mode = 'ALL') ) " +
+            "      WHERE ( (:mode = 'MODE_DAILY') OR (:mode = 'ALL') ) " +
             "        AND p.mode = 'MODE_DAILY' " +
             "        AND (:endVerNo >= p.start_time) " +    // Daily 只看一天: endVerNo
             "        AND (:endVerNo <= p.end_time) " +
@@ -399,7 +416,7 @@ public interface DatabaseDao {
             "      UNION ALL " +
             "     SELECT p.mode, :startVerNo AS ver_no, p.category_name, p.task_name, p.cost_time AS plan_time " +
             "       FROM time_planning_table p " +
-            "      WHERE (p.mode = 'MODE_WEEKLY' OR :mode = 'ALL') " +
+            "      WHERE (:mode = 'MODE_WEEKLY' OR :mode = 'ALL') " +
             "        AND p.mode = 'MODE_WEEKLY' " +
             "        AND (:startVerNo >= p.start_time) " +
             "        AND (:endVerNo <= p.end_time) " +
@@ -417,13 +434,13 @@ public interface DatabaseDao {
             "       LEFT JOIN record r " +
             "      USING (mode, category_name, task_name) " +
             "      WHERE r.cost_time IS NULL " +    // removes rows that already included in the result set of the first SELECT statement. (only need to append rows which has plan but no record(no cost_time))
-            "    )" +
-            "SELECT result.mode, result.ver_no, result.category_name, c.category_color, c.category_priority, result.task_name, t.task_color, t.task_icon, t.task_priority, IFNULL(result.cost_time, 0) AS cost_time, IFNULL(result.plan_time, 0) AS plan_time " +
-            "  FROM result result " +
-            " INNER JOIN task_define_table t USING(category_name, task_name) " +
-            " INNER JOIN category_define_table c USING(category_name) " +
-            " ORDER BY result.mode, result.ver_no, c.category_priority, t.task_priority ")
+            "    ) " +
+            "SELECT * " +
+            "  FROM (SELECT result.mode, result.ver_no, result.category_name, c.category_color, c.category_priority, result.task_name, t.task_color, t.task_icon, t.task_priority, IFNULL(result.cost_time, 0) AS cost_time, IFNULL(result.plan_time, 0) AS plan_time " +
+            "          FROM result result " +
+            "         INNER JOIN task_define_table t USING(category_name, task_name) " +
+            "         INNER JOIN category_define_table c USING(category_name) " +
+            "         ORDER BY result.mode, result.ver_no, c.category_priority, t.task_priority " +
+            "       )")
     List<GetResultDailySummary> getResultDailySummary(String mode, String startVerNo, String endVerNo, String categoryList, String taskList);
-
-
 }

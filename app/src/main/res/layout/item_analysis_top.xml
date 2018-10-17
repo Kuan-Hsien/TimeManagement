@@ -5,7 +5,11 @@
     android:id="@+id/constraintlayout_analysis_top_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
+    android:layout_marginTop="@dimen/height_analysis_item_margin"
+    android:layout_marginBottom="@dimen/height_analysis_item_margin"
+    android:layout_marginStart="@dimen/width_analysis_item_margin"
+    android:layout_marginEnd="@dimen/width_analysis_item_margin"
+    android:background="@drawable/shape_layout_white_radius_card"
     android:elevation="2dp"
     android:clickable="true"
     android:focusable="true" >

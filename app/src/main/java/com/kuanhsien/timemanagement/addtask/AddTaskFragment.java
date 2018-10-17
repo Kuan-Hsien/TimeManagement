@@ -234,6 +234,7 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
 
         } else if (v.getId() == R.id.imageview_addtask_editmode_cancel) { // Edit mode - cancel
 
+            mPresenter.addTaskComplete();
 //            mPresenter.refreshCategoryTaskUi(Constants.MODE_PLAN_VIEW);
 
         } else if (v.getId() == R.id.textview_addtask_editmode_category) {

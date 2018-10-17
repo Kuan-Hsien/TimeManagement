@@ -39,6 +39,8 @@ public class TimeManagementApplication extends Application {
     private static SharedPreferences mSharePreferences;
     private static boolean mIsFirstLogin;
 
+
+
 //    public static DbFavoriteArticle dbFavoriteArticle;
 
 //    public static int appModeValue;
@@ -204,6 +206,7 @@ public class TimeManagementApplication extends Application {
 
     public void firstLogin() {
 
+        Logger.d(Constants.TAG, MSG + "First Login");
         // (0) greeting (?)
         // (1) prepare default tasks and categories
         // (2) tips
@@ -230,6 +233,8 @@ public class TimeManagementApplication extends Application {
         // (4) set daily generate version job (for both planning data and tracing data)
 
         // (0) start foreground service for lock-screen listener
+        prepareRoomDatabaseTask();
+
         Logger.d(Constants.TAG, MSG + "start-service for broadcast-receiver of power-button");
 
         Intent intentService = new Intent(this, MainService.class);
@@ -292,7 +297,21 @@ public class TimeManagementApplication extends Application {
                 // 透過SimpleDateFormat的format方法將 Date 轉為字串
                 String strCurrentTime = simpleUpdateDateFormat.format(curDate);
 
-
+                // Prepare sample plan
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Sleep", strStartTime, strEndTime, 480 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Eat", strStartTime, strEndTime, 120 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Family", "Family", strStartTime, strEndTime, 120 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Personal", "Study", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Friend", "Friend", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Swim", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Others", "Music", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Sleep", strStartTime, strEndTime, 480 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Eat", strStartTime, strEndTime, 1200 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Family", "Family", strStartTime, strEndTime, 1200 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Personal", "Study", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Friend", "Friend", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Swim", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Others", "Music", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
 
                 // Prepare default category
                 dao.addCategory(new CategoryDefineTable("Health", false, "#32CD32", 1));
@@ -319,22 +338,6 @@ public class TimeManagementApplication extends Application {
                 dao.addTask(new TaskDefineTable("Others", "Music", "#F08080", "icon_music", 10, false));
                 dao.addTask(new TaskDefineTable("Others", "Pet", "#FFB6C1", "icon_paw", 9, false));
                 dao.addTask(new TaskDefineTable("Others", "Phone", "#FF6347", "icon_phonecall", 11, false));
-
-                // Prepare sample plan
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Sleep", strStartTime, strEndTime, 480 * 60000, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Eat", strStartTime, strEndTime, 120 * 60000, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Family", "Family", strStartTime, strEndTime, 120 * 60000, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Personal", "Study", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Friend", "Friend", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Swim", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Others", "Music", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Sleep", strStartTime, strEndTime, 4800 * 60000, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Eat", strStartTime, strEndTime, 1200 * 60000, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Family", "Family", strStartTime, strEndTime, 1200 * 60000, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Personal", "Study", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Friend", "Friend", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Swim", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Others", "Music", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
 
                 // Prepare first trace
                 dao.addTraceItem(new TimeTracingTable(strVerNo, "Health", "Sleep",  curDate.getTime(), null, null, strCurrentTime));
@@ -369,6 +372,118 @@ public class TimeManagementApplication extends Application {
             }
         });
     }
+
+
+
+    private void prepareRoomDatabaseTask() {
+
+        // 和 Database 有關的操作不能放在 main-thread 中。不然會跳出錯誤：
+        // Cannot access database on the main thread since it may potentially lock the UI for a long period of time.
+
+        // 解決方式：(此處使用 2)
+        // 1. 在取得資料庫連線時增加 allowMainThreadQueries() 方法，強制在主程式中執行
+        // 2. 另開 thread 執行耗時工作 (建議採用此方法)，另開 thread 有多種寫法，按自己習慣作業即可。此處為測試是否寫入手機SQLite，故不考慮 callback，如下
+        AsyncTask.execute(new Runnable() {
+
+            @Override
+            public void run() {
+
+                DatabaseDao dao = AppDatabase.getDatabase(getAppContext()).getDatabaseDao();
+
+                // 1. 取得現在時間
+                // 1.1 做成 startTime, endTime
+                Date curDate = new Date();
+                // 定義時間格式
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO);
+                // 透過SimpleDateFormat的format方法將 Date 轉為字串
+                String strVerNo = simpleDateFormat.format(curDate);
+                String strStartTime = simpleDateFormat.format(curDate);
+                String strEndTime = Constants.DB_ENDLESS_DATE;
+
+                // 1.2 update_date
+                SimpleDateFormat simpleUpdateDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_UPDATE_DATE);
+                // 透過SimpleDateFormat的format方法將 Date 轉為字串
+                String strCurrentTime = simpleUpdateDateFormat.format(curDate);
+
+
+
+                // Prepare default category
+                dao.addCategory(new CategoryDefineTable("Health", false, "#32CD32", 1));
+                dao.addCategory(new CategoryDefineTable("Family", false, "#C71585", 2));
+                dao.addCategory(new CategoryDefineTable("Personal", false, "#FFD700", 3));
+                dao.addCategory(new CategoryDefineTable("Friend", false, "#F4A460", 4));
+                dao.addCategory(new CategoryDefineTable("Work", false, "#1E90FF", 5));
+                dao.addCategory(new CategoryDefineTable("Transportation", false, "#B0C4DE", 6));
+                dao.addCategory(new CategoryDefineTable("Others", false, "#4682B4", 7));
+
+                // Prepare default task
+                dao.addTask(new TaskDefineTable("Work", "Work", "#2196f3", "icon_work", 8, false));
+                dao.addTask(new TaskDefineTable("Personal", "Study", "#009688", "icon_book", 7, false));
+                dao.addTask(new TaskDefineTable("Family", "Family", "#FF69B4", "icon_home", 4, false));
+                dao.addTask(new TaskDefineTable("Friend", "Friend", "#ba8df2", "icon_friend", 6, false));
+                dao.addTask(new TaskDefineTable("Family", "Lover", "#C71585", "icon_lover", 5, false));
+                dao.addTask(new TaskDefineTable("Health", "Sleep", "#191970", "icon_sleep", 1, false));
+                dao.addTask(new TaskDefineTable("Health", "Eat", "#ffc107", "icon_food", 2, false));
+                dao.addTask(new TaskDefineTable("Health", "Swim", "#87CEFA", "icon_swim", 3, false));
+                dao.addTask(new TaskDefineTable("Transportation", "Walk", "#8df2c1", "icon_walk", 13, false));
+                dao.addTask(new TaskDefineTable("Transportation", "Car", "#3CB371", "icon_car", 15, false));
+                dao.addTask(new TaskDefineTable("Transportation", "Bike", "#B0C4DE", "icon_bike", 14, false));
+                dao.addTask(new TaskDefineTable("Others", "Computer", "#000000", "icon_computer", 12, false));
+                dao.addTask(new TaskDefineTable("Others", "Music", "#F08080", "icon_music", 10, false));
+                dao.addTask(new TaskDefineTable("Others", "Pet", "#FFB6C1", "icon_paw", 9, false));
+                dao.addTask(new TaskDefineTable("Others", "Phone", "#FF6347", "icon_phonecall", 11, false));
+
+                // Prepare sample plan
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Sleep", strStartTime, strEndTime, 480 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Eat", strStartTime, strEndTime, 120 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Family", "Family", strStartTime, strEndTime, 120 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Personal", "Study", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Friend", "Friend", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Swim", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Others", "Music", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Sleep", strStartTime, strEndTime, 4800 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Eat", strStartTime, strEndTime, 1200 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Family", "Family", strStartTime, strEndTime, 1200 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Personal", "Study", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Friend", "Friend", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Swim", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Others", "Music", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
+
+                // Prepare first trace
+//                dao.addTraceItem(new TimeTracingTable(strVerNo, "Health", "Sleep",  curDate.getTime(), null, null, strCurrentTime));
+
+                // [QUERY]
+                // 可以在這邊撈，目前寫在這邊可以撈出來當前塞進去的資料。
+                List<CategoryDefineTable> categoryList = dao.getAllCategoryList();
+                List<TaskDefineTable> taskList = dao.getAllTaskList();
+                List<TimePlanningTable> planningTableList = dao.getAllPlanList();
+                List<TimeTracingTable> traceList = dao.getAllTraceList();
+
+                Logger.d(Constants.TAG, MSG + "Prepare default category");
+                for (int i = 0 ; i < categoryList.size() ; ++i) {
+                    categoryList.get(i).LogD();
+                }
+
+                Logger.d(Constants.TAG, MSG + "Prepare default task");
+                for (int i = 0 ; i < taskList.size() ; ++i) {
+                    taskList.get(i).LogD();
+                }
+
+                Logger.d(Constants.TAG, MSG + "Prepare sample plan");
+                for (int i = 0 ; i < planningTableList.size() ; ++i) {
+                    planningTableList.get(i).LogD();
+                }
+
+                Logger.d(Constants.TAG, MSG + "Prepare first trace");
+                for (int i = 0 ; i < traceList.size() ; ++i) {
+                    traceList.get(i).LogD();
+                }
+
+            }
+        });
+    }
+
+
 
     // ****** Create JobScheduler to start a schedule job ******
     // (start JobSchedulerService at specific time to create a notification)
@@ -425,5 +540,7 @@ public class TimeManagementApplication extends Application {
         Logger.d(Constants.TAG, MSG + "Cancel all scheduled jobs successfully!");
 
     }
+
+
 
 }

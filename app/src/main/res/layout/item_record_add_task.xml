@@ -7,10 +7,7 @@
     style="@style/RecordPageTask"
     android:layout_width="match_parent"
     android:layout_height="@dimen/height_record_task"
-    android:layout_marginTop="1dp"
-    android:layout_marginBottom="1dp"
-    android:layout_marginStart="1dp"
-    android:layout_marginEnd="1dp"
+    android:layout_margin="5dp"
     android:background="@color/color_recordpage_white_transparent"
     tools:background="@android:color/black">
 

@@ -21,8 +21,6 @@ import android.support.v7.widget.RecyclerView;
 import com.kuanhsien.timemanagement.BasePresenter;
 import com.kuanhsien.timemanagement.BaseView;
 import com.kuanhsien.timemanagement.dml.GetCategoryTaskList;
-import com.kuanhsien.timemanagement.object.TaskDefineTable;
-import com.kuanhsien.timemanagement.object.TimePlanningTable;
 import com.kuanhsien.timemanagement.object.TimeTracingTable;
 
 import java.util.List;

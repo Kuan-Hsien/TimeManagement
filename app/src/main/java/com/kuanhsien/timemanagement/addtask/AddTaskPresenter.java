@@ -87,6 +87,10 @@ public class AddTaskPresenter implements AddTaskContract.Presenter {
         mLoading = loading;
     }
 
+    @Override
+    public void addTaskComplete() {
+        mMainPresenter.addTaskComplete();
+    }
 
 //    @Override
 //    public void showCategoryListDialog() {

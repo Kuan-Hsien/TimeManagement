@@ -42,7 +42,7 @@ public class TraceDailyPresenter implements TraceDailyContract.Presenter {
 
     @Override
     public void start() {
-        getTaskWithTraceTime();
+//        getTaskWithTraceTime();
     }
 
 

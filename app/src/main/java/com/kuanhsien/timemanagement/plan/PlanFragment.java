@@ -19,7 +19,6 @@ import com.kuanhsien.timemanagement.plan.daily.PlanDailyFragment;
 import com.kuanhsien.timemanagement.plan.daily.PlanDailyPresenter;
 import com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyFragment;
 import com.kuanhsien.timemanagement.plan.weekly.PlanWeeklyPresenter;
-import com.kuanhsien.timemanagement.record.RecordFragment;
 import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
 

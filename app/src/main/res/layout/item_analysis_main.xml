@@ -5,19 +5,65 @@
     android:id="@+id/constraintlayout_analysis_main_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/height_analysis_item_margin"
+    android:layout_marginBottom="@dimen/height_analysis_item_margin"
+    android:layout_marginStart="@dimen/width_analysis_item_margin"
+    android:layout_marginEnd="@dimen/width_analysis_item_margin"
+    android:background="@drawable/shape_layout_white_radius_card"
+    android:elevation="2dp"
     android:clickable="true"
     android:focusable="true" >
+
+    <!-- only show in Edit mode -->
+    <FrameLayout
+        android:id="@+id/framelayout_analysis_task_delete_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_task_icon"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="@dimen/height_analysis_mainitem_margin"
+        android:layout_marginTop="@dimen/height_analysis_mainitem_margin"
+        android:layout_marginBottom="@dimen/height_analysis_mainitem_margin"
+        >
+
+        <!--android:layout_marginStart="16dp"-->
+        <!--android:layout_marginTop="@dimen/height_analysis_mainitem_margin"-->
+        <!--android:layout_marginBottom="@dimen/height_analysis_mainitem_margin"-->
+
+        <ImageView
+            android:id="@+id/imageview_analysis_task_delete_hint"
+            android:layout_width="@dimen/size_all_item_image"
+            android:layout_height="@dimen/size_all_item_image"
+            android:adjustViewBounds="false"
+            android:scaleType="fitXY"
+            android:visibility="visible"
+            android:layout_margin="6dp"
+
+            android:background="@drawable/btn_delete"
+            app:srcCompat="@drawable/btn_delete" />
+    </FrameLayout>
+
+
 
     <FrameLayout
         android:id="@+id/framelayout_analysis_task_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
         android:background="@drawable/shape_task_icon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/framelayout_analysis_task_delete_hint"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="@dimen/height_analysis_mainitem_margin"
+        android:layout_marginTop="@dimen/height_analysis_mainitem_margin"
+        android:layout_marginBottom="@dimen/height_analysis_mainitem_margin"
+        >
+
+        <!--android:layout_marginStart="16dp"-->
+        <!--android:layout_marginTop="@dimen/height_analysis_mainitem_margin"-->
+        <!--android:layout_marginBottom="@dimen/height_analysis_mainitem_margin"-->
 
         <ImageView
             android:id="@+id/imageview_analysis_task_icon"
@@ -26,12 +72,13 @@
             android:layout_margin="6dp" />
     </FrameLayout>
 
+
     <TextView
         android:id="@+id/textview_analysis_task_name"
         android:layout_width="@dimen/width_trace_task_name"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginStart="@dimen/height_analysis_mainitem_margin"
+        android:layout_marginTop="@dimen/height_analysis_mainitem_margin"
         android:ellipsize="end"
         android:fontFamily="sans-serif-medium"
         android:lines="1"
@@ -45,8 +92,8 @@
         android:id="@+id/textview_analysis_category_name"
         android:layout_width="@dimen/width_trace_category_name"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="@dimen/height_analysis_mainitem_margin"
+        android:layout_marginTop="@dimen/height_analysis_category_margin_top"
         android:ellipsize="end"
         android:fontFamily="sans-serif-medium"
         android:lines="1"
@@ -61,8 +108,8 @@
         android:id="@+id/textview_analysis_task_cost_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginEnd="@dimen/height_analysis_mainitem_margin"
+        android:layout_marginTop="@dimen/height_analysis_mainitem_margin"
         android:fontFamily="sans-serif-medium"
         android:lines="1"
         android:textColor="@android:color/black"
@@ -72,32 +119,51 @@
         tools:text="8 hr" />
 
     <TextView
+        android:id="@+id/textview_analysis_task_cost_time_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="@dimen/height_analysis_mainitem_margin"
+        android:fontFamily="sans-serif-medium"
+        android:lines="1"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
+        android:text="Actual:"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/textview_analysis_task_cost_time"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Actual:" />
+
+    <TextView
         android:id="@+id/textview_analysis_task_plan_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginEnd="@dimen/height_analysis_mainitem_margin"
+        android:layout_marginTop="@dimen/height_analysis_category_margin_top"
         android:fontFamily="sans-serif-medium"
         android:lines="1"
         android:textColor="@android:color/darker_gray"
-        android:textSize="15sp"
+        android:textStyle="italic"
+        android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textview_analysis_task_cost_time"
         tools:text="8 hr" />
 
-
-    <!-- only show in Edit mode -->
-    <ImageView
-        android:id="@+id/imageview_analysis_task_delete_hint"
-        android:layout_width="10dp"
-        android:layout_height="match_parent"
-        android:layout_marginTop="15dp"
-        android:adjustViewBounds="false"
-        android:scaleType="fitXY"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_media_play" />
+    <TextView
+        android:id="@+id/textview_analysis_task_plan_time_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="@dimen/height_analysis_category_margin_top"
+        android:fontFamily="sans-serif-medium"
+        android:lines="1"
+        android:textColor="@android:color/darker_gray"
+        android:textStyle="italic"
+        android:textSize="13sp"
+        android:text="Target:"
+        app:layout_constraintEnd_toStartOf="@+id/textview_analysis_task_plan_time"
+        app:layout_constraintTop_toBottomOf="@+id/textview_analysis_task_cost_time"
+        tools:text="Target:" />
 
     <SeekBar
         android:id="@+id/seekbar_analysis_task_adjust_cost_time_daily"

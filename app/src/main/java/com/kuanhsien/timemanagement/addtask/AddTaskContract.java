@@ -81,5 +81,7 @@ public interface AddTaskContract {
         // 2-2. [Send-to-Model] database delete to delete data (delete existed tasks)
         void saveTaskResults(List<TaskDefineTable> taskList, List<TaskDefineTable> deleteTaskList);
 
+        void addTaskComplete();
+
     }
 }
