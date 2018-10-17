@@ -154,16 +154,22 @@ public interface DatabaseDao {
             "      WHERE p.mode = :mode " +
             "        AND :startTime >= p.start_time AND :endTime <= p.end_time " +
             "    ) " +
-            "SELECT * " +
-            "  FROM (" +
-            "        SELECT target.mode AS mode, t.category_name, c.category_color, c.category_priority, t.task_name, t.task_color, t.task_icon, t.task_priority, target.start_time AS start_time, target.end_time AS end_time, IFNULL(target.cost_time, 0) AS cost_time " +
-            "          FROM target target " +
-            "          LEFT JOIN task_define_table t USING (category_name, task_name) " +
-            "          LEFT JOIN category_define_table c USING (category_name)" +
-            "       ) " +
+            "SELECT target.mode         AS mode, " +
+            "       t.category_name     AS category_name, " +
+            "       c.category_color    AS category_color, " +
+            "       c.category_priority AS category_priority, " +
+            "       t.task_name         AS task_name, " +
+            "       t.task_color        AS task_color, " +
+            "       t.task_icon         AS task_icon, " +
+            "       t.task_priority     AS task_priority, " +
+            "       target.start_time   AS start_time, " +
+            "       target.end_time     AS end_time, " +
+            "       IFNULL(target.cost_time, 0) AS cost_time " +
+            "  FROM target target " +
+            "  LEFT JOIN task_define_table t USING (category_name, task_name) " +
+            "  LEFT JOIN category_define_table c USING (category_name)" +
             " ORDER BY category_priority, task_priority")
     List<GetTaskWithPlanTime> getTaskListWithPlanTime(String mode, String startTime, String endTime);
-
 
 
 
@@ -237,31 +243,6 @@ public interface DatabaseDao {
 //    List<TimeTracingTable> getTraceTaskListByPeriod(String mode, String period);
 
 
-    // *******
-    // 1.4 Query all tasks and left join with TimeTracingTable to get trace time (both daily or weekly)
-//    @Query("SELECT t.category_name, t.task_name, t.task_color, t.task_icon, IFNULL(p.cost_time, \"\") AS cost_time " +
-//             "FROM task_define_table t " +
-//             "LEFT JOIN (SELECT p.category_name, p.task_name, p.cost_time " +
-//                          "FROM time_tracing_table p " +
-//                         "WHERE p.mode = :mode " +
-//                           "AND p.start_time >= :startTime AND p.end_time < :endTime" +
-//                       ") p " +
-//               "ON t.task_name = p.task_name")
-//    List<GetTaskWithTraceTime> getAllTaskListWithTraceTime(String mode, String startTime, String endTime);
-
-    // 1.5 Query target-list (tasks inner join with TimeTracingTable to get trace time) (both daily or weekly)
-//    @Query("SELECT p.mode, t.category_name, c.category_color, c.category_priority, t.task_name, t.task_color, t.task_icon, t.task_priority, p.start_time, p.end_time, IFNULL(p.cost_time, \"\") AS cost_time " +
-//            "FROM task_define_table t " +
-//            "INNER JOIN (SELECT p.mode, p.category_name, p.task_name, p.start_time, p.end_time, p.cost_time " +
-//            "FROM time_tracing_table p " +
-//            "WHERE p.mode = :mode " +
-//            "AND p.start_time >= :startTime AND p.end_time < :endTime" +
-//            ") p " +
-//            "ON t.task_name = p.task_name " +
-//            "INNER JOIN category_define_table c " +
-//            "ON t.category_name = c.category_name " +
-//            "ORDER BY c.category_priority, t.task_priority")
-//    List<GetTaskWithTraceTime> getTaskListWithTraceTime(String mode, String startTime, String endTime);
 
 
 
@@ -435,12 +416,20 @@ public interface DatabaseDao {
             "      USING (mode, category_name, task_name) " +
             "      WHERE r.cost_time IS NULL " +    // removes rows that already included in the result set of the first SELECT statement. (only need to append rows which has plan but no record(no cost_time))
             "    ) " +
-            "SELECT * " +
-            "  FROM (SELECT result.mode, result.ver_no, result.category_name, c.category_color, c.category_priority, result.task_name, t.task_color, t.task_icon, t.task_priority, IFNULL(result.cost_time, 0) AS cost_time, IFNULL(result.plan_time, 0) AS plan_time " +
-            "          FROM result result " +
-            "         INNER JOIN task_define_table t USING(category_name, task_name) " +
-            "         INNER JOIN category_define_table c USING(category_name) " +
-            "         ORDER BY result.mode, result.ver_no, c.category_priority, t.task_priority " +
-            "       )")
+            "SELECT result.mode             AS mode, " +
+            "       result.ver_no           AS ver_no, " +
+            "       result.category_name    AS category_name, " +
+            "       c.category_color        AS category_color, " +
+            "       c.category_priority     AS category_priority, " +
+            "       result.task_name        AS task_name, " +
+            "       t.task_color            AS task_color, " +
+            "       t.task_icon             AS task_icon, " +
+            "       t.task_priority         AS task_priority, " +
+            "       IFNULL(result.cost_time, 0) AS cost_time, " +
+            "       IFNULL(result.plan_time, 0) AS plan_time " +
+            "  FROM result result " +
+            " INNER JOIN task_define_table t USING(category_name, task_name) " +
+            " INNER JOIN category_define_table c USING(category_name) " +
+            " ORDER BY mode, ver_no, category_priority, task_priority ")
     List<GetResultDailySummary> getResultDailySummary(String mode, String startVerNo, String endVerNo, String categoryList, String taskList);
 }

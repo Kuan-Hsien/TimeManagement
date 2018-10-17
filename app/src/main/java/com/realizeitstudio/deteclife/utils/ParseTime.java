@@ -1,5 +1,7 @@
 package com.realizeitstudio.deteclife.utils;
 
+import android.support.constraint.ConstraintLayout;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -164,7 +166,7 @@ public class ParseTime {
 
 
     /**
-     * 輸入日期，可以轉換成星期幾。
+     * 輸入日期，可以轉換成星期幾。(改用 calendar 轉，為了支援低版本不能用下方原本的 u pattern)
      *
      * @param dateString 日期字串
      * @return 星期幾
@@ -175,19 +177,50 @@ public class ParseTime {
      * 如果要直接轉換成「星期幾」而不是整數，則將 pattern 換成 E 即可。
      * 以上pattern的大小寫都要一樣!! 不一樣的大小寫在SimpleDateFormat會有不同的解讀，例如：大寫M表示月份，小寫m表示分鐘。
      */
-    public static String date2Day( String dateString ) throws ParseException
+    public static int date2Day( String dateString ) throws ParseException
     {
         SimpleDateFormat dateStringFormat = new SimpleDateFormat( Constants.DB_FORMAT_VER_NO );
         Date date = dateStringFormat.parse( dateString );
 
-        SimpleDateFormat date2DayFormat = new SimpleDateFormat( "u" );
-        return date2DayFormat.format( date );
+        return date2Day(date);
     }
 
-    public static String date2Day( Date date )
+
+    public static int date2Day( Date date )
     {
-        SimpleDateFormat date2DayFormat = new SimpleDateFormat( "u" );
-        return date2DayFormat.format( date );
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date); // date 轉換為 calendar
+
+        // ******
+        // (1) 得到今天星期幾
+        int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
+
+        // (2) 一周第一天是否是星期天
+        boolean isFirstSunday = (calendar.getFirstDayOfWeek() == Calendar.SUNDAY);
+
+        // (3) 把星期幾的資訊換成我們預期的開始時間
+        // calendar.setFirstDayOfWeek(Calendar.MONDAY); 只影響 WEEK_OF_YEAR，但不影響 DAY_OF_WEEK，所以要自己改
+        // 舉例：星期一當第一天，回傳 1，星期五回傳 5，星期天回傳 7
+        //      這在第一天是星期一的時候不用調整
+        //      但第一天是星期天的時候要修正 (回傳值 -1)
+        if (isFirstSunday) {
+            weekDay = weekDay - 1;
+
+            if (weekDay == 0) {
+                weekDay = 7;
+            }
+        }
+
+//        Logger.d(Constants.TAG, MSG + "date2Day:Calendar.DAY_OF_WEEK => " + calendar.get(Calendar.DAY_OF_WEEK));
+        Logger.d(Constants.TAG, MSG + "date2Day:weekDay => " + weekDay);
+//        Logger.d(Constants.TAG, MSG + "date2Day:pattern = 'u' => " + new SimpleDateFormat( "u" ).format( date ));
+//        Logger.d(Constants.TAG, MSG + "date2Day:pattern = 'E' => " + new SimpleDateFormat( "E" ).format( date ));
+//        Logger.d(Constants.TAG, MSG + "date2Day:pattern = 'F' => " + new SimpleDateFormat( "F" ).format( date ));   // Today is the second Wednesday in the current month.
+
+
+        return weekDay;
     }
+
 
 }

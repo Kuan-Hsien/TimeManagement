@@ -138,7 +138,7 @@ public class AnalysisDailyPresenter implements AnalysisDailyContract.Presenter {
             Date date = new Date();
             String endVerNo = simpleDateFormat.format(date);
 
-            int intWeekDay = Integer.parseInt(ParseTime.date2Day(date));    // 把昨天傳入，回傳星期幾 (1 = 星期一，2 = 星期二)
+            int intWeekDay = ParseTime.date2Day(date);    // 把昨天傳入，回傳星期幾 (1 = 星期一，2 = 星期二)
 
             // 計算 Weekly 的開始時間 (beginVerNo)
             date = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * intWeekDay); // 如果昨天是星期一，則 Weekly 也只撈一天 (beginVerNo = endVerNo)，和 endVerNo 一樣只往回減一天

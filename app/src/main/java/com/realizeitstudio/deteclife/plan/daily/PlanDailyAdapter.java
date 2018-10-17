@@ -530,7 +530,7 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
                 String curStartVerNoDaily = simpleDateFormat.format(curDate);
 
                 // Weekly 的 startTime 是當週的週一
-                int intWeekDay = Integer.parseInt(ParseTime.date2Day(curDate));    // 把今天傳入，回傳今天是星期幾 (1 = 星期一，2 = 星期二)
+                int intWeekDay = ParseTime.date2Day(curDate);    // 把今天傳入，回傳今天是星期幾 (1 = 星期一，2 = 星期二)
                 // 如果今天是星期一，則需從今天往回減 0 天。
                 // 如果今天是星期二，則需從今天往回減 1 天。
                 Date thisMonday = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * (intWeekDay - 1)); // 找出本週一

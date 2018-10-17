@@ -487,13 +487,14 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
             if (v.getId() == R.id.constraintlayout_plan_top_viewmode) {    // View mode
 
                 // Plan page 整頁切換為編輯模式
-                getTextviewSetTargetTask().setText("Choose a task");
-                getTextviewSetTargetCategory().setText("--");
-                getTextviewSetTargetCostTime().setText("0 min");
-                getSeekBarSetTargetAdjustTime().setProgress(0);
-                mIntNewItemCostTime = 0;
-
-                mPresenter.refreshUi(Constants.MODE_PLAN_EDIT);
+                ;
+//                getTextviewSetTargetTask().setText("Choose a task");
+//                getTextviewSetTargetCategory().setText("--");
+//                getTextviewSetTargetCostTime().setText("0 min");
+//                getSeekBarSetTargetAdjustTime().setProgress(0);
+//                mIntNewItemCostTime = 0;
+//
+//                mPresenter.refreshUi(Constants.MODE_PLAN_EDIT);
 
                 // [TODO] 之後要增加一頁新的 category 可參考此處寫法
                 // mPresenter.showSetTargetUi();
