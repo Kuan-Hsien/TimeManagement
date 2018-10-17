@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 
+import com.crashlytics.android.Crashlytics;
 import com.kuanhsien.timemanagement.database.AppDatabase;
 import com.kuanhsien.timemanagement.database.DatabaseDao;
 import com.kuanhsien.timemanagement.object.CategoryDefineTable;
@@ -25,6 +26,7 @@ import com.kuanhsien.timemanagement.utils.Constants;
 import com.kuanhsien.timemanagement.utils.Logger;
 import com.kuanhsien.timemanagement.utils.ParseTime;
 
+import io.fabric.sdk.android.Fabric;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -48,6 +50,7 @@ public class TimeManagementApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         mContext = this;
 
         // [IS_FIRST_FLAG = true] if first login
