@@ -16,6 +16,7 @@ import com.crashlytics.android.Crashlytics;
 import com.realizeitstudio.deteclife.database.AppDatabase;
 import com.realizeitstudio.deteclife.database.DatabaseDao;
 import com.realizeitstudio.deteclife.object.CategoryDefineTable;
+import com.realizeitstudio.deteclife.object.IconDefineTable;
 import com.realizeitstudio.deteclife.object.TaskDefineTable;
 import com.realizeitstudio.deteclife.object.TimePlanningTable;
 import com.realizeitstudio.deteclife.object.TimeTracingTable;
@@ -27,6 +28,8 @@ import com.realizeitstudio.deteclife.utils.Logger;
 import com.realizeitstudio.deteclife.utils.ParseTime;
 
 import io.fabric.sdk.android.Fabric;
+
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -109,93 +112,109 @@ public class TimeManagementApplication extends Application {
 //    }
 
 
-
-    public static Drawable getIconResourceDrawable(String strIcon) {
-
-        if (strIcon.equals(Constants.APP_ICON_SMALL)) {
-            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.deteclife_icon_line);
-        } else if (strIcon.equals(Constants.APP_ICON_BIG)) {
-            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.deteclife_icon_fill);
-
-        } else if (strIcon.equals("icon_sleep")) {
-            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_sleep);
-        } else if (strIcon.equals("icon_bike")) {
-            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_bike);
-        } else if (strIcon.equals("icon_book")) {
-            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_book);
-        } else if (strIcon.equals("icon_car")) {
-            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_car);
-        } else if (strIcon.equals("icon_computer")) {
-            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_computer);
-        } else if (strIcon.equals("icon_drunk")) {
-            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_drunk);
-        } else if (strIcon.equals("icon_friend")) {
-            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_friend);
-        } else if (strIcon.equals("icon_food")) {
-            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_food);
-        } else if (strIcon.equals("icon_home")) {
-            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_home);
-        } else if (strIcon.equals("icon_lover")) {
-            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_lover);
-        } else if (strIcon.equals("icon_music")) {
-            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_music);
-        } else if (strIcon.equals("icon_paw")) {
-            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_paw);
-        } else if (strIcon.equals("icon_phonecall")) {
-            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_phonecall);
-        } else if (strIcon.equals("icon_swim")) {
-            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_swim);
-        } else if (strIcon.equals("icon_walk")) {
-            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_walk);
-        } else if (strIcon.equals("icon_work")) {
-            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_work);
-        } else {
-            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_sleep);
+    // 第一個參數是檔名，第二個參數是你要找的Resource class。可取出 getResId("filename", R.drawable.class)
+    public static int getResId(String variableName, Class<?> c) {
+        try {
+            Field idField = c.getDeclaredField(variableName);
+            return idField.getInt(idField);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
         }
     }
 
+    public static Drawable getIconResourceDrawable(String strIcon) {
+        return TimeManagementApplication.getAppContext().getDrawable(getResId(strIcon, R.drawable.class));
+    }
+
+//    public static Drawable getIconResourceDrawable(String strIcon) {
+//
+//        if (strIcon.equals(Constants.APP_ICON_SMALL)) {
+//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.deteclife_icon_line);
+//        } else if (strIcon.equals(Constants.APP_ICON_BIG)) {
+//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.deteclife_icon_fill);
+//
+//        } else if (strIcon.equals("icon_sleep")) {
+//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_sleep);
+//        } else if (strIcon.equals("icon_bike")) {
+//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_bike);
+//        } else if (strIcon.equals("icon_book")) {
+//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_book);
+//        } else if (strIcon.equals("icon_car")) {
+//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_car);
+//        } else if (strIcon.equals("icon_computer")) {
+//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_computer);
+//        } else if (strIcon.equals("icon_drunk")) {
+//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_drunk);
+//        } else if (strIcon.equals("icon_friend")) {
+//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_friend);
+//        } else if (strIcon.equals("icon_food")) {
+//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_food);
+//        } else if (strIcon.equals("icon_home")) {
+//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_home);
+//        } else if (strIcon.equals("icon_lover")) {
+//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_lover);
+//        } else if (strIcon.equals("icon_music")) {
+//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_music);
+//        } else if (strIcon.equals("icon_paw")) {
+//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_paw);
+//        } else if (strIcon.equals("icon_phonecall")) {
+//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_phonecall);
+//        } else if (strIcon.equals("icon_swim")) {
+//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_swim);
+//        } else if (strIcon.equals("icon_walk")) {
+//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_walk);
+//        } else if (strIcon.equals("icon_work")) {
+//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_work);
+//        } else {
+//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_sleep);
+//        }
+//    }
+
     public static int getIconResourceId(String strIcon) {
 
-        if (strIcon.equals(Constants.APP_ICON_SMALL)) {
-            return R.drawable.deteclife_icon_line;
-        } else if (strIcon.equals(Constants.APP_ICON_BIG)) {
-            return R.drawable.deteclife_icon_fill;
+        return getResId(strIcon, R.drawable.class);
 
-        } else if (strIcon.equals("icon_sleep")) {
-            return R.drawable.icon_sleep;
-        } else if (strIcon.equals("icon_bike")) {
-            return R.drawable.icon_bike;
-        } else if (strIcon.equals("icon_book")) {
-            return R.drawable.icon_book;
-        } else if (strIcon.equals("icon_car")) {
-            return R.drawable.icon_car;
-        } else if (strIcon.equals("icon_computer")) {
-            return R.drawable.icon_computer;
-        } else if (strIcon.equals("icon_drunk")) {
-            return R.drawable.icon_drunk;
-        } else if (strIcon.equals("icon_friend")) {
-            return R.drawable.icon_friend;
-        } else if (strIcon.equals("icon_food")) {
-            return R.drawable.icon_food;
-        } else if (strIcon.equals("icon_home")) {
-            return R.drawable.icon_home;
-        } else if (strIcon.equals("icon_lover")) {
-            return R.drawable.icon_lover;
-        } else if (strIcon.equals("icon_music")) {
-            return R.drawable.icon_music;
-        } else if (strIcon.equals("icon_paw")) {
-            return R.drawable.icon_paw;
-        } else if (strIcon.equals("icon_phonecall")) {
-            return R.drawable.icon_phonecall;
-        } else if (strIcon.equals("icon_swim")) {
-            return R.drawable.icon_swim;
-        } else if (strIcon.equals("icon_walk")) {
-            return R.drawable.icon_walk;
-        } else if (strIcon.equals("icon_work")) {
-            return R.drawable.icon_work;
-        } else {
-            return R.drawable.icon_sleep;
-        }
+//        if (strIcon.equals(Constants.APP_ICON_SMALL)) {
+//            return R.drawable.deteclife_icon_line;
+//        } else if (strIcon.equals(Constants.APP_ICON_BIG)) {
+//            return R.drawable.deteclife_icon_fill;
+//
+//        } else if (strIcon.equals("icon_sleep")) {
+//            return R.drawable.icon_sleep;
+//        } else if (strIcon.equals("icon_bike")) {
+//            return R.drawable.icon_bike;
+//        } else if (strIcon.equals("icon_book")) {
+//            return R.drawable.icon_book;
+//        } else if (strIcon.equals("icon_car")) {
+//            return R.drawable.icon_car;
+//        } else if (strIcon.equals("icon_computer")) {
+//            return R.drawable.icon_computer;
+//        } else if (strIcon.equals("icon_drunk")) {
+//            return R.drawable.icon_drunk;
+//        } else if (strIcon.equals("icon_friend")) {
+//            return R.drawable.icon_friend;
+//        } else if (strIcon.equals("icon_food")) {
+//            return R.drawable.icon_food;
+//        } else if (strIcon.equals("icon_home")) {
+//            return R.drawable.icon_home;
+//        } else if (strIcon.equals("icon_lover")) {
+//            return R.drawable.icon_lover;
+//        } else if (strIcon.equals("icon_music")) {
+//            return R.drawable.icon_music;
+//        } else if (strIcon.equals("icon_paw")) {
+//            return R.drawable.icon_paw;
+//        } else if (strIcon.equals("icon_phonecall")) {
+//            return R.drawable.icon_phonecall;
+//        } else if (strIcon.equals("icon_swim")) {
+//            return R.drawable.icon_swim;
+//        } else if (strIcon.equals("icon_walk")) {
+//            return R.drawable.icon_walk;
+//        } else if (strIcon.equals("icon_work")) {
+//            return R.drawable.icon_work;
+//        } else {
+//            return R.drawable.icon_sleep;
+//        }
     }
 
     public static boolean isFirstLogin() {
@@ -341,6 +360,25 @@ public class TimeManagementApplication extends Application {
                 dao.addTask(new TaskDefineTable("Others", "Music", "#F08080", "icon_music", 10, false));
                 dao.addTask(new TaskDefineTable("Others", "Pet", "#FFB6C1", "icon_paw", 9, false));
                 dao.addTask(new TaskDefineTable("Others", "Phone", "#FF6347", "icon_phonecall", 11, false));
+
+
+                // Prepare default task
+                dao.addIconItem(new IconDefineTable("icon_sleep", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_bike", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_book", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_car", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_computer", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_drunk", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_friend", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_food", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_home", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_lover", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_music", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_paw", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_phonecall", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_swim", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_walk", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_work", false, strCurrentTime));
 
                 // Prepare first trace
                 dao.addTraceItem(new TimeTracingTable(strVerNo, "Health", "Sleep",  curDate.getTime(), null, null, strCurrentTime));

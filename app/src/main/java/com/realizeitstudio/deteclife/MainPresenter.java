@@ -195,7 +195,7 @@ public class MainPresenter implements MainContract.Presenter {
         transaction.commit();
 
         if (mAddTaskPresenter == null) {
-            mAddTaskPresenter = new AddTaskPresenter(mAddTaskFragment, this);
+            mAddTaskPresenter = new AddTaskPresenter(mAddTaskFragment, this, ((MainActivity) mMainView));
         }
 
         mMainView.showAddTaskUi();

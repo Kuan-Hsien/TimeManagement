@@ -1,9 +1,17 @@
 package com.realizeitstudio.deteclife.addtask;
 
+import android.widget.Toast;
+
+import com.realizeitstudio.deteclife.MainActivity;
 import com.realizeitstudio.deteclife.MainContract;
 import com.realizeitstudio.deteclife.dml.SetTaskAsyncTask;
 import com.realizeitstudio.deteclife.dml.SetTaskCallback;
+import com.realizeitstudio.deteclife.iconpicker.IconPickerDialog;
+import com.realizeitstudio.deteclife.iconpicker.IconPickerPresenter;
+import com.realizeitstudio.deteclife.object.IconDefineTable;
 import com.realizeitstudio.deteclife.object.TaskDefineTable;
+import com.realizeitstudio.deteclife.plan.daily.PlanDailyFragment;
+import com.realizeitstudio.deteclife.plan.daily.PlanDailyPresenter;
 import com.realizeitstudio.deteclife.utils.Constants;
 import com.realizeitstudio.deteclife.utils.Logger;
 
@@ -23,11 +31,20 @@ public class AddTaskPresenter implements AddTaskContract.Presenter {
 
     private boolean mLoading = false;
 
+    // Dialog: Icon Picker
+    private IconPickerDialog mIconPickerDialog;
+    private IconPickerPresenter mIconPickerPresenter;
 
-    public AddTaskPresenter(AddTaskContract.View mainView, MainContract.Presenter mainPresenter)  {
+    private MainActivity mMainActivity;
+
+
+    public AddTaskPresenter(AddTaskContract.View mainView, MainContract.Presenter mainPresenter, MainActivity mainActivity)  {
+
         mTaskView = checkNotNull(mainView, "taskView cannot be null!");
         mTaskView.setPresenter(this);
+
         mMainPresenter = mainPresenter;
+        mMainActivity = mainActivity;
     }
 
 
@@ -92,7 +109,34 @@ public class AddTaskPresenter implements AddTaskContract.Presenter {
         mMainPresenter.addTaskComplete();
     }
 
-//    @Override
+
+
+    // ****** Icon Picker Dialog ****** //
+    // show Icon Picker Dialog
+    @Override
+    public void showIconPickerDialog(String strColor) {
+
+//        Toast.makeText(mMainActivity, "點擊: showIconPickerDialog ", Toast.LENGTH_SHORT).show();
+
+        if (mIconPickerDialog == null) {
+            mIconPickerDialog = new IconPickerDialog(mMainActivity, strColor);
+        }
+
+        if (mIconPickerPresenter == null) {
+            mIconPickerPresenter = new IconPickerPresenter(mIconPickerDialog, this);
+        }
+
+        mIconPickerDialog.showDialog();
+
+    }
+
+    @Override
+    public void showIconSelected(IconDefineTable bean) {
+
+        mTaskView.showIconSelected(bean);
+    }
+
+    //    @Override
 //    public void showCategoryListDialog() {
 //        mTaskView.showCategoryListDialog();
 //    }

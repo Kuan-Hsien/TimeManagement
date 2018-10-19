@@ -66,6 +66,13 @@ public class Constants {
     public static final int RECORD_TASK_SPAN_COUNT = 4;
 
 
+    // Add Task - icon
+    public static final String DEFAULT_ICON_PICKER = "btn_edit_pencil";
+
+
+
+    // icon
+    public static final int ICON_SPAN_COUNT = 4;
 
     // ****** Notification ******
 

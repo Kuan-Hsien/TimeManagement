@@ -418,6 +418,7 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
             GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutAnalysisTaskIcon().getBackground();
             gradientDrawable.setColor(Color.parseColor(item.getTaskColor()));
 
+
             getImageviewAnalysisTaskIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(item.getTaskIcon()));
             getTextviewAnalysisCategoryName().setText(item.getCategoryName());
             getTextviewAnalysisTaskName().setText(item.getTaskName());

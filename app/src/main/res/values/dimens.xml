@@ -40,6 +40,11 @@
     <dimen name="height_profile_itembutton">50dp</dimen>
     <dimen name="size_profile_logouticon">24dp</dimen>
 
+
+
+
+
+
     <!-- All items -->
     <dimen name="size_all_add_item">38dp</dimen>
     <dimen name="size_all_item_image">38dp</dimen>
@@ -105,6 +110,18 @@
     <dimen name="height_notificaiton_daily_summary">75dp</dimen>
     <dimen name="height_notificaiton_weekly_summary">60dp</dimen>
     <dimen name="width_notificaiton_task_icon">11dp</dimen>
+
+
+    <!-- Icon Dialog -->
+    <dimen name="size_icon_item">36dp</dimen>
+    <dimen name="padding_icon_item">10dp</dimen>
+    <dimen name="margin_icon_item">5dp</dimen>
+    <dimen name="width_icon_dialog_padding">20dp</dimen>
+    <dimen name="height_icon_dialog_padding">20dp</dimen>
+
+
+
+
 
 
 

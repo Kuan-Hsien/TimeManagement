@@ -21,6 +21,7 @@ import android.support.v7.widget.RecyclerView;
 import com.realizeitstudio.deteclife.BasePresenter;
 import com.realizeitstudio.deteclife.BaseView;
 import com.realizeitstudio.deteclife.dml.GetResultDailySummary;
+import com.realizeitstudio.deteclife.object.IconDefineTable;
 import com.realizeitstudio.deteclife.object.TaskDefineTable;
 
 import java.util.List;
@@ -46,6 +47,10 @@ public interface AddTaskContract {
 //        void showTaskListDialog();
 //
 //        void showSetTargetUi();
+
+        void showIconSelected(IconDefineTable bean);
+
+
 
     }
 
@@ -82,6 +87,12 @@ public interface AddTaskContract {
         void saveTaskResults(List<TaskDefineTable> taskList, List<TaskDefineTable> deleteTaskList);
 
         void addTaskComplete();
+
+
+        // ****** Icon Picker Dialog ****** //
+        void showIconPickerDialog(String strColor);
+
+        void showIconSelected(IconDefineTable bean);
 
     }
 }

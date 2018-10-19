@@ -12,6 +12,7 @@ import com.realizeitstudio.deteclife.dml.GetTraceDetail;
 import com.realizeitstudio.deteclife.dml.GetTraceSummary;
 import com.realizeitstudio.deteclife.object.CategoryDefineTable;
 import com.realizeitstudio.deteclife.dml.GetTaskWithPlanTime;
+import com.realizeitstudio.deteclife.object.IconDefineTable;
 import com.realizeitstudio.deteclife.object.TaskDefineTable;
 import com.realizeitstudio.deteclife.object.TimePlanningTable;
 import com.realizeitstudio.deteclife.object.TimeTracingTable;
@@ -432,4 +433,22 @@ public interface DatabaseDao {
             " INNER JOIN category_define_table c USING(category_name) " +
             " ORDER BY mode, ver_no, category_priority, task_priority ")
     List<GetResultDailySummary> getResultDailySummary(String mode, String startVerNo, String endVerNo, String categoryList, String taskList);
+
+
+
+
+
+
+    // ****** Icon ******
+
+    // Query all icon list
+    @Query("SELECT * FROM icon_define_table")
+    List<IconDefineTable> getAllIconList();
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void addIconItem(IconDefineTable item);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void addIconList(List<IconDefineTable> item);
+
 }
