@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-        tools:context=".task.TaskListFragment">
+    tools:context=".task.TaskListFragment">
 
     <LinearLayout
         android:id="@+id/linearlayout_tasklist_top"
@@ -26,9 +26,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_tasklist"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:paddingBottom="8dp"
+        style="@style/RecyclerViewLinearCard"
         app:layout_constraintTop_toBottomOf="@+id/linearlayout_tasklist_top"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,6 +1,7 @@
 package com.realizeitstudio.deteclife.category;
 
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -347,7 +348,11 @@ public class CategoryListAdapter extends RecyclerView.Adapter {
 
             Logger.d(Constants.TAG, MSG + "bindView setColor: " + item.getCategoryColor() + " CategoryName: " + item.getCategoryName());
 
-            getConstraintLayoutCategoryItem().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
+
+//            getConstraintLayoutCategoryItem().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
+            GradientDrawable gradientDrawable = (GradientDrawable) getConstraintLayoutCategoryItem().getBackground();
+            gradientDrawable.setColor(Color.parseColor(item.getCategoryColor()));
+
             getImageviewCategeoryColor().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
             getTextviewCategoryName().setText(item.getCategoryName());
 //            getImageviewCategorySeperation().setBackgroundColor(Color.parseColor(item.getCategoryColor()));

@@ -88,8 +88,11 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
 
         // Set Category
         mTextviewAddItemCategory = root.findViewById(R.id.textview_addtask_editmode_category);
-        mTextviewAddItemCategory.setText(Constants.CATEGORY_OTHERS);
+        mTextviewAddItemCategory.setText(TimeManagementApplication.getAppContext().getResources().getString(R.string.default_category));
         mTextviewAddItemCategory.setOnClickListener(this);
+
+        GradientDrawable gradientDrawable = (GradientDrawable) getTextviewAddItemCategory().getBackground();
+        gradientDrawable.setColor(Color.parseColor(Constants.DEFAULT_CATEGORY_COLOR));
 
         // Set Task
         mEdittextAddItemTask = root.findViewById(R.id.edittext_addtask_editmode_task);
@@ -97,8 +100,14 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
 
         // Set Icon
         mImageviewAddItemIcon = root.findViewById(R.id.imageview_addtask_editmode_icon);
+        getImageviewAddItemIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(Constants.DEFAULT_ICON_PICKER));
+
         mFrameLayoutAddItemIcon = root.findViewById(R.id.framelayout_addtask_editmode_icon);
         mFrameLayoutAddItemIcon.setOnClickListener(this);
+
+        gradientDrawable = (GradientDrawable) getFrameLayoutAddItemIcon().getBackground();
+        gradientDrawable.setColor(Color.parseColor(mStrIconColor));
+
 
 
         mConstraintLayoutAddItemEditMode = root.findViewById(R.id.constraintlayout_addtask_editmode);
@@ -106,11 +115,6 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
         ((ImageView) root.findViewById(R.id.imageview_addtask_editmode_save)).setOnClickListener(this);
         ((ImageView) root.findViewById(R.id.imageview_addtask_editmode_cancel)).setOnClickListener(this);
 
-
-        GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutAddItemIcon().getBackground();
-        gradientDrawable.setColor(Color.parseColor(mStrIconColor));
-
-        getImageviewAddItemIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(Constants.DEFAULT_ICON_PICKER));
 
         return root;
     }
@@ -334,6 +338,9 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
         bean.LogD();
 
         getTextviewAddItemCategory().setText(bean.getCategoryName());
+
+        GradientDrawable gradientDrawable = (GradientDrawable) getTextviewAddItemCategory().getBackground();
+        gradientDrawable.setColor(Color.parseColor(bean.getCategoryColor()));
     }
 
     // press backkey on category page (without choose any category)

@@ -90,18 +90,10 @@
 
     <TextView
         android:id="@+id/textview_analysis_category_name"
-        android:layout_width="@dimen/width_trace_category_name"
-        android:layout_height="wrap_content"
+        style="@style/TextViewCardCategoryLabel"
         android:layout_marginStart="@dimen/height_analysis_mainitem_margin"
-        android:layout_marginTop="@dimen/height_analysis_category_margin_top"
-        android:ellipsize="end"
-        android:fontFamily="sans-serif-medium"
-        android:lines="1"
-        android:textColor="@android:color/darker_gray"
-        android:textStyle="italic"
-        android:textSize="13sp"
         app:layout_constraintStart_toEndOf="@+id/framelayout_analysis_task_icon"
-        app:layout_constraintTop_toBottomOf="@+id/textview_analysis_task_name"
+        app:layout_constraintBottom_toBottomOf="@+id/framelayout_analysis_task_icon"
         tools:text="Health" />
 
     <TextView
@@ -139,14 +131,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/height_analysis_mainitem_margin"
-        android:layout_marginTop="@dimen/height_analysis_category_margin_top"
         android:fontFamily="sans-serif-medium"
         android:lines="1"
         android:textColor="@android:color/darker_gray"
         android:textStyle="italic"
         android:textSize="13sp"
+        android:paddingBottom="@dimen/padding_category_name_hight"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_analysis_task_cost_time"
+        app:layout_constraintBottom_toBottomOf="@+id/framelayout_analysis_task_icon"
         tools:text="8 hr" />
 
     <TextView
@@ -154,7 +146,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="@dimen/height_analysis_category_margin_top"
+        android:paddingBottom="@dimen/padding_category_name_hight"
         android:fontFamily="sans-serif-medium"
         android:lines="1"
         android:textColor="@android:color/darker_gray"
@@ -162,7 +154,7 @@
         android:textSize="13sp"
         android:text="Target:"
         app:layout_constraintEnd_toStartOf="@+id/textview_analysis_task_plan_time"
-        app:layout_constraintTop_toBottomOf="@+id/textview_analysis_task_cost_time"
+        app:layout_constraintBottom_toBottomOf="@+id/framelayout_analysis_task_icon"
         tools:text="Target:" />
 
     <SeekBar

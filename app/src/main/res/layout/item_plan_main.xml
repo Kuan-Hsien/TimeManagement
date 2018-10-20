@@ -120,19 +120,18 @@
 
     <TextView
         android:id="@+id/textview_plan_category_name"
-        android:layout_width="@dimen/width_trace_category_name"
-        android:layout_height="wrap_content"
+        style="@style/TextViewCardCategoryLabel"
         android:layout_marginStart="@dimen/height_analysis_mainitem_margin"
-        android:layout_marginTop="@dimen/height_analysis_category_margin_top"
-        android:ellipsize="end"
-        android:fontFamily="sans-serif-medium"
-        android:lines="1"
-        android:textColor="@android:color/darker_gray"
-        android:textStyle="italic"
-        android:textSize="13sp"
         app:layout_constraintStart_toEndOf="@+id/framelayout_plan_task_icon"
-        app:layout_constraintTop_toBottomOf="@+id/textview_plan_task_name"
-        tools:text="Health" />
+        app:layout_constraintBottom_toBottomOf="@+id/framelayout_plan_task_icon"
+        tools:text="@string/default_category" />
+
+    <!--android:ellipsize="end"-->
+    <!--android:fontFamily="sans-serif-medium"-->
+    <!--android:lines="1"-->
+    <!--android:textColor="@android:color/darker_gray"-->
+    <!--android:textStyle="italic"-->
+    <!--android:textSize="13sp"-->
 
     <TextView
         android:id="@+id/textview_plan_task_cost_time"

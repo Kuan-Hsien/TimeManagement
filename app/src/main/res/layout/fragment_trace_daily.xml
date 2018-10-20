@@ -35,8 +35,7 @@
     
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_trace_daily"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        style="@style/RecyclerViewLinearCard"
         app:layout_constraintTop_toBottomOf="@+id/linearlayout_trace_period_daily"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">

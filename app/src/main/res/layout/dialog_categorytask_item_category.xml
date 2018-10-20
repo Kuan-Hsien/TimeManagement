@@ -5,7 +5,11 @@
     android:id="@+id/constraintlayout_categorytask_category_item"
     android:layout_width="match_parent"
     android:layout_height="@dimen/height_categroytask_category_item"
-    android:background="@android:color/black"
+    android:layout_marginTop="@dimen/height_analysis_item_margin"
+    android:layout_marginBottom="@dimen/height_analysis_item_margin"
+    android:layout_marginStart="@dimen/width_analysis_item_margin"
+    android:layout_marginEnd="@dimen/width_analysis_item_margin"
+    android:background="@drawable/shape_layout_color_radius_card"
     android:elevation="2dp"
     android:clickable="true"
     android:focusable="true"
@@ -15,6 +19,7 @@
         android:id="@+id/imageview_categorytask_category_color"
         android:layout_width="@dimen/width_categorytask_category_label"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:background="@android:color/holo_red_dark"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -24,6 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@android:color/white"
+        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -31,14 +37,14 @@
         android:id="@+id/textview_categorytask_category_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="21dp"
         android:ellipsize="end"
         android:fontFamily="sans-serif-medium"
         android:textColor="@android:color/white"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/imageview_categorytask_category_color"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:text="Health" />
 
 

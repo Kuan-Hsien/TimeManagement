@@ -389,6 +389,10 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
             GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutPlanTaskIcon().getBackground();
             gradientDrawable.setColor(Color.parseColor(item.getTaskColor()));
 
+            gradientDrawable = (GradientDrawable) getTextviewPlanCategoryName().getBackground();
+            gradientDrawable.setColor(Color.parseColor(item.getCategoryColor()));
+
+
             getImageviewPlanTaskIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(item.getTaskIcon()));
             getTextviewPlanTaskName().setText(item.getTaskName());
             getTextviewPlanCategoryName().setText(item.getCategoryName());
@@ -497,10 +501,14 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
             if (v.getId() == R.id.constraintlayout_plan_top_viewmode) {    // View mode
 
                 // Plan page 整頁切換為編輯模式
+                GradientDrawable gradientDrawable = (GradientDrawable) getTextviewSetTargetCategory().getBackground();
+                gradientDrawable.setColor(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_default_grey));
+
                 getTextviewSetTargetTask().setText("Choose a task");
                 getTextviewSetTargetCategory().setText("--");
                 getTextviewSetTargetCostTime().setText("0 min");
                 getSeekBarSetTargetAdjustTime().setProgress(0);
+
                 mIntNewItemCostTime = 0;
 
                 mPresenter.refreshUi(Constants.MODE_PLAN_EDIT);
@@ -883,6 +891,9 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
 
         mPlanTopItemViewHolder.getTextviewSetTargetCategory().setText(bean.getCategoryName());
         mPlanTopItemViewHolder.getTextviewSetTargetTask().setText(bean.getTaskName());
+
+        GradientDrawable gradientDrawable = (GradientDrawable) mPlanTopItemViewHolder.getTextviewSetTargetCategory().getBackground();
+        gradientDrawable.setColor(Color.parseColor(bean.getCategoryColor()));
 
     }
 

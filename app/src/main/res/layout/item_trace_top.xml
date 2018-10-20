@@ -24,7 +24,6 @@
             android:layout_marginBottom="5dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="5dp"
-            android:background="@android:color/holo_orange_light"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -136,14 +135,7 @@
         <!-- task -->
         <TextView
             android:id="@+id/textview_trace_top_editmode_tasktitle"
-            android:layout_width="@dimen/width_set_target_item"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="sans-serif-medium"
-            android:lines="1"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="10sp"
+            style="@style/TextViewEditTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageview_trace_top_editmode_separationline"
             android:text="Task"
@@ -168,15 +160,7 @@
         <!-- category -->
         <TextView
             android:id="@+id/textview_trace_top_editmode_categorytitle"
-            android:layout_width="@dimen/width_set_target_item"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
-            android:ellipsize="end"
-            android:fontFamily="sans-serif-medium"
-            android:lines="1"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="10sp"
+            style="@style/TextViewEditTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edittext_trace_top_editmode_task"
             android:text="Category"
@@ -199,15 +183,7 @@
         <!-- seekbar to set time target  -->
         <TextView
             android:id="@+id/textview_trace_set_target_cost_time_title"
-            android:layout_width="@dimen/width_set_target_item"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
-            android:ellipsize="end"
-            android:fontFamily="sans-serif-medium"
-            android:lines="1"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="10sp"
+            style="@style/TextViewEditTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textview_trace_top_editmode_category"
             android:text="Time: " />

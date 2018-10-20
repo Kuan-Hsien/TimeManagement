@@ -5,11 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintlayout_record_add_task_item"
     style="@style/RecordPageTask"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/height_record_task"
-    android:layout_margin="5dp"
     android:background="@drawable/shape_task_icon_add"
     tools:background="@android:color/black">
+
+    <!-- add-new-task need another background color -->
 
     <!---->
 
@@ -21,7 +20,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/btn_add" />
+        app:srcCompat="@drawable/btn_add_line" />
 
     <TextView
         android:id="@+id/textview_record_add_task_name"

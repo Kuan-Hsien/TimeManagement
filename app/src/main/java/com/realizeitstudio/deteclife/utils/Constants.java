@@ -74,6 +74,8 @@ public class Constants {
     // Add Task - icon
     public static final String DEFAULT_ICON_PICKER = "btn_edit_pencil";
     public static final String DEFAULT_TASK_COLOR = "#2963C6";
+    public static final String DEFAULT_CATEGORY_COLOR = "#4682B4";
+
 
 
     // icon

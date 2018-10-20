@@ -179,7 +179,7 @@ public class TaskListAdapter extends RecyclerView.Adapter {
     // you provide access to all the views for a data item in a view holder
     public class TaskItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private ImageView mImageviewCategeoryColorLabel;
+//        private ImageView mImageviewCategeoryColorLabel;
         private ImageView mImageviewTaskIcon;
         private TextView mTextviewTaskName;
         private TextView mTextviewCategoryName;
@@ -196,9 +196,9 @@ public class TaskListAdapter extends RecyclerView.Adapter {
             return mPosition;
         }
 
-        public ImageView getImageviewCategeoryColorLabel() {
-            return mImageviewCategeoryColorLabel;
-        }
+//        public ImageView getImageviewCategeoryColorLabel() {
+//            return mImageviewCategeoryColorLabel;
+//        }
 
         public ImageView getImageviewTaskIcon() {
             return mImageviewTaskIcon;
@@ -226,7 +226,7 @@ public class TaskListAdapter extends RecyclerView.Adapter {
             mPosition = 0;
 
             //** View mode
-            mImageviewCategeoryColorLabel = (ImageView) v.findViewById(R.id.imageview_categorytask_categorycolor);
+//            mImageviewCategeoryColorLabel = (ImageView) v.findViewById(R.id.imageview_categorytask_categorycolor);
             mImageviewTaskIcon = (ImageView) v.findViewById(R.id.imageview_categorytask_task_icon);
             mTextviewTaskName = (TextView) v.findViewById(R.id.textview_categorytask_task_name);
             mTextviewCategoryName = (TextView) v.findViewById(R.id.textview_categorytask_category_name);
@@ -269,12 +269,17 @@ public class TaskListAdapter extends RecyclerView.Adapter {
 
             Logger.d(Constants.TAG, MSG + "bindView setColor: " + item.getTaskColor() + " Taskname: " + item.getTaskName());
 
-            getImageviewCategeoryColorLabel().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
-            getImageviewCategeoryColorLabel().setVisibility(View.GONE);
+//            getImageviewCategeoryColorLabel().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
+//            getImageviewCategeoryColorLabel().setVisibility(View.GONE);
 
+            // set task icon color
 //            getFrameLayoutTaskColor().setBackgroundColor(Color.parseColor(item.getTaskColor()));
             GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutTaskColor().getBackground();
             gradientDrawable.setColor(Color.parseColor(item.getTaskColor()));
+
+            // set category label color
+            gradientDrawable = (GradientDrawable) getTextviewCategoryName().getBackground();
+            gradientDrawable.setColor(Color.parseColor(item.getCategoryColor()));
 
             getImageviewTaskIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(item.getTaskIcon()));
             getTextviewTaskName().setText(item.getTaskName());
@@ -410,7 +415,11 @@ public class TaskListAdapter extends RecyclerView.Adapter {
             //** Edit Mode
             // Set Category
             mTextviewAddItemCategory = (TextView) v.findViewById(R.id.textview_addtask_editmode_category);
+            mTextviewAddItemCategory.setText(TimeManagementApplication.getAppContext().getResources().getString(R.string.default_category));
             mTextviewAddItemCategory.setOnClickListener(this);
+
+            GradientDrawable gradientDrawable = (GradientDrawable) getTextviewAddItemCategory().getBackground();
+            gradientDrawable.setColor(Color.parseColor(Constants.DEFAULT_CATEGORY_COLOR));
 
             // Set Task
             mEdittextAddItemTask = (EditText) v.findViewById(R.id.edittext_addtask_editmode_task);
@@ -418,8 +427,14 @@ public class TaskListAdapter extends RecyclerView.Adapter {
 
             // Set Icon
             mImageviewAddItemIcon = v.findViewById(R.id.imageview_addtask_editmode_icon);
+            getImageviewAddItemIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(Constants.DEFAULT_ICON_PICKER));
+
             mFrameLayoutAddItemIcon = v.findViewById(R.id.framelayout_addtask_editmode_icon);
             mFrameLayoutAddItemIcon.setOnClickListener(this);
+
+            gradientDrawable = (GradientDrawable) getFrameLayoutAddItemIcon().getBackground();
+            gradientDrawable.setColor(Color.parseColor(mStrIconColor));
+
 
 
             mConstraintLayoutAddItemEditMode = (ConstraintLayout) v.findViewById(R.id.constraintlayout_addtask_editmode);
@@ -589,6 +604,10 @@ public class TaskListAdapter extends RecyclerView.Adapter {
         bean.LogD();
 
         mAddItemViewHolder.getTextviewAddItemCategory().setText(bean.getCategoryName());
+
+        GradientDrawable gradientDrawable = (GradientDrawable) mAddItemViewHolder.getTextviewAddItemCategory().getBackground();
+        gradientDrawable.setColor(Color.parseColor(bean.getCategoryColor()));
+
 //        mGetCategoryTaskList = bean;
 //        notifyDataSetChanged();
     }

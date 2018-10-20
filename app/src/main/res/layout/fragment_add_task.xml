@@ -81,14 +81,7 @@
         <!-- task -->
         <TextView
             android:id="@+id/textview_addtask_editmode_tasktitle"
-            android:layout_width="@dimen/width_set_target_item"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="sans-serif-medium"
-            android:lines="1"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="10sp"
+            style="@style/TextViewEditTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageview_addtask_editmode_separationline"
             android:text="Task"
@@ -111,36 +104,21 @@
         <!-- category -->
         <TextView
             android:id="@+id/textview_addtask_editmode_categorytitle"
-            android:layout_width="@dimen/width_set_target_item"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
-            android:ellipsize="end"
-            android:fontFamily="sans-serif-medium"
-            android:lines="1"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="10sp"
+            style="@style/TextViewEditTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edittext_addtask_editmode_task"
             android:text="Category"
             tools:text="Category"
-            android:clickable="true"
-            android:focusable="true"/>
+            />
 
         <TextView
             android:id="@+id/textview_addtask_editmode_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:layout_marginStart="10dp"
+            style="@style/TextViewAddTaskCategoryLabel"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
             android:maxWidth="@dimen/width_set_target_item"
-            android:ellipsize="end"
-            android:fontFamily="sans-serif-medium"
-            android:lines="1"
-            android:textColor="@android:color/black"
-            android:textSize="15sp"
-            android:hint="@string/default_category_hint"
-            android:text="@string/default_category"
+            tools:hint="@string/default_category_hint"
+            tools:text="@string/default_category"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textview_addtask_editmode_categorytitle"
             android:clickable="true"
@@ -149,21 +127,12 @@
         <!-- icon -->
         <TextView
             android:id="@+id/textview_addtask_editmode_icon_title"
-            android:layout_width="@dimen/width_set_target_item"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
-            android:ellipsize="end"
-            android:fontFamily="sans-serif-medium"
-            android:lines="1"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="10sp"
+            style="@style/TextViewEditTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textview_addtask_editmode_category"
             android:text="Icon"
             tools:text="Icon"
-            android:clickable="true"
-            android:focusable="true"/>
+            />
 
         <FrameLayout
             android:id="@+id/framelayout_addtask_editmode_icon"

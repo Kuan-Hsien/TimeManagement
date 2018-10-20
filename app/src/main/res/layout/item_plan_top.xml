@@ -137,14 +137,7 @@
         <!-- task -->
         <TextView
             android:id="@+id/textview_plan_top_editmode_tasktitle"
-            android:layout_width="@dimen/width_set_target_item"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="sans-serif-medium"
-            android:lines="1"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="10sp"
+            style="@style/TextViewEditTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageview_plan_top_editmode_separationline"
             android:text="Task"
@@ -169,15 +162,7 @@
         <!-- category -->
         <TextView
             android:id="@+id/textview_plan_top_editmode_categorytitle"
-            android:layout_width="@dimen/width_set_target_item"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
-            android:ellipsize="end"
-            android:fontFamily="sans-serif-medium"
-            android:lines="1"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="10sp"
+            style="@style/TextViewEditTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edittext_plan_top_editmode_task"
             android:text="Category"
@@ -185,14 +170,9 @@
 
         <TextView
             android:id="@+id/textview_plan_top_editmode_category"
-            android:layout_width="@dimen/width_set_target_item"
-            android:layout_height="wrap_content"
+            style="@style/TextViewCardCategoryLabel"
+            android:layout_marginTop="@dimen/height_analysis_category_margin_top"
             android:layout_marginStart="20dp"
-            android:ellipsize="end"
-            android:fontFamily="sans-serif-medium"
-            android:lines="1"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="15sp"
             android:text="--"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textview_plan_top_editmode_categorytitle" />
@@ -200,15 +180,7 @@
         <!-- seekbar to set time target  -->
         <TextView
             android:id="@+id/textview_plan_set_target_cost_time_title"
-            android:layout_width="@dimen/width_set_target_item"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
-            android:ellipsize="end"
-            android:fontFamily="sans-serif-medium"
-            android:lines="1"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="10sp"
+            style="@style/TextViewEditTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textview_plan_top_editmode_category"
             android:text="Time: " />

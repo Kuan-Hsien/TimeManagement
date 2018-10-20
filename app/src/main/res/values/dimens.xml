@@ -49,10 +49,35 @@
     <dimen name="size_all_add_item">38dp</dimen>
     <dimen name="size_all_item_image">38dp</dimen>
 
-    <dimen name="size_all_authorimage">36dp</dimen>
-    <dimen name="size_all_createdtime">14dp</dimen>
-    <dimen name="size_all_interestedin">20dp</dimen>
-    <dimen name="size_all_place">14dp</dimen>
+    <!--<dimen name="size_all_authorimage">36dp</dimen>-->
+    <!--<dimen name="size_all_createdtime">14dp</dimen>-->
+    <!--<dimen name="size_all_interestedin">20dp</dimen>-->
+    <!--<dimen name="size_all_place">14dp</dimen>-->
+
+
+
+
+
+    <!-- all items -->
+    <dimen name="padding_framelayout_all_icon">10dp</dimen>
+    <dimen name="padding_recyclerview_height">3dp</dimen>
+
+
+    <!-- Add task/ task plans -->
+    <dimen name="padding_textview_addtask_category_label">10dp</dimen>
+
+    <!-- cardview category -->
+    <dimen name="maxwidth_textview_card_category_label">150dp</dimen>
+    <dimen name="padding_category_name_width">8dp</dimen>
+    <dimen name="padding_category_name_hight">2dp</dimen>
+
+    <!-- cardview category -->
+    <dimen name="maxwidth_textview_edit_title">223dp</dimen>
+    <dimen name="textsize_textview_edit_title">16sp</dimen>
+
+
+
+
 
     <!-- Plan items -->
     <dimen name="height_plan_period">28dp</dimen>

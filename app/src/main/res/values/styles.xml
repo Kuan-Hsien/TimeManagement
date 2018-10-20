@@ -56,10 +56,12 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/height_record_task</item>
         <item name="android:textColor">@color/color_recordpage_button_text</item>
-        <item name="android:background">@drawable/shape_recordpage_task</item>
+        <item name="android:background">@drawable/shape_task_icon</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
+        <item name="android:layout_margin">5dp</item>
     </style>
+    <!--<item name="android:background">@drawable/shape_recordpage_task</item>-->
     <!-- <item name="android:elevation">2dp</item> -->
 
 
@@ -76,5 +78,66 @@
 
     </style>
     <!-- <item name="android:elevation">2dp</item> -->
+
+
+    <style name="RecyclerViewLinearCard">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:paddingTop">@dimen/padding_recyclerview_height</item>
+        <item name="android:paddingBottom">@dimen/padding_recyclerview_height</item>
+        <item name="android:background">@color/color_app_card_background_grey</item>
+
+    </style>
+
+
+
+    <style name="TextViewAddTaskCategoryLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/shape_category_tag</item>
+        <item name="android:padding">@dimen/padding_textview_addtask_category_label</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textStyle">italic</item>
+
+    </style>
+
+    <style name="TextViewCardCategoryLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/shape_category_tag</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxWidth">@dimen/maxwidth_textview_card_category_label</item>
+        <item name="android:paddingStart">@dimen/padding_category_name_width</item>
+        <item name="android:paddingEnd">@dimen/padding_category_name_width</item>
+        <item name="android:paddingBottom">@dimen/padding_category_name_hight</item>
+
+    </style>
+
+
+    <style name="TextViewEditTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:textSize">@dimen/textsize_textview_edit_title</item>
+        <item name="android:maxWidth">@dimen/maxwidth_textview_edit_title</item>
+        <item name="android:layout_marginStart">15dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+
+    </style>
+
 
 </resources>
