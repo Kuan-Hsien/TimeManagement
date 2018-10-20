@@ -60,8 +60,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         mPresenter = new MainPresenter(this, getSupportFragmentManager());
         mPresenter.start();
-
-
     }
 
     /**
@@ -282,6 +280,15 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
+    public void showCategoryListUi() {
+
+        mToolbar.setVisibility(View.VISIBLE);
+        mButtomNavigation.setVisibility(View.GONE);
+
+        setToolbarTitle(getResources().getString(R.string.page_title_categorylist));
+    }
+
+    @Override
     public void showAddTaskUi() {
 
         mToolbar.setVisibility(View.VISIBLE);
@@ -304,6 +311,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     public void transToTaskList() {
         mPresenter.transToTaskList();
+    }
+
+    public void transToCategoryList() {
+        Logger.d(Constants.TAG, MSG + "transToCategoryList");
+        mPresenter.transToCategoryList();
     }
 
     public void transToAddTask() {
@@ -344,11 +356,16 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 //
 //        } else
 
+        // press backkey on category page (without choose any category)
+        if (mPresenter.isFragmentCategoryListVisible()) {
 
-        if (mPresenter.isFragmentTaskListVisible()) {
+            // call presenter to hide this fragment and show the parent task list
+            mPresenter.backCategoryToTask();
+
+        } else if (mPresenter.isFragmentTaskListVisible()) {
 
             // call presenter to hide this fragment and show the original one
-            mButtomNavigation.setSelectedItemId(mButtomNavigation.getSelectedItemId());
+            mPresenter.backTaskToPlan();
 
         } else if (mPresenter.isFragmentAddTaskVisible()) {
 

@@ -431,7 +431,7 @@ public class RecordAdapter extends RecyclerView.Adapter {
 
             // 白底黑字 (7F 表示透明度 50%)
 //            getConstraintLayoutTaskItem().setBackgroundColor(Color.parseColor("#7FFFFFFF"));
-            getImageviewTaskIcon().setColorFilter(Color.parseColor("#000000"));
+            getImageviewTaskIcon().setColorFilter(Color.parseColor("#000000")); // 設定圖案線條顏色
 //            getTextviewTaskName().setTextColor(Color.parseColor("#000000"));
 
             // 黑底白字

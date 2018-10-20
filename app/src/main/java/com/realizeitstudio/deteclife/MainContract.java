@@ -39,6 +39,8 @@ public interface MainContract {
 
         void showTaskListUi();
 
+        void showCategoryListUi();
+
         void showAddTaskUi();
 
 //        void refreshLikedUi();
@@ -54,6 +56,8 @@ public interface MainContract {
         void transToAnalysis();
 
         void transToTaskList();
+
+        void transToCategoryList();
 
         void transToAddTask();
 
@@ -73,11 +77,20 @@ public interface MainContract {
 
         boolean isFragmentTaskListVisible();
 
+        boolean isFragmentCategoryListVisible();
+
         boolean isFragmentAddTaskVisible();
 
 
-        // return select task
+        // return select category to task page
+        void selectCategoryToTask(GetCategoryTaskList bean);
+
+        void backCategoryToTask();
+
+        // return selected task to plan page
         void selectTaskToPlan(GetCategoryTaskList bean);
+
+        void backTaskToPlan();
 
         // call when set task complete
         void addTaskComplete();

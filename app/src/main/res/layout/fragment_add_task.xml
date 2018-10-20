@@ -106,8 +106,7 @@
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textview_addtask_editmode_tasktitle"
-            android:hint="Task name ..."
-            android:text="" />
+            android:hint="@string/default_task_name" />
 
         <!-- category -->
         <TextView
@@ -130,16 +129,18 @@
 
         <TextView
             android:id="@+id/textview_addtask_editmode_category"
-            android:layout_width="@dimen/width_set_target_item"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginBottom="8dp"
+            android:padding="10dp"
+            android:layout_marginStart="10dp"
+            android:maxWidth="@dimen/width_set_target_item"
             android:ellipsize="end"
             android:fontFamily="sans-serif-medium"
             android:lines="1"
             android:textColor="@android:color/black"
             android:textSize="15sp"
-            android:text="Choose a category"
+            android:hint="@string/default_category_hint"
+            android:text="@string/default_category"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textview_addtask_editmode_categorytitle"
             android:clickable="true"
@@ -169,7 +170,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_task_icon"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
             android:padding="@dimen/padding_icon_item"
@@ -189,8 +190,6 @@
                 android:layout_height="@dimen/size_icon_item"
                 android:src="@drawable/btn_edit_pencil" />
         </FrameLayout>
-
-
 
     </android.support.constraint.ConstraintLayout>
 

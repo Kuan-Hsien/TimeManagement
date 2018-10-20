@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/height_record_task"
     android:layout_margin="5dp"
-    android:background="@color/color_recordpage_white_transparent"
+    android:background="@drawable/shape_task_icon_add"
     tools:background="@android:color/black">
 
     <!---->

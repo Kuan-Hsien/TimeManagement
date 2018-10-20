@@ -12,6 +12,7 @@ import com.realizeitstudio.deteclife.dml.SetTaskAsyncTask;
 import com.realizeitstudio.deteclife.dml.SetTaskCallback;
 import com.realizeitstudio.deteclife.object.IconDefineTable;
 import com.realizeitstudio.deteclife.object.TaskDefineTable;
+import com.realizeitstudio.deteclife.task.TaskListPresenter;
 import com.realizeitstudio.deteclife.utils.Constants;
 import com.realizeitstudio.deteclife.utils.Logger;
 
@@ -31,7 +32,10 @@ public class IconPickerPresenter implements IconPickerContract.Presenter {
 
     private final IconPickerContract.View mTaskView;
 
+
     private AddTaskPresenter mAddTaskPresenter;
+    private TaskListPresenter mTaskListPresenter;
+    private String mStrCurTaskPage = "";
 
     private int mlastVisibleItemPosition;
     private int mfirstVisibleItemPosition;
@@ -44,6 +48,16 @@ public class IconPickerPresenter implements IconPickerContract.Presenter {
         mTaskView.setPresenter(this);
 
         mAddTaskPresenter = addTaskPresenter;
+        setStrCurTaskPage(Constants.PAGE_ADD_TASK);
+
+    }
+
+    public IconPickerPresenter(IconPickerContract.View mainView, TaskListPresenter taskListPresenter) {
+        mTaskView = checkNotNull(mainView, "IconPickerView cannot be null!");
+        mTaskView.setPresenter(this);
+
+        mTaskListPresenter = taskListPresenter;
+        setStrCurTaskPage(Constants.PAGE_TASK_LIST);
 
     }
 
@@ -135,7 +149,18 @@ public class IconPickerPresenter implements IconPickerContract.Presenter {
         Logger.d(Constants.TAG, MSG + "choose icon: ");
         bean.LogD();
 
-        mAddTaskPresenter.showIconSelected(bean);
+
+        // call current task page's presenter
+        if (Constants.PAGE_ADD_TASK.equals(getStrCurTaskPage())) {
+
+            mAddTaskPresenter.showIconSelected(bean);
+
+        } else {
+
+            mTaskListPresenter.showIconSelected(bean);
+        }
+
+
     }
 
     // 2-1. [Send-to-Model] database insert to update data (insert new targets or adjust time for existed targets)
@@ -189,4 +214,12 @@ public class IconPickerPresenter implements IconPickerContract.Presenter {
 //    }
 
 
+
+    public String getStrCurTaskPage() {
+        return mStrCurTaskPage;
+    }
+
+    public void setStrCurTaskPage(String strCurTaskPage) {
+        mStrCurTaskPage = strCurTaskPage;
+    }
 }

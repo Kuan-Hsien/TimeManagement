@@ -144,7 +144,9 @@ public class PlanFragment extends Fragment {
             if (isRefresh()) {
 
                 mPlanDailyPresenter.start();
+                mPlanDailyPresenter.refreshUi(Constants.MODE_PLAN_VIEW);
                 mPlanWeeklyPresenter.start();
+                mPlanWeeklyPresenter.refreshUi(Constants.MODE_PLAN_VIEW);
 
             } else {    // false 表示正在新增 task，有收到回傳的 task
                 setRefresh(true);   // 事件已在 selectTaskToPlan 中完成，下次再進 onHiddenChanged 就要更新畫面
@@ -172,6 +174,16 @@ public class PlanFragment extends Fragment {
 
         // 針對現在被選擇的 page 更新
     }
+
+
+    // press backkey on category page (without choose any category)
+    // task page shouldn't refresh
+    public void backFromTask() {
+
+        setRefresh(false);
+        Logger.d(Constants.TAG, MSG + "backFromTask");
+    }
+
 
     public boolean isRefresh() {
         return isRefresh;

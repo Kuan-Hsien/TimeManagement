@@ -8,6 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/height_record_task"
     android:layout_margin="5dp"
+    android:background="@drawable/shape_task_icon"
     tools:background="@android:color/holo_red_light">
 
     <!-- android:layout_width="@dimen/width_record_task" -->

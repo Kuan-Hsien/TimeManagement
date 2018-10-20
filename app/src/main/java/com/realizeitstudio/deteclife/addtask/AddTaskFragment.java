@@ -1,49 +1,25 @@
 package com.realizeitstudio.deteclife.addtask;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RemoteViews;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.realizeitstudio.deteclife.MainActivity;
 import com.realizeitstudio.deteclife.R;
 import com.realizeitstudio.deteclife.TimeManagementApplication;
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
-import com.realizeitstudio.deteclife.dml.GetResultDailySummary;
-import com.realizeitstudio.deteclife.iconpicker.IconPickerDialog;
-import com.realizeitstudio.deteclife.iconpicker.IconPickerPresenter;
 import com.realizeitstudio.deteclife.object.IconDefineTable;
 import com.realizeitstudio.deteclife.object.TaskDefineTable;
-import com.realizeitstudio.deteclife.task.CategoryTaskListAdapter;
-import com.realizeitstudio.deteclife.task.CategoryTaskListContract;
-import com.realizeitstudio.deteclife.task.CategoryTaskListPresenter;
 import com.realizeitstudio.deteclife.utils.Constants;
 import com.realizeitstudio.deteclife.utils.Logger;
 
@@ -71,13 +47,15 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
     private FrameLayout mFrameLayoutAddItemIcon;
     private ImageView mImageviewAddItemIcon;
 
+    private boolean isRefresh = true;
+
 
 
     // Icon information
-    private String mStrSelectedIconName = "icon_drunk";
+    private String mStrSelectedIconName = Constants.DEFAULT_TASK_ICON;
 //    private int mIntIconColor = getResources().getColor(R.color.color_app_clock_blue);
 //    private String mStrIconColor = "#134D78";
-    private String mStrIconColor = "#2963C6";
+    private String mStrIconColor = Constants.DEFAULT_TASK_COLOR;
 
 
 
@@ -165,8 +143,15 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
             ;
         } else {  //重新顯示到最前端 (被 show())
             Logger.d(Constants.TAG, MSG + "onHiddenChanged: hidden = false => SHOW");
+
+            if (isRefresh()) {
 //            mPresenter.start();
-            init();
+                init();
+
+            } else {    // false 表示正在新增 category，有收到回傳的 category
+                setRefresh(true);   // 事件完成，下次再進 onHiddenChanged 就要更新畫面
+            }
+
         }
     }
 
@@ -265,12 +250,12 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
 
         } else if (v.getId() == R.id.textview_addtask_editmode_category) {
 
-            Toast.makeText(getActivity(), "Coming soon...", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), "Coming soon...", Toast.LENGTH_SHORT).show();
+            showCategoryListDialog();
 
         } else if (v.getId() == R.id.framelayout_addtask_editmode_icon) {
 
             showIconPickerDialog();
-
         }
     }
 
@@ -327,6 +312,45 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
         getImageviewAddItemIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(bean.getIconName()));
         mStrSelectedIconName = bean.getIconName();
 
+    }
+
+
+    // ****** Category Picker Dialog ****** //
+    @Override
+    public void showCategoryListDialog() {
+
+        Logger.d(Constants.TAG, MSG + "showCategoryListDialog: ");
+        ((MainActivity) getActivity()).transToCategoryList();
+
+    }
+
+
+    // 由 main presenter 傳入在 tasklistFragment 中選擇的 task
+    public void completeSelectCategory(GetCategoryTaskList bean) {
+
+        setRefresh(false);
+
+        Logger.d(Constants.TAG, MSG + "completeSelectCategory => select category: ");
+        bean.LogD();
+
+        getTextviewAddItemCategory().setText(bean.getCategoryName());
+    }
+
+    // press backkey on category page (without choose any category)
+    // task page shouldn't refresh
+    public void backFromCategory() {
+
+        setRefresh(false);
+        Logger.d(Constants.TAG, MSG + "backFromCategory");
+    }
+
+
+    public boolean isRefresh() {
+        return isRefresh;
+    }
+
+    public void setRefresh(boolean refresh) {
+        isRefresh = refresh;
     }
 
 }

@@ -378,7 +378,10 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
             Logger.d(Constants.TAG, MSG + "bindView setColor: " + item.getTaskColor() + " Taskname: " + item.getTaskName());
 
-            getFrameLayoutPlanTaskIcon().setBackgroundColor(Color.parseColor(item.getTaskColor()));
+//            getFrameLayoutPlanTaskIcon().setBackgroundColor(Color.parseColor(item.getTaskColor()));
+            GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutPlanTaskIcon().getBackground();
+            gradientDrawable.setColor(Color.parseColor(item.getTaskColor()));
+
             getImageviewPlanTaskIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(item.getTaskIcon()));
             getTextviewPlanTaskName().setText(item.getTaskName());
             getTextviewPlanCategoryName().setText(item.getCategoryName());
@@ -398,7 +401,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                 getImageviewPlanTaskDeleteHint().setVisibility(View.VISIBLE);
                 getSeekBarPlanTaskAdjustTime().setVisibility(View.VISIBLE);
 
-                GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutPlanTaskDelete().getBackground();
+                gradientDrawable = (GradientDrawable) getFrameLayoutPlanTaskDelete().getBackground();
                 gradientDrawable.setColor(Color.parseColor("#d9d9d9"));
 
                 getSeekBarPlanTaskAdjustTime().setProgress(item.getCostTime() / (60 * 1000));

@@ -365,8 +365,8 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
             if (v.getId() == R.id.constraintlayout_addtask_viewmode) {    // View mode
 
                 // 切換為編輯模式
-                getTextviewAddItemCategory().setText("Choose a category");
-                getEdittextAddItemTask().setHint("enter task name ...");
+                getTextviewAddItemCategory().setText(TimeManagementApplication.getAppContext().getResources().getString(R.string.default_category));
+                getEdittextAddItemTask().setHint("");
 
                 mPresenter.refreshCategoryTaskUi(Constants.MODE_PLAN_EDIT);
 

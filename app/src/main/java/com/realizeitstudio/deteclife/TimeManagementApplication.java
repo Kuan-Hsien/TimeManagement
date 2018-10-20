@@ -336,13 +336,13 @@ public class TimeManagementApplication extends Application {
                 dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Others", "Music", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
 
                 // Prepare default category
-                dao.addCategory(new CategoryDefineTable("Health", false, "#32CD32", 1));
-                dao.addCategory(new CategoryDefineTable("Family", false, "#C71585", 2));
-                dao.addCategory(new CategoryDefineTable("Personal", false, "#FFD700", 3));
-                dao.addCategory(new CategoryDefineTable("Friend", false, "#F4A460", 4));
-                dao.addCategory(new CategoryDefineTable("Work", false, "#1E90FF", 5));
-                dao.addCategory(new CategoryDefineTable("Transportation", false, "#B0C4DE", 6));
-                dao.addCategory(new CategoryDefineTable("Others", false, "#4682B4", 7));
+                dao.addCategory(new CategoryDefineTable("Health", "#32CD32", 1, false));
+                dao.addCategory(new CategoryDefineTable("Family", "#C71585", 2, false));
+                dao.addCategory(new CategoryDefineTable("Personal", "#FFD700", 3, false));
+                dao.addCategory(new CategoryDefineTable("Friend", "#F4A460", 4, false));
+                dao.addCategory(new CategoryDefineTable("Work", "#1E90FF", 5, false));
+                dao.addCategory(new CategoryDefineTable("Transportation", "#B0C4DE", 6, false));
+                dao.addCategory(new CategoryDefineTable("Others", "#4682B4", 7, false));
 
                 // Prepare default task
                 dao.addTask(new TaskDefineTable("Work", "Work", "#4169E1", "icon_work", 8, false));
@@ -449,13 +449,13 @@ public class TimeManagementApplication extends Application {
 
 
                 // Prepare default category
-                dao.addCategory(new CategoryDefineTable("Health", false, "#32CD32", 1));
-                dao.addCategory(new CategoryDefineTable("Family", false, "#C71585", 2));
-                dao.addCategory(new CategoryDefineTable("Personal", false, "#FFD700", 3));
-                dao.addCategory(new CategoryDefineTable("Friend", false, "#F4A460", 4));
-                dao.addCategory(new CategoryDefineTable("Work", false, "#1E90FF", 5));
-                dao.addCategory(new CategoryDefineTable("Transportation", false, "#B0C4DE", 6));
-                dao.addCategory(new CategoryDefineTable("Others", false, "#4682B4", 7));
+                dao.addCategory(new CategoryDefineTable("Health", "#32CD32", 1, false));
+                dao.addCategory(new CategoryDefineTable("Family", "#C71585", 2, false));
+                dao.addCategory(new CategoryDefineTable("Personal", "#FFD700", 3, false));
+                dao.addCategory(new CategoryDefineTable("Friend", "#F4A460", 4, false));
+                dao.addCategory(new CategoryDefineTable("Work", "#1E90FF", 5, false));
+                dao.addCategory(new CategoryDefineTable("Transportation", "#B0C4DE", 6, false));
+                dao.addCategory(new CategoryDefineTable("Others", "#4682B4", 7, false));
 
                 // Prepare default task
                 dao.addTask(new TaskDefineTable("Work", "Work", "#2196f3", "icon_work", 8, false));

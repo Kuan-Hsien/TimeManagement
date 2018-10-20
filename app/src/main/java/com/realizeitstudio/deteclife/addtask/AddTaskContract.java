@@ -50,6 +50,8 @@ public interface AddTaskContract {
 
         void showIconSelected(IconDefineTable bean);
 
+        void showCategoryListDialog();
+
 
 
     }
@@ -74,8 +76,9 @@ public interface AddTaskContract {
 //        // once update data, query the target list again to refresh UI
 //        // (1-1, 1-2)
 //
-//        // 3-1. [Send-to-View]
-////        void showCategoryListDialog();
+        // 3-1. [Send-to-View]
+//        void showCategoryListDialog();
+
 ////        void showTaskListDialog();
 //
 ////        void showSetTargetUi();

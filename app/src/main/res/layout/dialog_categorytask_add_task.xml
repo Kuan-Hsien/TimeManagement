@@ -152,7 +152,7 @@
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textview_addtask_editmode_tasktitle"
-            android:text="Task name" />
+            android:hint="@string/default_task_name" />
 
         <!-- category -->
         <TextView
@@ -173,19 +173,69 @@
 
         <TextView
             android:id="@+id/textview_addtask_editmode_category"
-            android:layout_width="@dimen/width_set_target_item"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:maxWidth="@dimen/width_set_target_item"
+            android:padding="10dp"
+            android:layout_marginStart="10dp"
             android:ellipsize="end"
             android:fontFamily="sans-serif-medium"
             android:lines="1"
             android:textColor="@android:color/black"
             android:textSize="15sp"
-            android:text="Choose a category"
+            android:hint="@string/default_category_hint"
+            android:text="@string/default_category"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textview_addtask_editmode_categorytitle"
             android:clickable="true"
             android:focusable="true" />
+
+
+        <!-- icon -->
+        <TextView
+            android:id="@+id/textview_addtask_editmode_icon_title"
+            android:layout_width="@dimen/width_set_target_item"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:lines="1"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_addtask_editmode_category"
+            android:text="Icon"
+            tools:text="Icon"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <FrameLayout
+            android:id="@+id/framelayout_addtask_editmode_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_task_icon"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="30dp"
+            android:padding="@dimen/padding_icon_item"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_addtask_editmode_icon_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:clickable="true"
+            android:focusable="true"
+            >
+
+            <!--android:layout_marginStart="16dp"-->
+            <!--android:layout_marginTop="@dimen/height_analysis_mainitem_margin"-->
+            <!--android:layout_marginBottom="@dimen/height_analysis_mainitem_margin"-->
+
+            <ImageView
+                android:id="@+id/imageview_addtask_editmode_icon"
+                android:layout_width="@dimen/size_icon_item"
+                android:layout_height="@dimen/size_icon_item"
+                android:src="@drawable/btn_edit_pencil" />
+        </FrameLayout>
 
 
         <!-- TODO add green circle and white check for continuous adding -->

@@ -8,6 +8,8 @@ import android.support.annotation.StringDef;
 
 import com.realizeitstudio.deteclife.addtask.AddTaskFragment;
 import com.realizeitstudio.deteclife.addtask.AddTaskPresenter;
+import com.realizeitstudio.deteclife.category.CategoryListFragment;
+import com.realizeitstudio.deteclife.category.CategoryListPresenter;
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
 import com.realizeitstudio.deteclife.plan.PlanFragment;
 import com.realizeitstudio.deteclife.record.RecordFragment;
@@ -17,6 +19,8 @@ import com.realizeitstudio.deteclife.settarget.SetTargetPresenter;
 import com.realizeitstudio.deteclife.analysis.AnalysisFragment;
 import com.realizeitstudio.deteclife.task.TaskListFragment;
 import com.realizeitstudio.deteclife.task.TaskListPresenter;
+import com.realizeitstudio.deteclife.utils.Constants;
+import com.realizeitstudio.deteclife.utils.Logger;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -26,6 +30,8 @@ import java.lang.annotation.RetentionPolicy;
  * Created by Ken on 2018/9/23.
  */
 public class MainPresenter implements MainContract.Presenter {
+
+    private static final String MSG = "MainPresenter:";
 
     private final MainContract.View mMainView;
     private FragmentManager mFragmentManager;
@@ -37,6 +43,7 @@ public class MainPresenter implements MainContract.Presenter {
             FRAGMENT_TAG_TRACE,
             FRAGMENT_TAG_ANALYSIS,
             FRAGMENT_TAG_TASK_LIST,
+            FRAGMENT_TAG_CATEGORY_LIST,
             FRAGMENT_TAG_ADD_TASK,
             FRAGMENT_TAG_SET_TARGET,
             FRAGMENT_TAG_PROFILE,
@@ -44,29 +51,38 @@ public class MainPresenter implements MainContract.Presenter {
     })
 
     public @interface FragmentType {}
-    public static final String FRAGMENT_TAG_RECORD      = "FRAGMENT_TAG_RECORD";
-    public static final String FRAGMENT_TAG_PLAN        = "FRAGMENT_TAG_PLAN";
-    public static final String FRAGMENT_TAG_TRACE       = "FRAGMENT_TAG_TRACE";
-    public static final String FRAGMENT_TAG_ANALYSIS    = "FRAGMENT_TAG_ANALYSIS";
-    public static final String FRAGMENT_TAG_TASK_LIST   = "FRAGMENT_TAG_TASK_LIST";
-    public static final String FRAGMENT_TAG_ADD_TASK    = "FRAGMENT_TAG_ADD_TASK";
-    public static final String FRAGMENT_TAG_SET_TARGET  = "FRAGMENT_TAG_SET_TARGET";
-    public static final String FRAGMENT_TAG_PROFILE     = "FRAGMENT_TAG_PROFILE";
-    public static final String FRAGMENT_TAG_DETAIL      = "FRAGMENT_TAG_DETAIL";
+    public static final String FRAGMENT_TAG_RECORD          = "FRAGMENT_TAG_RECORD";
+    public static final String FRAGMENT_TAG_PLAN            = "FRAGMENT_TAG_PLAN";
+    public static final String FRAGMENT_TAG_TRACE           = "FRAGMENT_TAG_TRACE";
+    public static final String FRAGMENT_TAG_ANALYSIS        = "FRAGMENT_TAG_ANALYSIS";
+    public static final String FRAGMENT_TAG_TASK_LIST       = "FRAGMENT_TAG_TASK_LIST";
+    public static final String FRAGMENT_TAG_CATEGORY_LIST   = "FRAGMENT_TAG_CATEGORY_LIST";
+    public static final String FRAGMENT_TAG_ADD_TASK        = "FRAGMENT_TAG_ADD_TASK";
+    public static final String FRAGMENT_TAG_SET_TARGET      = "FRAGMENT_TAG_SET_TARGET";
+    public static final String FRAGMENT_TAG_PROFILE         = "FRAGMENT_TAG_PROFILE";
+    public static final String FRAGMENT_TAG_DETAIL          = "FRAGMENT_TAG_DETAIL";
 
     //Fragment and related presenter
     private RecordFragment mRecordFragment;
     private PlanFragment mPlanFragment;
     private AnalysisFragment mAnalysisFragment;
     private TaskListFragment mTaskListFragment;
+    private CategoryListFragment mCategoryListFragment;
     private AddTaskFragment mAddTaskFragment;
+
 
 //    private AnalysisPresenter mAnalysisPresenter;
 //    private PlanPresenter mPlanPresenter;
     private RecordPresenter mRecordPresenter;
     private TaskListPresenter mTaskListPresenter;
+    private CategoryListPresenter mCategoryListPresenter;
     private AddTaskPresenter mAddTaskPresenter;
     private SetTargetPresenter mSetTargetPresenter;
+
+
+    private String mStrCurTaskPage = "";
+
+
 
 
     public MainPresenter(MainContract.View mainView, FragmentManager fragmentManager) {
@@ -86,6 +102,7 @@ public class MainPresenter implements MainContract.Presenter {
         if (mPlanFragment != null) transaction.hide(mPlanFragment);
         if (mAnalysisFragment != null) transaction.hide(mAnalysisFragment);
         if (mTaskListFragment != null) transaction.hide(mTaskListFragment);
+        if (mCategoryListFragment != null) transaction.hide(mCategoryListFragment);
         if (mAddTaskFragment != null) transaction.hide(mAddTaskFragment);
         if (!mRecordFragment.isAdded()) {
             transaction.add(R.id.linearlayout_main_container, mRecordFragment, FRAGMENT_TAG_RECORD);
@@ -111,6 +128,7 @@ public class MainPresenter implements MainContract.Presenter {
         if (mRecordFragment != null) transaction.hide(mRecordFragment);
         if (mAnalysisFragment != null) transaction.hide(mAnalysisFragment);
         if (mTaskListFragment != null) transaction.hide(mTaskListFragment);
+        if (mCategoryListFragment != null) transaction.hide(mCategoryListFragment);
         if (mAddTaskFragment != null) transaction.hide(mAddTaskFragment);
         if (!mPlanFragment.isAdded()) {
             transaction.add(R.id.linearlayout_main_container, mPlanFragment, FRAGMENT_TAG_PLAN);
@@ -136,6 +154,7 @@ public class MainPresenter implements MainContract.Presenter {
         if (mRecordFragment != null) transaction.hide(mRecordFragment);
         if (mPlanFragment != null) transaction.hide(mPlanFragment);
         if (mTaskListFragment != null) transaction.hide(mTaskListFragment);
+        if (mCategoryListFragment != null) transaction.hide(mCategoryListFragment);
         if (mAddTaskFragment != null) transaction.hide(mAddTaskFragment);
         if (!mAnalysisFragment.isAdded()) {
             transaction.add(R.id.linearlayout_main_container, mAnalysisFragment, FRAGMENT_TAG_ANALYSIS);
@@ -154,6 +173,8 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void transToTaskList() {
 
+        mStrCurTaskPage = Constants.PAGE_TASK_LIST;
+
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
         if (mFragmentManager.findFragmentByTag(FRAGMENT_TAG_SET_TARGET) != null) mFragmentManager.popBackStack();
@@ -161,6 +182,7 @@ public class MainPresenter implements MainContract.Presenter {
         if (mRecordFragment != null) transaction.hide(mRecordFragment);
         if (mPlanFragment != null) transaction.hide(mPlanFragment);
         if (mAnalysisFragment != null) transaction.hide(mAnalysisFragment);
+        if (mCategoryListFragment != null) transaction.hide(mCategoryListFragment);
         if (mAddTaskFragment != null) transaction.hide(mAddTaskFragment);
         if (!mTaskListFragment.isAdded()) {
             transaction.add(R.id.linearlayout_main_container, mTaskListFragment, FRAGMENT_TAG_TASK_LIST);
@@ -170,14 +192,43 @@ public class MainPresenter implements MainContract.Presenter {
         transaction.commit();
 
         if (mTaskListPresenter == null) {
-            mTaskListPresenter = new TaskListPresenter(mTaskListFragment, this);
+            mTaskListPresenter = new TaskListPresenter(mTaskListFragment, this, ((MainActivity) mMainView));
         }
 
         mMainView.showTaskListUi();
     }
 
     @Override
+    public void transToCategoryList() {
+        Logger.d(Constants.TAG, MSG + "transToCategoryList");
+
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+
+        if (mFragmentManager.findFragmentByTag(FRAGMENT_TAG_SET_TARGET) != null) mFragmentManager.popBackStack();
+        if (mCategoryListFragment == null) mCategoryListFragment = CategoryListFragment.newInstance();
+        if (mRecordFragment != null) transaction.hide(mRecordFragment);
+        if (mPlanFragment != null) transaction.hide(mPlanFragment);
+        if (mAnalysisFragment != null) transaction.hide(mAnalysisFragment);
+        if (mTaskListFragment != null) transaction.hide(mTaskListFragment);
+        if (mAddTaskFragment != null) transaction.hide(mAddTaskFragment);
+        if (!mCategoryListFragment.isAdded()) {
+            transaction.add(R.id.linearlayout_main_container, mCategoryListFragment, FRAGMENT_TAG_CATEGORY_LIST);
+        } else {
+            transaction.show(mCategoryListFragment);
+        }
+        transaction.commit();
+
+        if (mCategoryListPresenter == null) {
+            mCategoryListPresenter = new CategoryListPresenter(mCategoryListFragment, this);
+        }
+
+        mMainView.showCategoryListUi();
+    }
+
+    @Override
     public void transToAddTask() {
+
+        setStrCurTaskPage(Constants.PAGE_ADD_TASK);
 
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
@@ -187,6 +238,7 @@ public class MainPresenter implements MainContract.Presenter {
         if (mPlanFragment != null) transaction.hide(mPlanFragment);
         if (mAnalysisFragment != null) transaction.hide(mAnalysisFragment);
         if (mTaskListFragment != null) transaction.hide(mTaskListFragment);
+        if (mCategoryListFragment != null) transaction.hide(mCategoryListFragment);
         if (!mAddTaskFragment.isAdded()) {
             transaction.add(R.id.linearlayout_main_container, mAddTaskFragment, FRAGMENT_TAG_ADD_TASK);
         } else {
@@ -297,6 +349,16 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
+    public boolean isFragmentCategoryListVisible() {
+
+        if (mCategoryListFragment != null && mCategoryListFragment.isVisible()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public boolean isFragmentAddTaskVisible() {
 
         if (mAddTaskFragment != null && mAddTaskFragment.isVisible()) {
@@ -329,6 +391,102 @@ public class MainPresenter implements MainContract.Presenter {
         mMainView.showPlanUi();
     }
 
+    public void backTaskToPlan() {
+
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+
+        if (mPlanFragment == null) mPlanFragment = PlanFragment.newInstance();
+
+        if (mTaskListFragment != null) transaction.hide(mTaskListFragment);
+        if (!mPlanFragment.isAdded()) {
+            transaction.add(R.id.linearlayout_main_container, mPlanFragment, FRAGMENT_TAG_PLAN);
+        } else {
+            transaction.show(mPlanFragment);
+        }
+
+        mPlanFragment.backFromTask();
+        mMainView.showPlanUi();
+
+
+        transaction.commit();
+    }
+
+
+    @Override
+    public void selectCategoryToTask(GetCategoryTaskList bean) {
+
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        if (mCategoryListFragment != null) transaction.hide(mCategoryListFragment);
+
+
+        Logger.d(Constants.TAG, MSG + "selectCategoryToTask => current task: " + getStrCurTaskPage());
+
+        // Back to task list page
+        if (Constants.PAGE_TASK_LIST.equals(getStrCurTaskPage())) {
+
+            if (!mTaskListFragment.isAdded()) {
+                transaction.add(R.id.linearlayout_main_container, mTaskListFragment, FRAGMENT_TAG_TASK_LIST);
+            } else {
+                transaction.show(mTaskListFragment);
+            }
+            mTaskListFragment.completeSelectCategory(bean);
+
+            mMainView.showTaskListUi();
+
+        } else {    // Constants.PAGE_ADD_TASK.equals(getStrCurTaskPage())  // Back to add-task page
+
+            if (!mAddTaskFragment.isAdded()) {
+                transaction.add(R.id.linearlayout_main_container, mAddTaskFragment, FRAGMENT_TAG_ADD_TASK);
+            } else {
+                transaction.show(mAddTaskFragment);
+            }
+            mAddTaskFragment.completeSelectCategory(bean);
+
+
+            mMainView.showAddTaskUi();
+        }
+
+        transaction.commit();
+    }
+
+    // press backkey on category page (without choose any category)
+    public void backCategoryToTask() {
+
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+
+        if (mCategoryListFragment != null) transaction.hide(mCategoryListFragment);
+        Logger.d(Constants.TAG, MSG + "backCategoryToTask => current task: " + getStrCurTaskPage());
+
+        // Back to task list page
+        if (Constants.PAGE_TASK_LIST.equals(getStrCurTaskPage())) {
+
+            if (!mTaskListFragment.isAdded()) {
+                transaction.add(R.id.linearlayout_main_container, mTaskListFragment, FRAGMENT_TAG_TASK_LIST);
+            } else {
+                transaction.show(mTaskListFragment);
+            }
+
+            // task page shouldn't refresh
+            mTaskListFragment.backFromCategory();
+
+            mMainView.showTaskListUi();
+
+        } else {    // Constants.PAGE_ADD_TASK.equals(getStrCurTaskPage())  // Back to add-task page
+
+            if (!mAddTaskFragment.isAdded()) {
+                transaction.add(R.id.linearlayout_main_container, mAddTaskFragment, FRAGMENT_TAG_ADD_TASK);
+            } else {
+                transaction.show(mAddTaskFragment);
+            }
+            mAddTaskFragment.backFromCategory();
+
+
+            mMainView.showAddTaskUi();
+        }
+
+        transaction.commit();
+    }
+
     @Override
     public void addTaskComplete() {
 
@@ -353,5 +511,14 @@ public class MainPresenter implements MainContract.Presenter {
     public void start() {
 
         transToRecord();
+    }
+
+
+    public String getStrCurTaskPage() {
+        return mStrCurTaskPage;
+    }
+
+    public void setStrCurTaskPage(String strCurTaskPage) {
+        mStrCurTaskPage = strCurTaskPage;
     }
 }

@@ -20,14 +20,14 @@ public class CategoryDefineTable {
     @ColumnInfo(name = "category_name")
     private String mCategoryName;
 
-    @ColumnInfo(name = "is_user_def")
-    private Boolean isUserDef;
-
     @ColumnInfo(name = "category_color")
     private String mCategoryColor;
 
     @ColumnInfo(name = "category_priority")
     private int mCategoryPriority;
+
+    @ColumnInfo(name = "is_user_def")
+    private Boolean isUserDef;
 
     @ColumnInfo(name = "update_date")
     private String mUpdateDate;
@@ -81,21 +81,20 @@ public class CategoryDefineTable {
 
     }
 
-    public CategoryDefineTable(@NonNull String categoryName, Boolean isUserDef, String categoryColor, int categoryPriority) {
-        this.mCategoryName = categoryName;
+    public CategoryDefineTable(@NonNull String categoryName, String categoryColor, int categoryPriority, Boolean isUserDef) {
+        mCategoryName = categoryName;
+        mCategoryColor = categoryColor;
+        mCategoryPriority = categoryPriority;
         this.isUserDef = isUserDef;
-        this.mCategoryColor = categoryColor;
-        this.mCategoryPriority = categoryPriority;
     }
 
-    public CategoryDefineTable(@NonNull String categoryName, Boolean isUserDef, String categoryColor, int categoryPriority, String updateDate) {
-        this.mCategoryName = categoryName;
+    public CategoryDefineTable(@NonNull String categoryName, String categoryColor, int categoryPriority, Boolean isUserDef, String updateDate) {
+        mCategoryName = categoryName;
+        mCategoryColor = categoryColor;
+        mCategoryPriority = categoryPriority;
         this.isUserDef = isUserDef;
-        this.mCategoryColor = categoryColor;
-        this.mCategoryPriority = categoryPriority;
         mUpdateDate = updateDate;
     }
-
 
     private static final String MSG = "CategoryDefineTable: ";
 
