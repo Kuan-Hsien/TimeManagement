@@ -114,7 +114,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mButtomNavigation.enableAnimation(false);
         mButtomNavigation.enableShiftingMode(false);
         mButtomNavigation.enableItemShiftingMode(false);
-        mButtomNavigation.setTextVisibility(false);
+//        mButtomNavigation.setTextVisibility(false);
+        mButtomNavigation.setTextVisibility(true);
 
         mButtomNavigation.setItemHeight((int) getResources().getDimension(R.dimen.height_navbutton_item));
 

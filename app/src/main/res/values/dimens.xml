@@ -14,7 +14,7 @@
 
     <!-- Nav buttons -->
     <dimen name="height_navbutton_item">56dp</dimen>
-    <dimen name="size_navbutton_icon">36dp</dimen>
+    <dimen name="size_navbutton_icon">24dp</dimen>
     <!--<dimen name="margin_top_navbutton_icon">10dp</dimen>-->
 
     <!-- Facebook login -->
