@@ -2,6 +2,7 @@ package com.realizeitstudio.deteclife.record;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -21,7 +22,6 @@ import com.realizeitstudio.deteclife.utils.Logger;
 import com.realizeitstudio.deteclife.utils.ParseTime;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -48,8 +48,15 @@ public class RecordFragment extends Fragment implements RecordContract.View, Vie
 
     private TextView mTextviewRecordCurrentTask;
     private TextView mTextviewRecordCurrentTime;
+    private TextView mTextviewRecordTimer;
     private Button mButtonRecordLater;
     private Button mButtonRecordSummit;
+
+
+    private Handler mHandler = new Handler();
+
+    private long mLongTimer;
+    private String mStrTimer;
 
 
     public RecordFragment() {
@@ -87,6 +94,9 @@ public class RecordFragment extends Fragment implements RecordContract.View, Vie
 
         mTextviewRecordCurrentTask = root.findViewById(R.id.textview_record_current_task);
         mTextviewRecordCurrentTime = root.findViewById(R.id.textview_record_current_time);
+        mTextviewRecordTimer = root.findViewById(R.id.textview_record_timer);
+
+
 
         mButtonRecordLater = root.findViewById(R.id.button_record_later);
         mButtonRecordLater.setOnClickListener(this);
@@ -168,16 +178,42 @@ public class RecordFragment extends Fragment implements RecordContract.View, Vie
         mRecordAdapter.updateData(bean);
     }
 
+    // get current tracing item
     @Override
     public void showCurrentTraceItem(TimeTracingTable bean) {
 
 //        mTextviewRecordCurrentTask.setText("Current Task: " + bean.getTaskName());
         mTextviewRecordCurrentTask.setText(bean.getTaskName());
-        mTextviewRecordCurrentTime.setText("current task | since " + ParseTime.msToStr(bean.getStartTime())
-                + " (" + ParseTime.msToHourMinDiff(bean.getStartTime(), new Date().getTime()) + ")" );  // hour + "hr " + min + "min"
+        mTextviewRecordCurrentTime.setText(ParseTime.msToHHMM(bean.getStartTime()));  // HH:mm
 
         mRecordAdapter.updateCurrentTraceItem(bean);
+
+
+        // update timer on this page
+        mLongTimer = bean.getStartTime();
+        mHandler.postDelayed(runnable,1000); // 開始 Timer
     }
+
+
+    // Every 1 sec call updateTimer()
+    private Runnable runnable = new Runnable() {
+        public void run () {
+
+            updateTimer();
+
+            mHandler.postDelayed(this,1000);
+            // postDelayed(this,1000) 方法安排一個 Runnable 對象到主線程隊列中
+        }
+    };
+
+    // update timer on record page
+    private void updateTimer() {
+
+        mStrTimer = ParseTime.msToHrMinSecDiff(mLongTimer, new Date().getTime());
+        mTextviewRecordTimer.setText(mStrTimer);
+
+    }
+
 
 
     @Override
@@ -306,6 +342,9 @@ public class RecordFragment extends Fragment implements RecordContract.View, Vie
 
     @Override
     public void showStatisticUi() {
+
+        mHandler.removeCallbacks(runnable); // 停止 Timer
+
         ((MainActivity) getActivity()).transToAnalysis();
     }
 

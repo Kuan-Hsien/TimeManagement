@@ -16,6 +16,7 @@
     <!-- 1.0 transparent background -->
     <color name="color_recordpage_black_transparent">#7F000000</color>
     <color name="color_recordpage_white_transparent">#C8FFFFFF</color>
+    <color name="color_recordpage_timer_seperation">#C8FFFFFF</color>
 
 
     <!-- 1.1 action button -->

@@ -464,6 +464,7 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
         private TextView mTextviewAnalysisTopItemCostTime;
         private TextView mTextviewAnalysisTopItemPlaceholder;
         private ImageView mImageviewAnalysisTopItemPlaceholder;
+        private ConstraintLayout mConstraintLayoutAnalysisTopItemDesc;
 
         public PieChart getPieChart() {
             return mPieChart;
@@ -490,6 +491,7 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
             mPieChart.setOnChartValueSelectedListener(this);
 
             // description of a slice of the piechart
+            mConstraintLayoutAnalysisTopItemDesc = v.findViewById(R.id.constraintlayout_analysis_topitem_task);
             mTextviewAnalysisTopItemTaskName = v.findViewById(R.id.textview_analysis_topitem_taskname);
             mTextviewAnalysisTopItemCostTime = v.findViewById(R.id.textview_analysis_topitem_costtime);
             mTextviewAnalysisTopItemPercent = v.findViewById(R.id.textview_analysis_topitem_costtime_precent);
@@ -510,11 +512,13 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
             // 設定 pie chart 時會加總 mLongTotalCostTime，如果為 0 表示一比 trace 都沒有
             if (mLongTotalCostTime == 0) {
 
+                mConstraintLayoutAnalysisTopItemDesc.setVisibility(View.GONE);
                 mImageviewAnalysisTopItemPlaceholder.setVisibility(View.VISIBLE);
                 mTextviewAnalysisTopItemPlaceholder.setVisibility(View.VISIBLE);
 
             } else {
 
+                mConstraintLayoutAnalysisTopItemDesc.setVisibility(View.VISIBLE);
                 mImageviewAnalysisTopItemPlaceholder.setVisibility(View.GONE);
                 mTextviewAnalysisTopItemPlaceholder.setVisibility(View.GONE);
             }
@@ -596,8 +600,8 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
             mPieChart.animateY(1500, Easing.EasingOption.EaseInOutQuad);
 //            mPieChart.animateX(10000);
 
-            if (mAnalysisningList.size() != 0) {
-                Logger.d(Constants.TAG, MSG + " highlightValue = " + mAnalysisningList);
+            if (mLongTotalCostTime > 0) {
+                Logger.d(Constants.TAG, MSG + " highlightValue = " + intMaxItemId + " mAnalysisningList.size(): " + mAnalysisningList.size());
 
                 /** highlight the item with biggest cost-time
                  *

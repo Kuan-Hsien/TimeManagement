@@ -29,92 +29,119 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="visible"
-        android:background="@color/color_recordpage_black_transparent"
-        android:layout_marginStart="6dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
+        android:background="@drawable/shape_recordpage_top_item"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:background="@color/color_recordpage_black_transparent">
+        tools:background="@color/color_recordpage_black_transparent"
+        >
+        <!--android:layout_marginStart="10dp"-->
+        <!--android:layout_marginEnd="10dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:layout_marginBottom="8dp"-->
 
         <TextView
             android:id="@+id/textview_record_current_task"
+            style="@style/TextRecordPage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
             android:layout_marginTop="20dp"
-            android:text="Transportaion"
-            android:shadowDx="1"
-            android:shadowDy="3"
-            android:shadowRadius="5"
-            android:shadowColor="@android:color/black"
-            android:textColor="@android:color/white"
-            android:elevation="2dp"
-            android:fontFamily="sans-serif-medium"
-            android:ellipsize="end"
-            android:lines="1"
-            android:maxLines="1"
             android:textSize="36sp"
+            android:textStyle="bold|italic"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Transportaion"
+            />
 
+        <TextView
+            android:id="@+id/textview_record_current_task_title"
+            style="@style/TextRecordPage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:textColor="@color/color_recordpage_white_transparent"
+            android:textSize="14sp"
+            android:text="CURRENT TASK"
+            android:textStyle="italic"
+            app:layout_constraintTop_toBottomOf="@+id/textview_record_current_task"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <ImageView
+            android:id="@+id/guideline_record_current_task_timer"
+            android:layout_width="2dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            android:background="@drawable/shape_recordpage_timer_seperation"
+            app:layout_constraintTop_toBottomOf="@+id/textview_record_current_task_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+
+        <TextView
+            android:id="@+id/textview_record_current_time_title"
+            style="@style/TextRecordPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_recordpage_white_transparent"
+            android:textSize="14sp"
+            android:text="SINCE"
+            app:layout_constraintTop_toBottomOf="@+id/textview_record_current_task_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_record_current_task_timer"/>
 
         <TextView
             android:id="@+id/textview_record_current_time"
-            android:layout_width="match_parent"
+            style="@style/TextRecordPage"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:fontFamily="sans-serif-medium"
-            android:ellipsize="end"
-            android:lines="1"
-            android:shadowDx="1"
-            android:shadowDy="3"
-            android:shadowRadius="5"
-            android:shadowColor="@android:color/black"
-            android:textColor="@android:color/white"
-            android:maxLines="1"
-            android:textSize="13sp"
-            android:text="Current task | Since 09:18"
-            app:layout_constraintTop_toBottomOf="@+id/textview_record_current_task"
-            app:layout_constraintStart_toStartOf="parent"/>
-
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="09:18"
+            app:layout_constraintTop_toBottomOf="@+id/textview_record_current_time_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_record_current_task_timer"/>
+            />
 
         <TextView
-            android:id="@+id/textview_record_current_time_bk"
-            android:layout_width="match_parent"
+            android:id="@+id/textview_record_timer_title"
+            style="@style/TextRecordPage"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="2dp"
-            android:fontFamily="sans-serif-medium"
-            android:ellipsize="end"
-            android:lines="1"
-            android:shadowDx="1"
-            android:shadowDy="3"
-            android:shadowRadius="5"
-            android:shadowColor="@android:color/black"
-            android:textColor="@android:color/white"
-            android:maxLines="1"
-            android:textSize="13sp"
-            android:text="Since 09:18"
-            android:visibility="gone"
-            android:gravity="left|end"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:textColor="@color/color_recordpage_white_transparent"
+            android:textSize="14sp"
+            android:text="DURATION"
+            app:layout_constraintTop_toBottomOf="@+id/textview_record_current_task_title"
+            app:layout_constraintStart_toEndOf="@+id/guideline_record_current_task_timer"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/textview_record_timer"
+            style="@style/TextRecordPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="01:18:22"
+            app:layout_constraintTop_toBottomOf="@+id/textview_record_timer_title"
+            app:layout_constraintStart_toEndOf="@+id/guideline_record_current_task_timer"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
 
         <TextView
             android:id="@+id/textview_record_tip"
-            android:layout_width="match_parent"
+            style="@style/TextRecordPage"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:padding="4dp"
-            android:textColor="@android:color/white"
-            android:gravity="center"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
             android:textStyle="italic"
             android:text="Choose a task to start tracing and stop the current task"
             android:textSize="13sp"

@@ -591,8 +591,8 @@ public class AnalysisWeeklyAdapter extends RecyclerView.Adapter {
             mPieChart.animateY(1500, Easing.EasingOption.EaseInOutQuad);
 //            mPieChart.animateX(10000);
 
-            if (mAnalysisningList.size() != 0) {
-                Logger.d(Constants.TAG, MSG + " highlightValue = " + mAnalysisningList);
+            if (mLongTotalCostTime > 0) {
+                Logger.d(Constants.TAG, MSG + " highlightValue = " + intMaxItemId + " mAnalysisningList.size(): " + mAnalysisningList.size());
 
                 /** highlight the item with biggest cost-time
                  *

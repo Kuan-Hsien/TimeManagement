@@ -136,7 +136,8 @@ public class Constants {
 
     // Version format
     public static final String DB_FORMAT_VER_NO = "yyyy/MM/dd";
-    public static final String DB_FORMAT_UPDATE_DATE = "yyyy/MM/dd HH:mm:ss";   // HH 是 24 小時制，hh 是 24 小時制
+    public static final String DB_FORMAT_UPDATE_DATE = "yyyy/MM/dd HH:mm:ss";   // HH 是 24 小時制，hh 是 12 小時制
+    public static final String DB_FORMAT_HHMM = "HH:mm";                        // HH 是 24 小時制，hh 是 12 小時制
     public static final String DB_FORMAT_HMS = "HH:mm:ss";
 
     public static final String DB_ENDLESS_DATE = "4000/01/01";
