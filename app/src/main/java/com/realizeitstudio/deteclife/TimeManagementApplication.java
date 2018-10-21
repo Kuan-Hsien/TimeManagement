@@ -379,6 +379,10 @@ public class TimeManagementApplication extends Application {
                 dao.addIconItem(new IconDefineTable("icon_swim", false, strCurrentTime));
                 dao.addIconItem(new IconDefineTable("icon_walk", false, strCurrentTime));
                 dao.addIconItem(new IconDefineTable("icon_work", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_cook", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_chicken", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_medicine", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_ambulance", false, strCurrentTime));
 
                 // Prepare first trace
                 dao.addTraceItem(new TimeTracingTable(strVerNo, "Health", "Sleep",  curDate.getTime(), null, null, strCurrentTime));
@@ -473,6 +477,53 @@ public class TimeManagementApplication extends Application {
                 dao.addTask(new TaskDefineTable("Others", "Music", "#F08080", "icon_music", 10, false));
                 dao.addTask(new TaskDefineTable("Others", "Pet", "#FFB6C1", "icon_paw", 9, false));
                 dao.addTask(new TaskDefineTable("Others", "Phone", "#FF6347", "icon_phonecall", 11, false));
+
+
+                // Prepare default task
+                dao.addIconItem(new IconDefineTable("icon_sleep", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_bike", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_book", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_car", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_computer", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_drunk", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_friend", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_food", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_home", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_lover", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_music", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_paw", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_phonecall", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_swim", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_walk", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_work", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_cook", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_chicken", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_medicine", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_ambulance", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_tooth", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_washingmachine", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_washtoilet", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_spray" , false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_plunger", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_tea", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_kettle", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_milk" , false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_beer", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_teaa", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_cocktail", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_weightlifting", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_dumbbell", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_gift", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_shopping", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_envelope", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_airplane", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_giveup_smoking", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_kiss", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_baby", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_game", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_camema", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_condom", false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_guitar", false, strCurrentTime));
 
                 // Prepare sample plan
 //                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Sleep", strStartTime, strEndTime, 480 * 60000, strCurrentTime));

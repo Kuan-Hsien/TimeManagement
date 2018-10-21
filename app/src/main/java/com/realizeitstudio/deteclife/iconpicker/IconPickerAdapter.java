@@ -183,12 +183,11 @@ public class IconPickerAdapter extends RecyclerView.Adapter {
          */
         public void bindView(IconDefineTable item , int pos) {
 
-            // 把相對應位置的 task 顯示在此 viewHolder
-
-//            GradientDrawable gradientDrawable = (GradientDrawable) getConstraintLayoutIconItem().getBackground();
-//            gradientDrawable.setColor(Color.parseColor("#134D78"));
-
             getImageviewIconItem().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(item.getIconName()));
+            getImageviewIconItem().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
+//            GradientDrawable gradientDrawable = (GradientDrawable) getImageviewIconItem().getBackground();
+//            gradientDrawable.setColor(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white));
+
             setPosition(pos);
         }
 

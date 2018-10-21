@@ -282,6 +282,7 @@ public class TaskListAdapter extends RecyclerView.Adapter {
             gradientDrawable.setColor(Color.parseColor(item.getCategoryColor()));
 
             getImageviewTaskIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(item.getTaskIcon()));
+            getImageviewTaskIcon().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
             getTextviewTaskName().setText(item.getTaskName());
             getTextviewCategoryName().setText(item.getCategoryName());
             setPosition(pos);
@@ -618,6 +619,7 @@ public class TaskListAdapter extends RecyclerView.Adapter {
     public void showIconSelected(IconDefineTable bean) {
 
         mAddItemViewHolder.getImageviewAddItemIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(bean.getIconName()));
+        mAddItemViewHolder.getImageviewAddItemIcon().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
         mAddItemViewHolder.setStrSelectedIconName(bean.getIconName());
 
     }

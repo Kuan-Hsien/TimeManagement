@@ -47,7 +47,7 @@
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/btn_add_line" />
+            app:srcCompat="@drawable/btn_check" />
 
         <!-- cancel button -->
         <ImageView
@@ -61,7 +61,7 @@
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toStartOf="@+id/imageview_addtask_editmode_save"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/btn_cancel_line" />
+            app:srcCompat="@drawable/btn_cancel" />
 
         <ImageView
             android:id="@+id/imageview_addtask_editmode_separationline"

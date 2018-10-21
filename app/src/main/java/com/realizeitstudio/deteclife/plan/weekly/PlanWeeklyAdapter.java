@@ -387,6 +387,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
 
             getImageviewPlanTaskIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(item.getTaskIcon()));
+            getImageviewPlanTaskIcon().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
             getTextviewPlanTaskName().setText(item.getTaskName());
             getTextviewPlanCategoryName().setText(item.getCategoryName());
             getTextviewPlanTaskCostTime().setText(ParseTime.msToHourMin(item.getCostTime()));

@@ -423,6 +423,7 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
             gradientDrawable.setColor(Color.parseColor(item.getCategoryColor()));
 
             getImageviewAnalysisTaskIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(item.getTaskIcon()));
+            getImageviewAnalysisTaskIcon().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
             getTextviewAnalysisCategoryName().setText(item.getCategoryName());
             getTextviewAnalysisTaskName().setText(item.getTaskName());
             getTextviewAnalysisTaskCostTime().setText(ParseTime.msToHourMin(item.getCostTime()));

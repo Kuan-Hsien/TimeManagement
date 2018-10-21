@@ -341,6 +341,7 @@ public class RecordAdapter extends RecyclerView.Adapter {
             gradientDrawable.setColor(Color.parseColor(item.getTaskColor()));
 
             getImageviewTaskIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(item.getTaskIcon()));
+            getImageviewTaskIcon().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
             getTextviewTaskName().setText(item.getTaskName());
             setPosition(pos);
         }

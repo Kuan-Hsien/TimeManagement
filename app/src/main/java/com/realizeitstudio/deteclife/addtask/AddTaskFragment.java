@@ -314,6 +314,7 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
     public void showIconSelected(IconDefineTable bean) {
 
         getImageviewAddItemIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(bean.getIconName()));
+        getImageviewAddItemIcon().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
         mStrSelectedIconName = bean.getIconName();
 
     }

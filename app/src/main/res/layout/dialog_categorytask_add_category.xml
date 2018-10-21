@@ -24,24 +24,39 @@
         android:clickable="true"
         android:focusable="true" >
 
-        <ImageView
-            android:id="@+id/imageview_addtask_viewmode_button"
-            android:layout_width="@dimen/size_all_add_item"
-            android:layout_height="@dimen/size_all_add_item"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintStart_toStartOf="parent"
+        <FrameLayout
+            android:id="@+id/framelayout_addtask_viewmode_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:srcCompat="@drawable/btn_add_line" />
+            android:layout_marginStart="@dimen/height_analysis_mainitem_margin"
+            android:layout_marginTop="@dimen/height_analysis_mainitem_margin"
+            android:layout_marginBottom="@dimen/height_analysis_mainitem_margin"
+            >
+
+            <!--android:layout_marginStart="16dp"-->
+            <!--android:layout_marginTop="@dimen/height_analysis_mainitem_margin"-->
+            <!--android:layout_marginBottom="@dimen/height_analysis_mainitem_margin"-->
+
+            <ImageView
+                android:id="@+id/imageview_addtask_viewmode_button"
+                android:layout_width="@dimen/size_all_item_image"
+                android:layout_height="@dimen/size_all_item_image"
+                android:layout_margin="6dp"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/btn_add" />
+
+        </FrameLayout>
+
 
         <TextView
             android:id="@+id/textview_addtask_viewmode_title"
             android:layout_width="@dimen/width_plan_top_add_item"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="@dimen/height_analysis_mainitem_margin"
             android:ellipsize="end"
             android:fontFamily="sans-serif-medium"
             android:lines="1"
@@ -49,8 +64,9 @@
             android:textColor="@android:color/black"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageview_addtask_viewmode_button"
+            app:layout_constraintStart_toEndOf="@+id/framelayout_addtask_viewmode_button"
             app:layout_constraintTop_toTopOf="parent" />
+
 
     </android.support.constraint.ConstraintLayout>
 
@@ -93,7 +109,7 @@
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/btn_add_line" />
+            app:srcCompat="@drawable/btn_check" />
 
         <!-- cancel button -->
         <ImageView
@@ -107,7 +123,7 @@
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toStartOf="@+id/imageview_addtask_editmode_save"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/btn_cancel_line" />
+            app:srcCompat="@drawable/btn_cancel" />
 
         <ImageView
             android:id="@+id/imageview_addtask_editmode_separationline"
