@@ -4,6 +4,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.realizeitstudio.deteclife.dml.GetCurrentTraceTaskAsyncTask;
+import com.realizeitstudio.deteclife.dml.GetCurrentTraceTaskCallback;
 import com.realizeitstudio.deteclife.dml.GetResultDailySummary;
 import com.realizeitstudio.deteclife.dml.GetResultDailySummaryAsyncTask;
 import com.realizeitstudio.deteclife.dml.GetResultDailySummaryCallback;
@@ -14,6 +16,7 @@ import com.realizeitstudio.deteclife.dml.SetTargetAsyncTask;
 import com.realizeitstudio.deteclife.dml.SetTargetCallback;
 import com.realizeitstudio.deteclife.object.TimePlanningTable;
 import com.realizeitstudio.deteclife.analysis.weekly.AnalysisWeeklyContract;
+import com.realizeitstudio.deteclife.object.TimeTracingTable;
 import com.realizeitstudio.deteclife.utils.Constants;
 import com.realizeitstudio.deteclife.utils.Logger;
 import com.realizeitstudio.deteclife.utils.ParseTime;
@@ -38,6 +41,7 @@ public class AnalysisWeeklyPresenter implements AnalysisWeeklyContract.Presenter
     private int mfirstVisibleItemPosition;
 
     private boolean mLoading = false;
+    private boolean mLoadingCurrentTracing = false;
 
 
     public AnalysisWeeklyPresenter(AnalysisWeeklyContract.View mainView) {
@@ -47,7 +51,19 @@ public class AnalysisWeeklyPresenter implements AnalysisWeeklyContract.Presenter
 
     @Override
     public void start() {
+
+        // (1) Statistics List
         getResultWeeklySummary();
+
+        // (2) Current Trace Task
+        // 取得現在時間
+        Date curDate = new Date();
+        // 定義時間格式
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO);
+        // 透過SimpleDateFormat的format方法將 Date 轉為字串
+        String strVerNo = simpleDateFormat.format(curDate);
+
+        getCurrentTraceItem(strVerNo);
     }
 
 
@@ -256,4 +272,48 @@ public class AnalysisWeeklyPresenter implements AnalysisWeeklyContract.Presenter
 //    public void showTaskListDialog() {
 //        mAnalysisView.showTaskListDialog();
 //    }
+
+
+    /////////////////////////////
+    // 1-1. [Send-to-Model] database query to prepare data (query current record item)
+    @Override
+    public void getCurrentTraceItem(String strVerNo) {
+
+        Logger.d(Constants.TAG, MSG + "getCurrentTraceItem: VerNo: " + strVerNo);
+
+        // [TODO] no need loading flag
+        if (!isLoadingCurrentTracing()) {
+            setLoadingCurrentTracing(true);
+
+            new GetCurrentTraceTaskAsyncTask(strVerNo, new GetCurrentTraceTaskCallback() {
+
+                @Override
+                public void onCompleted(TimeTracingTable bean) {
+                    setLoadingCurrentTracing(false);
+                    showCurrentTraceItem(bean);
+                }
+
+                @Override
+                public void onError(String errorMessage) {
+                    setLoadingCurrentTracing(false);
+                    Logger.e(Constants.TAG, MSG + "GetGetCurrentTraceTask.onError, errorMessage: " + errorMessage);
+                }
+            }).execute();
+        }
+    }
+
+    // 1-2. [Send-to-View] request fragment to show data
+    @Override
+    public void showCurrentTraceItem(TimeTracingTable bean) {
+        mAnalysisView.showCurrentTraceItem(bean);
+    }
+
+
+    public boolean isLoadingCurrentTracing() {
+        return mLoadingCurrentTracing;
+    }
+
+    public void setLoadingCurrentTracing(boolean loadingCurrentTracing) {
+        mLoadingCurrentTracing = loadingCurrentTracing;
+    }
 }

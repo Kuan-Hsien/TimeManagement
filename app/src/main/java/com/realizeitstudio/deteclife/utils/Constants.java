@@ -87,7 +87,8 @@ public class Constants {
 
     // APP ICON
     public static final String APP_ICON_SMALL = "deteclife_icon_line";
-    public static final String APP_ICON_BIG = "deteclife_icon_fill";
+    public static final String APP_ICON_BIG = "ic_launcher_round";
+//    public static final String APP_ICON_BIG = "deteclife_icon_fill";
 
 
     // notification ID

@@ -382,6 +382,10 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
             GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutPlanTaskIcon().getBackground();
             gradientDrawable.setColor(Color.parseColor(item.getTaskColor()));
 
+            gradientDrawable = (GradientDrawable) getTextviewPlanCategoryName().getBackground();
+            gradientDrawable.setColor(Color.parseColor(item.getCategoryColor()));
+
+
             getImageviewPlanTaskIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(item.getTaskIcon()));
             getTextviewPlanTaskName().setText(item.getTaskName());
             getTextviewPlanCategoryName().setText(item.getCategoryName());
@@ -698,6 +702,8 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
         mPlanTopItemViewHolder.getTextviewSetTargetCategory().setText(bean.getCategoryName());
         mPlanTopItemViewHolder.getTextviewSetTargetTask().setText(bean.getTaskName());
 
+        GradientDrawable gradientDrawable = (GradientDrawable) mPlanTopItemViewHolder.getTextviewSetTargetCategory().getBackground();
+        gradientDrawable.setColor(Color.parseColor(bean.getCategoryColor()));
     }
 
 }

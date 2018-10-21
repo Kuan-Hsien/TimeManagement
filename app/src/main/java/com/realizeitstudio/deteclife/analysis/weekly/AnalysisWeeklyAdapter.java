@@ -43,6 +43,7 @@ import com.realizeitstudio.deteclife.R;
 import com.realizeitstudio.deteclife.TimeManagementApplication;
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
 import com.realizeitstudio.deteclife.dml.GetResultDailySummary;
+import com.realizeitstudio.deteclife.object.TimeTracingTable;
 import com.realizeitstudio.deteclife.utils.Constants;
 import com.realizeitstudio.deteclife.utils.Logger;
 import com.realizeitstudio.deteclife.utils.ParseTime;
@@ -73,7 +74,7 @@ public class AnalysisWeeklyAdapter extends RecyclerView.Adapter {
     private boolean isShowLegend;
     private long mLongTotalCostTime;
 
-
+    private TimeTracingTable mCurrentItem;
     private AnalysisTopItemViewHolder mAnalysisTopItemViewHolder;
 
 
@@ -462,6 +463,10 @@ public class AnalysisWeeklyAdapter extends RecyclerView.Adapter {
         private TextView mTextviewAnalysisTopItemPlaceholder;
         private ImageView mImageviewAnalysisTopItemPlaceholder;
 
+        public PieChart getPieChart() {
+            return mPieChart;
+        }
+
         public TextView getTextviewAnalysisTopItemTaskName() {
             return mTextviewAnalysisTopItemTaskName;
         }
@@ -522,7 +527,15 @@ public class AnalysisWeeklyAdapter extends RecyclerView.Adapter {
             List<PieEntry> pieEntries = new ArrayList<>();
             ArrayList<Integer> colors = new ArrayList<Integer>();
 
+            int intMaxItemId = 0;
+            int intMaxItemCostTime = 0;
+
             for (int i = 0 ; i < mAnalysisningList.size() ; ++i) {
+
+                if (mAnalysisningList.get(i).getCostTime() > intMaxItemCostTime) {
+                    intMaxItemCostTime = mAnalysisningList.get(i).getCostTime();
+                    intMaxItemId = i;
+                }
 
                 // pieEntries.add(new PieEntry(10f, "Green"));   // label is just a string
                 pieEntries.add(new PieEntry(mAnalysisningList.get(i).getCostTime(), mAnalysisningList.get(i).getTaskName()));
@@ -577,6 +590,27 @@ public class AnalysisWeeklyAdapter extends RecyclerView.Adapter {
             // 設定動畫
             mPieChart.animateY(1500, Easing.EasingOption.EaseInOutQuad);
 //            mPieChart.animateX(10000);
+
+            if (mAnalysisningList.size() != 0) {
+                Logger.d(Constants.TAG, MSG + " highlightValue = " + mAnalysisningList);
+
+                /** highlight the item with biggest cost-time
+                 *
+                 *  The first parameter is the value-index in List<PieEntry> pieEntries
+                 *  The second parameter will always be zero as you only have one DataSet.
+                 *  The third parameter would be
+                 *      false if you don't need to listen to any event
+                 *      true if you need OnChartValueSelectedListener (here, the class implement it by itself)
+                 *
+                 *  Reference:
+                 *      https://stackoverflow.com/questions/40726716/how-to-highlight-a-particular-slice-of-mpandroid-pie-chart-without-touching-it
+                 *      https://github.com/PhilJay/MPAndroidChart/wiki/Highlighting
+                 *      (X) https://github.com/PhilJay/MPAndroidChart/issues/745
+                 *      (X) https://github.com/PhilJay/MPAndroidChart/issues/240
+                 * */
+                mPieChart.highlightValue(intMaxItemId, 0, true);
+            }
+
             mPieChart.invalidate(); // refresh draw chart
 
 
@@ -635,6 +669,16 @@ public class AnalysisWeeklyAdapter extends RecyclerView.Adapter {
 
         }
     }
+
+
+    public void updateCurrentTraceItem(TimeTracingTable bean) {
+        Logger.d(Constants.TAG, MSG + "updateCurrentTraceItem");
+
+        mCurrentItem = new TimeTracingTable(bean);
+//        for(int i = 0 ;i < mAnalysisningList.size() ; ++i)
+//        mAnalysisTopItemViewHolder.getPieChart().highlightValue(1, 0, false);
+    }
+
 
 
     public int getIntAnalysisMode() {

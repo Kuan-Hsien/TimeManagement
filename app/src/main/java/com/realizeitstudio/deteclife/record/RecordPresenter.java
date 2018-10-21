@@ -257,7 +257,7 @@ public class RecordPresenter implements RecordContract.Presenter {
                 for( int i = 0 ; i < bean.size() ; ++i) {
                     bean.get(i).LogD();
                 }
-                // [TODO] 更新 Record Fragment 內容，getCategoryTaskList 和 getCurrentTraceItem 其實都可以不做，應該是近來這頁的時候重撈就可以。同時 getCurrentTraceItem 其實不用重撈，可以從傳入要 save 資料的 bean 去抓 currentTraceItem
+                // [TODO] 更新 Record Fragment 內容，getCategoryTaskList 和 getCurrentTraceItem 其實都可以不做，應該是進來這頁的時候重撈就可以。同時 getCurrentTraceItem 其實不用重撈，可以從傳入要 save 資料的 bean 去抓 currentTraceItem
                 // (1) Task List
                 getCategoryTaskList();
 
@@ -295,7 +295,7 @@ public class RecordPresenter implements RecordContract.Presenter {
 
                 // [TODO] insert 資料後跳轉 Trace Fragemnt (該 Fragment 需要重新抓取資料)
                 // (4) 從這裡回到 RecordFragment，回到 MainActivity > MainPresenter > TraceDailyFragment 更新
-                mRecordView.showTraceUi();
+                mRecordView.showStatisticUi();
             }
 
             @Override

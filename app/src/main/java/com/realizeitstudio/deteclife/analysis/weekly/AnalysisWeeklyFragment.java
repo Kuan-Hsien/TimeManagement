@@ -35,6 +35,7 @@ import com.realizeitstudio.deteclife.R;
 import com.realizeitstudio.deteclife.TimeManagementApplication;
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
 import com.realizeitstudio.deteclife.dml.GetResultDailySummary;
+import com.realizeitstudio.deteclife.object.TimeTracingTable;
 import com.realizeitstudio.deteclife.task.CategoryTaskListAdapter;
 import com.realizeitstudio.deteclife.task.CategoryTaskListContract;
 import com.realizeitstudio.deteclife.task.CategoryTaskListPresenter;
@@ -293,6 +294,14 @@ public class AnalysisWeeklyFragment extends Fragment implements AnalysisWeeklyCo
 
     public void setIntTaskMode(int intTaskMode) {
         mIntTaskMode = intTaskMode;
+    }
+
+
+
+    @Override
+    public void showCurrentTraceItem(TimeTracingTable bean) {
+
+        mAnalysisWeeklyAdapter.updateCurrentTraceItem(bean);
     }
 
 

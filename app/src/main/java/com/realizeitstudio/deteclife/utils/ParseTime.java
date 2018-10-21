@@ -21,9 +21,9 @@ public class ParseTime {
         if (hours == 0) {
             strOutput = minutes + " min";
         } else if (minutes == 0) {
-            strOutput = hours + "hr";
+            strOutput = hours + " hr";
         } else {
-            strOutput = hours + "hr " + minutes + " min";
+            strOutput = hours + " hr " + minutes + " min";
         }
 
         return strOutput;
@@ -40,9 +40,9 @@ public class ParseTime {
         if (hours == 0) {
             strOutput = minutes + " m";
         } else if (minutes == 0) {
-            strOutput = hours + "h";
+            strOutput = hours + " h";
         } else {
-            strOutput = hours + "h " + minutes + " m";
+            strOutput = hours + " h " + minutes + " m";
         }
 
         return strOutput;

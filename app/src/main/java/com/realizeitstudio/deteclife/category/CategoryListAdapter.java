@@ -59,7 +59,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter {
 
         if (viewType == Constants.VIEWTYPE_ADD_ITEM) {
 
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dialog_categorytask_add_task, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dialog_categorytask_add_category, parent, false);
             return new AddItemViewHolder(view);
 
         } else if (viewType == Constants.VIEWTYPE_CATEGORY) {

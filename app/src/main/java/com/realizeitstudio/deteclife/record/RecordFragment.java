@@ -150,12 +150,12 @@ public class RecordFragment extends Fragment implements RecordContract.View, Vie
         if (v.getId() == R.id.button_record_later) {
 
             // user choose ask later
-            showTraceUi();
+            showStatisticUi();
 
         } else if (v.getId() == R.id.button_record_view_statistics) {
 
             // user click summit
-            showTraceUi();
+            showStatisticUi();
 
         } else {
             Logger.d(Constants.TAG, MSG + "Exception: enter else of onClick, view.getId is " + v.getId());
@@ -305,7 +305,7 @@ public class RecordFragment extends Fragment implements RecordContract.View, Vie
 
 
     @Override
-    public void showTraceUi() {
+    public void showStatisticUi() {
         ((MainActivity) getActivity()).transToAnalysis();
     }
 

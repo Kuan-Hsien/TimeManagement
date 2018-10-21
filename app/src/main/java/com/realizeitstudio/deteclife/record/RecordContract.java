@@ -52,7 +52,7 @@ public interface RecordContract {
 //
 //        void showCategoryTaskSelected(GetCategoryTaskList bean);
 
-        void showTraceUi();
+        void showStatisticUi();
 
         void showAddTaskUi();
     }

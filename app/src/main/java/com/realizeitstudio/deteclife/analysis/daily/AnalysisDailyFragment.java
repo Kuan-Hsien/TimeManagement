@@ -34,13 +34,16 @@ import com.realizeitstudio.deteclife.R;
 import com.realizeitstudio.deteclife.TimeManagementApplication;
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
 import com.realizeitstudio.deteclife.dml.GetResultDailySummary;
+import com.realizeitstudio.deteclife.object.TimeTracingTable;
 import com.realizeitstudio.deteclife.task.CategoryTaskListAdapter;
 import com.realizeitstudio.deteclife.task.CategoryTaskListContract;
 import com.realizeitstudio.deteclife.task.CategoryTaskListPresenter;
 import com.realizeitstudio.deteclife.utils.Constants;
 import com.realizeitstudio.deteclife.utils.Logger;
+import com.realizeitstudio.deteclife.utils.ParseTime;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -290,6 +293,16 @@ public class AnalysisDailyFragment extends Fragment implements AnalysisDailyCont
     public void setIntTaskMode(int intTaskMode) {
         mIntTaskMode = intTaskMode;
     }
+
+
+
+
+    @Override
+    public void showCurrentTraceItem(TimeTracingTable bean) {
+
+        mAnalysisDailyAdapter.updateCurrentTraceItem(bean);
+    }
+
 
 
 }

@@ -16,11 +16,8 @@
 
 package com.realizeitstudio.deteclife.addtask;
 
-import android.support.v7.widget.RecyclerView;
-
 import com.realizeitstudio.deteclife.BasePresenter;
 import com.realizeitstudio.deteclife.BaseView;
-import com.realizeitstudio.deteclife.dml.GetResultDailySummary;
 import com.realizeitstudio.deteclife.object.IconDefineTable;
 import com.realizeitstudio.deteclife.object.TaskDefineTable;
 

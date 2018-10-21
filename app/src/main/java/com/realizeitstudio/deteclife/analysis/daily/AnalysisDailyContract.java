@@ -21,6 +21,7 @@ import android.support.v7.widget.RecyclerView;
 import com.realizeitstudio.deteclife.BasePresenter;
 import com.realizeitstudio.deteclife.BaseView;
 import com.realizeitstudio.deteclife.dml.GetResultDailySummary;
+import com.realizeitstudio.deteclife.object.TimeTracingTable;
 
 import java.util.List;
 
@@ -46,6 +47,11 @@ public interface AnalysisDailyContract {
         void showTaskListDialog();
 
         void showSetTargetUi();
+
+
+
+        // 9-2. [Send-to-View] request fragment to show data
+        void showCurrentTraceItem(TimeTracingTable bean);
 
     }
 
@@ -81,6 +87,14 @@ public interface AnalysisDailyContract {
 //        void showTaskListDialog();
 
 //        void showSetTargetUi();
+
+
+
+        // 9-1. [Send-to-Model] database query to prepare data (query current task)
+        void getCurrentTraceItem(String strVerNo);
+
+        // 9-2. [Send-to-View] request fragment to show data
+        void showCurrentTraceItem(TimeTracingTable bean);
     }
 }
     

@@ -24,6 +24,7 @@ import com.realizeitstudio.deteclife.dml.GetResultDailySummary;
 import com.realizeitstudio.deteclife.dml.GetTaskWithPlanTime;
 import com.realizeitstudio.deteclife.object.TimePlanningTable;
 import com.realizeitstudio.deteclife.analysis.weekly.AnalysisWeeklyContract;
+import com.realizeitstudio.deteclife.object.TimeTracingTable;
 
 import java.util.List;
 
@@ -50,6 +51,9 @@ public interface AnalysisWeeklyContract {
 
         void showSetTargetUi();
 
+
+        // 9-2. [Send-to-View] request fragment to show data
+        void showCurrentTraceItem(TimeTracingTable bean);
     }
 
     interface Presenter extends BasePresenter {
@@ -84,6 +88,13 @@ public interface AnalysisWeeklyContract {
 //        void showTaskListDialog();
 
 //        void showSetTargetUi();
+
+
+        // 9-1. [Send-to-Model] database query to prepare data (query current task)
+        void getCurrentTraceItem(String strVerNo);
+
+        // 9-2. [Send-to-View] request fragment to show data
+        void showCurrentTraceItem(TimeTracingTable bean);
     }
 }
     
