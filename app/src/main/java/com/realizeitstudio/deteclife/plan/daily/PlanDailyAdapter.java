@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -403,15 +405,51 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
 
             if (getIntPlanMode() == Constants.MODE_PLAN_VIEW) {
 
+
                 getFrameLayoutPlanTaskDelete().setVisibility(View.GONE);
                 getImageviewPlanTaskDeleteHint().setVisibility(View.GONE);
                 getSeekBarPlanTaskAdjustTime().setVisibility(View.GONE);
+
 
             } else { // getIntTaskMode() == Constants.MODE_PLAN_EDIT
 
                 getFrameLayoutPlanTaskDelete().setVisibility(View.VISIBLE);
                 getImageviewPlanTaskDeleteHint().setVisibility(View.VISIBLE);
                 getSeekBarPlanTaskAdjustTime().setVisibility(View.VISIBLE);
+
+                //動畫路徑設定(x1,x2,y1,y2)
+                Animation am = new TranslateAnimation(-150,0,0,0);
+
+                //動畫開始到結束的時間，1秒
+                am.setDuration( 1000 );
+
+                // 動畫重覆次數 (-1表示一直重覆，0表示不重覆執行，所以只會執行一次)
+                am.setRepeatCount( 0 );
+
+                //將動畫寫入ImageView
+                getFrameLayoutPlanTaskIcon().setAnimation(am);
+                getTextviewPlanTaskName().setAnimation(am);
+                getTextviewPlanCategoryName().setAnimation(am);
+
+                //開始動畫
+                am.startNow();
+
+
+
+                Animation seekbarAnimation = new TranslateAnimation(0,0,100,0);
+
+                //動畫開始到結束的時間，1秒
+                seekbarAnimation.setDuration( 1000 );
+
+                // 動畫重覆次數 (-1表示一直重覆，0表示不重覆執行，所以只會執行一次)
+                seekbarAnimation.setRepeatCount( 0 );
+
+                //將動畫寫入ImageView
+                getSeekBarPlanTaskAdjustTime().setAnimation(seekbarAnimation);
+
+                //開始動畫
+                seekbarAnimation.startNow();
+
 
                 gradientDrawable = (GradientDrawable) getFrameLayoutPlanTaskDelete().getBackground();
                 gradientDrawable.setColor(Color.parseColor("#d9d9d9"));

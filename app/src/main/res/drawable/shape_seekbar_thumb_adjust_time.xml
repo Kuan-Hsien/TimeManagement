@@ -26,12 +26,12 @@
     <!--android:topRightRadius右上角的半徑-->
     <!--android:bottomLeftRadius左下角的半徑-->
     <!--android:bottomRightRadius右下角的半徑-->
-    <corners android:radius="4dp" />
+    <corners android:radius="12dp" />
 
     <!-- 形狀大小 -->
     <size
-        android:width="20dp"
-        android:height="8dp" />
+        android:width="26dp"
+        android:height="12dp" />
 
     <!--stroke: 邊框線
         android:color 框線的顏色

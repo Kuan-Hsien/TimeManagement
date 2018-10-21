@@ -104,7 +104,7 @@
     <dimen name="width_record_task_name">72dp</dimen>
     <dimen name="size_record_task_icon">28dp</dimen>
     <dimen name="padding_record_button">12dp</dimen>
-    <dimen name="padding_record_task_icon">8dp</dimen>
+    <dimen name="padding_record_task_icon">10dp</dimen>
 
 
     <!-- Analysis -->
