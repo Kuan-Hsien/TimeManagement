@@ -367,7 +367,6 @@ public class CategoryListAdapter extends RecyclerView.Adapter {
 
         //** Edit Mode
         private ConstraintLayout mConstraintLayoutAddItemEditMode;
-        private TextView mTextviewAddItemCategory;
         private EditText mEdittextAddItemCategory;
 
         public ConstraintLayout getConstraintLayoutAddItemViewMode() {
@@ -376,10 +375,6 @@ public class CategoryListAdapter extends RecyclerView.Adapter {
 
         public ConstraintLayout getConstraintLayoutAddItemEditMode() {
             return mConstraintLayoutAddItemEditMode;
-        }
-
-        public TextView getTextviewAddItemCategory() {
-            return mTextviewAddItemCategory;
         }
 
         public EditText getEdittextAddItemCategory() {
@@ -395,10 +390,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter {
 
             //** Edit Mode
             // Set Category
-            mTextviewAddItemCategory = (TextView) v.findViewById(R.id.textview_addtask_editmode_category);
-
-            // Set Task
-            mEdittextAddItemCategory = (EditText) v.findViewById(R.id.edittext_addtask_editmode_task);
+            mEdittextAddItemCategory = (EditText) v.findViewById(R.id.edittext_addtask_editmode_category);
             mEdittextAddItemCategory.setOnClickListener(this);
 
             mConstraintLayoutAddItemEditMode = (ConstraintLayout) v.findViewById(R.id.constraintlayout_addtask_editmode);
@@ -414,7 +406,6 @@ public class CategoryListAdapter extends RecyclerView.Adapter {
             if (v.getId() == R.id.constraintlayout_addtask_viewmode) {    // View mode
 
                 // 切換為編輯模式
-                getTextviewAddItemCategory().setText(TimeManagementApplication.getAppContext().getResources().getString(R.string.default_category));
                 getEdittextAddItemCategory().setHint("");
 
                 mPresenter.refreshUi(Constants.MODE_PLAN_EDIT);
@@ -480,7 +471,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter {
 
                     CategoryDefineTable item = new CategoryDefineTable(
                             getEdittextAddItemCategory().getText().toString().trim(),
-                            "#000000",
+                            Constants.DEFAULT_CATEGORY_COLOR,
                             20,
                             true,
                             strUpdateTime);
@@ -499,10 +490,6 @@ public class CategoryListAdapter extends RecyclerView.Adapter {
             } else if (v.getId() == R.id.imageview_addtask_editmode_cancel) { // Edit mode - cancel
 
                 mPresenter.refreshUi(Constants.MODE_PLAN_VIEW);
-
-            } else if (v.getId() == R.id.textview_addtask_editmode_category) {
-
-                mPresenter.showCategoryListDialog();
             }
         }
 
@@ -522,7 +509,15 @@ public class CategoryListAdapter extends RecyclerView.Adapter {
 
                 mConstraintLayoutAddItemViewMode.setVisibility(View.GONE);
                 mConstraintLayoutAddItemEditMode.setVisibility(View.VISIBLE);
+
+                resetEditField();
             }
+        }
+
+        public void resetEditField() {
+
+            // 切換為編輯模式預設內容
+            getEdittextAddItemCategory().setText("");
         }
     }
 

@@ -912,6 +912,7 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
 
                 mConstraintLayoutPlanTopItem.setVisibility(View.GONE);
                 mConstraintLayoutPlanSetTarget.setVisibility(View.VISIBLE);
+                mSeekBarSetTargetAdjustTime.getProgressDrawable().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_default_blue), PorterDuff.Mode.SRC_IN);
             }
         }
     }

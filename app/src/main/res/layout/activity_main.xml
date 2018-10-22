@@ -14,8 +14,8 @@
         android:background="@drawable/toolbar_background"
         android:elevation="@dimen/elevation_toolbar"
         android:theme="@style/AppTheme.AppBarOverlay"
-        app:navigationIcon="@drawable/toolbar_menubutton"
         app:popupTheme="@style/AppTheme.PopupOverlay">
+        <!--app:navigationIcon="@drawable/toolbar_menubutton"-->
 
         <TextView
             android:id="@+id/textview_toolbar_title"
