@@ -6,7 +6,7 @@
 
     <!-- solid: 指定填充顏色(實心顏色) -->
     <!--<solid android:color="#e6e7e7e7" />-->
-    <solid android:color="#c0c0c0" />
+    <solid android:color="@color/color_app_default_dark_grey" />
 
     <!--padding: 文字與邊框的間距-->
     <!--android:top 上邊間距-->

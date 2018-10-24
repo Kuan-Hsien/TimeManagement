@@ -475,6 +475,8 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
 
         //** Edit Mode
         private ConstraintLayout mConstraintLayoutPlanSetTarget;
+        private FrameLayout mFrameLayoutAddItemIcon;
+        private ImageView mImageviewAddItemIcon;
         private TextView mTextviewSetTargetCategory;
         private TextView mTextviewSetTargetTask;
         private TextView mTextviewSetTargetCostTime;
@@ -490,6 +492,14 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
 
         public ConstraintLayout getConstraintLayoutPlanSetTarget() {
             return mConstraintLayoutPlanSetTarget;
+        }
+
+        public FrameLayout getFrameLayoutAddItemIcon() {
+            return mFrameLayoutAddItemIcon;
+        }
+
+        public ImageView getImageviewAddItemIcon() {
+            return mImageviewAddItemIcon;
         }
 
         public TextView getTextviewSetTargetCategory() {
@@ -519,10 +529,23 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
             //** Edit Mode
             // Set Category
             mTextviewSetTargetCategory = (TextView) v.findViewById(R.id.textview_plan_top_editmode_category);
+            mTextviewSetTargetCategory.setOnClickListener(this);
 
             // Set Task
             mTextviewSetTargetTask = (TextView) v.findViewById(R.id.edittext_plan_top_editmode_task);
             mTextviewSetTargetTask.setOnClickListener(this);
+
+            // Set Icon
+            mImageviewAddItemIcon = v.findViewById(R.id.imageview_plan_top_editmode_icon);
+            getImageviewAddItemIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(Constants.DEFAULT_TASK_ICON));
+            getImageviewAddItemIcon().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
+
+            mFrameLayoutAddItemIcon = v.findViewById(R.id.framelayout_plan_top_editmode_icon);
+            mFrameLayoutAddItemIcon.setOnClickListener(this);
+
+            GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutAddItemIcon().getBackground();
+            gradientDrawable.setColor(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_default_light_grey));
+
 
             mTextviewSetTargetCostTime = (TextView) v.findViewById(R.id.textview_plan_set_target_cost_time);
             mConstraintLayoutPlanSetTarget = (ConstraintLayout) v.findViewById(R.id.constraintlayout_plan_top_editmode);
@@ -538,17 +561,6 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
         public void onClick(View v) {
 
             if (v.getId() == R.id.constraintlayout_plan_top_viewmode) {    // View mode
-
-                // Plan page 整頁切換為編輯模式
-                GradientDrawable gradientDrawable = (GradientDrawable) getTextviewSetTargetCategory().getBackground();
-                gradientDrawable.setColor(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_default_grey));
-
-                getTextviewSetTargetTask().setText("Choose a task");
-                getTextviewSetTargetCategory().setText("--");
-                getTextviewSetTargetCostTime().setText("0 min");
-                getSeekBarSetTargetAdjustTime().setProgress(0);
-
-                mIntNewItemCostTime = 0;
 
                 mPresenter.refreshUi(Constants.MODE_PLAN_EDIT);
 
@@ -796,7 +808,7 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
                 // 2.2 再把最新 add 的目標加在最後
                 // [TODO] 此處需判斷每個字串是否為空，還有對輸入的時間做檢查 / Add Weekly
                 if (getTextviewSetTargetCategory().getText().toString().trim() != null &&
-                        getTextviewSetTargetTask().getText().toString().trim() != null &&
+                        !TimeManagementApplication.getAppContext().getResources().getString(R.string.default_task_hint).equals(getTextviewSetTargetTask().getText().toString().trim()) &&
                         curStartVerNoDaily != null &&
                         curEndVerNo != null) {
 
@@ -820,7 +832,9 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
 
                 mPresenter.refreshUi(Constants.MODE_PLAN_VIEW);
 
-            } else if (v.getId() == R.id.edittext_plan_top_editmode_task) {
+            } else if (v.getId() == R.id.edittext_plan_top_editmode_task ||
+                        v.getId() == R.id.textview_plan_top_editmode_category ||
+                        v.getId() == R.id.framelayout_plan_top_editmode_icon) {
 
                 mPresenter.showTaskListUi();
             }
@@ -912,8 +926,36 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
 
                 mConstraintLayoutPlanTopItem.setVisibility(View.GONE);
                 mConstraintLayoutPlanSetTarget.setVisibility(View.VISIBLE);
-                mSeekBarSetTargetAdjustTime.getProgressDrawable().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_default_blue), PorterDuff.Mode.SRC_IN);
+
+                resetEditField();
             }
+        }
+
+
+        public void resetEditField() {
+
+            // Plan page 整頁切換為編輯模式預設內容
+
+            // Set task/category
+            getTextviewSetTargetCategory().setText(TimeManagementApplication.getAppContext().getResources().getString(R.string.default_task_hint_categroy));
+            getTextviewSetTargetTask().setText(TimeManagementApplication.getAppContext().getResources().getString(R.string.default_task_hint));
+
+            // Set category label
+            GradientDrawable gradientDrawable = (GradientDrawable) getTextviewSetTargetCategory().getBackground();
+            gradientDrawable.setColor(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_default_light_grey));
+
+            // Set task icon
+            gradientDrawable = (GradientDrawable) getFrameLayoutAddItemIcon().getBackground();
+            gradientDrawable.setColor(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_default_light_grey));
+
+            getImageviewAddItemIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(Constants.DEFAULT_TASK_ICON));
+            getImageviewAddItemIcon().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
+
+            // Set cost time
+            mIntNewItemCostTime = 0;
+            getTextviewSetTargetCostTime().setText("0 min");
+            getSeekBarSetTargetAdjustTime().setProgress(0);
+            mSeekBarSetTargetAdjustTime.getProgressDrawable().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_default_blue), PorterDuff.Mode.SRC_IN);
         }
     }
 
@@ -929,12 +971,20 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
 
     public void showCategoryTaskSelected(GetCategoryTaskList bean) {
 
+        // set category/task name
         mPlanTopItemViewHolder.getTextviewSetTargetCategory().setText(bean.getCategoryName());
         mPlanTopItemViewHolder.getTextviewSetTargetTask().setText(bean.getTaskName());
 
+        // set category label
         GradientDrawable gradientDrawable = (GradientDrawable) mPlanTopItemViewHolder.getTextviewSetTargetCategory().getBackground();
         gradientDrawable.setColor(Color.parseColor(bean.getCategoryColor()));
 
+        // set task icon
+        mPlanTopItemViewHolder.getImageviewAddItemIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(bean.getTaskIcon()));
+        mPlanTopItemViewHolder.getImageviewAddItemIcon().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
+
+        gradientDrawable = (GradientDrawable) mPlanTopItemViewHolder.getFrameLayoutAddItemIcon().getBackground();
+        gradientDrawable.setColor(Color.parseColor(bean.getTaskColor()));
     }
 
 }

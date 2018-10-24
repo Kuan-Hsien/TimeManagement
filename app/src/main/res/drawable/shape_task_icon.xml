@@ -6,7 +6,7 @@
 
     <!-- solid: 指定填充顏色(實心顏色) -->
     <!--<solid android:color="#e6e7e7e7" />-->
-    <solid android:color="#c0c0c0" />
+    <solid android:color="@color/color_app_default_dark_grey" />
 
     <!--padding: 文字與邊框的間距-->
     <!--android:top 上邊間距-->
@@ -29,9 +29,9 @@
     <corners android:radius="4dp" />
 
     <!-- 形狀大小 -->
-    <size
-        android:width="@dimen/size_all_item_image"
-        android:height="@dimen/size_all_item_image" />
+    <!--<size-->
+        <!--android:width="@dimen/size_all_item_image"-->
+        <!--android:height="@dimen/size_all_item_image" />-->
 
     <!--stroke: 邊框線
         android:color 框線的顏色

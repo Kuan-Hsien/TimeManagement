@@ -25,6 +25,7 @@
             android:id="@+id/framelayout_plan_top_add_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="@dimen/padding_icon_item"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -33,18 +34,12 @@
             android:layout_marginBottom="@dimen/height_analysis_mainitem_margin"
             >
 
-            <!--android:layout_marginStart="16dp"-->
-            <!--android:layout_marginTop="@dimen/height_analysis_mainitem_margin"-->
-            <!--android:layout_marginBottom="@dimen/height_analysis_mainitem_margin"-->
-
             <ImageView
                 android:id="@+id/imageview_plan_top_add_item"
                 android:layout_width="@dimen/size_all_item_image"
                 android:layout_height="@dimen/size_all_item_image"
-                android:layout_margin="6dp"
-                android:padding="8dp"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/btn_add" />
+                app:srcCompat="@drawable/btn_add_line" />
 
         </FrameLayout>
 
@@ -69,7 +64,7 @@
             android:id="@+id/textview_plan_top_remaining_time"
             android:layout_width="@dimen/width_plan_task_time"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="@dimen/height_analysis_mainitem_margin"
             android:fontFamily="sans-serif-medium"
             android:lines="1"
             android:textColor="@android:color/black"
@@ -91,29 +86,30 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintlayout_plan_top_viewmode"
         app:layout_constraintStart_toStartOf="parent" >
 
-        <!-- Set target title and save/cancel button -->
+        <!-- Set edit title and save/cancel button -->
         <!-- title -->
         <TextView
             android:id="@+id/textview_plan_top_editmode_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_marginStart="8dp"
             android:fontFamily="sans-serif-medium"
             android:lines="1"
-            android:textColor="@android:color/black"
+            android:textColor="@color/color_app_default_dark_grey"
             android:text="Set a new target"
-            android:textSize="20sp"
+            android:textSize="15sp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintBottom_toTopOf="@+id/imageview_plan_top_editmode_separationline"
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
         <!-- save button -->
         <ImageView
             android:id="@+id/imageview_plan_top_editmode_save"
             android:layout_width="@dimen/width_set_target_send_button"
             android:layout_height="@dimen/height_set_target_send_button"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="5dp"
+            android:padding="@dimen/padding_set_target_send_button"
+            android:layout_marginEnd="@dimen/margin_end_set_target_send_button"
             android:clickable="true"
             android:focusable="true"
             android:scaleType="centerCrop"
@@ -126,8 +122,8 @@
             android:id="@+id/imageview_plan_top_editmode_cancel"
             android:layout_width="@dimen/width_set_target_send_button"
             android:layout_height="@dimen/height_set_target_send_button"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="5dp"
+            android:padding="@dimen/padding_set_target_send_button"
+            android:layout_marginEnd="@dimen/margin_end_set_target_send_button"
             android:clickable="true"
             android:focusable="true"
             android:scaleType="centerCrop"
@@ -138,24 +134,51 @@
         <ImageView
             android:id="@+id/imageview_plan_top_editmode_separationline"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginEnd="@dimen/margin_end_set_target_send_button"
             android:layout_marginBottom="8dp"
-            android:background="@android:color/darker_gray"
+            android:background="@color/color_app_default_dark_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview_plan_top_editmode_title" />
+            app:layout_constraintTop_toBottomOf="@+id/imageview_plan_top_editmode_save" />
 
         <!-- Set target content -->
+
+
+        <FrameLayout
+            android:id="@+id/framelayout_plan_top_editmode_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_task_icon"
+            android:padding="@dimen/padding_icon_item"
+            android:layout_marginStart="@dimen/height_analysis_mainitem_margin"
+            android:layout_marginTop="@dimen/height_analysis_mainitem_margin"
+            android:layout_marginBottom="@dimen/height_analysis_mainitem_margin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageview_plan_top_editmode_separationline"
+            app:layout_constraintBottom_toTopOf="@+id/seekbar_plan_set_target_cost_time_daily"
+            android:clickable="true"
+            android:focusable="true"
+            >
+
+            <ImageView
+                android:id="@+id/imageview_plan_top_editmode_icon"
+                android:layout_width="@dimen/size_all_item_image"
+                android:layout_height="@dimen/size_all_item_image"
+                android:src="@drawable/btn_add_line"
+                />
+
+        </FrameLayout>
+
 
         <!-- task -->
         <TextView
             android:id="@+id/textview_plan_top_editmode_tasktitle"
             style="@style/TextViewEditTitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageview_plan_top_editmode_separationline"
+            android:layout_marginStart="@dimen/height_analysis_mainitem_margin"
+            app:layout_constraintStart_toEndOf="@+id/framelayout_plan_top_editmode_icon"
+            app:layout_constraintTop_toTopOf="@+id/framelayout_plan_top_editmode_icon"
             android:text="Task"
             tools:text="Task" />
 
@@ -163,15 +186,15 @@
             android:id="@+id/edittext_plan_top_editmode_task"
             android:layout_width="@dimen/width_set_target_item"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="@dimen/height_analysis_mainitem_margin"
             android:ellipsize="end"
             android:fontFamily="sans-serif-medium"
             android:lines="1"
             android:textColor="@android:color/black"
             android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/framelayout_plan_top_editmode_icon"
             app:layout_constraintTop_toBottomOf="@+id/textview_plan_top_editmode_tasktitle"
-            android:text="Choose a task"
+            android:text="@string/default_task_hint"
             android:clickable="true"
             android:focusable="true" />
 
@@ -179,19 +202,23 @@
         <TextView
             android:id="@+id/textview_plan_top_editmode_categorytitle"
             style="@style/TextViewEditTitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edittext_plan_top_editmode_task"
-            android:text="Category"
-            tools:text="Category" />
+            android:layout_marginStart="@dimen/height_analysis_mainitem_margin"
+            app:layout_constraintStart_toEndOf="@+id/framelayout_plan_top_editmode_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/framelayout_plan_top_editmode_icon"
+            android:text="@string/default_category_title"
+            tools:text="@string/default_category_title" />
 
         <TextView
             android:id="@+id/textview_plan_top_editmode_category"
             style="@style/TextViewCardCategoryLabel"
             android:layout_marginTop="@dimen/height_analysis_category_margin_top"
-            android:layout_marginStart="20dp"
-            android:text="--"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview_plan_top_editmode_categorytitle" />
+            android:layout_marginStart="@dimen/height_analysis_mainitem_margin"
+            android:text="@string/default_task_hint_categroy"
+            app:layout_constraintStart_toEndOf="@+id/framelayout_plan_top_editmode_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/framelayout_plan_top_editmode_icon"
+            android:clickable="true"
+            android:focusable="true"
+            />
 
         <!-- seekbar to set time target  -->
         <TextView
@@ -205,23 +232,22 @@
             android:id="@+id/textview_plan_set_target_cost_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="@dimen/height_analysis_mainitem_margin"
             android:ellipsize="end"
             android:fontFamily="sans-serif-medium"
             android:lines="1"
             android:textColor="@android:color/black"
             android:textSize="15sp"
-            app:layout_constraintTop_toBottomOf="@+id/textview_plan_top_editmode_category"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/framelayout_plan_top_editmode_icon"
             tools:text="0 hr" />
 
         <SeekBar
             android:id="@+id/seekbar_plan_set_target_cost_time_daily"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="6dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:max="1440"
@@ -229,17 +255,17 @@
             android:maxHeight="10dp"
             android:minHeight="10dp"
             android:thumb="@drawable/selector_seekbar_thumb"
-            app:layout_constraintTop_toBottomOf="@+id/textview_plan_set_target_cost_time"
+            app:layout_constraintTop_toBottomOf="@+id/framelayout_plan_top_editmode_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <SeekBar
             android:id="@+id/seekbar_plan_set_target_cost_time_weekly"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="6dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:max="10080"
@@ -248,13 +274,9 @@
             android:minHeight="10dp"
             android:thumb="@drawable/selector_seekbar_thumb"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@+id/textview_plan_set_target_cost_time"
+            app:layout_constraintTop_toBottomOf="@+id/framelayout_plan_top_editmode_icon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-
-        <!-- TODO add green circle and white check for continuous adding -->
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
     </android.support.constraint.ConstraintLayout>

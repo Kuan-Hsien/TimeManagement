@@ -90,7 +90,7 @@
     <!-- Trace items -->
     <dimen name="height_trace_period">28dp</dimen>
     <dimen name="width_trace_top_add_item">223dp</dimen>
-    <dimen name="width_trace_task_name">80dp</dimen>
+    <dimen name="width_trace_task_name">200dp</dimen>
     <dimen name="width_trace_category_name">150dp</dimen>
     <dimen name="width_trace_task_time">40dp</dimen>
     <dimen name="width_trace_adjust_time_panel">150dp</dimen>
@@ -121,13 +121,14 @@
 
     <!-- Set target -->
     <dimen name="width_set_target_item">223dp</dimen>
-    <dimen name="width_set_target_send_button">28dp</dimen>
-    <dimen name="height_set_target_send_button">28dp</dimen>
+    <dimen name="width_set_target_send_button">38dp</dimen>
+    <dimen name="height_set_target_send_button">38dp</dimen>
+    <dimen name="padding_set_target_send_button">10dp</dimen>
+    <dimen name="margin_end_set_target_send_button">8dp</dimen>
 
 
     <!-- Category & Task -->
-    <dimen name="width_categorytask_category_label">6dp</dimen>
-    <dimen name="height_categroytask_category_item">30dp</dimen>
+    <dimen name="size_categroytask_category_item">38dp</dimen>
     <dimen name="height_categroytask_task_item">52dp</dimen>
 
 
@@ -139,11 +140,14 @@
 
     <!-- Icon Dialog -->
     <dimen name="size_icon_item">36dp</dimen>
-    <dimen name="padding_icon_item">10dp</dimen>
+    <dimen name="padding_icon_item">6dp</dimen>
     <dimen name="margin_icon_item">5dp</dimen>
     <dimen name="width_icon_dialog_padding">20dp</dimen>
     <dimen name="height_icon_dialog_padding">20dp</dimen>
 
+
+
+    <dimen name="margin_edittext_padding_start_adjust">4dp</dimen>
 
 
 

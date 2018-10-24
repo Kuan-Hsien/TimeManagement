@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintlayout_categorytask_category_item"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/height_categroytask_category_item"
+    android:layout_height="@dimen/size_categroytask_category_item"
     android:layout_marginTop="@dimen/height_analysis_item_margin"
     android:layout_marginBottom="@dimen/height_analysis_item_margin"
     android:layout_marginStart="@dimen/width_analysis_item_margin"
@@ -17,18 +17,19 @@
 
     <ImageView
         android:id="@+id/imageview_categorytask_category_color"
-        android:layout_width="@dimen/width_categorytask_category_label"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:background="@android:color/holo_red_dark"
+        android:layout_width="@dimen/size_categroytask_category_item"
+        android:layout_height="@dimen/size_categroytask_category_item"
+        android:background="@drawable/shape_trasparent_leftradius_card"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
     <ImageView
         android:id="@+id/imageview_categorytask_separationline"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@android:color/white"
+        android:background="@android:color/holo_red_dark"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -37,12 +38,12 @@
         android:id="@+id/textview_categorytask_category_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="21dp"
+        android:layout_marginStart="@dimen/height_analysis_mainitem_margin"
         android:ellipsize="end"
         android:fontFamily="sans-serif-medium"
         android:textColor="@android:color/white"
         android:textSize="15sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageview_categorytask_category_color"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:text="Health" />

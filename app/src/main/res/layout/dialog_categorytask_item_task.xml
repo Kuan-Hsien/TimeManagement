@@ -16,7 +16,7 @@
 
     <ImageView
         android:id="@+id/imageview_categorytask_categorycolor"
-        android:layout_width="@dimen/width_categorytask_category_label"
+        android:layout_width="@dimen/size_categroytask_category_item"
         android:layout_height="match_parent"
         android:background="@android:color/holo_red_dark"
         app:layout_constraintTop_toTopOf="parent"

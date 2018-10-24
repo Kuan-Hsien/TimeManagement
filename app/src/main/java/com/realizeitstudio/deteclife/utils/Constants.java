@@ -72,15 +72,17 @@ public class Constants {
 
 
     // Add Task - icon
-    public static final String DEFAULT_ICON_PICKER = "btn_edit_pencil";
-    public static final String DEFAULT_TASK_COLOR = "#2963C6";
-    public static final String DEFAULT_CATEGORY_COLOR = "#4682B4";
+//    public static final String DEFAULT_TASK_ICON = "btn_edit_pencil";
+//    public static final String DEFAULT_TASK_COLOR = "#2963C6";
 
+    public static final String DEFAULT_TASK_ICON = "btn_add_line";
+    public static final String DEFAULT_TASK_COLOR = "#D9D9D9";
+    public static final String DEFAULT_CATEGORY_COLOR = "#4682B4";
 
 
     // icon
     public static final int ICON_SPAN_COUNT = 4;
-    public static final String DEFAULT_TASK_ICON = "btn_edit_pencil";
+
 
 
     // ****** Notification ******

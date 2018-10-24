@@ -352,8 +352,13 @@ public class CategoryListAdapter extends RecyclerView.Adapter {
 //            getConstraintLayoutCategoryItem().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
             GradientDrawable gradientDrawable = (GradientDrawable) getConstraintLayoutCategoryItem().getBackground();
             gradientDrawable.setColor(Color.parseColor(item.getCategoryColor()));
+            gradientDrawable.setAlpha(175);
 
-            getImageviewCategeoryColor().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
+            gradientDrawable = (GradientDrawable) getImageviewCategeoryColor().getBackground();
+            gradientDrawable.setColor(Color.parseColor(item.getCategoryColor()));
+
+//            getImageviewCategeoryColor().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
+
             getTextviewCategoryName().setText(item.getCategoryName());
 //            getImageviewCategorySeperation().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
             setPosition(pos);
@@ -406,8 +411,6 @@ public class CategoryListAdapter extends RecyclerView.Adapter {
             if (v.getId() == R.id.constraintlayout_addtask_viewmode) {    // View mode
 
                 // 切換為編輯模式
-                getEdittextAddItemCategory().setHint("");
-
                 mPresenter.refreshUi(Constants.MODE_PLAN_EDIT);
 
                 // [TODO] 之後要增加一頁新的 category 可參考此處寫法

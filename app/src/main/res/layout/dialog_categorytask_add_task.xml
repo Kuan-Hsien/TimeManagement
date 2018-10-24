@@ -28,6 +28,7 @@
             android:id="@+id/framelayout_addtask_viewmode_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="@dimen/padding_icon_item"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -36,18 +37,12 @@
             android:layout_marginBottom="@dimen/height_analysis_mainitem_margin"
             >
 
-            <!--android:layout_marginStart="16dp"-->
-            <!--android:layout_marginTop="@dimen/height_analysis_mainitem_margin"-->
-            <!--android:layout_marginBottom="@dimen/height_analysis_mainitem_margin"-->
-
             <ImageView
                 android:id="@+id/imageview_addtask_viewmode_button"
                 android:layout_width="@dimen/size_all_item_image"
                 android:layout_height="@dimen/size_all_item_image"
-                android:layout_margin="6dp"
-                android:padding="8dp"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/btn_add" />
+                app:srcCompat="@drawable/btn_add_line" />
 
         </FrameLayout>
 
@@ -80,20 +75,20 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintlayout_addtask_viewmode"
         app:layout_constraintStart_toStartOf="parent" >
 
-        <!-- Set target title and save/cancel button -->
+        <!-- Set edit title and save/cancel button -->
         <!-- title -->
         <TextView
             android:id="@+id/textview_addtask_editmode_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_marginStart="8dp"
             android:fontFamily="sans-serif-medium"
             android:lines="1"
-            android:textColor="@android:color/black"
-            android:text="Create a new task"
-            android:textSize="20sp"
+            android:textColor="@color/color_app_default_dark_grey"
+            android:text="@string/default_add_task_title"
+            android:textSize="15sp"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/imageview_addtask_editmode_separationline"
             app:layout_constraintStart_toStartOf="parent" />
 
         <!-- save button -->
@@ -101,8 +96,8 @@
             android:id="@+id/imageview_addtask_editmode_save"
             android:layout_width="@dimen/width_set_target_send_button"
             android:layout_height="@dimen/height_set_target_send_button"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="5dp"
+            android:padding="@dimen/padding_set_target_send_button"
+            android:layout_marginEnd="@dimen/margin_end_set_target_send_button"
             android:clickable="true"
             android:focusable="true"
             android:scaleType="centerCrop"
@@ -115,8 +110,8 @@
             android:id="@+id/imageview_addtask_editmode_cancel"
             android:layout_width="@dimen/width_set_target_send_button"
             android:layout_height="@dimen/height_set_target_send_button"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="5dp"
+            android:padding="@dimen/padding_set_target_send_button"
+            android:layout_marginEnd="@dimen/margin_end_set_target_send_button"
             android:clickable="true"
             android:focusable="true"
             android:scaleType="centerCrop"
@@ -127,104 +122,98 @@
         <ImageView
             android:id="@+id/imageview_addtask_editmode_separationline"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginEnd="@dimen/margin_end_set_target_send_button"
             android:layout_marginBottom="8dp"
-            android:background="@android:color/darker_gray"
+            android:background="@color/color_app_default_dark_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview_addtask_editmode_title" />
+            app:layout_constraintTop_toBottomOf="@+id/imageview_addtask_editmode_save" />
 
-        <!-- Set target content -->
-
-        <!-- task -->
-        <TextView
-            android:id="@+id/textview_addtask_editmode_tasktitle"
-            style="@style/TextViewEditTitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageview_addtask_editmode_separationline"
-            android:text="Task"
-            tools:text="Task" />
-
-        <EditText
-            android:id="@+id/edittext_addtask_editmode_task"
-            android:layout_width="@dimen/width_set_target_item"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:ellipsize="end"
-            android:fontFamily="sans-serif-medium"
-            android:lines="1"
-            android:textColor="@android:color/black"
-            android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview_addtask_editmode_tasktitle"
-            android:hint="@string/default_add_task_name" />
-
-        <!-- category -->
-        <TextView
-            android:id="@+id/textview_addtask_editmode_categorytitle"
-            style="@style/TextViewEditTitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edittext_addtask_editmode_task"
-            android:text="Category"
-            tools:text="Category" />
-
-        <TextView
-            android:id="@+id/textview_addtask_editmode_category"
-            style="@style/TextViewAddTaskCategoryLabel"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:maxWidth="@dimen/width_set_target_item"
-            tools:hint="@string/default_category_hint"
-            tools:text="@string/default_category"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview_addtask_editmode_categorytitle"
-            android:clickable="true"
-            android:focusable="true"
-            />
-
-
-        <!-- icon -->
-        <TextView
-            android:id="@+id/textview_addtask_editmode_icon_title"
-            style="@style/TextViewEditTitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview_addtask_editmode_category"
-            android:text="Icon"
-            tools:text="Icon"
-            />
 
         <FrameLayout
             android:id="@+id/framelayout_addtask_editmode_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_task_icon"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="30dp"
             android:padding="@dimen/padding_icon_item"
+            android:layout_marginStart="@dimen/height_analysis_mainitem_margin"
+            android:layout_marginTop="@dimen/height_analysis_mainitem_margin"
+            android:layout_marginBottom="@dimen/height_analysis_mainitem_margin"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview_addtask_editmode_icon_title"
+            app:layout_constraintTop_toBottomOf="@+id/imageview_addtask_editmode_separationline"
             app:layout_constraintBottom_toBottomOf="parent"
             android:clickable="true"
             android:focusable="true"
             >
 
-            <!--android:layout_marginStart="16dp"-->
-            <!--android:layout_marginTop="@dimen/height_analysis_mainitem_margin"-->
-            <!--android:layout_marginBottom="@dimen/height_analysis_mainitem_margin"-->
-
             <ImageView
                 android:id="@+id/imageview_addtask_editmode_icon"
-                android:layout_width="@dimen/size_icon_item"
-                android:layout_height="@dimen/size_icon_item"
-                android:src="@drawable/btn_edit_pencil" />
+                android:layout_width="@dimen/size_all_item_image"
+                android:layout_height="@dimen/size_all_item_image"
+                android:src="@drawable/btn_add_line"
+                />
+
         </FrameLayout>
 
 
-        <!-- TODO add green circle and white check for continuous adding -->
+        <EditText
+            android:id="@+id/edittext_addtask_editmode_task"
+            android:layout_width="@dimen/width_trace_task_name"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_edittext_padding_start_adjust"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:lines="1"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:textColorHint="@color/color_app_default_light_grey"
+            android:paddingTop="0dp"
+            android:paddingEnd="0dp"
+            android:backgroundTint="@color/color_app_default_dark_grey"
+            app:layout_constraintStart_toEndOf="@+id/framelayout_addtask_editmode_icon"
+            app:layout_constraintTop_toTopOf="@+id/framelayout_addtask_editmode_icon"
+            android:hint="@string/default_add_task_hint"
+            />
+
+
+        <TextView
+            android:id="@+id/textview_addtask_editmode_category"
+            style="@style/TextViewCardCategoryLabel"
+            android:layout_marginStart="@dimen/height_analysis_mainitem_margin"
+            app:layout_constraintStart_toEndOf="@+id/framelayout_addtask_editmode_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/framelayout_addtask_editmode_icon"
+            android:clickable="true"
+            android:focusable="true"
+            tools:text="@string/default_category" />
+
+
+        <FrameLayout
+            android:id="@+id/framelayout_addtask_editmode_category_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_task_icon"
+            android:backgroundTint="@color/color_app_default_light_grey"
+            android:layout_marginStart="4dp"
+            app:layout_constraintStart_toEndOf="@+id/textview_addtask_editmode_category"
+            app:layout_constraintBottom_toBottomOf="@+id/framelayout_addtask_editmode_icon"
+            android:clickable="true"
+            android:focusable="true"
+            >
+
+            <ImageView
+                android:id="@+id/imageview_addtask_editmode_category_hint"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/btn_add_line"
+                app:layout_constraintStart_toEndOf="@+id/textview_addtask_editmode_category"
+                app:layout_constraintBottom_toBottomOf="@+id/framelayout_addtask_editmode_icon"
+                android:clickable="true"
+                android:focusable="true" />
+
+        </FrameLayout>
+
 
 
     </android.support.constraint.ConstraintLayout>

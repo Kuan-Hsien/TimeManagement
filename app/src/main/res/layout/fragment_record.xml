@@ -5,9 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_rings_10"
-
+    android:background="@drawable/background_clock_10"
     tools:context=".record.RecordFragment">
+
+    <!--android:background="@android:color/transparent"-->
+    <!--android:background="@drawable/background_clock_10"-->
+    <!--tools:background="@drawable/background_rings_10"-->
 
 
     <ImageView
@@ -162,6 +165,7 @@
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
         android:paddingBottom="8dp"
+        android:background="@android:color/transparent"
         app:layout_constraintTop_toBottomOf="@+id/linearlayout_record_description"
         app:layout_constraintBottom_toTopOf="@+id/button_record_later"
         app:layout_constraintStart_toStartOf="parent">

@@ -15,12 +15,14 @@
     <string name="default_category">Others</string>
 
 
-    <string name="default_add_category_name">Category name ...</string>
-    <string name="default_add_task_name">Task name ...</string>
+    <string name="default_add_category_hint">Category name ...</string>
+    <string name="default_add_task_hint">Task name ...</string>
 
     <string name="default_add_category_title">Create a new category</string>
     <string name="default_category_title">Category</string>
 
+    <string name="default_task_hint">Choose a task...</string>
+    <string name="default_task_hint_categroy">   ---   </string>
     <string name="default_add_task_title">Create a new task</string>
     <string name="default_task_title">Task</string>
 
@@ -36,6 +38,7 @@
 
     <!-- notification -->
     <string name="notificaiton_content_lockscreen">Enable lock screen tracing time</string>
+
 
 
 

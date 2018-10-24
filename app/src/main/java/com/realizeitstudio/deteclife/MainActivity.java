@@ -57,6 +57,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         mPresenter = new MainPresenter(this, getSupportFragmentManager());
         mPresenter.start();
+
+
+        Window window = getWindow();
+        WindowManager.LayoutParams windowParams = window.getAttributes();
+        windowParams.flags=WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+        windowParams.alpha = 1f;    //1.０全透明．０不透明．
+        window.setAttributes(windowParams);
+        setTheme(R.style.translucent);
     }
 
     /**

@@ -304,6 +304,7 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
             Logger.d(Constants.TAG, MSG + "bindView setColor: " + item.getCategoryColor() + " CategoryName: " + item.getCategoryName());
 
             getConstraintLayoutCategoryItem().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
+            getConstraintLayoutCategoryItem().getBackground().setAlpha(100);
             getImageviewCategeoryColor().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
             getTextviewCategoryName().setText(item.getCategoryName());
 //            getImageviewCategorySeperation().setBackgroundColor(Color.parseColor(item.getCategoryColor()));

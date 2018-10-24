@@ -4,7 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_clock_10"
     tools:context=".category.CategoryListFragment">
+
+    <ImageView
+        android:id="@+id/imageview_record_white_transparent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_recordpage_white_transparent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 
     <LinearLayout
         android:id="@+id/linearlayout_categorylist_top"
@@ -27,6 +39,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_categorylist"
         style="@style/RecyclerViewLinearCard"
+        android:background="@android:color/transparent"
         app:layout_constraintTop_toBottomOf="@+id/linearlayout_categorylist_top"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

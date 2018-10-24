@@ -361,7 +361,9 @@ public class TaskListAdapter extends RecyclerView.Adapter {
         private EditText mEdittextAddItemTask;
 
         private FrameLayout mFrameLayoutAddItemIcon;
+        private FrameLayout mFrameLayoutAddItemIconHint;
         private ImageView mImageviewAddItemIcon;
+        private ImageView mImageviewAddItemIconHint;
 
         private String mStrSelectedIconName = Constants.DEFAULT_TASK_ICON;
         private String mStrIconColor = Constants.DEFAULT_TASK_COLOR;
@@ -388,6 +390,10 @@ public class TaskListAdapter extends RecyclerView.Adapter {
 
         public ImageView getImageviewAddItemIcon() {
             return mImageviewAddItemIcon;
+        }
+
+        public ImageView getImageviewAddItemIconHint() {
+            return mImageviewAddItemIconHint;
         }
 
         public String getStrSelectedIconName() {
@@ -428,13 +434,20 @@ public class TaskListAdapter extends RecyclerView.Adapter {
 
             // Set Icon
             mImageviewAddItemIcon = v.findViewById(R.id.imageview_addtask_editmode_icon);
-            getImageviewAddItemIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(Constants.DEFAULT_ICON_PICKER));
+            getImageviewAddItemIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(Constants.DEFAULT_TASK_ICON));
 
             mFrameLayoutAddItemIcon = v.findViewById(R.id.framelayout_addtask_editmode_icon);
             mFrameLayoutAddItemIcon.setOnClickListener(this);
 
             gradientDrawable = (GradientDrawable) getFrameLayoutAddItemIcon().getBackground();
             gradientDrawable.setColor(Color.parseColor(mStrIconColor));
+
+            mImageviewAddItemIconHint = v.findViewById(R.id.imageview_addtask_editmode_category_hint);
+            getImageviewAddItemIconHint().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
+
+            mFrameLayoutAddItemIconHint = v.findViewById(R.id.framelayout_addtask_editmode_category_hint);
+            mFrameLayoutAddItemIconHint.setOnClickListener(this);
+
 
 
 
@@ -539,7 +552,8 @@ public class TaskListAdapter extends RecyclerView.Adapter {
 //                resetEditField();
                 mPresenter.refreshUi(Constants.MODE_PLAN_VIEW);
 
-            } else if (v.getId() == R.id.textview_addtask_editmode_category) {
+            } else if (v.getId() == R.id.textview_addtask_editmode_category ||
+                        v.getId() == R.id.framelayout_addtask_editmode_category_hint) {
 
                 Logger.d(Constants.TAG, MSG + "click => textview_addtask_editmode_category");
                 mPresenter.showCategoryListDialog();
@@ -568,11 +582,6 @@ public class TaskListAdapter extends RecyclerView.Adapter {
                 mConstraintLayoutAddItemEditMode.setVisibility(View.VISIBLE);
 
                 resetEditField();
-
-                GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutAddItemIcon().getBackground();
-                gradientDrawable.setColor(Color.parseColor(mStrIconColor));
-
-                getImageviewAddItemIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(Constants.DEFAULT_ICON_PICKER));
             }
         }
 
@@ -585,6 +594,12 @@ public class TaskListAdapter extends RecyclerView.Adapter {
             mStrSelectedIconName = Constants.DEFAULT_TASK_ICON;
             mStrIconColor = Constants.DEFAULT_TASK_COLOR;
 
+
+            GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutAddItemIcon().getBackground();
+            gradientDrawable.setColor(Color.parseColor(mStrIconColor));
+
+            getImageviewAddItemIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(Constants.DEFAULT_TASK_ICON));
+            getImageviewAddItemIcon().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
         }
     }
 

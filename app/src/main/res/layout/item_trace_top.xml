@@ -71,7 +71,7 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintlayout_trace_top_viewmode"
         app:layout_constraintStart_toStartOf="parent" >
 
-        <!-- Set target title and save/cancel button -->
+        <!-- Set edit title and save/cancel button -->
         <!-- title -->
         <TextView
             android:id="@+id/textview_trace_top_editmode_title"
@@ -92,7 +92,7 @@
             android:id="@+id/imageview_trace_top_editmode_save"
             android:layout_width="@dimen/width_set_target_send_button"
             android:layout_height="@dimen/height_set_target_send_button"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="@dimen/margin_end_set_target_send_button"
             android:layout_marginTop="5dp"
             android:clickable="true"
             android:focusable="true"
@@ -107,7 +107,7 @@
             android:id="@+id/imageview_trace_top_editmode_cancel"
             android:layout_width="@dimen/width_set_target_send_button"
             android:layout_height="@dimen/height_set_target_send_button"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="@dimen/margin_end_set_target_send_button"
             android:layout_marginTop="5dp"
             android:clickable="true"
             android:focusable="true"
@@ -115,17 +115,17 @@
             android:background="@android:color/holo_orange_light"
             app:layout_constraintEnd_toStartOf="@+id/imageview_trace_top_editmode_save"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/btn_add" />
+            app:srcCompat="@drawable/btn_add_line" />
 
         <ImageView
             android:id="@+id/imageview_trace_top_editmode_separationline"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/margin_end_set_target_send_button"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="8dp"
-            android:background="@android:color/darker_gray"
+            android:background="@color/color_app_default_dark_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textview_trace_top_editmode_title" />
@@ -174,7 +174,7 @@
             android:ellipsize="end"
             android:fontFamily="sans-serif-medium"
             android:lines="1"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="@color/color_app_default_dark_grey"
             android:textSize="15sp"
             android:text="--"
             app:layout_constraintStart_toStartOf="parent"

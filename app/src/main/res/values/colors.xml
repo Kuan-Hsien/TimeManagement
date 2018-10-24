@@ -5,6 +5,9 @@
     <color name="colorAccent">#FF4081</color>
 
 
+    <color name="translucent_background">#90000000</color>
+
+
     <color name="bottom_navigation_item_normal">#aeaeae</color>
     <color name="bottom_navigation_item_selected">#0066FF</color>
     <!--<color name="bottom_navigation_item_selected">#7436b9</color>-->
@@ -14,7 +17,9 @@
 
     <!-- 1. record page -->
     <!-- 1.0 transparent background -->
-    <color name="color_recordpage_black_transparent">#7F000000</color>
+    <color name="color_recordpage_black_transparent">#3F000000</color>
+    <!--<color name="color_recordpage_white_transparent">#7FFFFFFF</color>-->
+    <!--<color name="color_recordpage_black_transparent">#7F000000</color>-->
     <color name="color_recordpage_white_transparent">#C8FFFFFF</color>
     <color name="color_recordpage_timer_seperation">#C8FFFFFF</color>
 
@@ -48,7 +53,12 @@
     <color name="color_app_white">#FFFFFF</color>
 
 
-    <color name="color_app_card_background_grey">#d9d9d9</color>
+
+
+
+    <color name="color_app_card_recyclerview_background_grey">#d9d9d9</color>
+    <color name="color_app_default_dark_grey">#C0C0C0</color>
+    <color name="color_app_default_light_grey">#d9d9d9</color>
 
 
 </resources>
