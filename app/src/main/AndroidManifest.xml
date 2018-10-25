@@ -3,6 +3,7 @@
     package="com.realizeitstudio.deteclife">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".TimeManagementApplication"
@@ -17,9 +18,7 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            >
-
+            android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,27 +30,28 @@
             android:name=".service.MainService"
             android:enabled="true"
             android:exported="true" />
-
         <service
             android:name=".service.JobSchedulerServiceDailyDataVersionGeneration"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-
         <service
             android:name=".service.JobSchedulerServiceDailySummary"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-
         <service
             android:name=".service.JobSchedulerService"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-
         <service
             android:name=".service.JobSchedulerServiceComplete"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service
+            android:name=".service.JobSchedulerServiceRemainingTask"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
@@ -71,7 +71,7 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="30d3e041d2234a0f4a4bc6a72998e6d5b3992f44" />
+
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

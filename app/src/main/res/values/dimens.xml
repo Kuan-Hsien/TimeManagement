@@ -137,6 +137,8 @@
     <dimen name="height_notificaiton_weekly_summary">60dp</dimen>
     <dimen name="width_notificaiton_task_icon">11dp</dimen>
 
+    <dimen name="height_notificaiton_daily_complete">130dp</dimen>
+
 
     <!-- Icon Dialog -->
     <dimen name="size_icon_item">36dp</dimen>

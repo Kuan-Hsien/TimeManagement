@@ -417,22 +417,22 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
                 getImageviewPlanTaskDeleteHint().setVisibility(View.VISIBLE);
                 getSeekBarPlanTaskAdjustTime().setVisibility(View.VISIBLE);
 
-                //動畫路徑設定(x1,x2,y1,y2)
-                Animation am = new TranslateAnimation(-150,0,0,0);
-
-                //動畫開始到結束的時間，1秒
-                am.setDuration( 1000 );
-
-                // 動畫重覆次數 (-1表示一直重覆，0表示不重覆執行，所以只會執行一次)
-                am.setRepeatCount( 0 );
-
-                //將動畫寫入ImageView
-                getFrameLayoutPlanTaskIcon().setAnimation(am);
-                getTextviewPlanTaskName().setAnimation(am);
-                getTextviewPlanCategoryName().setAnimation(am);
-
-                //開始動畫
-                am.startNow();
+//                //動畫路徑設定(x1,x2,y1,y2)
+//                Animation am = new TranslateAnimation(-150,0,0,0);
+//
+//                //動畫開始到結束的時間，1秒
+//                am.setDuration( 1000 );
+//
+//                // 動畫重覆次數 (-1表示一直重覆，0表示不重覆執行，所以只會執行一次)
+//                am.setRepeatCount( 0 );
+//
+//                //將動畫寫入ImageView
+//                getFrameLayoutPlanTaskIcon().setAnimation(am);
+//                getTextviewPlanTaskName().setAnimation(am);
+//                getTextviewPlanCategoryName().setAnimation(am);
+//
+//                //開始動畫
+//                am.startNow();
 
 
 
