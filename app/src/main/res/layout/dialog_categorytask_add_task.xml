@@ -208,9 +208,7 @@
                 android:layout_height="20dp"
                 android:src="@drawable/btn_add_line"
                 app:layout_constraintStart_toEndOf="@+id/textview_addtask_editmode_category"
-                app:layout_constraintBottom_toBottomOf="@+id/framelayout_addtask_editmode_icon"
-                android:clickable="true"
-                android:focusable="true" />
+                app:layout_constraintBottom_toBottomOf="@+id/framelayout_addtask_editmode_icon" />
 
         </FrameLayout>
 

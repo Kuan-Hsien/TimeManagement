@@ -130,5 +130,6 @@ public interface TaskListContract {
 
         void showIconSelected(IconDefineTable bean);
 
+        void showToast(String message);
     }
 }

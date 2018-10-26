@@ -318,13 +318,11 @@ public class AnalysisWeeklyAdapter extends RecyclerView.Adapter {
                 if (isDeleteArray[getCurrentPosition()] == true) {
 
                     isDeleteArray[getCurrentPosition()] = false;
-                    mConstraintLayoutAnalysisMainItem.setBackground(TimeManagementApplication.getAppContext().getDrawable(android.R.color.white));
 
                 } else {
                     // if original delete flag is off, than delete. (change background color with drawable)
 
                     isDeleteArray[getCurrentPosition()] = true;
-                    mConstraintLayoutAnalysisMainItem.setBackground(TimeManagementApplication.getAppContext().getDrawable(R.drawable.toolbar_background));
 
                 }
 
@@ -463,6 +461,7 @@ public class AnalysisWeeklyAdapter extends RecyclerView.Adapter {
         private TextView mTextviewAnalysisTopItemCostTime;
         private TextView mTextviewAnalysisTopItemPlaceholder;
         private ImageView mImageviewAnalysisTopItemPlaceholder;
+        private ConstraintLayout mConstraintLayoutAnalysisTopItemDesc;
 
         public PieChart getPieChart() {
             return mPieChart;
@@ -489,6 +488,7 @@ public class AnalysisWeeklyAdapter extends RecyclerView.Adapter {
             mPieChart.setOnChartValueSelectedListener(this);
 
             // description of a slice of the piechart
+            mConstraintLayoutAnalysisTopItemDesc = v.findViewById(R.id.constraintlayout_analysis_topitem_task);
             mTextviewAnalysisTopItemTaskName = v.findViewById(R.id.textview_analysis_topitem_taskname);
             mTextviewAnalysisTopItemCostTime = v.findViewById(R.id.textview_analysis_topitem_costtime);
             mTextviewAnalysisTopItemPercent = v.findViewById(R.id.textview_analysis_topitem_costtime_precent);
@@ -509,11 +509,13 @@ public class AnalysisWeeklyAdapter extends RecyclerView.Adapter {
             // 設定 pie chart 時會加總 mLongTotalCostTime，如果為 0 表示一比 trace 都沒有
             if (mLongTotalCostTime == 0) {
 
+                mConstraintLayoutAnalysisTopItemDesc.setVisibility(View.GONE);
                 mImageviewAnalysisTopItemPlaceholder.setVisibility(View.VISIBLE);
                 mTextviewAnalysisTopItemPlaceholder.setVisibility(View.VISIBLE);
 
             } else {
 
+                mConstraintLayoutAnalysisTopItemDesc.setVisibility(View.VISIBLE);
                 mImageviewAnalysisTopItemPlaceholder.setVisibility(View.GONE);
                 mTextviewAnalysisTopItemPlaceholder.setVisibility(View.GONE);
             }
@@ -521,6 +523,9 @@ public class AnalysisWeeklyAdapter extends RecyclerView.Adapter {
         }
 
         private void setupPieChart() {
+
+            Logger.d(Constants.TAG, MSG + "setupPieChart: mAnalysisningList.size() = " + mAnalysisningList.size());
+
 
             // 1. 準備資料
             // Populating a list of PieEntries

@@ -79,6 +79,7 @@ public class Constants {
     public static final String DEFAULT_TASK_COLOR = "#D9D9D9";
     public static final String DEFAULT_CATEGORY_COLOR = "#4682B4";
 
+    public static final String TOAST_ADD_TASK_FAIL = "Please input all fields";
 
     // icon
     public static final int ICON_SPAN_COUNT = 4;

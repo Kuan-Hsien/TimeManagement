@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.realizeitstudio.deteclife.MainActivity;
 import com.realizeitstudio.deteclife.R;
@@ -53,14 +54,9 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
     private boolean isRefresh = true;
 
 
-
     // Icon information
-    private String mStrSelectedIconName = Constants.DEFAULT_TASK_ICON;
-//    private int mIntIconColor = getResources().getColor(R.color.color_app_clock_blue);
-//    private String mStrIconColor = "#134D78";
-    private String mStrIconColor = Constants.DEFAULT_TASK_COLOR;
-//    private String mStrIconColor = TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_default_light_grey);
-
+    private String mStrSelectedIconName;
+    private String mStrIconColor;
 
 
     public AddTaskFragment() {
@@ -92,11 +88,7 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
 
         // Set Category
         mTextviewAddItemCategory = root.findViewById(R.id.textview_addtask_editmode_category);
-        mTextviewAddItemCategory.setText(TimeManagementApplication.getAppContext().getResources().getString(R.string.default_category));
         mTextviewAddItemCategory.setOnClickListener(this);
-
-        GradientDrawable gradientDrawable = (GradientDrawable) getTextviewAddItemCategory().getBackground();
-        gradientDrawable.setColor(Color.parseColor(Constants.DEFAULT_CATEGORY_COLOR));
 
         // Set Task
         mEdittextAddItemTask = root.findViewById(R.id.edittext_addtask_editmode_task);
@@ -104,27 +96,17 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
 
         // Set Icon
         mImageviewAddItemIcon = root.findViewById(R.id.imageview_addtask_editmode_icon);
-        getImageviewAddItemIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(Constants.DEFAULT_TASK_ICON));
-        getImageviewAddItemIcon().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
-
         mFrameLayoutAddItemIcon = root.findViewById(R.id.framelayout_addtask_editmode_icon);
         mFrameLayoutAddItemIcon.setOnClickListener(this);
 
-        gradientDrawable = (GradientDrawable) getFrameLayoutAddItemIcon().getBackground();
-        gradientDrawable.setColor(Color.parseColor(mStrIconColor));
-
         mImageviewAddItemIconHint = root.findViewById(R.id.imageview_addtask_editmode_category_hint);
-        mImageviewAddItemIconHint.setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
-
         mFrameLayoutAddItemIconHint = root.findViewById(R.id.framelayout_addtask_editmode_category_hint);
         mFrameLayoutAddItemIconHint.setOnClickListener(this);
-
 
         mConstraintLayoutAddItemEditMode = root.findViewById(R.id.constraintlayout_addtask_editmode);
 
         ((ImageView) root.findViewById(R.id.imageview_addtask_editmode_save)).setOnClickListener(this);
         ((ImageView) root.findViewById(R.id.imageview_addtask_editmode_cancel)).setOnClickListener(this);
-
 
         return root;
     }
@@ -132,21 +114,41 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        mPresenter.start();
-        init();
-
+        init(); // mPresenter.start();
     }
 
+    // reset UI to default data
     private void init() {
-        mTextviewAddItemCategory.setText(Constants.CATEGORY_OTHERS);
-        mEdittextAddItemTask.setText("");
+
+        mStrSelectedIconName = Constants.DEFAULT_TASK_ICON;
+        mStrIconColor = Constants.DEFAULT_TASK_COLOR;
+
+        // category label
+        getTextviewAddItemCategory().setText(TimeManagementApplication.getAppContext().getResources().getString(R.string.default_category_hint));
+
+        GradientDrawable gradientDrawable = (GradientDrawable) getTextviewAddItemCategory().getBackground();
+        gradientDrawable.setColor(Color.parseColor(mStrIconColor));
+
+        // task name
+        getEdittextAddItemTask().setText("");
+
+        // icon
+        getImageviewAddItemIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(mStrSelectedIconName));
+        getImageviewAddItemIcon().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
+
+        // icon background
+        gradientDrawable = (GradientDrawable) getFrameLayoutAddItemIcon().getBackground();
+        gradientDrawable.setColor(Color.parseColor(mStrIconColor));
+
+        getImageviewAddItemIconHint().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
+
+        // [TODO] color
     }
 
     @Override
     public void onResume() {
         super.onResume();
     }
-
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -165,10 +167,8 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
             } else {    // false 表示正在新增 category，有收到回傳的 category
                 setRefresh(true);   // 事件完成，下次再進 onHiddenChanged 就要更新畫面
             }
-
         }
     }
-
 
     @Override
     public void onClick(View v) {
@@ -231,13 +231,18 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
 //            }
 
 
-            // 2.2 把新 add 的 task 加在最後
-            // [TODO] 此處需判斷每個字串是否為空
-            if (getTextviewAddItemCategory().getText().toString().trim() != null &&
-                    getEdittextAddItemTask().getText().toString().trim() != null) {
+            // 2.2 把新 add 的 task 加在 List 最後
+            // 檢查使用者是否有每個欄位確實填上資料，若有任何一個欄位沒填，則跳出 Toast 提醒
+            if (TimeManagementApplication.getAppContext().getResources().getString(R.string.default_category_hint)
+                    .equals(getTextviewAddItemCategory().getText().toString().trim())
+                    || ("").equals(getEdittextAddItemTask().getText().toString().trim())
+                    || Constants.DEFAULT_TASK_ICON.equals(mStrIconColor)) {
+
+                Toast.makeText(getActivity(), Constants.TOAST_ADD_TASK_FAIL, Toast.LENGTH_SHORT).show();
+
+            } else {    // 如果都有輸入，就可以新增項目
 
                 TaskDefineTable item = new TaskDefineTable(
-//                            getTextviewAddItemCategory().getText().toString().trim(),
                         getTextviewAddItemCategory().getText().toString().trim(),
                         getEdittextAddItemTask().getText().toString().trim(),
                         mStrIconColor,
@@ -250,20 +255,17 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
 
                 Logger.d(Constants.TAG, MSG + "Add task: ");
                 item.LogD();
+
+                // 3. send asyncTask to update data
+                mPresenter.saveTaskResults(taskList, deleteTaskList);
             }
-
-            // 3. send asyncTask to update data
-            mPresenter.saveTaskResults(taskList, deleteTaskList);
-
-//            mPresenter.refreshCategoryTaskUi(Constants.MODE_PLAN_VIEW);
 
         } else if (v.getId() == R.id.imageview_addtask_editmode_cancel) { // Edit mode - cancel
 
             mPresenter.addTaskComplete();
-//            mPresenter.refreshCategoryTaskUi(Constants.MODE_PLAN_VIEW);
 
-        } else if (v.getId() == R.id.textview_addtask_editmode_category ||
-                    v.getId() == R.id.framelayout_addtask_editmode_category_hint) {
+        } else if (v.getId() == R.id.textview_addtask_editmode_category
+                || v.getId() == R.id.framelayout_addtask_editmode_category_hint) {
 
             showCategoryListDialog();
 
@@ -272,7 +274,6 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
             showIconPickerDialog();
         }
     }
-
 
 
     public ConstraintLayout getConstraintLayoutAddItemEditMode() {
@@ -299,20 +300,6 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
         return mImageviewAddItemIconHint;
     }
 
-    //    @Override
-//    public void setCategoryTaskListPresenter(CategoryTaskListContract.Presenter presenter) {
-//        mCategroyTaskListContractPresenter = checkNotNull(presenter);
-//    }
-//
-//    @Override
-//    public void showCategoryTaskList(List<GetCategoryTaskList> bean) {
-//        mCategoryTaskListAdapter.updateData(bean);
-//    }
-//
-//
-
-
-
 
     // ****** Icon Picker Dialog ****** //
 
@@ -329,7 +316,6 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
         getImageviewAddItemIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(bean.getIconName()));
         getImageviewAddItemIcon().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
         mStrSelectedIconName = bean.getIconName();
-
     }
 
 
@@ -339,7 +325,6 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
 
         Logger.d(Constants.TAG, MSG + "showCategoryListDialog: ");
         ((MainActivity) getActivity()).transToCategoryList();
-
     }
 
 
@@ -364,7 +349,6 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
         setRefresh(false);
         Logger.d(Constants.TAG, MSG + "backFromCategory");
     }
-
 
     public boolean isRefresh() {
         return isRefresh;

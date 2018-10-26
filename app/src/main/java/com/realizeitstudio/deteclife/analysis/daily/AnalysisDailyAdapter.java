@@ -106,13 +106,13 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
 
             // create a new view
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_analysis_top, parent, false);
-            return new AnalysisDailyAdapter.AnalysisTopItemViewHolder(view);
+            return new AnalysisTopItemViewHolder(view);
 
         } else {
 
             // create a new view
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_analysis_main, parent, false);
-            return new AnalysisDailyAdapter.AnalysisMainItemViewHolder(view);
+            return new AnalysisMainItemViewHolder(view);
 
         }
     }
@@ -320,13 +320,10 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
 
                     isDeleteArray[getCurrentPosition()] = false;
 
-//                    mConstraintLayoutAnalysisMainItem.setBackground(TimeManagementApplication.getAppContext().getDrawable(android.R.color.darker_gray));
-
                 } else {
                     // if original delete flag is off, than delete. (change background color with drawable)
 
                     isDeleteArray[getCurrentPosition()] = true;
-//                    mConstraintLayoutAnalysisMainItem.setBackground(TimeManagementApplication.getAppContext().getDrawable(android.R.color.holo_red_light));
 
                 }
 
@@ -444,7 +441,6 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
                 gradientDrawable = (GradientDrawable) getFrameLayoutAnalysisTaskDeleteHint().getBackground();
                 gradientDrawable.setColor(Color.parseColor("#d9d9d9"));
 
-                getSeekBarAnalysisTaskAdjustTime().setVisibility(View.VISIBLE);
                 getSeekBarAnalysisTaskAdjustTime().setProgress(item.getCostTime() / (60 * 1000));
                 getSeekBarAnalysisTaskAdjustTime().getProgressDrawable().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.SRC_IN);
 //                getSeekBarAnalysisTaskAdjustTime().getProgressDrawable().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.SRC_ATOP); // 疑似也是改 thumb

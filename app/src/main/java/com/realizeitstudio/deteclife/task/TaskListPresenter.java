@@ -3,6 +3,7 @@ package com.realizeitstudio.deteclife.task;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.realizeitstudio.deteclife.MainActivity;
 import com.realizeitstudio.deteclife.MainContract;
@@ -241,4 +242,9 @@ public class TaskListPresenter implements TaskListContract.Presenter {
         mTaskView.showIconSelected(bean);
     }
 
+    @Override
+    public void showToast(String message) {
+
+        Toast.makeText(mMainActivity, message, Toast.LENGTH_SHORT).show();
+    }
 }

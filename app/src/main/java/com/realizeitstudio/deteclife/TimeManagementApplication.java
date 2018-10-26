@@ -315,36 +315,58 @@ public class TimeManagementApplication extends Application {
 
                 DatabaseDao dao = AppDatabase.getDatabase(getAppContext()).getDatabaseDao();
 
-                // 1. 取得現在時間
-                // 1.1 做成 startTime, endTime
+                // 1. 取得時間 // [TODO] 未來要改取畫面上時間
                 Date curDate = new Date();
                 // 定義時間格式
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO);
-                // 透過SimpleDateFormat的format方法將 Date 轉為字串
-                String strVerNo = simpleDateFormat.format(curDate);
-                String strStartTime = simpleDateFormat.format(curDate);
-                String strEndTime = Constants.DB_ENDLESS_DATE;
+                SimpleDateFormat simpleUpdateDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_UPDATE_DATE);
+
+                // 1.1 做出新增 Task 的 startTime, endTime
+                String curEndVerNo = Constants.DB_ENDLESS_DATE;
+
+                // Daily 的 startTime 是當天
+                String curStartVerNoDaily = simpleDateFormat.format(curDate);
+
+                // Weekly 的 startTime 是當週的週一
+                int intWeekDay = ParseTime.date2Day(curDate);    // 把今天傳入，回傳今天是星期幾 (1 = 星期一，2 = 星期二)
+                // 如果今天是星期一，則需從今天往回減 0 天。
+                // 如果今天是星期二，則需從今天往回減 1 天。
+                Date thisMonday = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * (intWeekDay - 1)); // 找出本週一
+                String curStartVerNoWeekly = simpleDateFormat.format(thisMonday);
+
 
                 // 1.2 update_date
-                SimpleDateFormat simpleUpdateDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_UPDATE_DATE);
                 // 透過SimpleDateFormat的format方法將 Date 轉為字串
                 String strCurrentTime = simpleUpdateDateFormat.format(curDate);
 
+
+                // 1.3 取得上一個 planning 週期的 endTime (daily 為昨天，weekly 為上週日)
+                Date yesterday = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24);
+                String lastEndVerNoDaily = simpleDateFormat.format(yesterday);
+
+                // 計算 Weekly 的上一個週期 endTime
+                // 如果今天是星期一，則需從今天往回減 1 天。
+                // 如果今天是星期二，則需從今天往回減 2 天。
+                Date lastSunday = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * intWeekDay); // 找出上週日
+                String lastEndVerNoWeekly = simpleDateFormat.format(lastSunday);
+
+
+
                 // Prepare sample plan
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Sleep", strStartTime, strEndTime, 480 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Eat", strStartTime, strEndTime, 120 * 60000, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Family", "Family", strStartTime, strEndTime, 120 * 60000, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Personal", "Personal", strStartTime, strEndTime, 60 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Friend", "Friend", strStartTime, strEndTime, 60 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Swim", strStartTime, strEndTime, 60 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Others", "Music", strStartTime, strEndTime, 30 * 60000, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Sleep", strStartTime, strEndTime,  3360 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Eat", strStartTime, strEndTime, 1200 * 60000, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Family", "Family", strStartTime, strEndTime, 840 * 60000, strCurrentTime));
-                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Personal", "Personal", strStartTime, strEndTime, 420 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Friend", "Friend", strStartTime, strEndTime, 480 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Friend", "Beer", strStartTime, strEndTime, 120 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Others", "Shopping", strStartTime, strEndTime, 240 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Sleep", curStartVerNoDaily, curEndVerNo, 480 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Eat", curStartVerNoDaily, curEndVerNo, 120 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Family", "Family", curStartVerNoDaily, curEndVerNo, 120 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Personal", "Personal", curStartVerNoDaily, curEndVerNo, 60 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Friend", "Friend", curStartVerNoDaily, curEndVerNo, 60 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Swim", curStartVerNoDaily, curEndVerNo, 60 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Others", "Music", curStartVerNoDaily, curEndVerNo, 30 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Sleep", curStartVerNoWeekly, curEndVerNo,  3360 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Eat", curStartVerNoWeekly, curEndVerNo, 1200 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Family", "Family", curStartVerNoWeekly, curEndVerNo, 840 * 60000, strCurrentTime));
+                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Personal", "Personal", curStartVerNoWeekly, curEndVerNo, 420 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Friend", "Friend", curStartVerNoWeekly, curEndVerNo, 480 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Friend", "Beer", curStartVerNoWeekly, curEndVerNo, 120 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Others", "Shopping", curStartVerNoWeekly, curEndVerNo, 240 * 60000, strCurrentTime));
 
 //                // Prepare default category
 //                dao.addCategory(new CategoryDefineTable("Health", "#32CD32", 1, false));
@@ -504,7 +526,7 @@ public class TimeManagementApplication extends Application {
 
 
                 // Prepare first trace
-                dao.addTraceItem(new TimeTracingTable(strVerNo, "Personal", "Personal",  curDate.getTime(), null, null, strCurrentTime));
+                dao.addTraceItem(new TimeTracingTable(curStartVerNoDaily, "Personal", "Personal",  curDate.getTime(), null, null, strCurrentTime));
 
                 // [QUERY]
                 // 可以在這邊撈，目前寫在這邊可以撈出來當前塞進去的資料。
@@ -562,7 +584,7 @@ public class TimeManagementApplication extends Application {
                 // 透過SimpleDateFormat的format方法將 Date 轉為字串
                 String strVerNo = simpleDateFormat.format(curDate);
                 String strStartTime = simpleDateFormat.format(curDate);
-                String strEndTime = Constants.DB_ENDLESS_DATE;
+                String curEndVerNo = Constants.DB_ENDLESS_DATE;
 
                 // 1.2 update_date
                 SimpleDateFormat simpleUpdateDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_UPDATE_DATE);
@@ -785,20 +807,20 @@ public class TimeManagementApplication extends Application {
                 dao.addIconItem(new IconDefineTable("icon_caroil", false, strCurrentTime));
 
                 // Prepare sample plan
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Sleep", strStartTime, strEndTime, 480 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Eat", strStartTime, strEndTime, 120 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Family", "Family", strStartTime, strEndTime, 120 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Personal", "Study", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Friend", "Friend", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Swim", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Others", "Music", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Sleep", strStartTime, strEndTime, 4800 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Eat", strStartTime, strEndTime, 1200 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Family", "Family", strStartTime, strEndTime, 1200 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Personal", "Study", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Friend", "Friend", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Swim", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Others", "Music", strStartTime, strEndTime, 75 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Sleep", strStartTime, curEndVerNo, 480 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Eat", strStartTime, curEndVerNo, 120 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Family", "Family", strStartTime, curEndVerNo, 120 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Personal", "Study", strStartTime, curEndVerNo, 75 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Friend", "Friend", strStartTime, curEndVerNo, 75 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Swim", strStartTime, curEndVerNo, 75 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Others", "Music", strStartTime, curEndVerNo, 75 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Sleep", strStartTime, curEndVerNo, 4800 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Eat", strStartTime, curEndVerNo, 1200 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Family", "Family", strStartTime, curEndVerNo, 1200 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Personal", "Study", strStartTime, curEndVerNo, 75 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Friend", "Friend", strStartTime, curEndVerNo, 75 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Swim", strStartTime, curEndVerNo, 75 * 60000, strCurrentTime));
+//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Others", "Music", strStartTime, curEndVerNo, 75 * 60000, strCurrentTime));
 
 
 
