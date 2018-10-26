@@ -1,7 +1,6 @@
 package com.realizeitstudio.deteclife.dml;
 
 import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Ignore;
 
 import com.realizeitstudio.deteclife.utils.Constants;
 import com.realizeitstudio.deteclife.utils.Logger;
@@ -44,7 +43,7 @@ public class GetTaskWithPlanTime {
     private String mEndTime;
 
     @ColumnInfo(name = "cost_time")
-    private int mCostTime;
+    private long mCostTime;
 
     // getter and setter
     public String getMode() {
@@ -87,7 +86,7 @@ public class GetTaskWithPlanTime {
         return mEndTime;
     }
 
-    public int getCostTime() {
+    public long getCostTime() {
         return mCostTime;
     }
 
@@ -131,7 +130,7 @@ public class GetTaskWithPlanTime {
         mEndTime = endTime;
     }
 
-    public void setCostTime(int costTime) {
+    public void setCostTime(long costTime) {
         mCostTime = costTime;
     }
 
@@ -139,7 +138,7 @@ public class GetTaskWithPlanTime {
     public GetTaskWithPlanTime() {
     }
 
-    public GetTaskWithPlanTime(String mode, String categoryName, String categoryColor, int categoryPriority, String taskName, String taskColor, String taskIcon, int taskPriority, String startTime, String endTime, int costTime) {
+    public GetTaskWithPlanTime(String mode, String categoryName, String categoryColor, int categoryPriority, String taskName, String taskColor, String taskIcon, int taskPriority, String startTime, String endTime, long costTime) {
         mMode = mode;
         mCategoryName = categoryName;
         mCategoryColor = categoryColor;

@@ -169,7 +169,7 @@ public class PlanFragment extends Fragment {
         } else {    // mFragmentList.get(mTablayout.getSelectedTabPosition()).equals(mPlanWeeklyFragment)
 
             Logger.d(Constants.TAG, MSG + "selectTaskToPlan: mPlanWeeklyFragment");
-//            mPlanWeeklyPresenter.selectTaskToPlan(bean);
+            mPlanWeeklyPresenter.selectTaskToPlan(bean);
         }
 
         // 針對現在被選擇的 page 更新

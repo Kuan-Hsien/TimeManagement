@@ -222,6 +222,7 @@ public class PlanWeeklyFragment extends Fragment implements PlanWeeklyContract.V
         // 取消或確定按鈕監聽事件處理
         mDialog = builder.create();
         mDialog.show();
+        mDialog.getWindow().setBackgroundDrawableResource(R.drawable.shape_dialog);
 
     }
 
@@ -255,5 +256,20 @@ public class PlanWeeklyFragment extends Fragment implements PlanWeeklyContract.V
 
     public void setIntTaskMode(int intTaskMode) {
         mIntTaskMode = intTaskMode;
+    }
+
+
+    @Override
+    public void showTaskListUi() {
+        ((MainActivity) getActivity()).transToTaskList();
+    }
+
+    @Override
+    public void showTaskSelected(GetCategoryTaskList bean) {
+
+        Logger.d(Constants.TAG, MSG + "showTaskSelected: task: ");
+        bean.LogD();
+
+        mPlanWeeklyAdapter.showCategoryTaskSelected(bean);
     }
 }

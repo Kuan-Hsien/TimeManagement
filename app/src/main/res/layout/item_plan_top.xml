@@ -157,7 +157,7 @@
             android:layout_marginBottom="@dimen/height_analysis_mainitem_margin"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageview_plan_top_editmode_separationline"
-            app:layout_constraintBottom_toTopOf="@+id/seekbar_plan_set_target_cost_time_daily"
+            app:layout_constraintBottom_toTopOf="@+id/constraintlayout_settarget_adjust_costtime"
             android:clickable="true"
             android:focusable="true"
             >
@@ -242,42 +242,53 @@
             app:layout_constraintTop_toTopOf="@+id/framelayout_plan_top_editmode_icon"
             tools:text="0 hr" />
 
-        <SeekBar
-            android:id="@+id/seekbar_plan_set_target_cost_time_daily"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintlayout_settarget_adjust_costtime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="6dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:max="1440"
-            android:progress="0"
-            android:maxHeight="10dp"
-            android:minHeight="10dp"
-            android:thumb="@drawable/selector_seekbar_thumb"
             app:layout_constraintTop_toBottomOf="@+id/framelayout_plan_top_editmode_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            >
 
-        <SeekBar
-            android:id="@+id/seekbar_plan_set_target_cost_time_weekly"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="6dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:max="10080"
-            android:progress="0"
-            android:maxHeight="10dp"
-            android:minHeight="10dp"
-            android:thumb="@drawable/selector_seekbar_thumb"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@+id/framelayout_plan_top_editmode_icon"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            <SeekBar
+                android:id="@+id/seekbar_plan_set_target_cost_time_daily"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:max="1440"
+                android:progress="0"
+                android:maxHeight="10dp"
+                android:minHeight="10dp"
+                android:thumb="@drawable/selector_seekbar_thumb"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
+            <SeekBar
+                android:id="@+id/seekbar_plan_set_target_cost_time_weekly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:max="10080"
+                android:progress="0"
+                android:maxHeight="10dp"
+                android:minHeight="10dp"
+                android:thumb="@drawable/selector_seekbar_thumb"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>
 

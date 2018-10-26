@@ -4,6 +4,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
 import com.realizeitstudio.deteclife.dml.GetTaskWithPlanTime;
 import com.realizeitstudio.deteclife.dml.GetTaskWithPlanTimeCallback;
 import com.realizeitstudio.deteclife.dml.GetTaskWithPlanTimeAsyncTask;
@@ -158,14 +159,14 @@ public class PlanWeeklyPresenter implements PlanWeeklyContract.Presenter {
 //    public void saveTargetResults(String strMode, String strCategory, String strTask, String strStartTime, String strEndTime, String strCostTime) {
 
         // insert time_planning_table
-        new SetTargetAsyncTask(targetList, deleteTargetList,  new SetTargetCallback() {
+        new SetTargetAsyncTask(targetList, deleteTargetList, new SetTargetCallback() {
 
             @Override
             public void onCompleted(List<TimePlanningTable> bean) {
 
                 Logger.d(Constants.TAG, MSG + "SetTarget onCompleted");
-                for( int i = 0 ; i < bean.size() ; ++i) {
-                    Logger.d(Constants.TAG, MSG + "TaskName: " + bean.get(i).getTaskName() + " Cost-time: " + ParseTime.msToHourMin(bean.get(i).getCostTime()));
+                for (int i = 0; i < bean.size(); ++i) {
+                    bean.get(i).LogD();
                 }
 
                 // [TODO] insert 資料後更新畫面，目前是將要更新的資料全部當作 bean
@@ -201,12 +202,18 @@ public class PlanWeeklyPresenter implements PlanWeeklyContract.Presenter {
     }
 
     @Override
-    public void showCategoryListDialog() {
-        mPlanView.showCategoryListDialog();
+    public void showTaskListDialog() {
+        mPlanView.showTaskListDialog();
+    }
+
+
+    @Override
+    public void showTaskListUi() {
+        mPlanView.showTaskListUi();
     }
 
     @Override
-    public void showTaskListDialog() {
-        mPlanView.showTaskListDialog();
+    public void selectTaskToPlan(GetCategoryTaskList bean) {
+        mPlanView.showTaskSelected(bean);
     }
 }

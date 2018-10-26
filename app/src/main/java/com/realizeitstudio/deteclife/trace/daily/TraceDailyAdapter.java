@@ -37,9 +37,9 @@ public class TraceDailyAdapter extends RecyclerView.Adapter {
     private TraceDailyContract.Presenter mPresenter;
     private List<GetTaskWithPlanTime> mTraceningList;
     private boolean[] isDeleteArray;
-    private int[] mIntAdjustCostTime;
+    private long[] mIntAdjustCostTime;
     private int mIntMaxCostTime;
-    private int mIntTotalCostTime;
+    private long mIntTotalCostTime;
     private int mIntTraceMode;
     private int mIntNewItemCostTime;
 
@@ -154,7 +154,7 @@ public class TraceDailyAdapter extends RecyclerView.Adapter {
             mIntNewItemCostTime = 0;
             mIntAdjustCostTime = null;
 
-            mIntAdjustCostTime = new int[intArraySize];
+            mIntAdjustCostTime = new long[intArraySize];
             for (int i = 0 ; i < intArraySize ; ++i) {
                 mIntAdjustCostTime[i] = mTraceningList.get(i).getCostTime() / (60 * 1000);
             }
@@ -290,14 +290,14 @@ public class TraceDailyAdapter extends RecyclerView.Adapter {
 
                     // [Seekbar] 1. 如果已經封頂了，user 還是把 progress 往後拉，則強制停在原地並 return。其餘數字均不改動
                     if (mIntMaxCostTime == mIntTotalCostTime) {
-                        seekBar.setProgress(mIntAdjustCostTime[getCurrentPosition()]);
+                        seekBar.setProgress((int)mIntAdjustCostTime[getCurrentPosition()]);
                         Logger.d(Constants.TAG, MSG + "Already meet the max-time, progress won't change");
                         Logger.d(Constants.TAG, MSG + "MaxTime: " + mIntMaxCostTime + " Total costTime: " + mIntTotalCostTime + " Progress: " + progress);
                         return;
                     }
 
                     // [Seekbar] 2. 如果第一次被拉到封頂
-                    progress = mIntAdjustCostTime[getCurrentPosition()] + mIntMaxCostTime - mIntTotalCostTime;         // 直接把 progress 設到滿
+                    progress = (int)(mIntAdjustCostTime[getCurrentPosition()] + mIntMaxCostTime - mIntTotalCostTime);         // 直接把 progress 設到滿
                     mIntTotalCostTime = mIntMaxCostTime;                    // 並把 totalCostTime 加到滿
 
                     mIntAdjustCostTime[getCurrentPosition()] = progress;    // progress means minutes
@@ -375,7 +375,7 @@ public class TraceDailyAdapter extends RecyclerView.Adapter {
 
                 getImageviewTraceTaskDeleteHint().setVisibility(View.VISIBLE);
                 getSeekBarTraceTaskAdjustTime().setVisibility(View.VISIBLE);
-                getSeekBarTraceTaskAdjustTime().setProgress(item.getCostTime() / (60 * 1000));
+                getSeekBarTraceTaskAdjustTime().setProgress((int)item.getCostTime() / (60 * 1000));
                 getSeekBarTraceTaskAdjustTime().getProgressDrawable().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.SRC_IN);
 //                getSeekBarTraceTaskAdjustTime().getProgressDrawable().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.SRC_ATOP); // 疑似也是改 thumb
                 getSeekBarTraceTaskAdjustTime().getThumb().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.MULTIPLY);
@@ -582,7 +582,7 @@ public class TraceDailyAdapter extends RecyclerView.Adapter {
                     }
 
                     // [Seekbar] 2. 如果第一次被拉到封頂
-                    progress = mIntNewItemCostTime + mIntMaxCostTime - mIntTotalCostTime;         // 直接把 progress 設到滿
+                    progress = (int)(mIntNewItemCostTime + mIntMaxCostTime - mIntTotalCostTime);         // 直接把 progress 設到滿
                     mIntTotalCostTime = mIntMaxCostTime;                    // 並把 totalCostTime 加到滿
 
                     mIntNewItemCostTime = progress;    // progress means minutes

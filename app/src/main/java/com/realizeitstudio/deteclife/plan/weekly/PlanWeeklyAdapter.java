@@ -40,11 +40,11 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
     private PlanWeeklyContract.Presenter mPresenter;
     private List<GetTaskWithPlanTime> mPlanningList;
     private boolean[] isDeleteArray;
-    private int[] mIntAdjustCostTime;
-    private int mIntMaxCostTime;
-    private int mIntTotalCostTime;
+    private long[] mIntAdjustCostTime;
+    private long mLongMaxCostTime;
+    private long mLongTotalCostTime;
     private int mIntPlanMode;
-    private int mIntNewItemCostTime;
+    private long mLongNewItemCostTime;
 
     private PlanTopItemViewHolder mPlanTopItemViewHolder;
 
@@ -153,24 +153,24 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
             // 2. [Edit] initialization
             // [TODO] add calendar mode Constants.MODE_CALENDAR
             // [TODO] add weekly mode
-            mIntMaxCostTime = 24 * 60;
-            mIntNewItemCostTime = 0;
+            mLongMaxCostTime = 24 * 60 * 7;
+            mLongNewItemCostTime = 0;
             mIntAdjustCostTime = null;
 
-            mIntAdjustCostTime = new int[intArraySize];
+            mIntAdjustCostTime = new long[intArraySize];
             for (int i = 0 ; i < intArraySize ; ++i) {
-                mIntAdjustCostTime[i] = mPlanningList.get(i).getCostTime() / (60*1000);;
+                mIntAdjustCostTime[i] = mPlanningList.get(i).getCostTime() / (60*1000);
             }
 
-            Logger.d(Constants.TAG, MSG + "max-costTime: " + mIntMaxCostTime);
+            Logger.d(Constants.TAG, MSG + "max-costTime: " + mLongMaxCostTime);
         }
 
-        mIntTotalCostTime = 0;
+        mLongTotalCostTime = 0;
         for (int i = 0 ; i < mPlanningList.size() ; ++i) {
-            mIntTotalCostTime += mPlanningList.get(i).getCostTime() / (60*1000);;
+            mLongTotalCostTime += mPlanningList.get(i).getCostTime() / (60*1000);
         }
 
-        Logger.d(Constants.TAG, MSG + "total-costTime: " + mIntTotalCostTime);
+        Logger.d(Constants.TAG, MSG + "total-costTime: " + mLongTotalCostTime);
 
         setIntPlanMode(mode);
         notifyDataSetChanged();
@@ -194,6 +194,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
         private FrameLayout mFrameLayoutPlanTaskDelete;
         private ImageView mImageviewPlanTaskDeleteHint;
         private SeekBar mSeekBarPlanTaskAdjustTime;
+        private ConstraintLayout mConstraintLayoutAdjustCostTime;
 
         private int mPosition;
 
@@ -209,20 +210,20 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
             return mFrameLayoutPlanTaskIcon;
         }
 
-        public ImageView getImageviewPlanTaskIcon() {
-            return mImageviewPlanTaskIcon;
-        }
-
         public FrameLayout getFrameLayoutPlanTaskDelete() {
             return mFrameLayoutPlanTaskDelete;
         }
 
-        public TextView getTextviewPlanTaskName() {
-            return mTextviewPlanTaskName;
-        }
-
         public TextView getTextviewPlanCategoryName() {
             return mTextviewPlanCategoryName;
+        }
+
+        public ImageView getImageviewPlanTaskIcon() {
+            return mImageviewPlanTaskIcon;
+        }
+
+        public TextView getTextviewPlanTaskName() {
+            return mTextviewPlanTaskName;
         }
 
         public TextView getTextviewPlanTaskCostTime() {
@@ -235,6 +236,10 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
         public SeekBar getSeekBarPlanTaskAdjustTime() {
             return mSeekBarPlanTaskAdjustTime;
+        }
+
+        public ConstraintLayout getConstraintLayoutAdjustCostTime() {
+            return mConstraintLayoutAdjustCostTime;
         }
 
         public PlanMainItemViewHolder(View v) {
@@ -264,6 +269,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
             mImageviewPlanTaskDeleteHint = (ImageView) v.findViewById(R.id.imageview_plan_task_delete_hint);
             mImageviewPlanTaskDeleteHint.setOnClickListener(this);
             // [TODO] 有可能需要改用 weekly 的 seekbar, 或是可以透過程式根據 weekly-view 或 weekly-view 設定 max 大小
+            mConstraintLayoutAdjustCostTime = v.findViewById(R.id.constraintlayout_plantask_adjust_costtime);
             mSeekBarPlanTaskAdjustTime = (SeekBar) v.findViewById(R.id.seekbar_plan_task_adjust_cost_time_weekly);
             mSeekBarPlanTaskAdjustTime.setOnSeekBarChangeListener(mSeekBarChangeListener);
         }
@@ -279,7 +285,6 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                 if (isDeleteArray[getCurrentPosition()] == true) {
 
                     isDeleteArray[getCurrentPosition()] = false;
-//                    mConstraintLayoutPlanMainItem.setBackground(TimeManagementApplication.getAppContext().getDrawable(android.R.color.darker_gray));
 
                     GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutPlanTaskDelete().getBackground();
                     gradientDrawable.setColor(Color.parseColor("#d9d9d9"));
@@ -288,8 +293,6 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                     // if original delete flag is off, than delete. (change background color with drawable)
 
                     isDeleteArray[getCurrentPosition()] = true;
-//                    mConstraintLayoutPlanMainItem.setBackground(TimeManagementApplication.getAppContext().getDrawable(android.R.color.holo_red_light));
-
 
                     GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutPlanTaskDelete().getBackground();
                     gradientDrawable.setColor(Color.parseColor("#f44336"));
@@ -307,19 +310,19 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
             public void onProgressChanged(SeekBar seekBar, int progress,
                                           boolean fromUser) {
 
-                if ((mIntTotalCostTime - mIntAdjustCostTime[getCurrentPosition()] + progress) >= mIntMaxCostTime) { // 目前設定總時數 - 這個 item 原本的 costTime ＋ 這個 item 新調的時間 > 上限)
+                if ((mLongTotalCostTime - mIntAdjustCostTime[getCurrentPosition()] + progress) >= mLongMaxCostTime) { // 目前設定總時數 - 這個 item 原本的 costTime ＋ 這個 item 新調的時間 > 上限)
 
                     // [Seekbar] 1. 如果已經封頂了，user 還是把 progress 往後拉，則強制停在原地並 return。其餘數字均不改動
-                    if (mIntMaxCostTime == mIntTotalCostTime) {
-                        seekBar.setProgress(mIntAdjustCostTime[getCurrentPosition()]);
+                    if (mLongMaxCostTime == mLongTotalCostTime) {
+                        seekBar.setProgress((int)mIntAdjustCostTime[getCurrentPosition()]);
                         Logger.d(Constants.TAG, MSG + "Already meet the max-time, progress won't change");
-                        Logger.d(Constants.TAG, MSG + "MaxTime: " + mIntMaxCostTime + " Total costTime: " + mIntTotalCostTime + " Progress: " + progress);
+                        Logger.d(Constants.TAG, MSG + "MaxTime: " + mLongMaxCostTime + " Total costTime: " + mLongTotalCostTime + " Progress: " + progress);
                         return;
                     }
 
                     // [Seekbar] 2. 如果第一次被拉到封頂
-                    progress = mIntAdjustCostTime[getCurrentPosition()] + mIntMaxCostTime - mIntTotalCostTime;         // 直接把 progress 設到滿
-                    mIntTotalCostTime = mIntMaxCostTime;                    // 並把 totalCostTime 加到滿
+                    progress = (int)(mIntAdjustCostTime[getCurrentPosition()] + mLongMaxCostTime - mLongTotalCostTime);         // 直接把 progress 設到滿
+                    mLongTotalCostTime = mLongMaxCostTime;                    // 並把 totalCostTime 加到滿
 
                     mIntAdjustCostTime[getCurrentPosition()] = progress;    // progress means minutes
                     seekBar.setProgress(progress);
@@ -328,7 +331,8 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                     getTextviewPlanTaskCostTime().setText(strCostTime);  // 設定 UI 顯示現在 progress 進度時間
 
                     Logger.d(Constants.TAG, MSG + "Meet the max-time, reset progress to current maximum");
-                    Logger.d(Constants.TAG, MSG + "MaxTime: " + mIntMaxCostTime + " Total costTime: " + mIntTotalCostTime + " Progress: " + progress);
+                    Logger.d(Constants.TAG, MSG + "MaxTime: " + mLongMaxCostTime + " Total costTime: " + mLongTotalCostTime + " Progress: " + progress);
+
                     return;
                 }
 
@@ -340,10 +344,10 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                 Logger.d(Constants.TAG, MSG + "Progress: " + progress + " CostTime: " + strCostTime);
 
                 getTextviewPlanTaskCostTime().setText(strCostTime);  // 設定 UI 顯示現在 progress 進度時間
-                mIntTotalCostTime = mIntTotalCostTime - mIntAdjustCostTime[getCurrentPosition()] + progress; // 總時數 - 這個 item 原本的 costTime ＋ 這個 item 新調的時間
+                mLongTotalCostTime = mLongTotalCostTime - mIntAdjustCostTime[getCurrentPosition()] + progress; // 總時數 - 這個 item 原本的 costTime ＋ 這個 item 新調的時間
                 mIntAdjustCostTime[getCurrentPosition()] = progress;    // progress means minutes
 
-                Logger.d(Constants.TAG, MSG + "MaxTime: " + mIntMaxCostTime + " Total costTime: " + mIntTotalCostTime + " Progress: " + progress);
+                Logger.d(Constants.TAG, MSG + "MaxTime: " + mLongMaxCostTime + " Total costTime: " + mLongTotalCostTime + " Progress: " + progress);
 
 //                //取得當前SeekBar的值
 //                seekR = background_r.getProgress();
@@ -408,22 +412,22 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                 getImageviewPlanTaskDeleteHint().setVisibility(View.VISIBLE);
                 getSeekBarPlanTaskAdjustTime().setVisibility(View.VISIBLE);
 
-                //動畫路徑設定(x1,x2,y1,y2)
-                Animation am = new TranslateAnimation(-150,0,0,0);
-
-                //動畫開始到結束的時間，1秒
-                am.setDuration( 1000 );
-
-                // 動畫重覆次數 (-1表示一直重覆，0表示不重覆執行，所以只會執行一次)
-                am.setRepeatCount( 0 );
-
-                //將動畫寫入ImageView
-                getFrameLayoutPlanTaskIcon().setAnimation(am);
-                getTextviewPlanTaskName().setAnimation(am);
-                getTextviewPlanCategoryName().setAnimation(am);
-
-                //開始動畫
-                am.startNow();
+//                //動畫路徑設定(x1,x2,y1,y2)
+//                Animation am = new TranslateAnimation(-150,0,0,0);
+//
+//                //動畫開始到結束的時間，1秒
+//                am.setDuration( 1000 );
+//
+//                // 動畫重覆次數 (-1表示一直重覆，0表示不重覆執行，所以只會執行一次)
+//                am.setRepeatCount( 0 );
+//
+//                //將動畫寫入ImageView
+//                getFrameLayoutPlanTaskIcon().setAnimation(am);
+//                getTextviewPlanTaskName().setAnimation(am);
+//                getTextviewPlanCategoryName().setAnimation(am);
+//
+//                //開始動畫
+//                am.startNow();
 
 
 
@@ -445,7 +449,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                 gradientDrawable = (GradientDrawable) getFrameLayoutPlanTaskDelete().getBackground();
                 gradientDrawable.setColor(Color.parseColor("#d9d9d9"));
 
-                getSeekBarPlanTaskAdjustTime().setProgress(item.getCostTime() / (60 * 1000));
+                getSeekBarPlanTaskAdjustTime().setProgress((int)item.getCostTime() / (60 * 1000));
                 getSeekBarPlanTaskAdjustTime().getProgressDrawable().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.SRC_IN);
 //                getSeekBarPlanTaskAdjustTime().getProgressDrawable().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.SRC_ATOP); // 疑似也是改 thumb
                 getSeekBarPlanTaskAdjustTime().getThumb().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.MULTIPLY);
@@ -466,10 +470,13 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
         //** Edit Mode
         private ConstraintLayout mConstraintLayoutPlanSetTarget;
+        private FrameLayout mFrameLayoutAddItemIcon;
+        private ImageView mImageviewAddItemIcon;
         private TextView mTextviewSetTargetCategory;
         private TextView mTextviewSetTargetTask;
         private TextView mTextviewSetTargetCostTime;
         private SeekBar mSeekBarSetTargetAdjustTime;
+        private ConstraintLayout mConstraintLayoutAdjustCostTime;
 
         public TextView getTextviewPlanTopRemainingTime() {
             return mTextviewPlanTopRemainingTime;
@@ -481,6 +488,14 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
         public ConstraintLayout getConstraintLayoutPlanSetTarget() {
             return mConstraintLayoutPlanSetTarget;
+        }
+
+        public FrameLayout getFrameLayoutAddItemIcon() {
+            return mFrameLayoutAddItemIcon;
+        }
+
+        public ImageView getImageviewAddItemIcon() {
+            return mImageviewAddItemIcon;
         }
 
         public TextView getTextviewSetTargetCategory() {
@@ -499,6 +514,10 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
             return mSeekBarSetTargetAdjustTime;
         }
 
+        public ConstraintLayout getConstraintLayoutAdjustCostTime() {
+            return mConstraintLayoutAdjustCostTime;
+        }
+
         public PlanTopItemViewHolder(View v) {
             super(v);
 
@@ -511,13 +530,27 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
             // Set Category
             mTextviewSetTargetCategory = (TextView) v.findViewById(R.id.textview_plan_top_editmode_category);
 
+            mTextviewSetTargetCategory.setOnClickListener(this);
+
             // Set Task
             mTextviewSetTargetTask = (TextView) v.findViewById(R.id.edittext_plan_top_editmode_task);
             mTextviewSetTargetTask.setOnClickListener(this);
 
-            mTextviewSetTargetCostTime = (TextView) v.findViewById(R.id.textview_plan_set_target_cost_time);
-            mConstraintLayoutPlanSetTarget = (ConstraintLayout) v.findViewById(R.id.constraintlayout_plan_top_editmode);
-            mSeekBarSetTargetAdjustTime = (SeekBar) v.findViewById(R.id.seekbar_plan_set_target_cost_time_weekly);
+            // Set Icon
+            mImageviewAddItemIcon = v.findViewById(R.id.imageview_plan_top_editmode_icon);
+            getImageviewAddItemIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(Constants.DEFAULT_TASK_ICON));
+            getImageviewAddItemIcon().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
+
+            mFrameLayoutAddItemIcon = v.findViewById(R.id.framelayout_plan_top_editmode_icon);
+            mFrameLayoutAddItemIcon.setOnClickListener(this);
+
+            GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutAddItemIcon().getBackground();
+            gradientDrawable.setColor(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_default_light_grey));
+
+            mTextviewSetTargetCostTime = v.findViewById(R.id.textview_plan_set_target_cost_time);
+            mConstraintLayoutPlanSetTarget = v.findViewById(R.id.constraintlayout_plan_top_editmode);
+            mConstraintLayoutAdjustCostTime = v.findViewById(R.id.constraintlayout_plantask_adjust_costtime);
+            mSeekBarSetTargetAdjustTime = v.findViewById(R.id.seekbar_plan_set_target_cost_time_weekly);
 
             ((ImageView) v.findViewById(R.id.imageview_plan_top_editmode_save)).setOnClickListener(this);
             ((ImageView) v.findViewById(R.id.imageview_plan_top_editmode_cancel)).setOnClickListener(this);
@@ -530,94 +563,265 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
             if (v.getId() == R.id.constraintlayout_plan_top_viewmode) {    // View mode
 
-                // Plan page 整頁切換為編輯模式
-                ;
-//                getTextviewSetTargetTask().setText("Choose a task");
-//                getTextviewSetTargetCategory().setText("--");
-//                getTextviewSetTargetCostTime().setText("0 min");
-//                getSeekBarSetTargetAdjustTime().setProgress(0);
-//                mIntNewItemCostTime = 0;
-//
-//                mPresenter.refreshUi(Constants.MODE_PLAN_EDIT);
-
-                // [TODO] 之後要增加一頁新的 category 可參考此處寫法
-                // mPresenter.showSetTargetUi();
+                mPresenter.refreshUi(Constants.MODE_PLAN_EDIT);
 
             } else if (v.getId() == R.id.imageview_plan_top_editmode_save) {  // Edit mode - complete
 
+                // Delete 的目標，表示要把 endTime 押在這個 plan 週期之前，如果是 Daily，endTime 就是昨天，如果是 Weekly，endTime 就是上週日
+                // [TODO] 可檢查是否本來 startTime 在這個 plan 週期，如果是的話就真的刪掉，如果不是的話就照上面處理
+                // [TODO] plan 週期需要能讀畫面上元件內容
+                // 或是用 job 在 DB 裡面刪掉
+                // Edit 表示要更新，把 StartTime 在這個 plan 週期之前的全部押上 endTime，並開一個新的目標
+                //   StartTime 設定為這個週期的第一天
+                //   EndTime 設定為 4000/01/01
                 // [TODO] 未來可以一次新增多個 target (多加一個小打勾，像 trello 新增卡片)
                 // [TODO] 換成真正的 startTime, endTime
-                // 1. 取得現在時間
-                // 1.1 做成 startTime, endTime
+
+                // 1. 取得時間 // [TODO] 未來要改取畫面上時間
                 Date curDate = new Date();
                 // 定義時間格式
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO);
-                // 透過SimpleDateFormat的format方法將 Date 轉為字串
-                String strStartTime = simpleDateFormat.format(curDate);
-                String strEndTime = Constants.DB_ENDLESS_DATE;
+                SimpleDateFormat simpleUpdateDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_UPDATE_DATE);
+
+                // 1.1 做出新增 Task 的 startTime, endTime
+                String curEndVerNo = Constants.DB_ENDLESS_DATE;
+
+                // Daily 的 startTime 是當天
+                String curStartVerNoDaily = simpleDateFormat.format(curDate);
+
+                // Weekly 的 startTime 是當週的週一
+                int intWeekDay = ParseTime.date2Day(curDate);    // 把今天傳入，回傳今天是星期幾 (1 = 星期一，2 = 星期二)
+                // 如果今天是星期一，則需從今天往回減 0 天。
+                // 如果今天是星期二，則需從今天往回減 1 天。
+                Date thisMonday = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * (intWeekDay - 1)); // 找出本週一
+                String curStartVerNoWeekly = simpleDateFormat.format(thisMonday);
+
 
                 // 1.2 update_date
-                SimpleDateFormat simpleUpdateDateFormat = new SimpleDateFormat(Constants.DB_FORMAT_UPDATE_DATE);
                 // 透過SimpleDateFormat的format方法將 Date 轉為字串
                 String strCurrentTime = simpleUpdateDateFormat.format(curDate);
+
+
+                // 1.3 取得上一個 planning 週期的 endTime (daily 為昨天，weekly 為上週日)
+                Date yesterday = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24);
+                String lastEndVerNoDaily = simpleDateFormat.format(yesterday);
+
+                // 計算 Weekly 的上一個週期 endTime
+                // 如果今天是星期一，則需從今天往回減 1 天。
+                // 如果今天是星期二，則需從今天往回減 2 天。
+                Date lastSunday = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * intWeekDay); // 找出上週日
+                String lastEndVerNoWeekly = simpleDateFormat.format(lastSunday);
+
+
 
                 // 2. 新增兩個 List 以 (1) 存放要存回 database 的資料 (2) 要從 database 刪除的資料
                 List<TimePlanningTable> targetList = new ArrayList<>();
                 List<TimePlanningTable> deleteTargetList = new ArrayList<>();
 
                 // 2.1 先針對現有所有目標清單做出 TimePlanning Table 物件
+                // [TODO] Weekly 要另外判斷
                 for (int i = 0 ; i < mPlanningList.size() ; ++i) {
 
-                    // if user decides to delete this item, then delete from database
-                    if (isDeleteArray[i] == true) {
+                    // [Delete] if user decides to delete this item, then delete from database
+                    if (isDeleteArray[i]) {
 
-                        deleteTargetList.add(new TimePlanningTable(mPlanningList.get(i).getMode(),
-                                mPlanningList.get(i).getCategoryName(),
-                                mPlanningList.get(i).getTaskName(),
-                                mPlanningList.get(i).getStartTime(),
-                                mPlanningList.get(i).getEndTime(),
-                                mPlanningList.get(i).getCostTime(),
-                                strCurrentTime));
+                        if (Constants.MODE_DAILY.equals(mPlanningList.get(i).getMode())) {
+                            // Daily
 
-                        Logger.d(Constants.TAG, MSG + "Delete item: ");
+                            // 是否該 item 的 startTime 在這個 plan 週期 (startTime >= curStartVerNoDaily)，是的話就真的刪掉
+                            if (mPlanningList.get(i).getStartTime().compareTo(curStartVerNoDaily) >= 0) {
 
-                    } else {
-                        // else add in database
+                                TimePlanningTable item = new TimePlanningTable(mPlanningList.get(i).getMode(),
+                                        mPlanningList.get(i).getCategoryName(),
+                                        mPlanningList.get(i).getTaskName(),
+                                        mPlanningList.get(i).getStartTime(),
+                                        mPlanningList.get(i).getEndTime(),
+                                        mPlanningList.get(i).getCostTime(),
+                                        strCurrentTime);
 
-                        targetList.add(new TimePlanningTable(mPlanningList.get(i).getMode(),
-                                mPlanningList.get(i).getCategoryName(),
-                                mPlanningList.get(i).getTaskName(),
-                                mPlanningList.get(i).getStartTime(),
-                                mPlanningList.get(i).getEndTime(),
-                                mIntAdjustCostTime[i] * 60 * 1000, // origin: mPlanningList.get(i).getCostTime(),
-                                strCurrentTime));
+                                deleteTargetList.add(item);
 
-                        Logger.d(Constants.TAG, MSG + "Add/Edit item: ");
-                    }
+                                Logger.d(Constants.TAG, MSG + "Delete item: ");
+                                item.LogD();
 
-                    Logger.d(Constants.TAG, MSG +
-                            "Categroy: " + mPlanningList.get(i).getCategoryName() +
-                            " TaskName: " + mPlanningList.get(i).getTaskName() +
-                            " CostTime: " + mPlanningList.get(i).getCostTime());
-                }
+                            } else {    // startTime 在之前的 plan 週期 (startTime < curStartVerNoDaily)，如果是的話把原本的 target 押上 lastEndVerNoDaily
+
+                                TimePlanningTable item = new TimePlanningTable(mPlanningList.get(i).getMode(),
+                                        mPlanningList.get(i).getCategoryName(),
+                                        mPlanningList.get(i).getTaskName(),
+                                        mPlanningList.get(i).getStartTime(),
+                                        lastEndVerNoDaily,
+                                        mPlanningList.get(i).getCostTime(),
+                                        strCurrentTime);
+
+                                targetList.add(item);
+
+                                Logger.d(Constants.TAG, MSG + "Add/Edit item: ");
+                                item.LogD();
+                            }
+
+
+                        } else {    // if (Constants.MODE_WEEKLY.equals(mPlanningList.get(i).getMode()))
+
+                            // Weekly
+                            // 是否該 item 的 startTime 在這個 plan 週期 (startTime >= curStartVerNoWeekly)，是的話就真的刪掉
+                            if (mPlanningList.get(i).getStartTime().compareTo(curStartVerNoWeekly) >= 0) {
+
+                                TimePlanningTable item = new TimePlanningTable(mPlanningList.get(i).getMode(),
+                                        mPlanningList.get(i).getCategoryName(),
+                                        mPlanningList.get(i).getTaskName(),
+                                        mPlanningList.get(i).getStartTime(),
+                                        mPlanningList.get(i).getEndTime(),
+                                        mPlanningList.get(i).getCostTime(),
+                                        strCurrentTime);
+
+                                deleteTargetList.add(item);
+
+                                Logger.d(Constants.TAG, MSG + "Delete item: ");
+                                item.LogD();
+
+                            } else {    // startTime 在之前的 plan 週期 (startTime < curStartVerNoWeekly)，如果是的話把原本的 target 押上 lastEndVerNoWeekly
+
+                                TimePlanningTable item = new TimePlanningTable(mPlanningList.get(i).getMode(),
+                                        mPlanningList.get(i).getCategoryName(),
+                                        mPlanningList.get(i).getTaskName(),
+                                        mPlanningList.get(i).getStartTime(),
+                                        lastEndVerNoWeekly,
+                                        mPlanningList.get(i).getCostTime(),
+                                        strCurrentTime);
+
+                                targetList.add(item);
+
+                                Logger.d(Constants.TAG, MSG + "Add/Edit item: ");
+                                item.LogD();
+                            }
+                        }
+
+                        // end of [Delete]
+                    } else { // [Edit]
+
+                        if (Constants.MODE_DAILY.equals(mPlanningList.get(i).getMode())) {
+                            // Daily
+
+                            // 是否該 item 的 startTime 在這個 plan 週期 (startTime >= curStartVerNoDaily)，是的話就直接 update (add 相同 key 的 item)
+                            if (mPlanningList.get(i).getStartTime().compareTo(curStartVerNoDaily) >= 0) {
+
+                                TimePlanningTable item = new TimePlanningTable(mPlanningList.get(i).getMode(),
+                                        mPlanningList.get(i).getCategoryName(),
+                                        mPlanningList.get(i).getTaskName(),
+                                        mPlanningList.get(i).getStartTime(),
+                                        mPlanningList.get(i).getEndTime(),
+                                        ((long) mIntAdjustCostTime[i]) * 60000, // 存調整後的 costTime
+                                        strCurrentTime);
+
+                                targetList.add(item);
+
+                                Logger.d(Constants.TAG, MSG + "Add/Edit item: (1. adjust current target of this plan-period)");
+                                item.LogD();
+
+                            } else {    // startTime 在之前的 plan 週期 (startTime < curStartVerNoDaily)，如果是的話把原本的 target 押上 lastEndVerNoDaily，並加一筆新的
+
+                                TimePlanningTable item = new TimePlanningTable(mPlanningList.get(i).getMode(),
+                                        mPlanningList.get(i).getCategoryName(),
+                                        mPlanningList.get(i).getTaskName(),
+                                        mPlanningList.get(i).getStartTime(),
+                                        lastEndVerNoDaily,
+                                        mPlanningList.get(i).getCostTime(),
+                                        strCurrentTime);
+
+                                targetList.add(item);
+
+                                Logger.d(Constants.TAG, MSG + "Add/Edit item: (2.1. save current target to last plan-period)");
+                                item.LogD();
+
+
+                                item = new TimePlanningTable(mPlanningList.get(i).getMode(),
+                                        mPlanningList.get(i).getCategoryName(),
+                                        mPlanningList.get(i).getTaskName(),
+                                        curStartVerNoDaily,
+                                        curEndVerNo,
+                                        ((long) mIntAdjustCostTime[i]) * 60000, // 存調整後的 costTime
+                                        strCurrentTime);
+
+                                targetList.add(item);
+
+                                Logger.d(Constants.TAG, MSG + "Add/Edit item: (2.2 add a new target to this plan-period)");
+                                item.LogD();
+                            }
+
+
+                        } else {    // if (Constants.MODE_WEEKLY.equals(mPlanningList.get(i).getMode()))
+
+                            // Weekly
+                            // 是否該 item 的 startTime 在這個 plan 週期 (startTime >= curStartVerNoWeekly)，是的話就直接 update (add 相同 key 的 item)
+                            if (mPlanningList.get(i).getStartTime().compareTo(curStartVerNoWeekly) >= 0) {
+
+                                TimePlanningTable item = new TimePlanningTable(mPlanningList.get(i).getMode(),
+                                        mPlanningList.get(i).getCategoryName(),
+                                        mPlanningList.get(i).getTaskName(),
+                                        mPlanningList.get(i).getStartTime(),
+                                        mPlanningList.get(i).getEndTime(),
+                                        mIntAdjustCostTime[i] * 60000, // 存調整後的 costTime
+                                        strCurrentTime);
+
+                                targetList.add(item);
+
+                                Logger.d(Constants.TAG, MSG + "Add/Edit item: (1. adjust current target of this plan-period)");
+                                item.LogD();
+
+                            } else {    // startTime 在之前的 plan 週期 (startTime < curStartVerNoWeekly)，如果是的話把原本的 target 押上 lastEndVerNoWeekly，並加一筆新的
+
+                                TimePlanningTable item = new TimePlanningTable(mPlanningList.get(i).getMode(),
+                                        mPlanningList.get(i).getCategoryName(),
+                                        mPlanningList.get(i).getTaskName(),
+                                        mPlanningList.get(i).getStartTime(),
+                                        lastEndVerNoWeekly,
+                                        mPlanningList.get(i).getCostTime(),
+                                        strCurrentTime);
+
+                                targetList.add(item);
+
+                                Logger.d(Constants.TAG, MSG + "Add/Edit item: (2.1. save current target to last plan-period)");
+                                item.LogD();
+
+
+                                item = new TimePlanningTable(mPlanningList.get(i).getMode(),
+                                        mPlanningList.get(i).getCategoryName(),
+                                        mPlanningList.get(i).getTaskName(),
+                                        curStartVerNoWeekly,
+                                        curEndVerNo,
+                                        mIntAdjustCostTime[i] * 60000, // 存調整後的 costTime
+                                        strCurrentTime);
+
+                                targetList.add(item);
+
+                                Logger.d(Constants.TAG, MSG + "Add/Edit item: (2.2 add a new target to this plan-period)");
+                                item.LogD();
+                            }
+                        }
+                    }   // end of [EDIT]
+
+                }   // end of for each item
+
 
                 // 2.2 再把最新 add 的目標加在最後
-                // [TODO] 此處需判斷每個字串是否為空，還有對輸入的時間做檢查
+                // [TODO] 此處需判斷每個字串是否為空，還有對輸入的時間做檢查 / Add Weekly
                 if (getTextviewSetTargetCategory().getText().toString().trim() != null &&
-                        getTextviewSetTargetTask().getText().toString().trim() != null &&
-                        strStartTime != null &&
-                        strStartTime != null) {
+                        !TimeManagementApplication.getAppContext().getResources().getString(R.string.default_task_hint).equals(getTextviewSetTargetTask().getText().toString().trim()) &&
+                        curStartVerNoWeekly != null &&
+                        curEndVerNo != null) {
 
                     targetList.add(new TimePlanningTable(
                             Constants.MODE_WEEKLY,
                             getTextviewSetTargetCategory().getText().toString().trim(),
                             getTextviewSetTargetTask().getText().toString().trim(),
-                            strStartTime,
-                            strEndTime,
-                            (long)(mIntNewItemCostTime * 60 * 1000),
+                            curStartVerNoWeekly,
+                            curEndVerNo,
+                            mLongNewItemCostTime * 60000,
                             strCurrentTime
                     ));
                 }
+
 
                 // 3. send asyncTask to update data
                 mPresenter.saveTargetResults(targetList, deleteTargetList);
@@ -628,9 +832,11 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
                 mPresenter.refreshUi(Constants.MODE_PLAN_VIEW);
 
-            } else if (v.getId() == R.id.edittext_plan_top_editmode_task) {
+            } else if (v.getId() == R.id.edittext_plan_top_editmode_task ||
+                    v.getId() == R.id.textview_plan_top_editmode_category ||
+                    v.getId() == R.id.framelayout_plan_top_editmode_icon) {
 
-                mPresenter.showTaskListDialog();
+                mPresenter.showTaskListUi();
             }
         }
 
@@ -642,28 +848,28 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
             public void onProgressChanged(SeekBar seekBar, int progress,
                                           boolean fromUser) {
 
-                if ((mIntTotalCostTime - mIntNewItemCostTime + progress) > mIntMaxCostTime) { // 目前設定總時數 - 這個 item 原本的設定的 costTime ＋ 這個 item 新調的時間 > 上限)
+                if ((mLongTotalCostTime - mLongNewItemCostTime + progress) > mLongMaxCostTime) { // 目前設定總時數 - 這個 item 原本的設定的 costTime ＋ 這個 item 新調的時間 > 上限)
 
                     // [Seekbar] 1. 如果已經封頂了，user 還是把 progress 往後拉，則強制停在原地並 return。其餘數字均不改動
-                    if (mIntMaxCostTime == mIntTotalCostTime) {
-                        seekBar.setProgress(mIntNewItemCostTime);
+                    if (mLongMaxCostTime == mLongTotalCostTime) {
+                        seekBar.setProgress((int) mLongNewItemCostTime);
                         Logger.d(Constants.TAG, MSG + "Already meet the max-time, progress won't change");
-                        Logger.d(Constants.TAG, MSG + "MaxTime: " + mIntMaxCostTime + " Total costTime: " + mIntTotalCostTime + " Progress: " + progress);
+                        Logger.d(Constants.TAG, MSG + "MaxTime: " + mLongMaxCostTime + " Total costTime: " + mLongTotalCostTime + " Progress: " + progress);
                         return;
                     }
 
                     // [Seekbar] 2. 如果第一次被拉到封頂
-                    progress = mIntNewItemCostTime + mIntMaxCostTime - mIntTotalCostTime;         // 直接把 progress 設到滿
-                    mIntTotalCostTime = mIntMaxCostTime;                    // 並把 totalCostTime 加到滿
+                    progress = (int)(mLongNewItemCostTime + mLongMaxCostTime - mLongTotalCostTime);         // 直接把 progress 設到滿
+                    mLongTotalCostTime = mLongMaxCostTime;                    // 並把 totalCostTime 加到滿
 
-                    mIntNewItemCostTime = progress;    // progress means minutes
+                    mLongNewItemCostTime = progress;    // progress means minutes
                     seekBar.setProgress(progress);
 
                     String strCostTime = ParseTime.intToHourMin(progress);
                     getTextviewSetTargetCostTime().setText(strCostTime);  // 設定 UI 顯示現在 progress 進度時間
 
                     Logger.d(Constants.TAG, MSG + "Meet the max-time, reset progress to current maximum");
-                    Logger.d(Constants.TAG, MSG + "MaxTime: " + mIntMaxCostTime + " Total costTime: " + mIntTotalCostTime + " Progress: " + progress);
+                    Logger.d(Constants.TAG, MSG + "MaxTime: " + mLongMaxCostTime + " Total costTime: " + mLongTotalCostTime + " Progress: " + progress);
                     return;
                 }
 
@@ -673,10 +879,10 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                 Logger.d(Constants.TAG, MSG + "Progress: " + progress + " CostTime: " + strCostTime);
 
                 getTextviewSetTargetCostTime().setText(strCostTime);
-                mIntTotalCostTime = mIntTotalCostTime - mIntNewItemCostTime + progress; // 總時數 - 這個 item 原本的 costTime ＋ 這個 item 新調的時間
-                mIntNewItemCostTime = progress; // progress means minutes
+                mLongTotalCostTime = mLongTotalCostTime - mLongNewItemCostTime + progress; // 總時數 - 這個 item 原本的 costTime ＋ 這個 item 新調的時間
+                mLongNewItemCostTime = progress; // progress means minutes
 
-                Logger.d(Constants.TAG, MSG + "MaxTime: " + mIntMaxCostTime + " Total costTime: " + mIntTotalCostTime + " Progress: " + progress);
+                Logger.d(Constants.TAG, MSG + "MaxTime: " + mLongMaxCostTime + " Total costTime: " + mLongTotalCostTime + " Progress: " + progress);
 
 //                //取得當前SeekBar的值
 //                seekR = background_r.getProgress();
@@ -715,32 +921,71 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
                 mConstraintLayoutPlanTopItem.setVisibility(View.VISIBLE);
                 mConstraintLayoutPlanSetTarget.setVisibility(View.GONE);
+                mSeekBarSetTargetAdjustTime.setVisibility(View.GONE);
 
             } else { // getIntTaskMode() == Constants.MODE_PLAN_EDIT
 
                 mConstraintLayoutPlanTopItem.setVisibility(View.GONE);
                 mConstraintLayoutPlanSetTarget.setVisibility(View.VISIBLE);
+                mSeekBarSetTargetAdjustTime.setVisibility(View.VISIBLE);
+                resetEditField();
             }
+        }
+
+
+        public void resetEditField() {
+
+            // Plan page 整頁切換為編輯模式預設內容
+
+            // Set task/category
+            getTextviewSetTargetCategory().setText(TimeManagementApplication.getAppContext().getResources().getString(R.string.default_task_hint_categroy));
+            getTextviewSetTargetTask().setText(TimeManagementApplication.getAppContext().getResources().getString(R.string.default_task_hint));
+
+            // Set category label
+            GradientDrawable gradientDrawable = (GradientDrawable) getTextviewSetTargetCategory().getBackground();
+            gradientDrawable.setColor(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_default_light_grey));
+
+            // Set task icon
+            gradientDrawable = (GradientDrawable) getFrameLayoutAddItemIcon().getBackground();
+            gradientDrawable.setColor(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_default_light_grey));
+
+            getImageviewAddItemIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(Constants.DEFAULT_TASK_ICON));
+            getImageviewAddItemIcon().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
+
+            // Set cost time
+            mLongNewItemCostTime = 0;
+            getTextviewSetTargetCostTime().setText("0 min");
+            getSeekBarSetTargetAdjustTime().setProgress(0);
+            mSeekBarSetTargetAdjustTime.getProgressDrawable().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_default_blue), PorterDuff.Mode.SRC_IN);
         }
     }
 
 
-    public int getIntPlanMode() {
+    private int getIntPlanMode() {
         return mIntPlanMode;
     }
 
-    public void setIntPlanMode(int intPlanMode) {
+    private void setIntPlanMode(int intPlanMode) {
         mIntPlanMode = intPlanMode;
     }
 
 
     public void showCategoryTaskSelected(GetCategoryTaskList bean) {
 
+        // set category/task name
         mPlanTopItemViewHolder.getTextviewSetTargetCategory().setText(bean.getCategoryName());
         mPlanTopItemViewHolder.getTextviewSetTargetTask().setText(bean.getTaskName());
 
+        // set category label
         GradientDrawable gradientDrawable = (GradientDrawable) mPlanTopItemViewHolder.getTextviewSetTargetCategory().getBackground();
         gradientDrawable.setColor(Color.parseColor(bean.getCategoryColor()));
+
+        // set task icon
+        mPlanTopItemViewHolder.getImageviewAddItemIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(bean.getTaskIcon()));
+        mPlanTopItemViewHolder.getImageviewAddItemIcon().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
+
+        gradientDrawable = (GradientDrawable) mPlanTopItemViewHolder.getFrameLayoutAddItemIcon().getBackground();
+        gradientDrawable.setColor(Color.parseColor(bean.getTaskColor()));
     }
 
 }
