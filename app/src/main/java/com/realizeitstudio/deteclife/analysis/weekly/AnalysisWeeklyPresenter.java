@@ -253,12 +253,6 @@ public class AnalysisWeeklyPresenter implements AnalysisWeeklyContract.Presenter
 //            }
 //        }).execute();
 //    }
-//
-//
-//    @Override
-//    public void showSetTargetUi() {
-//        mAnalysisView.showSetTargetUi();
-//    }
 
     public boolean isLoading() {
         return mLoading;

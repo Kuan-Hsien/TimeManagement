@@ -49,8 +49,6 @@ public interface AnalysisWeeklyContract {
 
         void showTaskListDialog();
 
-        void showSetTargetUi();
-
 
         // 9-2. [Send-to-View] request fragment to show data
         void showCurrentTraceItem(TimeTracingTable bean);
@@ -86,9 +84,6 @@ public interface AnalysisWeeklyContract {
         // 3-1. [Send-to-View]
 //        void showCategoryListDialog();
 //        void showTaskListDialog();
-
-//        void showSetTargetUi();
-
 
         // 9-1. [Send-to-Model] database query to prepare data (query current task)
         void getCurrentTraceItem(String strVerNo);

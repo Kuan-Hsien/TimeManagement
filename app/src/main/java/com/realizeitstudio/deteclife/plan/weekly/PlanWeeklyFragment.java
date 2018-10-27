@@ -127,13 +127,6 @@ public class PlanWeeklyFragment extends Fragment implements PlanWeeklyContract.V
         mPlanWeeklyAdapter.refreshUiMode(mode);
     }
 
-
-    @Override
-    public void showSetTargetUi() {
-        ((MainActivity) getActivity()).transToSetTarget();
-    }
-
-
     public int getIntPlanMode() {
         return mIntPlanMode;
     }

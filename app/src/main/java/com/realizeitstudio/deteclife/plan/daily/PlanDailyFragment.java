@@ -126,13 +126,6 @@ public class PlanDailyFragment extends Fragment implements PlanDailyContract.Vie
         mPlanDailyAdapter.refreshUiMode(mode);
     }
 
-
-    @Override
-    public void showSetTargetUi() {
-        ((MainActivity) getActivity()).transToSetTarget();
-    }
-
-
     public int getIntPlanMode() {
         return mIntPlanMode;
     }

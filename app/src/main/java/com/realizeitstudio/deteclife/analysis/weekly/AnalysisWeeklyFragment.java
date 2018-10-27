@@ -165,13 +165,6 @@ public class AnalysisWeeklyFragment extends Fragment implements AnalysisWeeklyCo
         mAnalysisWeeklyAdapter.refreshUiMode(mode);
     }
 
-
-    @Override
-    public void showSetTargetUi() {
-        ((MainActivity) getActivity()).transToSetTarget();
-    }
-
-
     public int getIntAnalysisMode() {
         return mIntAnalysisMode;
     }

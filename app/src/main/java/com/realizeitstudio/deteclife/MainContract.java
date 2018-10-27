@@ -61,8 +61,6 @@ public interface MainContract {
 
         void transToAddTask();
 
-        void transToSetTarget();
-
 
 
 //        void transToDetail(Article article);

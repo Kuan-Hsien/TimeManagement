@@ -47,11 +47,6 @@ public interface PlanDailyContract {
 
         void showTaskListDialog();
 
-        void showSetTargetUi();
-
-
-
-
         // (fragment-ver) select task while add target
         void showTaskListUi();
 
@@ -102,9 +97,5 @@ public interface PlanDailyContract {
 
         void selectTaskToPlan(GetCategoryTaskList bean);
 
-
-
-
-        void showSetTargetUi();
     }
 }

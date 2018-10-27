@@ -14,8 +14,6 @@ import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
 import com.realizeitstudio.deteclife.plan.PlanFragment;
 import com.realizeitstudio.deteclife.record.RecordFragment;
 import com.realizeitstudio.deteclife.record.RecordPresenter;
-import com.realizeitstudio.deteclife.settarget.SetTargetFragment;
-import com.realizeitstudio.deteclife.settarget.SetTargetPresenter;
 import com.realizeitstudio.deteclife.analysis.AnalysisFragment;
 import com.realizeitstudio.deteclife.task.TaskListFragment;
 import com.realizeitstudio.deteclife.task.TaskListPresenter;
@@ -77,7 +75,6 @@ public class MainPresenter implements MainContract.Presenter {
     private TaskListPresenter mTaskListPresenter;
     private CategoryListPresenter mCategoryListPresenter;
     private AddTaskPresenter mAddTaskPresenter;
-    private SetTargetPresenter mSetTargetPresenter;
 
 
     private String mStrCurTaskPage = "";
@@ -97,7 +94,7 @@ public class MainPresenter implements MainContract.Presenter {
 
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
-        if (mFragmentManager.findFragmentByTag(FRAGMENT_TAG_SET_TARGET) != null) mFragmentManager.popBackStack();
+//        if (mFragmentManager.findFragmentByTag(FRAGMENT_TAG_SET_TARGET) != null) mFragmentManager.popBackStack();
         if (mRecordFragment == null) mRecordFragment = RecordFragment.newInstance();
         if (mPlanFragment != null) transaction.hide(mPlanFragment);
         if (mAnalysisFragment != null) transaction.hide(mAnalysisFragment);
@@ -123,7 +120,7 @@ public class MainPresenter implements MainContract.Presenter {
 
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
-        if (mFragmentManager.findFragmentByTag(FRAGMENT_TAG_SET_TARGET) != null) mFragmentManager.popBackStack();
+//        if (mFragmentManager.findFragmentByTag(FRAGMENT_TAG_SET_TARGET) != null) mFragmentManager.popBackStack();
         if (mPlanFragment == null) mPlanFragment = PlanFragment.newInstance();
         if (mRecordFragment != null) transaction.hide(mRecordFragment);
         if (mAnalysisFragment != null) transaction.hide(mAnalysisFragment);
@@ -149,7 +146,7 @@ public class MainPresenter implements MainContract.Presenter {
 
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
-        if (mFragmentManager.findFragmentByTag(FRAGMENT_TAG_SET_TARGET) != null) mFragmentManager.popBackStack();
+//        if (mFragmentManager.findFragmentByTag(FRAGMENT_TAG_SET_TARGET) != null) mFragmentManager.popBackStack();
         if (mAnalysisFragment == null) mAnalysisFragment = AnalysisFragment.newInstance();
         if (mRecordFragment != null) transaction.hide(mRecordFragment);
         if (mPlanFragment != null) transaction.hide(mPlanFragment);
@@ -177,7 +174,7 @@ public class MainPresenter implements MainContract.Presenter {
 
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
-        if (mFragmentManager.findFragmentByTag(FRAGMENT_TAG_SET_TARGET) != null) mFragmentManager.popBackStack();
+//        if (mFragmentManager.findFragmentByTag(FRAGMENT_TAG_SET_TARGET) != null) mFragmentManager.popBackStack();
         if (mTaskListFragment == null) mTaskListFragment = TaskListFragment.newInstance();
         if (mRecordFragment != null) transaction.hide(mRecordFragment);
         if (mPlanFragment != null) transaction.hide(mPlanFragment);
@@ -204,7 +201,7 @@ public class MainPresenter implements MainContract.Presenter {
 
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
-        if (mFragmentManager.findFragmentByTag(FRAGMENT_TAG_SET_TARGET) != null) mFragmentManager.popBackStack();
+//        if (mFragmentManager.findFragmentByTag(FRAGMENT_TAG_SET_TARGET) != null) mFragmentManager.popBackStack();
         if (mCategoryListFragment == null) mCategoryListFragment = CategoryListFragment.newInstance();
         if (mRecordFragment != null) transaction.hide(mRecordFragment);
         if (mPlanFragment != null) transaction.hide(mPlanFragment);
@@ -232,7 +229,7 @@ public class MainPresenter implements MainContract.Presenter {
 
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
-        if (mFragmentManager.findFragmentByTag(FRAGMENT_TAG_SET_TARGET) != null) mFragmentManager.popBackStack();
+//        if (mFragmentManager.findFragmentByTag(FRAGMENT_TAG_SET_TARGET) != null) mFragmentManager.popBackStack();
         if (mAddTaskFragment == null) mAddTaskFragment = AddTaskFragment.newInstance();
         if (mRecordFragment != null) transaction.hide(mRecordFragment);
         if (mPlanFragment != null) transaction.hide(mPlanFragment);
@@ -283,29 +280,29 @@ public class MainPresenter implements MainContract.Presenter {
 //    }
 
 
-    @Override
-    public void transToSetTarget() {
-
-        FragmentTransaction transaction = mFragmentManager.beginTransaction();
-
-        if (mPlanFragment != null && !mPlanFragment.isHidden()) {
-            transaction.hide(mPlanFragment);
-            transaction.addToBackStack(FRAGMENT_TAG_PLAN);
-        }
-//        if (mAnalysisFragment != null && !mAnalysisFragment.isHidden()) {
-//            transaction.hide(mAnalysisFragment);
-//            transaction.addToBackStack(FRAGMENT_TAG_TRACE);
+//    @Override
+//    public void transToSetTarget() {
+//
+//        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+//
+//        if (mPlanFragment != null && !mPlanFragment.isHidden()) {
+//            transaction.hide(mPlanFragment);
+//            transaction.addToBackStack(FRAGMENT_TAG_PLAN);
 //        }
-//        if (mProfileFragment != null && !mProfileFragment.isHidden()) {
-//            transaction.hide(mProfileFragment);
-//            transaction.addToBackStack(FRAGMENT_TAG_PROFILE);
-//        }
-        SetTargetFragment setTargetFragment = SetTargetFragment.newInstance();
-        transaction.add(R.id.linearlayout_main_container, setTargetFragment, FRAGMENT_TAG_SET_TARGET);
-        transaction.commit();
-
-        mSetTargetPresenter = new SetTargetPresenter(setTargetFragment);
-    }
+////        if (mAnalysisFragment != null && !mAnalysisFragment.isHidden()) {
+////            transaction.hide(mAnalysisFragment);
+////            transaction.addToBackStack(FRAGMENT_TAG_TRACE);
+////        }
+////        if (mProfileFragment != null && !mProfileFragment.isHidden()) {
+////            transaction.hide(mProfileFragment);
+////            transaction.addToBackStack(FRAGMENT_TAG_PROFILE);
+////        }
+//        SetTargetFragment setTargetFragment = SetTargetFragment.newInstance();
+//        transaction.add(R.id.linearlayout_main_container, setTargetFragment, FRAGMENT_TAG_SET_TARGET);
+//        transaction.commit();
+//
+//        mSetTargetPresenter = new SetTargetPresenter(setTargetFragment);
+//    }
 
 
     @Override

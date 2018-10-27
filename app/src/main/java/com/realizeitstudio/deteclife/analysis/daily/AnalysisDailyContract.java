@@ -46,10 +46,6 @@ public interface AnalysisDailyContract {
 
         void showTaskListDialog();
 
-        void showSetTargetUi();
-
-
-
         // 9-2. [Send-to-View] request fragment to show data
         void showCurrentTraceItem(TimeTracingTable bean);
 

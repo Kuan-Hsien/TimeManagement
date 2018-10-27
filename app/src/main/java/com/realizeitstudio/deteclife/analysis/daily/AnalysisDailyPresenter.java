@@ -247,11 +247,6 @@ public class AnalysisDailyPresenter implements AnalysisDailyContract.Presenter {
 //        }).execute();
 //    }
 //
-//
-//    @Override
-//    public void showSetTargetUi() {
-//        mAnalysisView.showSetTargetUi();
-//    }
 
     public boolean isLoading() {
         return mLoading;

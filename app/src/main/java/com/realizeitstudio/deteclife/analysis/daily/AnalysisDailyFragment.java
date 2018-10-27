@@ -163,13 +163,6 @@ public class AnalysisDailyFragment extends Fragment implements AnalysisDailyCont
         mAnalysisDailyAdapter.refreshUiMode(mode);
     }
 
-
-    @Override
-    public void showSetTargetUi() {
-        ((MainActivity) getActivity()).transToSetTarget();
-    }
-
-
     public int getIntAnalysisMode() {
         return mIntAnalysisMode;
     }

@@ -187,12 +187,6 @@ public class PlanWeeklyPresenter implements PlanWeeklyContract.Presenter {
         }).execute();
     }
 
-
-    @Override
-    public void showSetTargetUi() {
-        mPlanView.showSetTargetUi();
-    }
-
     public boolean isLoading() {
         return mLoading;
     }

@@ -188,11 +188,6 @@ public class PlanDailyPresenter implements PlanDailyContract.Presenter {
     }
 
 
-    @Override
-    public void showSetTargetUi() {
-        mPlanView.showSetTargetUi();
-    }
-
     public boolean isLoading() {
         return mLoading;
     }

@@ -328,12 +328,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mPresenter.transToAddTask();
     }
 
-    public void transToSetTarget() {
-        mPresenter.transToSetTarget();
-    }
-
-
-
 
     @Override
     protected void onResume() {
