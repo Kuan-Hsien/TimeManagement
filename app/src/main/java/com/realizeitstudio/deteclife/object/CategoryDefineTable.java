@@ -98,7 +98,7 @@ public class CategoryDefineTable {
 
     private static final String MSG = "CategoryDefineTable: ";
 
-    public void LogD () {
+    public void logD() {
         Logger.d(Constants.TAG, MSG + "--------------------- Category ----------------------");
         Logger.d(Constants.TAG, MSG + "CategoryPriority: " + getCategoryPriority());
         Logger.d(Constants.TAG, MSG + "CategoryName: " + getCategoryName());

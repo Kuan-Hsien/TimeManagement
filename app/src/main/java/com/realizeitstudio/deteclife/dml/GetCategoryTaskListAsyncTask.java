@@ -57,8 +57,8 @@ public class GetCategoryTaskListAsyncTask extends AsyncTask<Object, Void, List<G
         if (bean != null) {
 
             Logger.d(Constants.TAG, MSG + "GetCategoryTaskList success");
-            for (int i = 0 ; i < bean.size() ; ++i) {
-                Logger.d(Constants.TAG, MSG + bean.get(i).getTaskName() + " " );
+            for (int i = 0; i < bean.size(); ++i) {
+                Logger.d(Constants.TAG, MSG + bean.get(i).getTaskName() + " ");
             }
 
             mCallback.onCompleted(bean);

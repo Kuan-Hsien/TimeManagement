@@ -88,7 +88,7 @@ public class AnalysisWeeklyAdapter extends RecyclerView.Adapter {
 
 
 
-        for( int i = 0 ; i < bean.size() ; ++i ) {
+        for( int i = 0; i < bean.size(); ++i ) {
             this.mAnalysisningList.add(bean.get(i));
         }
     }
@@ -163,7 +163,7 @@ public class AnalysisWeeklyAdapter extends RecyclerView.Adapter {
 
         mAnalysisningList.clear();
 
-        for (int i = 0 ; i < bean.size() ; ++i) {
+        for (int i = 0; i < bean.size(); ++i) {
             mAnalysisningList.add(bean.get(i));
         }
 
@@ -191,7 +191,7 @@ public class AnalysisWeeklyAdapter extends RecyclerView.Adapter {
             mIntAdjustCostTime = null;
 
             mIntAdjustCostTime = new int[intArraySize];
-            for (int i = 0 ; i < intArraySize ; ++i) {
+            for (int i = 0; i < intArraySize; ++i) {
                 mIntAdjustCostTime[i] = mAnalysisningList.get(i).getCostTime() / (60 * 1000);
             }
 
@@ -199,7 +199,7 @@ public class AnalysisWeeklyAdapter extends RecyclerView.Adapter {
         }
 
         mIntTotalCostTime = 0;
-        for (int i = 0 ; i < mAnalysisningList.size() ; ++i) {
+        for (int i = 0; i < mAnalysisningList.size(); ++i) {
             mIntTotalCostTime += mAnalysisningList.get(i).getCostTime() / (60 * 1000);
         }
 
@@ -536,7 +536,7 @@ public class AnalysisWeeklyAdapter extends RecyclerView.Adapter {
             int intMaxItemId = 0;
             int intMaxItemCostTime = 0;
 
-            for (int i = 0 ; i < mAnalysisningList.size() ; ++i) {
+            for (int i = 0; i < mAnalysisningList.size(); ++i) {
 
                 if (mAnalysisningList.get(i).getCostTime() > intMaxItemCostTime) {
                     intMaxItemCostTime = mAnalysisningList.get(i).getCostTime();
@@ -649,7 +649,7 @@ public class AnalysisWeeklyAdapter extends RecyclerView.Adapter {
             String strClickEntryLabel = ((PieEntry) e).getLabel();
 
             // 找出被點擊到的扇形是哪個 task
-            for (int i = 0 ; i < mAnalysisningList.size() ; ++i) {
+            for (int i = 0; i < mAnalysisningList.size(); ++i) {
 
                 if ( strClickEntryLabel.equals(mAnalysisningList.get(i).getTaskName()) ) {
 
@@ -681,7 +681,7 @@ public class AnalysisWeeklyAdapter extends RecyclerView.Adapter {
         Logger.d(Constants.TAG, MSG + "updateCurrentTraceItem");
 
         mCurrentItem = new TimeTracingTable(bean);
-//        for(int i = 0 ;i < mAnalysisningList.size() ; ++i)
+//        for(int i = 0;i < mAnalysisningList.size(); ++i)
 //        mAnalysisTopItemViewHolder.getPieChart().highlightValue(1, 0, false);
     }
 

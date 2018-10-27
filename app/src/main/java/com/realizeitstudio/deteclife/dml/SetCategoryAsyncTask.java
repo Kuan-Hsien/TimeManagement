@@ -43,7 +43,7 @@ public class SetCategoryAsyncTask extends AsyncTask<Object, Void, List<CategoryD
         dao.deleteCategoryList(mDeleteCategoryList);
 
         // edit and add category
-        for (int i = 0 ; i < mCategoryList.size() ; ++i) {
+        for (int i = 0; i < mCategoryList.size(); ++i) {
             dao.addCategory(mCategoryList.get(i));
         }
 

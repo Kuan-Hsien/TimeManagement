@@ -52,8 +52,8 @@ public class GetResultDailySummaryAsyncTask extends AsyncTask<Object, Void, List
         List<GetResultDailySummary> resultDailySummaryList = dao.getResultDailySummary(mMode, mStartVerNo, mEndVerNo, mCategoryList, mTaskList);
         Logger.d(Constants.TAG, MSG + "resultDailySummaryList.size() = " + resultDailySummaryList.size());
         // edit and add record
-        for (int i = 0 ; i < resultDailySummaryList.size() ; ++i) {
-            resultDailySummaryList.get(i).LogD();
+        for (int i = 0; i < resultDailySummaryList.size(); ++i) {
+            resultDailySummaryList.get(i).logD();
         }
 
         // [TODO] add exception handling

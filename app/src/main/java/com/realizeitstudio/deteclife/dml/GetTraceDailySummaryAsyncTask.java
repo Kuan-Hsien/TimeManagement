@@ -52,8 +52,8 @@ public class GetTraceDailySummaryAsyncTask extends AsyncTask<Object, Void, List<
         Logger.d(Constants.TAG, MSG + "Trace mode detail: " + mMode + " from " + mStartVerNo + " to " + mEndVerNo + " : ");
         List<GetTraceDetail> traceDailySummaryList = dao.getTraceDailySummary(mMode, mStartVerNo, mEndVerNo, mCategoryList, mTaskList);
         // edit and add record
-        for (int i = 0 ; i < traceDailySummaryList.size() ; ++i) {
-            traceDailySummaryList.get(i).LogD();
+        for (int i = 0; i < traceDailySummaryList.size(); ++i) {
+            traceDailySummaryList.get(i).logD();
         }
 
         // [TODO] add exception handling

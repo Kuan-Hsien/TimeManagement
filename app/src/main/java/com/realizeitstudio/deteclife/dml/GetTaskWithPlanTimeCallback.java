@@ -1,6 +1,5 @@
 package com.realizeitstudio.deteclife.dml;
 
-
 import java.util.List;
 
 /**

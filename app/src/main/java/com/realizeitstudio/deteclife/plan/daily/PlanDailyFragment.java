@@ -267,7 +267,7 @@ public class PlanDailyFragment extends Fragment implements PlanDailyContract.Vie
     public void showTaskSelected(GetCategoryTaskList bean) {
 
         Logger.d(Constants.TAG, MSG + "showTaskSelected: task: ");
-        bean.LogD();
+        bean.logD();
 
         mPlanDailyAdapter.showCategoryTaskSelected(bean);
     }

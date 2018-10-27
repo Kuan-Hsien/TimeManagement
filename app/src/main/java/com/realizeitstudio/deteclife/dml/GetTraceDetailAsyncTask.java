@@ -50,8 +50,8 @@ public class GetTraceDetailAsyncTask extends AsyncTask<Object, Void, List<GetTra
         Logger.d(Constants.TAG, MSG + "Trace mode detail: " + mMode + " from " + mStartVerNo + " to " + mEndVerNo + " : ");
         List<GetTraceDetail> traceDetailList = dao.getTraceDetail(mMode, mStartVerNo, mEndVerNo, mCategoryList, mTaskList);
         // edit and add record
-        for (int i = 0 ; i < traceDetailList.size() ; ++i) {
-            traceDetailList.get(i).LogD();
+        for (int i = 0; i < traceDetailList.size(); ++i) {
+            traceDetailList.get(i).logD();
         }
 
         // [TODO] add exception handling

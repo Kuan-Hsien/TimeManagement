@@ -50,7 +50,7 @@ public class SetRecordAsyncTask extends AsyncTask<Object, Void, List<GetTraceSum
         DatabaseDao dao = AppDatabase.getDatabase(TimeManagementApplication.getAppContext()).getDatabaseDao();
 
         // (1) insert trace results and new-start task
-        for (int i = 0 ; i < mRecordList.size() ; ++i) {
+        for (int i = 0; i < mRecordList.size(); ++i) {
             dao.addTraceItem(mRecordList.get(i));
         }
 
@@ -58,8 +58,8 @@ public class SetRecordAsyncTask extends AsyncTask<Object, Void, List<GetTraceSum
         Logger.d(Constants.TAG, MSG + "Trace summary from " + mStartVerNo + " to " + mEndVerNo + " : ");
         List<GetTraceSummary> traceSummaryList = dao.getTraceSummary(mStartVerNo, mEndVerNo, mCategoryList, mTaskList);
         // edit and add record
-        for (int i = 0 ; i < traceSummaryList.size() ; ++i) {
-            traceSummaryList.get(i).LogD();
+        for (int i = 0; i < traceSummaryList.size(); ++i) {
+            traceSummaryList.get(i).logD();
         }
 
         // [TODO] add exception handling

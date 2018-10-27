@@ -184,7 +184,7 @@ public class RecordFragment extends Fragment implements RecordContract.View, Vie
 
 //        mTextviewRecordCurrentTask.setText("Current Task: " + bean.getTaskName());
         mTextviewRecordCurrentTask.setText(bean.getTaskName());
-        mTextviewRecordCurrentTime.setText(ParseTime.msToHHMM(bean.getStartTime()));  // HH:mm
+        mTextviewRecordCurrentTime.setText(ParseTime.msToHhmm(bean.getStartTime()));  // HH:mm
 
         mRecordAdapter.updateCurrentTraceItem(bean);
 

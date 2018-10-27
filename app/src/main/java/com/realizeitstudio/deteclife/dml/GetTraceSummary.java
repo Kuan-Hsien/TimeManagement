@@ -104,7 +104,7 @@ public class GetTraceSummary {
         mUpdateDate = updateDate;
     }
 
-    public void LogD () {
+    public void logD() {
         Logger.d(Constants.TAG, MSG + "--------------------- GetTraceSummary -------------------------");
         Logger.d(Constants.TAG, MSG + "VerNo: " + getVerNo());
         Logger.d(Constants.TAG, MSG + "CategoryName: " + getCategoryName());

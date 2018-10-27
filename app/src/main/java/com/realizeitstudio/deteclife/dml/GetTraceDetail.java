@@ -144,7 +144,7 @@ public class GetTraceDetail {
 
     private static final String MSG = "GetTraceDetail: ";
 
-    public void LogD() {
+    public void logD() {
         Logger.d(Constants.TAG, MSG + "------------------- TraceDetail ---------------------");
         Logger.d(Constants.TAG, MSG + "Mode: " + getMode());
         Logger.d(Constants.TAG, MSG + "VerNo: " + getVerNo());

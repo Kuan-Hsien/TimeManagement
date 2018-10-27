@@ -2,19 +2,19 @@ package com.realizeitstudio.deteclife;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import android.support.annotation.StringDef;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.annotation.StringDef;
 
 import com.realizeitstudio.deteclife.addtask.AddTaskFragment;
 import com.realizeitstudio.deteclife.addtask.AddTaskPresenter;
+import com.realizeitstudio.deteclife.analysis.AnalysisFragment;
 import com.realizeitstudio.deteclife.category.CategoryListFragment;
 import com.realizeitstudio.deteclife.category.CategoryListPresenter;
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
 import com.realizeitstudio.deteclife.plan.PlanFragment;
 import com.realizeitstudio.deteclife.record.RecordFragment;
 import com.realizeitstudio.deteclife.record.RecordPresenter;
-import com.realizeitstudio.deteclife.analysis.AnalysisFragment;
 import com.realizeitstudio.deteclife.task.TaskListFragment;
 import com.realizeitstudio.deteclife.task.TaskListPresenter;
 import com.realizeitstudio.deteclife.utils.Constants;

@@ -46,7 +46,7 @@ public class RecordAdapter extends RecyclerView.Adapter {
         setIntTaskMode(Constants.MODE_PLAN_VIEW);
         mCategoryTaskList = new ArrayList<>();
 
-        for( int i = 0 ; i < bean.size() ; ++i ) {
+        for( int i = 0; i < bean.size(); ++i ) {
             this.mCategoryTaskList.add(bean.get(i));
         }
     }
@@ -130,7 +130,7 @@ public class RecordAdapter extends RecyclerView.Adapter {
 
         mCategoryTaskList.clear();
 
-        for (int i = 0 ; i < bean.size() ; ++i) {
+        for (int i = 0; i < bean.size(); ++i) {
             mCategoryTaskList.add(bean.get(i));
         }
 
@@ -298,7 +298,7 @@ public class RecordAdapter extends RecyclerView.Adapter {
                         strCurrentTime
                 );
                 Logger.d(Constants.TAG, MSG + "stop current task: ");
-                lastItem.LogD();
+                lastItem.logD();
                 itemList.add(lastItem);
 
                 // (2) insert 新一筆但沒有 endtime
@@ -312,7 +312,7 @@ public class RecordAdapter extends RecyclerView.Adapter {
                         strCurrentTime
                 );
                 Logger.d(Constants.TAG, MSG + "start new task: ");
-                newItem.LogD();
+                newItem.logD();
                 itemList.add(newItem);
 
 

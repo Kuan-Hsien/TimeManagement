@@ -1,7 +1,5 @@
 package com.realizeitstudio.deteclife.dml;
 
-import com.realizeitstudio.deteclife.object.TimeTracingTable;
-
 import java.util.List;
 
 

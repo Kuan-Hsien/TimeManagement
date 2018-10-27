@@ -77,7 +77,7 @@ public class IconDefineTable {
 
     private static final String MSG = "IconDefineTable: ";
 
-    public void LogD () {
+    public void logD() {
         Logger.d(Constants.TAG, MSG + "--------------------- Icon ----------------------");
         Logger.d(Constants.TAG, MSG + "IconName: " + getIconName());
         Logger.d(Constants.TAG, MSG + "IsUserDef: " + getUserDef());

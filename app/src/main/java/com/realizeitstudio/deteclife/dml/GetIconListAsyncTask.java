@@ -59,8 +59,8 @@ public class GetIconListAsyncTask extends AsyncTask<Object, Void, List<IconDefin
         if (bean != null) {
 
             Logger.d(Constants.TAG, MSG + "IconDefineTable success, bean.size() = " + bean.size());
-            for (int i = 0 ; i < bean.size() ; ++i) {
-                bean.get(i).LogD();
+            for (int i = 0; i < bean.size(); ++i) {
+                bean.get(i).logD();
             }
 
             mCallback.onCompleted(bean);

@@ -154,7 +154,7 @@ public class TaskListFragment extends Fragment implements TaskListContract.View 
     public void showTaskSelected(GetCategoryTaskList bean) {
 
 //        Logger.d(Constants.TAG, MSG + "Select Task: ");
-//        bean.LogD();
+//        bean.logD();
 //
 //        // (1) 把選到的 category 傳回 (e.g. Plan page)
 //        // (2) 把自己這頁關掉
@@ -327,7 +327,7 @@ public class TaskListFragment extends Fragment implements TaskListContract.View 
         setRefresh(false);
 
         Logger.d(Constants.TAG, MSG + "completeSelectCategory => select category: ");
-        bean.LogD();
+        bean.logD();
 
         mTaskListAdapter.completeSelectCategory(bean);
     }

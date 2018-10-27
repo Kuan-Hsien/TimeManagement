@@ -172,8 +172,8 @@ public class AnalysisDailyPresenter implements AnalysisDailyContract.Presenter {
                     List<GetResultDailySummary> dailySummaryList = new ArrayList<>();
                     List<GetResultDailySummary> weeklySummaryList = new ArrayList<>();
 
-                    for( int i = 0 ; i < bean.size() ; ++i) {
-                        bean.get(i).LogD();
+                    for( int i = 0; i < bean.size(); ++i) {
+                        bean.get(i).logD();
 
                         // 分別存成 daily 和 weekly 的結果，TODO 放進兩個不同的 adapter 中，甚至一次撈一整週
                         if ( Constants.MODE_DAILY.equals(bean.get(i).getMode()) ) {     // Daily summary
@@ -225,8 +225,8 @@ public class AnalysisDailyPresenter implements AnalysisDailyContract.Presenter {
 //            public void onCompleted(List<TimePlanningTable> bean) {
 //
 //                Logger.d(Constants.TAG, MSG + "SetTarget onCompleted");
-//                for( int i = 0 ; i < bean.size() ; ++i) {
-//                    bean.get(i).LogD();
+//                for( int i = 0; i < bean.size(); ++i) {
+//                    bean.get(i).logD();
 //                }
 //
 //                // [TODO] insert 資料後更新畫面，目前是將要更新的資料全部當作 bean

@@ -136,7 +136,7 @@ public class TimeTracingTable {
         mUpdateDate = updateDate;
     }
 
-    public void LogD () {
+    public void logD() {
         Logger.d(Constants.TAG, MSG + "--------------------- Trace -------------------------");
         Logger.d(Constants.TAG, MSG + "VerNo: " + getVerNo());
         Logger.d(Constants.TAG, MSG + "CategoryName: " + getCategoryName());

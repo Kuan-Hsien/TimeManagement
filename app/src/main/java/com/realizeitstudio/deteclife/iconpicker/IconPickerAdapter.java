@@ -40,7 +40,7 @@ public class IconPickerAdapter extends RecyclerView.Adapter {
         setIntIconMode(Constants.MODE_PLAN_VIEW);
         mIconList = new ArrayList<>();
 
-        for( int i = 0 ; i < bean.size() ; ++i ) {
+        for( int i = 0; i < bean.size(); ++i ) {
             this.mIconList.add(bean.get(i));
         }
     }
@@ -105,7 +105,7 @@ public class IconPickerAdapter extends RecyclerView.Adapter {
 
         mIconList.clear();
 
-        for (int i = 0 ; i < bean.size() ; ++i) {
+        for (int i = 0; i < bean.size(); ++i) {
             mIconList.add(bean.get(i));
         }
 
@@ -173,7 +173,7 @@ public class IconPickerAdapter extends RecyclerView.Adapter {
                 mPresenter.showIconSelected(mIconList.get(getCurrentPosition()));
 
                 Logger.d(Constants.TAG, MSG + "select icon: ");
-                mIconList.get(getCurrentPosition()).LogD();
+                mIconList.get(getCurrentPosition()).logD();
             }
         }
 

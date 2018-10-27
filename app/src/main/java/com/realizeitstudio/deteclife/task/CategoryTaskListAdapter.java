@@ -42,7 +42,7 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
         setIntTaskMode(Constants.MODE_PLAN_VIEW);
         mCategoryTaskList = new ArrayList<>();
 
-        for( int i = 0 ; i < bean.size() ; ++i ) {
+        for( int i = 0; i < bean.size(); ++i ) {
             this.mCategoryTaskList.add(bean.get(i));
         }
     }
@@ -126,7 +126,7 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
 
         mCategoryTaskList.clear();
 
-        for (int i = 0 ; i < bean.size() ; ++i) {
+        for (int i = 0; i < bean.size(); ++i) {
             mCategoryTaskList.add(bean.get(i));
         }
 
@@ -388,7 +388,7 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
                 List<TaskDefineTable> deleteTaskList = new ArrayList<>();
 
                 // 2.1 先針對現有所有目標清單做出 List<TaskDefineTable> 物件
-                for (int i = 0 ; i < mCategoryTaskList.size() ; ++i) {
+                for (int i = 0; i < mCategoryTaskList.size(); ++i) {
 
                     // only handle "Task" item in mCategoryTaskList array
                     if (Constants.ITEM_TASK.equals(mCategoryTaskList.get(i).getItemCatg())) {
@@ -408,7 +408,7 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
                             deleteTaskList.add(item);
 
                             Logger.d(Constants.TAG, MSG + "Delete item: ");
-                            item.LogD();
+                            item.logD();
 
                         } else {
                             // else add in database
@@ -425,7 +425,7 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
                             taskList.add(item);
 
                             Logger.d(Constants.TAG, MSG + "Add/Edit item: ");
-                            item.LogD();
+                            item.logD();
                         }
                     }
                 }
@@ -448,7 +448,7 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
                     taskList.add(item);
 
                     Logger.d(Constants.TAG, MSG + "Add task: ");
-                    item.LogD();
+                    item.logD();
                 }
 
                 // 3. send asyncTask to update data

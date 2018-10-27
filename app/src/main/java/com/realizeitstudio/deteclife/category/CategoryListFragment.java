@@ -136,7 +136,7 @@ public class CategoryListFragment extends Fragment implements CategoryListContra
     public void showCategorySelected(GetCategoryTaskList bean) {
 
 //        Logger.d(Constants.TAG, MSG + "Select Category: ");
-//        bean.LogD();
+//        bean.logD();
 //
 //        // (1) 把選到的 category 傳回 (e.g. Plan page)
 //        // (2) 把自己這頁關掉

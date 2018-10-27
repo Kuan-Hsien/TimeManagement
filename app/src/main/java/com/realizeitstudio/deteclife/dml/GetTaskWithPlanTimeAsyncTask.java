@@ -42,34 +42,17 @@ public class GetTaskWithPlanTimeAsyncTask extends AsyncTask<Object, Void, List<G
 
         List<GetTaskWithPlanTime> bean = null;
 
-//        try {
+        DatabaseDao dao = AppDatabase.getDatabase(TimeManagementApplication.getAppContext()).getDatabaseDao();
 
+        List<TimePlanningTable> planningTableList = dao.getAllPlanList();
 
-            DatabaseDao dao = AppDatabase.getDatabase(TimeManagementApplication.getAppContext()).getDatabaseDao();
+        Logger.d(Constants.TAG, MSG + "Prepare sample plan");
+        for (int i = 0; i < planningTableList.size(); ++i) {
+            planningTableList.get(i).logD();
+        }
 
-            List<TimePlanningTable> planningTableList = dao.getAllPlanList();
+        bean = dao.getTaskListWithPlanTime(mMode, mStrStartTime, mStrEndTime);
 
-            Logger.d(Constants.TAG, MSG + "Prepare sample plan");
-            for (int i = 0 ; i < planningTableList.size() ; ++i) {
-                planningTableList.get(i).LogD();
-            }
-
-            bean = dao.getTaskListWithPlanTime(mMode, mStrStartTime, mStrEndTime);
-
-
-//
-
-            // [TODO] add exception handling
-//        } catch (VoyageInvalidTokenException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        } catch (VoyageException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        }
 
         return bean;
     }
@@ -81,8 +64,8 @@ public class GetTaskWithPlanTimeAsyncTask extends AsyncTask<Object, Void, List<G
         if (bean != null) {
 
             Logger.d(Constants.TAG, MSG + "GetTaskWithPlanTime success: bean.size() = " + bean.size());
-            for (int i = 0 ; i < bean.size() ; ++i) {
-                bean.get(i).LogD();
+            for (int i = 0; i < bean.size(); ++i) {
+                bean.get(i).logD();
             }
 
             mCallback.onCompleted(bean);

@@ -21,7 +21,8 @@ public class SetTaskAsyncTask extends AsyncTask<Object, Void, List<TaskDefineTab
     private SetTaskCallback mCallback;
 
     private String mErrorMessage;
-    private List<TaskDefineTable> mTaskList, mDeleteTaskList;
+    private List<TaskDefineTable> mTaskList;
+    private List<TaskDefineTable> mDeleteTaskList;
 
 
     public SetTaskAsyncTask(List<TaskDefineTable> taskList, List<TaskDefineTable> deleteList, SetTaskCallback callback) {
@@ -35,29 +36,15 @@ public class SetTaskAsyncTask extends AsyncTask<Object, Void, List<TaskDefineTab
     @Override
     protected List<TaskDefineTable> doInBackground(Object[] objects) {
 
-//        try {
-
         DatabaseDao dao = AppDatabase.getDatabase(TimeManagementApplication.getAppContext()).getDatabaseDao();
 
         // delete task
         dao.deleteTaskList(mDeleteTaskList);
 
         // edit and add task
-        for (int i = 0 ; i < mTaskList.size() ; ++i) {
+        for (int i = 0; i < mTaskList.size(); ++i) {
             dao.addTask(mTaskList.get(i));
         }
-
-        // [TODO] add exception handling
-//        } catch (VoyageInvalidTokenException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        } catch (VoyageException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        }
 
         return mTaskList;
     }

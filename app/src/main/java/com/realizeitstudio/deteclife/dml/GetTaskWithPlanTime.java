@@ -164,7 +164,7 @@ public class GetTaskWithPlanTime {
 
     private static final String MSG = "GetTaskWithPlanTime: ";
 
-    public void LogD () {
+    public void logD() {
         Logger.d(Constants.TAG, MSG + "------------------- Query Target ---------------------");
         Logger.d(Constants.TAG, MSG + "Mode: " + getMode());
         Logger.d(Constants.TAG, MSG + "CategoryName: " + getCategoryName());

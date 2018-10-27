@@ -124,7 +124,7 @@ public class TaskDefineTable {
 
     private static final String MSG = "TaskDefineTable: ";
 
-    public void LogD () {
+    public void logD() {
         Logger.d(Constants.TAG, MSG + "--------------------- Task -------------------------");
         Logger.d(Constants.TAG, MSG + "TaskPriority: " + getTaskPriority());
         Logger.d(Constants.TAG, MSG + "CategoryName: " + getCategoryName());

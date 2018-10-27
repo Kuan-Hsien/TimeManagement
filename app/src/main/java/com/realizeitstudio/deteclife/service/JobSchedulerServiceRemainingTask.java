@@ -119,7 +119,7 @@ public class JobSchedulerServiceRemainingTask extends JobService {
                 public void onCompleted(TimeTracingTable bean) {
 
                     Logger.d(Constants.TAG, MSG + "GetCurrentTraceTaskAsyncTask onCompleted");
-                    bean.LogD();
+                    bean.logD();
 
                     // get current item
                     mCurItem = bean;
@@ -132,7 +132,7 @@ public class JobSchedulerServiceRemainingTask extends JobService {
 
                     // 計算 Weekly 的開始時間 (beginVerNo)
                     int intWeekDay = ParseTime.date2Day(date);    // 把今天傳入，回傳星期幾 (1 = 星期一，2 = 星期二)
-                    date = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * (intWeekDay-1)); // 如果今天是星期一，則 Weekly 也只撈一天 (beginVerNo = endVerNo)，和 endVerNo 一樣只往回減一天
+                    date = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * (intWeekDay - 1)); // 如果今天是星期一，則 Weekly 也只撈一天 (beginVerNo = endVerNo)，和 endVerNo 一樣只往回減一天
                     String beginVerNo = simpleDateFormat.format(date);
 
                     // [Query 2] current remaining items
@@ -163,14 +163,8 @@ public class JobSchedulerServiceRemainingTask extends JobService {
 
                     Logger.d(Constants.TAG, MSG + "GetResultDailySummary onCompleted: bean.size() = " + bean.size());
                     for (int i = 0; i < bean.size(); ++i) {
-                        bean.get(i).LogD();
+                        bean.get(i).logD();
                     }
-
-                    // (1) Notifcaiton title/ subtext/ content
-                    // strSubtext 會顯示在 notification 的頂端，strTitle 和 strContent 反而都沒有顯示
-                    String strTitle = ""; //"Save " + ParseTime.msToHourMinDiff(recordList.get(0).getStartTime(), recordList.get(0).getEndTime()) + " to " + recordList.get(0).getTaskName();
-                    String strSubtext = "Remaining Tasks "; //"Current task: " + recordList.get(recordList.size()-1).getTaskName(); // last element would be the current tracing item
-                    String strContent = "Would you like to start another task?"; //"Today's total: ";
 
 
                     // 先簡單處理資料，找出今天的 plan 項目
@@ -183,11 +177,11 @@ public class JobSchedulerServiceRemainingTask extends JobService {
                     long longRemainingTaskCostTimeDaily = 0;
                     long longRemainingTaskCostTimeWeekly = 0;
 
-                    for( int i = 0 ; i < bean.size() ; ++i) {
-                        bean.get(i).LogD();
+                    for (int i = 0; i < bean.size(); ++i) {
+                        bean.get(i).logD();
 
                         // 分別存成 daily 和 weekly 的結果，TODO 放進兩個不同的 adapter 中，甚至一次撈一整週
-                        if ( Constants.MODE_DAILY.equals(bean.get(i).getMode()) ) {     // Daily summary
+                        if (Constants.MODE_DAILY.equals(bean.get(i).getMode())) {     // Daily summary
 
                             Logger.d(Constants.TAG, MSG + "MODE_DAILY => ");
                             dailySummaryList.add(bean.get(i));
@@ -225,6 +219,11 @@ public class JobSchedulerServiceRemainingTask extends JobService {
                         }
                     }
 
+                    // (1) Notifcaiton title/ subtext/ content
+                    // strSubtext 會顯示在 notification 的頂端，strTitle 和 strContent 反而都沒有顯示
+                    String strTitle = ""; //"Save " + ParseTime.msToHourMinDiff(recordList.get(0).getStartTime(), recordList.get(0).getEndTime()) + " to " + recordList.get(0).getTaskName();
+                    String strSubtext = "Remaining Tasks "; //"Current task: " + recordList.get(recordList.size()-1).getTaskName(); // last element would be the current tracing item
+                    String strContent = "Would you like to start another task?"; //"Today's total: ";
 
                     Logger.d(Constants.TAG, MSG + "Title: " + strTitle);
                     Logger.d(Constants.TAG, MSG + "Subtext: " + strSubtext);
@@ -269,42 +268,42 @@ public class JobSchedulerServiceRemainingTask extends JobService {
 //                manager.notify(BASIC_ID, notification);
 
         // 建立通知物件 作法 2: 透過 builder
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, Constants.NOTIFICATION_CHANNEL_ID_COMPLETE);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, Constants.NOTIFICATION_CHANNEL_ID_COMPLETE);
 
         // 設置小圖標
-        mBuilder.setSmallIcon(TimeManagementApplication.getIconResourceId(Constants.APP_ICON_SMALL));
+        notificationBuilder.setSmallIcon(TimeManagementApplication.getIconResourceId(Constants.APP_ICON_SMALL));
         // 設置大圖標
-        mBuilder.setLargeIcon(bitmap);
+        notificationBuilder.setLargeIcon(bitmap);
 
         // 標題
-        mBuilder.setContentTitle(strTitle);
+        notificationBuilder.setContentTitle(strTitle);
         // 內容
-        mBuilder.setContentText(strContent);
+        notificationBuilder.setContentText(strContent);
         // 摘要
-        mBuilder.setSubText(strSubText);
+        notificationBuilder.setSubText(strSubText);
 
         // 點擊後清除
-        mBuilder.setAutoCancel(true);
+        notificationBuilder.setAutoCancel(true);
         //显示指定文本
 
-        mBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
+        notificationBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
 
         // 提醒時間，單位是毫秒 (1/1000s)
-        mBuilder.setWhen(System.currentTimeMillis());             // 設定為當下立刻啟動
+        notificationBuilder.setWhen(System.currentTimeMillis());             // 設定為當下立刻啟動
 //        mBuilder.setWhen(System.currentTimeMillis() - 3600000);   // 設定為系统時間少一小時 (會立刻叫)
 //        mBuilder.setWhen(System.currentTimeMillis() + 3000 );        // 設定為 3 秒後
 
         // setOngoing(true) 設定為正在進行的通知，用戶無法清除 (類似 Foreground Service 通知)
-        mBuilder.setOngoing(false);
+        notificationBuilder.setOngoing(false);
 
         // 設定提醒方式
 //                mBuilder.setDefaults(NotificationCompat.DEFAULT_VIBRATE);   // 震动提醒
 //                mBuilder.setDefaults(NotificationCompat.DEFAULT_SOUND);     // 聲音
 //                mBuilder.setDefaults(NotificationCompat.DEFAULT_LIGHTS);    // 三色燈
-        mBuilder.setDefaults(NotificationCompat.DEFAULT_ALL);       // 以上三種方式一起
+        notificationBuilder.setDefaults(NotificationCompat.DEFAULT_ALL);       // 以上三種方式一起
 
         // 設置震動方式，延遲零秒，震動一秒，延遲一秒、震動一秒
-        mBuilder.setVibrate(new long[]{0, 1000, 1000, 1000});
+        notificationBuilder.setVibrate(new long[]{0, 1000, 1000, 1000});
 
         //mBuilder.setContentInfo("Info");
         //与setContentInfo类似，但如果设置了setContentInfo则无效果
@@ -323,7 +322,7 @@ public class JobSchedulerServiceRemainingTask extends JobService {
 
         RemoteViews remoteViewsItem;
         // 在 notification 中新增每一個 Task Items
-        for(int i = 0 ; i < bean.size() ; ++i) {
+        for (int i = 0; i < bean.size(); ++i) {
 
             // [TODO] 這裡的提醒主要做的是目標的完成度，所以只顯示有計劃的項目，目前先跳過只有 record 的項目
             // 如果沒有 cost_time，表示有計劃 (target) 但完全沒有相關紀錄 (record)
@@ -389,16 +388,16 @@ public class JobSchedulerServiceRemainingTask extends JobService {
         }
 
 
-        mBuilder.setContent(contentView);               // 如果不用 Builder 可以寫 notification.contentView = contentView;
-        mBuilder.setCustomBigContentView(contentView);  // 可以設定通知縮起來的 layout（setContent) 和通知展開的 layout (setCustomBigContentView) (optional)
-        mBuilder.setStyle(new NotificationCompat.DecoratedCustomViewStyle());   // 加上這句，通知會有系統預設的框架。如果想要完全自訂就把這句拿掉
-        mBuilder.setStyle(new android.support.v4.app.NotificationCompat.DecoratedCustomViewStyle());
+        notificationBuilder.setContent(contentView);               // 如果不用 Builder 可以寫 notification.contentView = contentView;
+        notificationBuilder.setCustomBigContentView(contentView);  // 可以設定通知縮起來的 layout（setContent) 和通知展開的 layout (setCustomBigContentView) (optional)
+        notificationBuilder.setStyle(new NotificationCompat.DecoratedCustomViewStyle());   // 加上這句，通知會有系統預設的框架。如果想要完全自訂就把這句拿掉
+        notificationBuilder.setStyle(new android.support.v4.app.NotificationCompat.DecoratedCustomViewStyle());
 
         Intent intent = new Intent(this, MainActivity.class);
 
         // PendingIntent 作法 1
-        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        mBuilder.setContentIntent(pIntent);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        notificationBuilder.setContentIntent(pendingIntent);
 
         // PendingIntent 作法 2
 //// Creates an explicit intent for an Activity in your app
@@ -422,7 +421,7 @@ public class JobSchedulerServiceRemainingTask extends JobService {
 //                        );
 
 
-        NotificationManager mNotificationManager =
+        NotificationManager notificationManager =
                 (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
 
@@ -430,24 +429,24 @@ public class JobSchedulerServiceRemainingTask extends JobService {
         // Android 8.0 Oreo (APK 26) 以上必須設置通知頻道 Notification channels
         NotificationChannel channel;
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             channel = new NotificationChannel(
                     Constants.NOTIFICATION_CHANNEL_ID_COMPLETE,             // 此 ID 用來分辨不同的通知頻道
                     Constants.NOTIFICATION_CHANNEL_NAME_COMPLETE,
                     NotificationManager.IMPORTANCE_HIGH);   // 設為 IMPORTANCE_HIGH 以上才會在上方懸掛跳出來
 
-            mNotificationManager.createNotificationChannel(channel);    // 使用 NotificationManager 加入這個頻道
+            notificationManager.createNotificationChannel(channel);    // 使用 NotificationManager 加入這個頻道
 
-            mBuilder.setChannelId(Constants.NOTIFICATION_CHANNEL_ID_COMPLETE);  // 呼叫 setChannelId 通知這個 Notification 的所屬頻道 ID
+            notificationBuilder.setChannelId(Constants.NOTIFICATION_CHANNEL_ID_COMPLETE);  // 呼叫 setChannelId 通知這個 Notification 的所屬頻道 ID
 
         } else {
 
-            mBuilder.setDefaults(Notification.DEFAULT_ALL)
+            notificationBuilder.setDefaults(Notification.DEFAULT_ALL)
                     .setVisibility(Notification.VISIBILITY_PUBLIC);
         }
 
-        mNotificationManager.notify(Constants.NOTIFY_ID_COMPLETE, mBuilder.build());   // 用 notify 並指定 ID，隨後可用此 ID 做進一步的更新或是取消等等操作
+        notificationManager.notify(Constants.NOTIFY_ID_COMPLETE, notificationBuilder.build());   // 用 notify 並指定 ID，隨後可用此 ID 做進一步的更新或是取消等等操作
     }
 
 

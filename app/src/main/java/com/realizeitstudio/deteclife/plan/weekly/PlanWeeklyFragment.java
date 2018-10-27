@@ -261,7 +261,7 @@ public class PlanWeeklyFragment extends Fragment implements PlanWeeklyContract.V
     public void showTaskSelected(GetCategoryTaskList bean) {
 
         Logger.d(Constants.TAG, MSG + "showTaskSelected: task: ");
-        bean.LogD();
+        bean.logD();
 
         mPlanWeeklyAdapter.showCategoryTaskSelected(bean);
     }

@@ -536,23 +536,23 @@ public class TimeManagementApplication extends Application {
                 List<TimeTracingTable> traceList = dao.getAllTraceList();
 
                 Logger.d(Constants.TAG, MSG + "Prepare default category");
-                for (int i = 0 ; i < categoryList.size() ; ++i) {
-                    categoryList.get(i).LogD();
+                for (int i = 0; i < categoryList.size(); ++i) {
+                    categoryList.get(i).logD();
                 }
 
                 Logger.d(Constants.TAG, MSG + "Prepare default task");
-                for (int i = 0 ; i < taskList.size() ; ++i) {
-                    taskList.get(i).LogD();
+                for (int i = 0; i < taskList.size(); ++i) {
+                    taskList.get(i).logD();
                 }
 
                 Logger.d(Constants.TAG, MSG + "Prepare sample plan");
-                for (int i = 0 ; i < planningTableList.size() ; ++i) {
-                    planningTableList.get(i).LogD();
+                for (int i = 0; i < planningTableList.size(); ++i) {
+                    planningTableList.get(i).logD();
                 }
 
                 Logger.d(Constants.TAG, MSG + "Prepare first trace");
-                for (int i = 0 ; i < traceList.size() ; ++i) {
-                    traceList.get(i).LogD();
+                for (int i = 0; i < traceList.size(); ++i) {
+                    traceList.get(i).logD();
                 }
 
             }
@@ -832,23 +832,23 @@ public class TimeManagementApplication extends Application {
                 List<TimeTracingTable> traceList = dao.getAllTraceList();
 
                 Logger.d(Constants.TAG, MSG + "Prepare default category");
-                for (int i = 0 ; i < categoryList.size() ; ++i) {
-                    categoryList.get(i).LogD();
+                for (int i = 0; i < categoryList.size(); ++i) {
+                    categoryList.get(i).logD();
                 }
 
                 Logger.d(Constants.TAG, MSG + "Prepare default task");
-                for (int i = 0 ; i < taskList.size() ; ++i) {
-                    taskList.get(i).LogD();
+                for (int i = 0; i < taskList.size(); ++i) {
+                    taskList.get(i).logD();
                 }
 
                 Logger.d(Constants.TAG, MSG + "Prepare sample plan");
-                for (int i = 0 ; i < planningTableList.size() ; ++i) {
-                    planningTableList.get(i).LogD();
+                for (int i = 0; i < planningTableList.size(); ++i) {
+                    planningTableList.get(i).logD();
                 }
 
                 Logger.d(Constants.TAG, MSG + "Prepare first trace");
-                for (int i = 0 ; i < traceList.size() ; ++i) {
-                    traceList.get(i).LogD();
+                for (int i = 0; i < traceList.size(); ++i) {
+                    traceList.get(i).logD();
                 }
 
             }

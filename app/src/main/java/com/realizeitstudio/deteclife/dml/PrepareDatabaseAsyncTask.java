@@ -21,7 +21,8 @@ public class PrepareDatabaseAsyncTask extends AsyncTask<Object, Void, List<Categ
     private SetCategoryCallback mCallback;
 
     private String mErrorMessage;
-    private List<CategoryDefineTable> mCategoryList, mDeleteCategoryList;
+    private List<CategoryDefineTable> mCategoryList;
+    private List<CategoryDefineTable> mDeleteCategoryList;
 
 
     public PrepareDatabaseAsyncTask(List<CategoryDefineTable> categoryList, List<CategoryDefineTable> deleteList, SetCategoryCallback callback) {
@@ -43,7 +44,7 @@ public class PrepareDatabaseAsyncTask extends AsyncTask<Object, Void, List<Categ
         dao.deleteCategoryList(mDeleteCategoryList);
 
         // edit and add category
-        for (int i = 0 ; i < mCategoryList.size() ; ++i) {
+        for (int i = 0; i < mCategoryList.size(); ++i) {
             dao.addCategory(mCategoryList.get(i));
         }
 

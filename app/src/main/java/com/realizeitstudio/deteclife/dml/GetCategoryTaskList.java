@@ -118,7 +118,7 @@ public class GetCategoryTaskList {
 
     private static final String MSG = "GetCategoryTaskList: ";
 
-    public void LogD () {
+    public void logD() {
         Logger.d(Constants.TAG, MSG + "----------------- Category-Tasks --------------------");
         Logger.d(Constants.TAG, MSG + "ItemCatg: " + getItemCatg());
         Logger.d(Constants.TAG, MSG + "CategoryName: " + getCategoryName());

@@ -28,6 +28,7 @@ public class Logger {
             Log.w(tag, msg);
         }
     }
+
     public static void e(String tag, String msg) {
         if (DEBUG_MODE) {
             Log.e(tag, msg);

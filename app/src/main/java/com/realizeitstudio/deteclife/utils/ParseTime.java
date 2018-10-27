@@ -76,7 +76,7 @@ public class ParseTime {
     }
 
     // 輸入 ms，回傳所代表的 hh:mm 字串
-    public static String msToHHMM(long ms) {
+    public static String msToHhmm(long ms) {
 
         // 取得 1970 開始的毫秒數，可以用 input 的毫秒數算出所代表的時間
         // 1970 時毫秒數 1317427200
@@ -123,7 +123,7 @@ public class ParseTime {
         long hour = diffMin / 60;
         long min = diffMin % 60;
 
-        return (hour + " hr " + min + " min") ;
+        return (hour + " hr " + min + " min");
     }
 
     // 輸入開始和結束的 ms 數，回傳間隔 3hr 15min 字串
@@ -137,7 +137,7 @@ public class ParseTime {
         long hour = (diffSec / 60) / 60;
 
         if (hour == 0) {
-            return min + " min " + sec + " s" ;
+            return min + " min " + sec + " s";
         } else {
             return hour + " hr " + min + " min " + sec + " s";
         }
@@ -152,16 +152,16 @@ public class ParseTime {
         Date curDate = new Date();
         SimpleDateFormat simpleDateFormatDate = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO);
         SimpleDateFormat simpleDateFormatTime = new SimpleDateFormat(Constants.DB_FORMAT_UPDATE_DATE);
-        SimpleDateFormat simpleDateFormatHMS = new SimpleDateFormat(Constants.DB_FORMAT_HMS);
+        SimpleDateFormat simpleDateFormatHms = new SimpleDateFormat(Constants.DB_FORMAT_HMS);
 
-        String strCurTimeHms = simpleDateFormatHMS.format(curDate);    // 現在時間是 21:04:55
 //        Logger.d(Constants.TAG, MSG + "getNextDailyNotifyMills -> yyyy/MM/dd: " + simpleDateFormatDate.format(curDate));
 //        Logger.d(Constants.TAG, MSG + "getNextDailyNotifyMills -> yyyy/MM/dd HH:mm:ss: " + simpleDateFormatTime.format(curDate));
-        Logger.d(Constants.TAG, MSG + "getNextDailyNotifyMills -> strCurHms: " + simpleDateFormatHMS.format(curDate));
+        Logger.d(Constants.TAG, MSG + "getNextDailyNotifyMills -> strCurHms: " + simpleDateFormatHms.format(curDate));
         Logger.d(Constants.TAG, MSG + "getNextDailyNotifyMills -> strNotificationTime: " + strNotificationTime);
 
         String strNextDate = null;
         String strNextTime = null;
+        String strCurTimeHms = simpleDateFormatHms.format(curDate);    // 現在時間是 21:04:55
 
         // 找出隔天日期字串 (yyyymmdd)
         Calendar calendar = Calendar.getInstance();
@@ -204,7 +204,7 @@ public class ParseTime {
         long diffMills = nextTime.getTime() - new Date().getTime();
 
         Logger.d(Constants.TAG, MSG + "Diff Mills: " + diffMills);
-        Logger.d(Constants.TAG, MSG + "Diff Times: " + msToHourMin(diffMills) );
+        Logger.d(Constants.TAG, MSG + "Diff Times: " + msToHourMin(diffMills));
 
         return diffMills;
     }
@@ -222,17 +222,15 @@ public class ParseTime {
      * 如果要直接轉換成「星期幾」而不是整數，則將 pattern 換成 E 即可。
      * 以上pattern的大小寫都要一樣!! 不一樣的大小寫在SimpleDateFormat會有不同的解讀，例如：大寫M表示月份，小寫m表示分鐘。
      */
-    public static int date2Day( String dateString ) throws ParseException
-    {
-        SimpleDateFormat dateStringFormat = new SimpleDateFormat( Constants.DB_FORMAT_VER_NO );
-        Date date = dateStringFormat.parse( dateString );
+    public static int date2Day(String dateString) throws ParseException {
+        SimpleDateFormat dateStringFormat = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO);
+        Date date = dateStringFormat.parse(dateString);
 
         return date2Day(date);
     }
 
 
-    public static int date2Day( Date date )
-    {
+    public static int date2Day(Date date) {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date); // date 轉換為 calendar

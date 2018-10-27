@@ -20,7 +20,8 @@ public class SetTargetAsyncTask extends AsyncTask<Object, Void, List<TimePlannin
     private SetTargetCallback mCallback;
 
     private String mErrorMessage;
-    private List<TimePlanningTable> mTargetList, mDeleteTargetList;
+    private List<TimePlanningTable> mTargetList;
+    private List<TimePlanningTable> mDeleteTargetList;
 
 
     public SetTargetAsyncTask(List<TimePlanningTable> targetList, List<TimePlanningTable> deleteList, SetTargetCallback callback) {
@@ -42,7 +43,7 @@ public class SetTargetAsyncTask extends AsyncTask<Object, Void, List<TimePlannin
         dao.deleteTargetList(mDeleteTargetList);
 
         // edit and add target
-        for (int i = 0 ; i < mTargetList.size() ; ++i) {
+        for (int i = 0; i < mTargetList.size(); ++i) {
             dao.addPlanItem(mTargetList.get(i));
         }
 

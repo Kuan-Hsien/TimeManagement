@@ -2,10 +2,10 @@ package com.realizeitstudio.deteclife;
 
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         super.onCreate(savedInstanceState);
 
 //        if (UserManager.getInstance().isLoginStatus()) {
-            init();
+        init();
 //        } else {
 //            popLogin();
 //        }
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         Window window = getWindow();
         WindowManager.LayoutParams windowParams = window.getAttributes();
-        windowParams.flags=WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+        windowParams.flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
         windowParams.alpha = 1f;    //1.０全透明．０不透明．
         window.setAttributes(windowParams);
         setTheme(R.style.translucent);

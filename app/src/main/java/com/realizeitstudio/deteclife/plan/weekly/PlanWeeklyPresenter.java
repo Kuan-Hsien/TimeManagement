@@ -166,7 +166,7 @@ public class PlanWeeklyPresenter implements PlanWeeklyContract.Presenter {
 
                 Logger.d(Constants.TAG, MSG + "SetTarget onCompleted");
                 for (int i = 0; i < bean.size(); ++i) {
-                    bean.get(i).LogD();
+                    bean.get(i).logD();
                 }
 
                 // [TODO] insert 資料後更新畫面，目前是將要更新的資料全部當作 bean

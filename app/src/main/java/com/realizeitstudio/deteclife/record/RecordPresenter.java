@@ -148,7 +148,7 @@ public class RecordPresenter implements RecordContract.Presenter {
                     // create a new task list (without category items, only show tasks to choose on record page)
                     List<GetCategoryTaskList> taskLists = new ArrayList<>();
 
-                    for (int i = 0 ; i < bean.size() ; ++i) {
+                    for (int i = 0; i < bean.size(); ++i) {
                         if (Constants.ITEM_TASK.equals(bean.get(i).getItemCatg())) {
                             taskLists.add(bean.get(i));
                         }
@@ -227,8 +227,8 @@ public class RecordPresenter implements RecordContract.Presenter {
 //            public void onCompleted(List<TaskDefineTable> bean) {
 //
 //                Logger.d(Constants.TAG, MSG + "SetTask onCompleted");
-//                for( int i = 0 ; i < bean.size() ; ++i) {
-//                    bean.get(i).LogD();
+//                for( int i = 0; i < bean.size(); ++i) {
+//                    bean.get(i).logD();
 //                }
 //
 //                // [TODO] insert 資料後更新畫面，目前是將要更新的資料全部當作 bean
@@ -261,8 +261,8 @@ public class RecordPresenter implements RecordContract.Presenter {
             public void onCompleted(List<GetTraceSummary> bean) {
 
                 Logger.d(Constants.TAG, MSG + "SetRecord onCompleted");
-                for( int i = 0 ; i < bean.size() ; ++i) {
-                    bean.get(i).LogD();
+                for( int i = 0; i < bean.size(); ++i) {
+                    bean.get(i).logD();
                 }
                 // [TODO] 更新 Record Fragment 內容，getCategoryTaskList 和 getCurrentTraceItem 其實都可以不做，應該是進來這頁的時候重撈就可以。同時 getCurrentTraceItem 其實不用重撈，可以從傳入要 save 資料的 bean 去抓 currentTraceItem
                 // (1) Task List
@@ -291,7 +291,7 @@ public class RecordPresenter implements RecordContract.Presenter {
                 String strTitle = "Save " + ParseTime.msToHourMinDiff(recordList.get(0).getStartTime(), recordList.get(0).getEndTime()) + " to " + recordList.get(0).getTaskName();
                 String strSubtext = "Current task: " + recordList.get(recordList.size()-1).getTaskName(); // last element would be the current tracing item
                 String strContent = "Today's total: ";
-                for (int i = 0 ; i < bean.size() ; ++i) {
+                for (int i = 0; i < bean.size(); ++i) {
                     strContent += bean.get(i).getTaskName() + " " + ParseTime.msToHourMin(bean.get(i).getCostTime());
                 }
 
@@ -394,8 +394,8 @@ public class RecordPresenter implements RecordContract.Presenter {
                     long longRemainingTaskCostTimeDaily = 0;
                     long longRemainingTaskCostTimeWeekly = 0;
 
-                    for( int i = 0 ; i < bean.size() ; ++i) {
-                        bean.get(i).LogD();
+                    for( int i = 0; i < bean.size(); ++i) {
+                        bean.get(i).logD();
 
                         // 分別存成 daily 和 weekly 的結果，TODO 放進兩個不同的 adapter 中，甚至一次撈一整週
                         if ( Constants.MODE_DAILY.equals(bean.get(i).getMode()) ) {     // Daily summary

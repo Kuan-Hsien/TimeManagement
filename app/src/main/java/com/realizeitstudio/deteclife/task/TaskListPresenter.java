@@ -126,7 +126,7 @@ public class TaskListPresenter implements TaskListContract.Presenter {
                     List<GetCategoryTaskList> categoryLists = new ArrayList<>();
                     List<GetCategoryTaskList> taskLists = new ArrayList<>();
 
-                    for (int i = 0 ; i < bean.size() ; ++i) {
+                    for (int i = 0; i < bean.size(); ++i) {
                         if (Constants.ITEM_CATEGORY.equals(bean.get(i).getItemCatg())) {
                             categoryLists.add(bean.get(i));
                         }
@@ -159,7 +159,7 @@ public class TaskListPresenter implements TaskListContract.Presenter {
 
 //        mTaskView.showTaskSelected(bean);
         Logger.d(Constants.TAG, MSG + "Select Task: ");
-        bean.LogD();
+        bean.logD();
 
         mMainPresenter.selectTaskToPlan(bean);
     }
@@ -178,8 +178,8 @@ public class TaskListPresenter implements TaskListContract.Presenter {
             public void onCompleted(List<TaskDefineTable> bean) {
 
                 Logger.d(Constants.TAG, MSG + "SetTask onCompleted");
-                for( int i = 0 ; i < bean.size() ; ++i) {
-                    bean.get(i).LogD();
+                for( int i = 0; i < bean.size(); ++i) {
+                    bean.get(i).logD();
                 }
 
                 // [TODO] insert 資料後更新畫面，目前是將要更新的資料全部當作 bean

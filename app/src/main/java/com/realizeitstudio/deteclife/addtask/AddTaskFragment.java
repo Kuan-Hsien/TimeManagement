@@ -188,7 +188,7 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
             List<TaskDefineTable> deleteTaskList = new ArrayList<>();
 //
 //            // 2.1 先針對現有所有目標清單做出 List<TaskDefineTable> 物件
-//            for (int i = 0 ; i < mCategoryTaskList.size() ; ++i) {
+//            for (int i = 0; i < mCategoryTaskList.size(); ++i) {
 //
 //                // only handle "Task" item in mCategoryTaskList array
 //                if (Constants.ITEM_TASK.equals(mCategoryTaskList.get(i).getItemCatg())) {
@@ -208,7 +208,7 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
 //                        deleteTaskList.add(item);
 //
 //                        Logger.d(Constants.TAG, MSG + "Delete item: ");
-//                        item.LogD();
+//                        item.logD();
 //
 //                    } else {
 //                        // else add in database
@@ -225,7 +225,7 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
 //                        taskList.add(item);
 //
 //                        Logger.d(Constants.TAG, MSG + "Add/Edit item: ");
-//                        item.LogD();
+//                        item.logD();
 //                    }
 //                }
 //            }
@@ -254,7 +254,7 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
                 taskList.add(item);
 
                 Logger.d(Constants.TAG, MSG + "Add task: ");
-                item.LogD();
+                item.logD();
 
                 // 3. send asyncTask to update data
                 mPresenter.saveTaskResults(taskList, deleteTaskList);
@@ -334,7 +334,7 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
         setRefresh(false);
 
         Logger.d(Constants.TAG, MSG + "completeSelectCategory => select category: ");
-        bean.LogD();
+        bean.logD();
 
         getTextviewAddItemCategory().setText(bean.getCategoryName());
 

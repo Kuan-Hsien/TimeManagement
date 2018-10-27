@@ -152,8 +152,8 @@ public class CategoryTaskListPresenter implements CategoryTaskListContract.Prese
             public void onCompleted(List<TaskDefineTable> bean) {
 
                 Logger.d(Constants.TAG, MSG + "SetTask onCompleted");
-                for( int i = 0 ; i < bean.size() ; ++i) {
-                    bean.get(i).LogD();
+                for( int i = 0; i < bean.size(); ++i) {
+                    bean.get(i).logD();
                 }
 
                 // [TODO] insert 資料後更新畫面，目前是將要更新的資料全部當作 bean

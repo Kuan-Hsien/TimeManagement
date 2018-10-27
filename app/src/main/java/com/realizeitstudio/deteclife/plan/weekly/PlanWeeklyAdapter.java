@@ -55,7 +55,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
         setIntPlanMode(Constants.MODE_PLAN_VIEW);
         mPlanningList = new ArrayList<>();
 
-        for( int i = 0 ; i < bean.size() ; ++i ) {
+        for( int i = 0; i < bean.size(); ++i ) {
             this.mPlanningList.add(bean.get(i));
         }
     }
@@ -130,7 +130,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
         mPlanningList.clear();
 
-        for (int i = 0 ; i < bean.size() ; ++i) {
+        for (int i = 0; i < bean.size(); ++i) {
             mPlanningList.add(bean.get(i));
         }
 
@@ -158,7 +158,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
             mIntAdjustCostTime = null;
 
             mIntAdjustCostTime = new long[intArraySize];
-            for (int i = 0 ; i < intArraySize ; ++i) {
+            for (int i = 0; i < intArraySize; ++i) {
                 mIntAdjustCostTime[i] = mPlanningList.get(i).getCostTime() / (60*1000);
             }
 
@@ -166,7 +166,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
         }
 
         mLongTotalCostTime = 0;
-        for (int i = 0 ; i < mPlanningList.size() ; ++i) {
+        for (int i = 0; i < mPlanningList.size(); ++i) {
             mLongTotalCostTime += mPlanningList.get(i).getCostTime() / (60*1000);
         }
 
@@ -620,7 +620,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
                 // 2.1 先針對現有所有目標清單做出 TimePlanning Table 物件
                 // [TODO] Weekly 要另外判斷
-                for (int i = 0 ; i < mPlanningList.size() ; ++i) {
+                for (int i = 0; i < mPlanningList.size(); ++i) {
 
                     // [Delete] if user decides to delete this item, then delete from database
                     if (isDeleteArray[i]) {
@@ -642,7 +642,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                                 deleteTargetList.add(item);
 
                                 Logger.d(Constants.TAG, MSG + "Delete item: ");
-                                item.LogD();
+                                item.logD();
 
                             } else {    // startTime 在之前的 plan 週期 (startTime < curStartVerNoDaily)，如果是的話把原本的 target 押上 lastEndVerNoDaily
 
@@ -657,7 +657,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                                 targetList.add(item);
 
                                 Logger.d(Constants.TAG, MSG + "Add/Edit item: ");
-                                item.LogD();
+                                item.logD();
                             }
 
 
@@ -678,7 +678,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                                 deleteTargetList.add(item);
 
                                 Logger.d(Constants.TAG, MSG + "Delete item: ");
-                                item.LogD();
+                                item.logD();
 
                             } else {    // startTime 在之前的 plan 週期 (startTime < curStartVerNoWeekly)，如果是的話把原本的 target 押上 lastEndVerNoWeekly
 
@@ -693,7 +693,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                                 targetList.add(item);
 
                                 Logger.d(Constants.TAG, MSG + "Add/Edit item: ");
-                                item.LogD();
+                                item.logD();
                             }
                         }
 
@@ -717,7 +717,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                                 targetList.add(item);
 
                                 Logger.d(Constants.TAG, MSG + "Add/Edit item: (1. adjust current target of this plan-period)");
-                                item.LogD();
+                                item.logD();
 
                             } else {    // startTime 在之前的 plan 週期 (startTime < curStartVerNoDaily)，如果是的話把原本的 target 押上 lastEndVerNoDaily，並加一筆新的
 
@@ -732,7 +732,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                                 targetList.add(item);
 
                                 Logger.d(Constants.TAG, MSG + "Add/Edit item: (2.1. save current target to last plan-period)");
-                                item.LogD();
+                                item.logD();
 
 
                                 item = new TimePlanningTable(mPlanningList.get(i).getMode(),
@@ -746,7 +746,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                                 targetList.add(item);
 
                                 Logger.d(Constants.TAG, MSG + "Add/Edit item: (2.2 add a new target to this plan-period)");
-                                item.LogD();
+                                item.logD();
                             }
 
 
@@ -767,7 +767,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                                 targetList.add(item);
 
                                 Logger.d(Constants.TAG, MSG + "Add/Edit item: (1. adjust current target of this plan-period)");
-                                item.LogD();
+                                item.logD();
 
                             } else {    // startTime 在之前的 plan 週期 (startTime < curStartVerNoWeekly)，如果是的話把原本的 target 押上 lastEndVerNoWeekly，並加一筆新的
 
@@ -782,7 +782,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                                 targetList.add(item);
 
                                 Logger.d(Constants.TAG, MSG + "Add/Edit item: (2.1. save current target to last plan-period)");
-                                item.LogD();
+                                item.logD();
 
 
                                 item = new TimePlanningTable(mPlanningList.get(i).getMode(),
@@ -796,7 +796,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                                 targetList.add(item);
 
                                 Logger.d(Constants.TAG, MSG + "Add/Edit item: (2.2 add a new target to this plan-period)");
-                                item.LogD();
+                                item.logD();
                             }
                         }
                     }   // end of [EDIT]

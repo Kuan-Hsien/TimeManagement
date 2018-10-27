@@ -59,8 +59,8 @@ public class GetCurrentTraceTaskAsyncTask extends AsyncTask<Object, Void, TimeTr
 
         if (bean != null) {
 
-            Logger.d(Constants.TAG, MSG + "GetCurrentTraceTask success." );
-            bean.LogD();
+            Logger.d(Constants.TAG, MSG + "GetCurrentTraceTask success.");
+            bean.logD();
 
             mCallback.onCompleted(bean);
 
