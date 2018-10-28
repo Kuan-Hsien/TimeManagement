@@ -1,17 +1,12 @@
 package com.realizeitstudio.deteclife.iconpicker;
 
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.realizeitstudio.deteclife.R;
 import com.realizeitstudio.deteclife.TimeManagementApplication;
@@ -32,15 +27,13 @@ public class IconPickerAdapter extends RecyclerView.Adapter {
     private IconPickerContract.Presenter mPresenter;
     private List<IconDefineTable> mIconList;
     private boolean[] isDeleteArray;
-    private int mIntIconMode;
 
     public IconPickerAdapter(List<IconDefineTable> bean, IconPickerContract.Presenter presenter) {
 
         mPresenter = presenter;
-        setIntIconMode(Constants.MODE_PLAN_VIEW);
         mIconList = new ArrayList<>();
 
-        for( int i = 0; i < bean.size(); ++i ) {
+        for (int i = 0; i < bean.size(); ++i) {
             this.mIconList.add(bean.get(i));
         }
     }
@@ -52,17 +45,9 @@ public class IconPickerAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         Logger.d(Constants.TAG, MSG + "onCreateViewHolder: viewType = " + viewType);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dialog_icon_item, parent, false);
 
-//        if (viewType == Constants.VIEWTYPE_ADD_ITEM) {
-//
-//            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dialog_categorytask_add_task, parent, false);
-//            return new AddItemViewHolder(view);
-//
-//        } else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dialog_icon_item, parent, false);
-            return new IconItemViewHolder(view);
-//        }
-
+        return new IconItemViewHolder(view);
     }
 
     //update the RecyclerView.ViewHolder contents with the item at the given position and also sets up some private fields to be used by RecyclerView.
@@ -71,32 +56,13 @@ public class IconPickerAdapter extends RecyclerView.Adapter {
 
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-//        Logger.d(Constants.TAG, MSG + "onBindViewHolder: position " + position + " " + mIconList.get(position));
-
-//        if (holder instanceof AddItemViewHolder) {
-//                ((AddItemViewHolder) holder).bindView();
-//        } else {
-            ((IconItemViewHolder) holder).bindView(mIconList.get(position), position);
-//        }
+        ((IconItemViewHolder) holder).bindView(mIconList.get(position), position);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-
-//        return mIconList.size() + 1;
         return mIconList.size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-//        Logger.d(Constants.TAG, MSG + "getItemViewType: position: " + position + "  View-Type: " + ((position == 0) ? Constants.VIEWTYPE_CATEGORY : Constants.VIEWTYPE_NORMAL));
-
-//        if (position == mIconList.size()) { // last item would be add-item-layout
-//            return Constants.VIEWTYPE_ADD_ITEM;
-//        } else {
-            return Constants.VIEWTYPE_NORMAL;
-//        }
     }
 
 
@@ -109,20 +75,6 @@ public class IconPickerAdapter extends RecyclerView.Adapter {
             mIconList.add(bean.get(i));
         }
 
-        notifyDataSetChanged();
-    }
-
-
-    public void refreshUiMode(int mode) {
-        Logger.d(Constants.TAG, MSG + "refreshUiMode: " + (mode == Constants.MODE_PLAN_VIEW ? "VIEW_MODE" : "EDIT_MODE"));
-
-        // if user request to change to MODE_PLAN_EDIT
-        if (mode == Constants.MODE_PLAN_EDIT) {
-
-            int intArraySize = mIconList.size();
-        }
-
-        setIntIconMode(mode);
         notifyDataSetChanged();
     }
 
@@ -185,20 +137,8 @@ public class IconPickerAdapter extends RecyclerView.Adapter {
 
             getImageviewIconItem().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(item.getIconName()));
             getImageviewIconItem().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
-//            GradientDrawable gradientDrawable = (GradientDrawable) getImageviewIconItem().getBackground();
-//            gradientDrawable.setColor(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white));
-
             setPosition(pos);
         }
 
-    }
-
-
-    public int getIntIconMode() {
-        return mIntIconMode;
-    }
-
-    public void setIntIconMode(int intIconMode) {
-        mIntIconMode = intIconMode;
     }
 }

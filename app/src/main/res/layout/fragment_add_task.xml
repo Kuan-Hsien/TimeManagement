@@ -17,7 +17,7 @@
         android:id="@+id/constraintlayout_addtask_editmode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/constraintlayout_addtask_viewmode"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" >
 
         <!-- Set edit title and save/cancel button -->
@@ -87,7 +87,7 @@
             android:layout_marginBottom="@dimen/height_analysis_mainitem_margin"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageview_addtask_editmode_separationline"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/imageview_addtask_editmode_color_separationline"
             android:clickable="true"
             android:focusable="true"
             >
@@ -115,12 +115,13 @@
             android:textSize="15sp"
             android:paddingTop="0dp"
             android:paddingEnd="0dp"
+            android:paddingStart="4dp"
+            android:inputType="text"
             android:backgroundTint="@color/color_app_default_dark_grey"
             app:layout_constraintStart_toEndOf="@+id/framelayout_addtask_editmode_icon"
             app:layout_constraintTop_toTopOf="@+id/framelayout_addtask_editmode_icon"
             android:hint="@string/default_add_task_hint"
             />
-
 
         <TextView
             android:id="@+id/textview_addtask_editmode_category"
@@ -131,7 +132,6 @@
             android:clickable="true"
             android:focusable="true"
             tools:text="@string/default_category" />
-
 
         <FrameLayout
             android:id="@+id/framelayout_addtask_editmode_category_hint"
@@ -158,7 +158,46 @@
         </FrameLayout>
 
 
-    </android.support.constraint.ConstraintLayout>
+        <ImageView
+            android:id="@+id/imageview_addtask_editmode_color_separationline"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="@dimen/margin_end_set_target_send_button"
+            android:layout_marginBottom="8dp"
+            android:background="@color/color_app_default_dark_grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/framelayout_addtask_editmode_icon"
+            app:layout_constraintBottom_toTopOf="@+id/textview_color_picker_title"
+            />
 
+        <TextView
+            android:id="@+id/textview_color_picker_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:lines="1"
+            android:textColor="@color/color_app_default_dark_grey"
+            android:text="@string/default_color_picker_title"
+            android:textSize="15sp"
+            app:layout_constraintTop_toBottomOf="@+id/imageview_addtask_editmode_color_separationline"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerview_color_picker"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview_color_picker"
+            style="@style/RecyclerViewLinearColor"
+            app:layout_constraintTop_toBottomOf="@+id/textview_color_picker_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+
+        </android.support.v7.widget.RecyclerView>
+
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

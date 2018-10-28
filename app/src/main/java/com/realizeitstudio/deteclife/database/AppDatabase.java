@@ -6,6 +6,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
 import com.realizeitstudio.deteclife.object.CategoryDefineTable;
+import com.realizeitstudio.deteclife.object.ColorDefineTable;
 import com.realizeitstudio.deteclife.object.IconDefineTable;
 import com.realizeitstudio.deteclife.object.TaskDefineTable;
 import com.realizeitstudio.deteclife.object.TimePlanningTable;
@@ -14,7 +15,13 @@ import com.realizeitstudio.deteclife.object.TimeTracingTable;
 /**
  * Created by Ken on 2018/9/24
  */
-@Database(entities = {TimePlanningTable.class, TimeTracingTable.class, CategoryDefineTable.class, TaskDefineTable.class, IconDefineTable.class}, version = 1, exportSchema = false)
+@Database(entities = {
+        TimePlanningTable.class,
+        TimeTracingTable.class,
+        CategoryDefineTable.class,
+        TaskDefineTable.class,
+        IconDefineTable.class,
+        ColorDefineTable.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase sInstance;

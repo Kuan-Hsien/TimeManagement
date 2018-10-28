@@ -148,6 +148,10 @@
     <dimen name="height_icon_dialog_padding">20dp</dimen>
 
 
+    <!-- Color Picker -->
+    <dimen name="padding_width_recyclerview_color">5dp</dimen>
+    <dimen name="padding_height_recyclerview_color">3dp</dimen>
+
 
     <dimen name="margin_edittext_padding_start_adjust">4dp</dimen>
 

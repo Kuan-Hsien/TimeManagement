@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.realizeitstudio.deteclife.R;
 import com.realizeitstudio.deteclife.TimeManagementApplication;
@@ -32,7 +33,6 @@ public class CategoryListFragment extends Fragment implements CategoryListContra
     private static final String MSG = "CategoryListFragment: ";
 
     private CategoryListContract.Presenter mCategroyListContractPresenter;
-    //    private CategoryListAdapter mCategoryListAdapter;
     private AlertDialog mDialog;
 
     private CategoryListContract.Presenter mPresenter;
@@ -174,6 +174,12 @@ public class CategoryListFragment extends Fragment implements CategoryListContra
 
     public void setIntCategoryMode(int intCategoryMode) {
         mIntCategoryMode = intCategoryMode;
+    }
+
+    @Override
+    public void showToast(String message) {
+
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
 }

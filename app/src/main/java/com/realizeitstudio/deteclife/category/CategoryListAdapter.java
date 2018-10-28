@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +13,16 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.realizeitstudio.deteclife.R;
 import com.realizeitstudio.deteclife.TimeManagementApplication;
+import com.realizeitstudio.deteclife.colorpicker.ColorPickerAdapter;
+import com.realizeitstudio.deteclife.colorpicker.ColorPickerContract;
+import com.realizeitstudio.deteclife.colorpicker.ColorPickerPresenter;
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
 import com.realizeitstudio.deteclife.object.CategoryDefineTable;
+import com.realizeitstudio.deteclife.object.ColorDefineTable;
 import com.realizeitstudio.deteclife.utils.Constants;
 import com.realizeitstudio.deteclife.utils.Logger;
 
@@ -44,7 +50,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter {
         setIntTaskMode(Constants.MODE_PLAN_VIEW);
         mCategoryList = new ArrayList<>();
 
-        for( int i = 0; i < bean.size(); ++i ) {
+        for (int i = 0; i < bean.size(); ++i) {
             this.mCategoryList.add(bean.get(i));
         }
     }
@@ -253,7 +259,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter {
         /**
          * call by onBindViewHolder
          */
-        public void bindView(GetCategoryTaskList item , int pos) {
+        public void bindView(GetCategoryTaskList item, int pos) {
 
             // 把相對應位置的 category 顯示在此 viewHolder
 
@@ -344,7 +350,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter {
         /**
          * call by onBindViewHolder
          */
-        public void bindView(GetCategoryTaskList item , int pos) {
+        public void bindView(GetCategoryTaskList item, int pos) {
 
             Logger.d(Constants.TAG, MSG + "bindView setColor: " + item.getCategoryColor() + " CategoryName: " + item.getCategoryName());
 
@@ -365,14 +371,21 @@ public class CategoryListAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public class AddItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class AddItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, ColorPickerContract.View {
 
         //** View Mode
         private ConstraintLayout mConstraintLayoutAddItemViewMode;
+        private FrameLayout mFrameLayoutAddItemViewModeColorLabel;
 
         //** Edit Mode
         private ConstraintLayout mConstraintLayoutAddItemEditMode;
         private EditText mEdittextAddItemCategory;
+
+        // Color information
+        private FrameLayout mFrameLayoutColorLabel;
+        private ColorPickerContract.Presenter mColorPresenter;
+        private ColorPickerAdapter mColorPickerAdapter;
+        private String mStrIconColor;
 
         public ConstraintLayout getConstraintLayoutAddItemViewMode() {
             return mConstraintLayoutAddItemViewMode;
@@ -386,12 +399,21 @@ public class CategoryListAdapter extends RecyclerView.Adapter {
             return mEdittextAddItemCategory;
         }
 
+        public FrameLayout getFrameLayoutColorLabel() {
+            return mFrameLayoutColorLabel;
+        }
+
+        public FrameLayout getFrameLayoutAddItemViewModeColorLabel() {
+            return mFrameLayoutAddItemViewModeColorLabel;
+        }
+
         public AddItemViewHolder(View v) {
             super(v);
 
             //** View Mode
             mConstraintLayoutAddItemViewMode = (ConstraintLayout) v.findViewById(R.id.constraintlayout_addtask_viewmode);
             mConstraintLayoutAddItemViewMode.setOnClickListener(this);
+            mFrameLayoutAddItemViewModeColorLabel = v.findViewById(R.id.framelayout_addtask_viewmode_button);
 
             //** Edit Mode
             // Set Category
@@ -402,6 +424,41 @@ public class CategoryListAdapter extends RecyclerView.Adapter {
 
             ((ImageView) v.findViewById(R.id.imageview_addtask_editmode_save)).setOnClickListener(this);
             ((ImageView) v.findViewById(R.id.imageview_addtask_editmode_cancel)).setOnClickListener(this);
+
+
+            // Set Color
+            mFrameLayoutColorLabel = v.findViewById(R.id.framelayout_addtask_editmode_label);
+            if (mColorPresenter == null) {
+                mColorPresenter = new ColorPickerPresenter(this);
+//            mColorPresenter = new ColorPickerPresenter(this, Constants.PAGE_ADD_TASK);
+            }
+
+            mColorPickerAdapter = new ColorPickerAdapter(new ArrayList<ColorDefineTable>(), mColorPresenter);
+
+            RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_color_picker);
+            // recyclerView.setLayoutManager(new LinearLayoutManager(TimeManagementApplication.getAppContext()));
+            // 水平 recyclerView
+            recyclerView.setLayoutManager(new LinearLayoutManager(TimeManagementApplication.getAppContext(), LinearLayoutManager.HORIZONTAL, false));
+            recyclerView.setAdapter(mColorPickerAdapter);
+
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+
+                    mColorPresenter.onScrollStateChanged(
+                            recyclerView.getLayoutManager().getChildCount(),
+                            recyclerView.getLayoutManager().getItemCount(),
+                            newState);
+                }
+
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+
+                    mColorPresenter.onScrolled(recyclerView.getLayoutManager());
+                }
+            });
 
         }
 
@@ -470,11 +527,16 @@ public class CategoryListAdapter extends RecyclerView.Adapter {
 
                 // 2.2 再把新 add 的 category 加在最後
                 // [TODO] 此處需判斷每個字串是否為空，還有對輸入的時間做檢查
-                if (getEdittextAddItemCategory().getText().toString().trim() != null) {
+                if (("").equals(getEdittextAddItemCategory().getText().toString().trim())
+                        || Constants.DEFAULT_TASK_COLOR.equals(mStrIconColor)) {
+
+                    mPresenter.showToast(Constants.TOAST_ADD_TASK_FAIL);
+
+                } else {
 
                     CategoryDefineTable item = new CategoryDefineTable(
                             getEdittextAddItemCategory().getText().toString().trim(),
-                            Constants.DEFAULT_CATEGORY_COLOR,
+                            mStrIconColor,
                             20,
                             true,
                             strUpdateTime);
@@ -483,12 +545,12 @@ public class CategoryListAdapter extends RecyclerView.Adapter {
 
                     Logger.d(Constants.TAG, MSG + "Add category: ");
                     item.logD();
+
+                    // 3. send asyncTask to update data
+                    mPresenter.saveCategoryResults(categoryList, deleteTaskList);
+
+                    mPresenter.refreshUi(Constants.MODE_PLAN_VIEW);
                 }
-
-                // 3. send asyncTask to update data
-                mPresenter.saveCategoryResults(categoryList, deleteTaskList);
-
-                mPresenter.refreshUi(Constants.MODE_PLAN_VIEW);
 
             } else if (v.getId() == R.id.imageview_addtask_editmode_cancel) { // Edit mode - cancel
 
@@ -508,6 +570,10 @@ public class CategoryListAdapter extends RecyclerView.Adapter {
                 mConstraintLayoutAddItemViewMode.setVisibility(View.VISIBLE);
                 mConstraintLayoutAddItemEditMode.setVisibility(View.GONE);
 
+                // reset category label
+                GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutAddItemViewModeColorLabel().getBackground();
+                gradientDrawable.setColor(Color.parseColor(Constants.DEFAULT_TASK_COLOR));
+
             } else { // getIntTaskMode() == Constants.MODE_PLAN_EDIT
 
                 mConstraintLayoutAddItemViewMode.setVisibility(View.GONE);
@@ -521,6 +587,28 @@ public class CategoryListAdapter extends RecyclerView.Adapter {
 
             // 切換為編輯模式預設內容
             getEdittextAddItemCategory().setText("");
+
+            // get colors
+            mStrIconColor = Constants.DEFAULT_TASK_COLOR;
+            GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutColorLabel().getBackground();
+            gradientDrawable.setColor(Color.parseColor(mStrIconColor));
+
+            mColorPresenter.start();
+        }
+
+        // ****** Color Picker Dialog ****** //
+        //
+        @Override
+        public void showColorList(List<ColorDefineTable> bean) {
+            mColorPickerAdapter.updateData(bean);
+        }
+
+        @Override
+        public void showColorSelected(ColorDefineTable bean) {
+
+            mStrIconColor = bean.getColorName();
+            GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutColorLabel().getBackground();
+            gradientDrawable.setColor(Color.parseColor(mStrIconColor));
         }
     }
 

@@ -143,7 +143,7 @@
             android:layout_marginBottom="@dimen/height_analysis_mainitem_margin"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageview_addtask_editmode_separationline"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/imageview_addtask_editmode_color_separationline"
             android:clickable="true"
             android:focusable="true"
             >
@@ -211,6 +211,46 @@
                 app:layout_constraintBottom_toBottomOf="@+id/framelayout_addtask_editmode_icon" />
 
         </FrameLayout>
+
+
+        <ImageView
+            android:id="@+id/imageview_addtask_editmode_color_separationline"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="@dimen/margin_end_set_target_send_button"
+            android:layout_marginBottom="8dp"
+            android:background="@color/color_app_default_dark_grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/framelayout_addtask_editmode_icon"
+            app:layout_constraintBottom_toTopOf="@+id/textview_color_picker_title"
+            />
+
+        <TextView
+            android:id="@+id/textview_color_picker_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:lines="1"
+            android:textColor="@color/color_app_default_dark_grey"
+            android:text="@string/default_color_picker_title"
+            android:textSize="15sp"
+            app:layout_constraintTop_toBottomOf="@+id/imageview_addtask_editmode_color_separationline"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerview_color_picker"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview_color_picker"
+            style="@style/RecyclerViewLinearColor"
+            app:layout_constraintTop_toBottomOf="@+id/textview_color_picker_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+
+        </android.support.v7.widget.RecyclerView>
 
 
 

@@ -46,8 +46,7 @@ public interface CategoryListContract {
 
         void showCategorySelected(GetCategoryTaskList bean);
 
-//        void showCategoryTaskSelected(GetCategoryTaskList bean);
-
+        void showToast(String message);
     }
 
     interface Presenter extends BasePresenter {
@@ -79,6 +78,7 @@ public interface CategoryListContract {
         // 3-1. [Send-to-View]
         void showCategoryListDialog();
 
+        void showToast(String message);
 
     }
 }

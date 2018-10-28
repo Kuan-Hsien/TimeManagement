@@ -55,7 +55,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
         setIntPlanMode(Constants.MODE_PLAN_VIEW);
         mPlanningList = new ArrayList<>();
 
-        for( int i = 0; i < bean.size(); ++i ) {
+        for (int i = 0; i < bean.size(); ++i) {
             this.mPlanningList.add(bean.get(i));
         }
     }

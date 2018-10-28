@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +20,15 @@ import android.widget.Toast;
 import com.realizeitstudio.deteclife.MainActivity;
 import com.realizeitstudio.deteclife.R;
 import com.realizeitstudio.deteclife.TimeManagementApplication;
+import com.realizeitstudio.deteclife.colorpicker.ColorPickerContract;
+import com.realizeitstudio.deteclife.colorpicker.ColorPickerPresenter;
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
+import com.realizeitstudio.deteclife.colorpicker.ColorPickerAdapter;
+import com.realizeitstudio.deteclife.iconpicker.IconPickerPresenter;
+import com.realizeitstudio.deteclife.object.ColorDefineTable;
 import com.realizeitstudio.deteclife.object.IconDefineTable;
 import com.realizeitstudio.deteclife.object.TaskDefineTable;
+import com.realizeitstudio.deteclife.task.TaskListPresenter;
 import com.realizeitstudio.deteclife.utils.Constants;
 import com.realizeitstudio.deteclife.utils.Logger;
 
@@ -36,7 +44,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * A simple {@link Fragment} subclass.
  */
-public class AddTaskFragment extends Fragment implements AddTaskContract.View, View.OnClickListener {
+public class AddTaskFragment extends Fragment implements AddTaskContract.View, View.OnClickListener, ColorPickerContract.View {
 
     private static final String MSG = "AddTaskFragment: ";
     private AddTaskContract.Presenter mPresenter;
@@ -58,6 +66,11 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
     private String mStrSelectedIconName;
     private String mStrIconColor;
 
+    // Color information
+    private ColorPickerContract.Presenter mColorPresenter;
+    private ColorPickerAdapter mColorPickerAdapter;
+
+
 
     public AddTaskFragment() {
         // Required empty public constructor
@@ -77,6 +90,13 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
         super.onCreate(savedInstanceState);
 //[TODO] AddTaskFragment onCreate
 //        ((MainActivity) getActivity()).showUserInfoLog();
+
+        if (mColorPresenter == null) {
+            mColorPresenter = new ColorPickerPresenter(this);
+//            mColorPresenter = new ColorPickerPresenter(this, Constants.PAGE_ADD_TASK);
+        }
+
+        mColorPickerAdapter = new ColorPickerAdapter(new ArrayList<ColorDefineTable>(), mColorPresenter);
     }
 
     @Override
@@ -107,6 +127,32 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
 
         ((ImageView) root.findViewById(R.id.imageview_addtask_editmode_save)).setOnClickListener(this);
         ((ImageView) root.findViewById(R.id.imageview_addtask_editmode_cancel)).setOnClickListener(this);
+
+        // Set Color
+        RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recyclerview_color_picker);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(TimeManagementApplication.getAppContext()));
+        // 水平 recyclerView
+        recyclerView.setLayoutManager(new LinearLayoutManager(TimeManagementApplication.getAppContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setAdapter(mColorPickerAdapter);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                mColorPresenter.onScrollStateChanged(
+                        recyclerView.getLayoutManager().getChildCount(),
+                        recyclerView.getLayoutManager().getItemCount(),
+                        newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                mColorPresenter.onScrolled(recyclerView.getLayoutManager());
+            }
+        });
 
         return root;
     }
@@ -142,7 +188,8 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
 
         getImageviewAddItemIconHint().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
 
-        // [TODO] color
+        // get colors
+        mColorPresenter.start();
     }
 
     @Override
@@ -161,7 +208,6 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
             Logger.d(Constants.TAG, MSG + "onHiddenChanged: hidden = false => SHOW");
 
             if (isRefresh()) {
-//            mPresenter.start();
                 init();
 
             } else {    // false 表示正在新增 category，有收到回傳的 category
@@ -236,7 +282,8 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
             if (TimeManagementApplication.getAppContext().getResources().getString(R.string.default_category_hint)
                     .equals(getTextviewAddItemCategory().getText().toString().trim())
                     || ("").equals(getEdittextAddItemTask().getText().toString().trim())
-                    || Constants.DEFAULT_TASK_ICON.equals(mStrIconColor)) {
+                    || Constants.DEFAULT_TASK_ICON.equals(mStrSelectedIconName)
+                    || Constants.DEFAULT_TASK_COLOR.equals(mStrIconColor)) {
 
                 Toast.makeText(getActivity(), Constants.TOAST_ADD_TASK_FAIL, Toast.LENGTH_SHORT).show();
 
@@ -302,7 +349,7 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
 
 
     // ****** Icon Picker Dialog ****** //
-
+    //
     // 從 Fragment 叫起 Dialog 不需要經過 presenter
     // show Icon Picker Dialog
     public void showIconPickerDialog() {
@@ -313,13 +360,32 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
 
     public void showIconSelected(IconDefineTable bean) {
 
-        getImageviewAddItemIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(bean.getIconName()));
-        getImageviewAddItemIcon().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
         mStrSelectedIconName = bean.getIconName();
+        getImageviewAddItemIcon().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(mStrSelectedIconName));
+        getImageviewAddItemIcon().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
+
     }
 
 
+    // ****** Color Picker Dialog ****** //
+    //
+    @Override
+    public void showColorList(List<ColorDefineTable> bean) {
+        mColorPickerAdapter.updateData(bean);
+    }
+
+    @Override
+    public void showColorSelected(ColorDefineTable bean) {
+
+        mStrIconColor = bean.getColorName();
+        GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutAddItemIcon().getBackground();
+        gradientDrawable.setColor(Color.parseColor(mStrIconColor));
+    }
+
+
+
     // ****** Category Picker Dialog ****** //
+    //
     @Override
     public void showCategoryListDialog() {
 

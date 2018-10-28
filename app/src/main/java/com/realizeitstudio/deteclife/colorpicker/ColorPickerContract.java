@@ -14,32 +14,30 @@
  * limitations under the License.
  */
 
-package com.realizeitstudio.deteclife.iconpicker;
+package com.realizeitstudio.deteclife.colorpicker;
 
 import android.support.v7.widget.RecyclerView;
 
 import com.realizeitstudio.deteclife.BasePresenter;
 import com.realizeitstudio.deteclife.BaseView;
-import com.realizeitstudio.deteclife.object.IconDefineTable;
+import com.realizeitstudio.deteclife.object.ColorDefineTable;
 
 import java.util.List;
 
 
 /**
- * Created by Ken on 2018/10/18
+ * Created by Ken on 2018/10/27
  *
  * This specifies the contract between the view and the presenter.
  */
-public interface IconPickerContract {
+public interface ColorPickerContract {
 
-    interface View extends BaseView<Presenter> {
+    interface View {
 
         // 1-2 request adapter to show the target list (get query result)
-        void showIconList(List<IconDefineTable> bean);
+        void showColorList(List<ColorDefineTable> bean);
 
-        void showDialog(String strColor);
-
-        void closeDialog();
+        void showColorSelected(ColorDefineTable bean);
     }
 
     interface Presenter extends BasePresenter {
@@ -52,13 +50,12 @@ public interface IconPickerContract {
         void onScrolled(RecyclerView.LayoutManager layoutManager);
 
         // 1-1. [Send-to-Model] database query to prepare data (query all targets)
-        void getIconList();
+        void getColorList();
 
         // 1-2. [Send-to-View] request fragment to show data
-        void showIconList(List<IconDefineTable> bean);
+        void showColorList(List<ColorDefineTable> bean);
 
-        void showIconSelected(IconDefineTable bean);
+        void showColorSelected(ColorDefineTable bean);
 
     }
 }
-

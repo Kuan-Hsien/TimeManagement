@@ -24,6 +24,7 @@
     <color name="color_recordpage_timer_seperation">#C8FFFFFF</color>
 
 
+
     <!-- 1.1 action button -->
     <color name="color_recordpage_button_background">#000000</color>
     <color name="color_recordpage_button_ripple_mask">#FFFFFF</color>
@@ -51,6 +52,7 @@
     <color name="color_app_clock_light_blue">#dFE6F3</color>
 
     <color name="color_app_white">#FFFFFF</color>
+    <color name="color_app_transparent">#00000000</color>
 
 
 

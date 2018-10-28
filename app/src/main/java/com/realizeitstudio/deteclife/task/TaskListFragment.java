@@ -1,6 +1,8 @@
 package com.realizeitstudio.deteclife.task;
 
 
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,12 +12,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.realizeitstudio.deteclife.MainActivity;
 import com.realizeitstudio.deteclife.R;
 import com.realizeitstudio.deteclife.TimeManagementApplication;
+import com.realizeitstudio.deteclife.colorpicker.ColorPickerAdapter;
+import com.realizeitstudio.deteclife.colorpicker.ColorPickerContract;
+import com.realizeitstudio.deteclife.colorpicker.ColorPickerPresenter;
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
 import com.realizeitstudio.deteclife.dml.GetTaskWithPlanTime;
+import com.realizeitstudio.deteclife.object.ColorDefineTable;
 import com.realizeitstudio.deteclife.object.IconDefineTable;
 import com.realizeitstudio.deteclife.task.TaskListAdapter;
 import com.realizeitstudio.deteclife.task.TaskListContract;
@@ -50,7 +57,6 @@ public class TaskListFragment extends Fragment implements TaskListContract.View 
     private boolean isRefresh = true;
 
 
-
     public TaskListFragment() {
         // Required empty public constructor
     }
@@ -70,7 +76,6 @@ public class TaskListFragment extends Fragment implements TaskListContract.View 
 //[TODO] TaskListFragment onCreate
 //        ((MainActivity) getActivity()).showUserInfoLog();
         mTaskListAdapter = new TaskListAdapter(new ArrayList<GetCategoryTaskList>(), mPresenter);
-
     }
 
     @Override
@@ -343,15 +348,13 @@ public class TaskListFragment extends Fragment implements TaskListContract.View 
 
 
     // ****** Icon Picker Dialog ****** //
-
+    //
     // 從 Fragment 叫起 Dialog 不需要經過 presenter
     // show Icon Picker Dialog
     public void showIconSelected(IconDefineTable bean) {
 
         mTaskListAdapter.showIconSelected(bean);
     }
-
-
 
     public int getIntTaskMode() {
         return mIntTaskMode;
@@ -367,5 +370,12 @@ public class TaskListFragment extends Fragment implements TaskListContract.View 
 
     public void setRefresh(boolean refresh) {
         isRefresh = refresh;
+    }
+
+
+    @Override
+    public void showToast(String message) {
+
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 }

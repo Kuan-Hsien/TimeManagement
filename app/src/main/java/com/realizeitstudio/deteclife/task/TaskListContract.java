@@ -43,37 +43,13 @@ public interface TaskListContract {
         // 1-2 request adapter to show the task list (get query result)
         void showTaskList(List<GetCategoryTaskList> bean);
 
-//        void showCategoryListDialog(List<GetTaskWithPlanTime> bean);
-//        void showTaskListDialog(List<GetTaskWithPlanTime> bean);
-
         void showTaskSelected(GetCategoryTaskList bean);
-
-
-
-
-
-//        void showTaskListDialog();
-
-
-
-
-
-//        void setCategoryTaskListPresenter(CategoryTaskListContract.Presenter presenter);
-
-        // 0-2 request adapter refresh UI with different mode
-//        void refreshCategoryTaskUi(int mode); // change mode (view_mode <-> edit_mode)
-
-        // 1-2 request adapter to show the target list (get query result)
-//        void showCategoryTaskList(List<GetCategoryTaskList> bean);
-
-//        void showCategoryListDialog(List<GetTaskWithPlanTime> bean);
-//        void showTaskListDialog(List<GetTaskWithPlanTime> bean);
 
         void showCategoryListDialog();
 
         void showIconSelected(IconDefineTable bean);
 
-//        void showCategoryTaskSelected(GetCategoryTaskList bean);
+        void showToast(String message);
 
     }
 
@@ -95,20 +71,6 @@ public interface TaskListContract {
         void showTaskSelected(GetCategoryTaskList bean);
 
 
-
-
-
-
-
-//        // 0-2. [Send-to-View] request fragment to refresh adapter (base on mode (view or edit))
-//        void refreshCategoryTaskUi(int mode); // change mode (view_mode <-> edit_mode), and trigger adapter to update
-//
-//        // 1-1. [Send-to-Model] database query to prepare data (query all targets)
-//        void getCategoryTaskList();
-//
-//        // 1-2. [Send-to-View] request fragment to show data
-//        void showCategoryTaskList(List<GetCategoryTaskList> bean);
-
         // 2-1. [Send-to-Model] database insert to update data (insert new targets or adjust time for existed targets)
         // 2-2. [Send-to-Model] database delete to delete data (delete existed targets)
         void saveTaskResults(List<TaskDefineTable> targetList, List<TaskDefineTable> deleteTargetList);
@@ -120,10 +82,6 @@ public interface TaskListContract {
         // 3-1. [Send-to-View]
         void showCategoryListDialog();
 
-
-
-
-//        void showCategoryTaskSelected(GetCategoryTaskList bean);
 
         // ****** Icon Picker Dialog ****** //
         void showIconPickerDialog(String strColor);

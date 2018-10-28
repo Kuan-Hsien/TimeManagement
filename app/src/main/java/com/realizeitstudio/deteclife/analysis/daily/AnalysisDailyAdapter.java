@@ -89,7 +89,7 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
 
 
 
-        for( int i = 0; i < bean.size(); ++i ) {
+        for (int i = 0; i < bean.size(); ++i) {
             this.mAnalysisningList.add(bean.get(i));
         }
     }

@@ -3,6 +3,7 @@ package com.realizeitstudio.deteclife.category;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.realizeitstudio.deteclife.MainContract;
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
@@ -209,4 +210,9 @@ public class CategoryListPresenter implements CategoryListContract.Presenter {
         Logger.d(Constants.TAG, MSG + "showCategoryListDialog: ");
     }
 
+    @Override
+    public void showToast(String message) {
+
+        mCategoryView.showToast(message);
+    }
 }

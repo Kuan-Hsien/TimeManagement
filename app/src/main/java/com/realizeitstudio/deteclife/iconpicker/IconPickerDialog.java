@@ -51,16 +51,9 @@ public class IconPickerDialog implements IconPickerContract.View {
 
     private String mStrDialogColor;
 
-
-//    public static IconPickerDialog newInstance() {
-//        return new IconPickerDialog();
-//    }
-
     public IconPickerDialog(MainActivity mainActivity, String strColor) {
 
-//        mPresenter = new IconPickerPresenter(this);
         mMainActivity = mainActivity;
-
         mStrDialogColor = strColor;
     }
 
@@ -71,9 +64,9 @@ public class IconPickerDialog implements IconPickerContract.View {
     }
 
     @Override
-    public void showDialog() {
+    public void showDialog(String strColor) {
 
-
+        mStrDialogColor = strColor;
 
 // ****** [Dialog Sample]: 用預設的 mDialog 介面 ******
 
@@ -94,18 +87,14 @@ public class IconPickerDialog implements IconPickerContract.View {
 //        mDialog.show();
 
         // ****** 用自定義的 mDialog 介面 ******
-        AlertDialog.Builder builder = new AlertDialog.Builder(mMainActivity);
-
         View view = View.inflate(mMainActivity, R.layout.dialog_icon_list, null);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_icon_list);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(TimeManagementApplication.getAppContext()));
         recyclerView.setLayoutManager(new GridLayoutManager(mMainActivity, Constants.ICON_SPAN_COUNT));
 
         mIconPickerAdapter = new IconPickerAdapter(new ArrayList<IconDefineTable>(), mPresenter);
         recyclerView.setAdapter(mIconPickerAdapter);
 //        recyclerView.addItemDecoration(new DividerItemDecoration(TimeManagementApplication.getAppContext(), DividerItemDecoration.VERTICAL));
-
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -126,9 +115,9 @@ public class IconPickerDialog implements IconPickerContract.View {
             }
         });
 
-
         mPresenter.start();
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(mMainActivity);
         builder.setView(view);
 //        builder.setCancelable(true);
 //        TextView title= (TextView) view
@@ -141,19 +130,16 @@ public class IconPickerDialog implements IconPickerContract.View {
 //                .findViewById(R.id.btn_comfirm);  // 確定按鈕
 
         // 取消或確定按鈕監聽事件處理
-        Logger.d(Constants.TAG, MSG + "before dialog build:" );
+        Logger.d(Constants.TAG, MSG + "before dialog build:");
         mDialog = builder.create();
         mDialog.show();
         mDialog.getWindow().setBackgroundDrawableResource(R.drawable.shape_dialog);
-
-
 
         LinearLayout linearLayoutIconDialog = view.findViewById(R.id.linearlayout_icon_list_dialog);
         GradientDrawable gradientDrawable = (GradientDrawable) linearLayoutIconDialog.getBackground();
         gradientDrawable.setColor(Color.parseColor(mStrDialogColor));
 
     }
-
 
     @Override
     public void showIconList(List<IconDefineTable> bean) {
@@ -165,23 +151,4 @@ public class IconPickerDialog implements IconPickerContract.View {
         mDialog.dismiss();
     }
 
-    @Override
-    public void refreshUi(int mode) {
-//        setIntTaskMode(mode);
-        mIconPickerAdapter.refreshUiMode(mode);
-    }
-
-//    @Override
-//    public void showCategoryListDialog() {
-//
-//    }
-//
-//    public int getIntTaskMode() {
-//        return mIntTaskMode;
-//    }
-//
-//    public void setIntTaskMode(int intTaskMode) {
-//        mIntTaskMode = intTaskMode;
-//    }
-    
 }

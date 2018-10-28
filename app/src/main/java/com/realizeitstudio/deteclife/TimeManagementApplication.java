@@ -16,6 +16,7 @@ import com.crashlytics.android.Crashlytics;
 import com.realizeitstudio.deteclife.database.AppDatabase;
 import com.realizeitstudio.deteclife.database.DatabaseDao;
 import com.realizeitstudio.deteclife.object.CategoryDefineTable;
+import com.realizeitstudio.deteclife.object.ColorDefineTable;
 import com.realizeitstudio.deteclife.object.IconDefineTable;
 import com.realizeitstudio.deteclife.object.TaskDefineTable;
 import com.realizeitstudio.deteclife.object.TimePlanningTable;
@@ -354,94 +355,11 @@ public class TimeManagementApplication extends Application {
 
                 // Prepare sample plan
                 dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Sleep", curStartVerNoDaily, curEndVerNo, 480 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Eat", curStartVerNoDaily, curEndVerNo, 120 * 60000, strCurrentTime));
                 dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Family", "Family", curStartVerNoDaily, curEndVerNo, 120 * 60000, strCurrentTime));
                 dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Personal", "Personal", curStartVerNoDaily, curEndVerNo, 60 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Friend", "Friend", curStartVerNoDaily, curEndVerNo, 60 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Health", "Swim", curStartVerNoDaily, curEndVerNo, 60 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_DAILY, "Others", "Music", curStartVerNoDaily, curEndVerNo, 30 * 60000, strCurrentTime));
                 dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Sleep", curStartVerNoWeekly, curEndVerNo,  3360 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Health", "Eat", curStartVerNoWeekly, curEndVerNo, 1200 * 60000, strCurrentTime));
                 dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Family", "Family", curStartVerNoWeekly, curEndVerNo, 840 * 60000, strCurrentTime));
                 dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Personal", "Personal", curStartVerNoWeekly, curEndVerNo, 420 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Friend", "Friend", curStartVerNoWeekly, curEndVerNo, 480 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Friend", "Beer", curStartVerNoWeekly, curEndVerNo, 120 * 60000, strCurrentTime));
-//                dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Others", "Shopping", curStartVerNoWeekly, curEndVerNo, 240 * 60000, strCurrentTime));
-
-//                // Prepare default category
-//                dao.addCategory(new CategoryDefineTable("Health", "#32CD32", 1, false));
-//                dao.addCategory(new CategoryDefineTable("Family", "#C71585", 2, false));
-//                dao.addCategory(new CategoryDefineTable("Personal", "#FFD700", 3, false));
-//                dao.addCategory(new CategoryDefineTable("Friend", "#F4A460", 4, false));
-//                dao.addCategory(new CategoryDefineTable("Work", "#1E90FF", 5, false));
-//                dao.addCategory(new CategoryDefineTable("Transportation", "#B0C4DE", 6, false));
-//                dao.addCategory(new CategoryDefineTable("Others", "#4682B4", 7, false));
-//
-//                // Prepare default task
-//                dao.addTask(new TaskDefineTable("Work", "Work", "#4169E1", "icon_work", 8, false));
-//                dao.addTask(new TaskDefineTable("Personal", "Study", "#008B8B", "icon_book", 7, false));
-//                dao.addTask(new TaskDefineTable("Family", "Family", "#FF69B4", "icon_home", 4, false));
-//                dao.addTask(new TaskDefineTable("Friend", "Friend", "#D2691E", "icon_friend", 6, false));
-//                dao.addTask(new TaskDefineTable("Friend", "Beer", "#D2691E", "icon_beer", 6, false));
-//                dao.addTask(new TaskDefineTable("Family", "Lover", "#C71585", "icon_lover", 5, false));
-//                dao.addTask(new TaskDefineTable("Health", "Sleep", "#191970", "icon_sleep", 1, false));
-//                dao.addTask(new TaskDefineTable("Health", "Eat", "#008B8B", "icon_food", 2, false));
-//                dao.addTask(new TaskDefineTable("Health", "Swim", "#87CEFA", "icon_swim", 3, false));
-//                dao.addTask(new TaskDefineTable("Transportation", "Walk", "#B0C4DE", "icon_walk", 13, false));
-//                dao.addTask(new TaskDefineTable("Transportation", "Car", "#BDB76B", "icon_car", 15, false));
-//                dao.addTask(new TaskDefineTable("Transportation", "Bike", "#3CB371", "icon_bike", 14, false));
-//                dao.addTask(new TaskDefineTable("Others", "Computer", "#000000", "icon_computer", 12, false));
-//                dao.addTask(new TaskDefineTable("Others", "Music", "#F08080", "icon_music", 10, false));
-//                dao.addTask(new TaskDefineTable("Others", "Pet", "#FFB6C1", "icon_paw", 9, false));
-//                dao.addTask(new TaskDefineTable("Others", "Shopping", "#FFB6C1", "icon_shopping", 9, false));
-//                dao.addTask(new TaskDefineTable("Others", "Phone", "#FF6347", "icon_phonecall", 11, false));
-//
-//
-//                // Prepare default task
-//                dao.addIconItem(new IconDefineTable("icon_sleep", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_bike", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_book", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_car", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_computer", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_drunk", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_friend", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_food", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_home", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_lover", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_music", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_paw", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_phonecall", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_swim", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_walk", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_work", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_cook", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_chicken", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_medicine", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_ambulance", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_tooth", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_washingmachine", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_washtoilet", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_spray" , false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_plunger", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_tea", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_kettle", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_milk" , false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_beer", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_teaa", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_cocktail", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_weightlifting", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_dumbbell", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_gift", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_shopping", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_envelope", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_airplane", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_giveup_smoking", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_kiss", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_baby", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_game", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_camema", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_condom", false, strCurrentTime));
-//                dao.addIconItem(new IconDefineTable("icon_guitar", false, strCurrentTime));
 
                 // Prepare default category
                 dao.addCategory(new CategoryDefineTable("Health", "#32CD32", 1, false));
@@ -472,7 +390,6 @@ public class TimeManagementApplication extends Application {
                 dao.addTask(new TaskDefineTable("Others", "Shopping", "#4B0082", "icon_shopping", 11, false));
                 dao.addTask(new TaskDefineTable("Others", "Phone", "#FF6347", "icon_phonecall", 13, false));
 
-
                 // Prepare default icon
                 dao.addIconItem(new IconDefineTable("icon_sleep", false, strCurrentTime));
                 dao.addIconItem(new IconDefineTable("icon_bike", false, strCurrentTime));
@@ -498,11 +415,11 @@ public class TimeManagementApplication extends Application {
                 dao.addIconItem(new IconDefineTable("icon_tooth", false, strCurrentTime));
                 dao.addIconItem(new IconDefineTable("icon_washingmachine", false, strCurrentTime));
                 dao.addIconItem(new IconDefineTable("icon_washtoilet", false, strCurrentTime));
-                dao.addIconItem(new IconDefineTable("icon_spray" , false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_spray", false, strCurrentTime));
                 dao.addIconItem(new IconDefineTable("icon_plunger", false, strCurrentTime));
                 dao.addIconItem(new IconDefineTable("icon_tea", false, strCurrentTime));
                 dao.addIconItem(new IconDefineTable("icon_kettle", false, strCurrentTime));
-                dao.addIconItem(new IconDefineTable("icon_milk" , false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_milk", false, strCurrentTime));
                 dao.addIconItem(new IconDefineTable("icon_beer", false, strCurrentTime));
                 dao.addIconItem(new IconDefineTable("icon_teaa", false, strCurrentTime));
                 dao.addIconItem(new IconDefineTable("icon_cocktail", false, strCurrentTime));
@@ -523,6 +440,26 @@ public class TimeManagementApplication extends Application {
                 dao.addIconItem(new IconDefineTable("icon_taxi", false, strCurrentTime));
                 dao.addIconItem(new IconDefineTable("icon_tools", false, strCurrentTime));
                 dao.addIconItem(new IconDefineTable("icon_caroil", false, strCurrentTime));
+
+                // Prepare default color
+                dao.addColorItem(new ColorDefineTable("#f44336", false, strCurrentTime));
+                dao.addColorItem(new ColorDefineTable("#e91e63", false, strCurrentTime));
+                dao.addColorItem(new ColorDefineTable("#9c27b0", false, strCurrentTime));
+                dao.addColorItem(new ColorDefineTable("#673ab7", false, strCurrentTime));
+                dao.addColorItem(new ColorDefineTable("#3f51b5", false, strCurrentTime));
+                dao.addColorItem(new ColorDefineTable("#2196f3", false, strCurrentTime));
+                dao.addColorItem(new ColorDefineTable("#03a9f4", false, strCurrentTime));
+                dao.addColorItem(new ColorDefineTable("#00bcd4", false, strCurrentTime));
+                dao.addColorItem(new ColorDefineTable("#009688", false, strCurrentTime));
+                dao.addColorItem(new ColorDefineTable("#4caf50", false, strCurrentTime));
+                dao.addColorItem(new ColorDefineTable("#8bc34a", false, strCurrentTime));
+                dao.addColorItem(new ColorDefineTable("#cddc39", false, strCurrentTime));
+                dao.addColorItem(new ColorDefineTable("#fad325", false, strCurrentTime));
+                dao.addColorItem(new ColorDefineTable("#ffc107", false, strCurrentTime));
+                dao.addColorItem(new ColorDefineTable("#ff9800", false, strCurrentTime));
+                dao.addColorItem(new ColorDefineTable("#ff5722", false, strCurrentTime));
+                dao.addColorItem(new ColorDefineTable("#795548", false, strCurrentTime));
+                dao.addColorItem(new ColorDefineTable("#000000", false, strCurrentTime));
 
 
                 // Prepare first trace

@@ -11,7 +11,6 @@ import com.realizeitstudio.deteclife.utils.Logger;
 
 import java.util.List;
 
-
 /**
  * Created by Ken on 2018/10/18.
  */

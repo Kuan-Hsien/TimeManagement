@@ -232,7 +232,7 @@ public class TaskListPresenter implements TaskListContract.Presenter {
             mIconPickerPresenter = new IconPickerPresenter(mIconPickerDialog, this);
         }
 
-        mIconPickerDialog.showDialog();
+        mIconPickerDialog.showDialog(strColor);
 
     }
 
@@ -245,6 +245,7 @@ public class TaskListPresenter implements TaskListContract.Presenter {
     @Override
     public void showToast(String message) {
 
+        mTaskView.showToast(message);
         Toast.makeText(mMainActivity, message, Toast.LENGTH_SHORT).show();
     }
 }

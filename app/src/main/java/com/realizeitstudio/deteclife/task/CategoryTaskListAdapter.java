@@ -42,7 +42,7 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
         setIntTaskMode(Constants.MODE_PLAN_VIEW);
         mCategoryTaskList = new ArrayList<>();
 
-        for( int i = 0; i < bean.size(); ++i ) {
+        for (int i = 0; i < bean.size(); ++i) {
             this.mCategoryTaskList.add(bean.get(i));
         }
     }

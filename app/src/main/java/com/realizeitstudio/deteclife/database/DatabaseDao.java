@@ -12,6 +12,7 @@ import com.realizeitstudio.deteclife.dml.GetTaskWithPlanTime;
 import com.realizeitstudio.deteclife.dml.GetTraceDetail;
 import com.realizeitstudio.deteclife.dml.GetTraceSummary;
 import com.realizeitstudio.deteclife.object.CategoryDefineTable;
+import com.realizeitstudio.deteclife.object.ColorDefineTable;
 import com.realizeitstudio.deteclife.object.IconDefineTable;
 import com.realizeitstudio.deteclife.object.TaskDefineTable;
 import com.realizeitstudio.deteclife.object.TimePlanningTable;
@@ -451,5 +452,19 @@ public interface DatabaseDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addIconList(List<IconDefineTable> item);
+
+
+    
+    // ****** Color ******
+
+    // Query all color list
+    @Query("SELECT * FROM color_define_table")
+    List<ColorDefineTable> getAllColorList();
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void addColorItem(ColorDefineTable item);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void addColorList(List<ColorDefineTable> item);
 
 }

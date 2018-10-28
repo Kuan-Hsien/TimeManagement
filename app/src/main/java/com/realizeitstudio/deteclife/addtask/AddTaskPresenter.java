@@ -126,7 +126,7 @@ public class AddTaskPresenter implements AddTaskContract.Presenter {
             mIconPickerPresenter = new IconPickerPresenter(mIconPickerDialog, this);
         }
 
-        mIconPickerDialog.showDialog();
+        mIconPickerDialog.showDialog(strColor);
 
     }
 
@@ -135,10 +135,4 @@ public class AddTaskPresenter implements AddTaskContract.Presenter {
 
         mTaskView.showIconSelected(bean);
     }
-
-    //    @Override
-//    public void showCategoryListDialog() {
-//        mTaskView.showCategoryListDialog();
-//    }
-
 }

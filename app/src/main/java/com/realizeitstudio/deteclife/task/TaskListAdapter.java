@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,11 @@ import android.widget.Toast;
 
 import com.realizeitstudio.deteclife.R;
 import com.realizeitstudio.deteclife.TimeManagementApplication;
+import com.realizeitstudio.deteclife.colorpicker.ColorPickerAdapter;
+import com.realizeitstudio.deteclife.colorpicker.ColorPickerContract;
+import com.realizeitstudio.deteclife.colorpicker.ColorPickerPresenter;
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
+import com.realizeitstudio.deteclife.object.ColorDefineTable;
 import com.realizeitstudio.deteclife.object.IconDefineTable;
 import com.realizeitstudio.deteclife.object.TaskDefineTable;
 import com.realizeitstudio.deteclife.utils.Constants;
@@ -339,7 +344,7 @@ public class TaskListAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public class AddItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class AddItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, ColorPickerContract.View {
 
         //** View Mode
         private ConstraintLayout mConstraintLayoutAddItemViewMode;
@@ -354,8 +359,12 @@ public class TaskListAdapter extends RecyclerView.Adapter {
         private ImageView mImageviewAddItemIcon;
         private ImageView mImageviewAddItemIconHint;
 
-        private String mStrSelectedIconName = Constants.DEFAULT_TASK_ICON;
-        private String mStrIconColor = Constants.DEFAULT_TASK_COLOR;
+        private String mStrSelectedIconName;
+        private String mStrIconColor;
+
+        // Color information
+        private ColorPickerContract.Presenter mColorPresenter;
+        private ColorPickerAdapter mColorPickerAdapter;
 
         public ConstraintLayout getConstraintLayoutAddItemViewMode() {
             return mConstraintLayoutAddItemViewMode;
@@ -433,6 +442,41 @@ public class TaskListAdapter extends RecyclerView.Adapter {
 
             ((ImageView) v.findViewById(R.id.imageview_addtask_editmode_save)).setOnClickListener(this);
             ((ImageView) v.findViewById(R.id.imageview_addtask_editmode_cancel)).setOnClickListener(this);
+
+
+
+            // Set Color
+            if (mColorPresenter == null) {
+                mColorPresenter = new ColorPickerPresenter(this);
+//            mColorPresenter = new ColorPickerPresenter(this, Constants.PAGE_ADD_TASK);
+            }
+
+            mColorPickerAdapter = new ColorPickerAdapter(new ArrayList<ColorDefineTable>(), mColorPresenter);
+
+            RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview_color_picker);
+            // recyclerView.setLayoutManager(new LinearLayoutManager(TimeManagementApplication.getAppContext()));
+            // 水平 recyclerView
+            recyclerView.setLayoutManager(new LinearLayoutManager(TimeManagementApplication.getAppContext(), LinearLayoutManager.HORIZONTAL, false));
+            recyclerView.setAdapter(mColorPickerAdapter);
+
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+
+                    mColorPresenter.onScrollStateChanged(
+                            recyclerView.getLayoutManager().getChildCount(),
+                            recyclerView.getLayoutManager().getItemCount(),
+                            newState);
+                }
+
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+
+                    mColorPresenter.onScrolled(recyclerView.getLayoutManager());
+                }
+            });
         }
 
         @Override
@@ -503,7 +547,8 @@ public class TaskListAdapter extends RecyclerView.Adapter {
                 if (TimeManagementApplication.getAppContext().getResources().getString(R.string.default_category_hint)
                         .equals(getTextviewAddItemCategory().getText().toString().trim())
                         || ("").equals(getEdittextAddItemTask().getText().toString().trim())
-                        || Constants.DEFAULT_TASK_ICON.equals(mStrIconColor)) {
+                        || Constants.DEFAULT_TASK_ICON.equals(mStrSelectedIconName)
+                        || Constants.DEFAULT_TASK_COLOR.equals(mStrIconColor)) {
 
                     mPresenter.showToast(Constants.TOAST_ADD_TASK_FAIL);
 
@@ -533,8 +578,8 @@ public class TaskListAdapter extends RecyclerView.Adapter {
 
                 mPresenter.refreshUi(Constants.MODE_PLAN_VIEW);
 
-            } else if (v.getId() == R.id.textview_addtask_editmode_category ||
-                        v.getId() == R.id.framelayout_addtask_editmode_category_hint) {
+            } else if (v.getId() == R.id.textview_addtask_editmode_category
+                    || v.getId() == R.id.framelayout_addtask_editmode_category_hint) {
 
                 Logger.d(Constants.TAG, MSG + "click => textview_addtask_editmode_category");
                 mPresenter.showCategoryListDialog();
@@ -590,6 +635,24 @@ public class TaskListAdapter extends RecyclerView.Adapter {
             gradientDrawable.setColor(Color.parseColor(mStrIconColor));
 
             getImageviewAddItemIconHint().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
+
+            // get colors
+            mColorPresenter.start();
+        }
+
+        // ****** Color Picker Dialog ****** //
+        //
+        @Override
+        public void showColorList(List<ColorDefineTable> bean) {
+            mColorPickerAdapter.updateData(bean);
+        }
+
+        @Override
+        public void showColorSelected(ColorDefineTable bean) {
+
+            mStrIconColor = bean.getColorName();
+            GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutAddItemIcon().getBackground();
+            gradientDrawable.setColor(Color.parseColor(mStrIconColor));
         }
     }
 
