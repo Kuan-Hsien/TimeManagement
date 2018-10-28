@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.realizeitstudio.deteclife.R;
 import com.realizeitstudio.deteclife.TimeManagementApplication;
@@ -54,7 +53,7 @@ public class TaskListAdapter extends RecyclerView.Adapter {
         setIntTaskMode(Constants.MODE_PLAN_VIEW);
         mTaskList = new ArrayList<>();
 
-        for(int i = 0; i < bean.size(); ++i) {
+        for (int i = 0; i < bean.size(); ++i) {
             this.mTaskList.add(bean.get(i));
         }
     }
@@ -93,7 +92,6 @@ public class TaskListAdapter extends RecyclerView.Adapter {
 
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-//        Logger.d(Constants.TAG, MSG + "onBindViewHolder: position " + position + " " + mTaskList.get(position));
 
         if (holder instanceof AddItemViewHolder) {
 
@@ -118,7 +116,6 @@ public class TaskListAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-//        Logger.d(Constants.TAG, MSG + "getItemViewType: position: " + position + "  View-Type: " + ((position == 0) ? Constants.VIEWTYPE_CATEGORY : Constants.VIEWTYPE_TASK));
 
         if (position == mTaskList.size()) { // last item would be add-item-layout
 
@@ -190,8 +187,6 @@ public class TaskListAdapter extends RecyclerView.Adapter {
             return mPosition;
         }
 
-//        public ImageView getImageviewCategeoryColorLabel() {
-//            return mImageviewCategeoryColorLabel;
 //        }
 
         public ImageView getImageviewTaskIcon() {
@@ -257,7 +252,7 @@ public class TaskListAdapter extends RecyclerView.Adapter {
         /**
          * call by onBindViewHolder
          */
-        public void bindView(GetCategoryTaskList item , int pos) {
+        public void bindView(GetCategoryTaskList item, int pos) {
 
             // 把相對應位置的 task 顯示在此 viewHolder
 
@@ -332,7 +327,7 @@ public class TaskListAdapter extends RecyclerView.Adapter {
         /**
          * call by onBindViewHolder
          */
-        public void bindView(GetCategoryTaskList item , int pos) {
+        public void bindView(GetCategoryTaskList item, int pos) {
 
             Logger.d(Constants.TAG, MSG + "bindView setColor: " + item.getCategoryColor() + " CategoryName: " + item.getCategoryName());
 

@@ -36,8 +36,6 @@ public class PrepareDatabaseAsyncTask extends AsyncTask<Object, Void, List<Categ
     @Override
     protected List<CategoryDefineTable> doInBackground(Object[] objects) {
 
-//        try {
-
         DatabaseDao dao = AppDatabase.getDatabase(TimeManagementApplication.getAppContext()).getDatabaseDao();
 
         // delete category
@@ -47,18 +45,6 @@ public class PrepareDatabaseAsyncTask extends AsyncTask<Object, Void, List<Categ
         for (int i = 0; i < mCategoryList.size(); ++i) {
             dao.addCategory(mCategoryList.get(i));
         }
-
-        // [TODO] add exception handling
-//        } catch (VoyageInvalidTokenException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        } catch (VoyageException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        }
 
         return mCategoryList;
     }

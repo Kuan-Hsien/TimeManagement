@@ -3,22 +3,15 @@ package com.realizeitstudio.deteclife.iconpicker;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import com.realizeitstudio.deteclife.addtask.AddTaskPresenter;
 import com.realizeitstudio.deteclife.dml.GetIconListAsyncTask;
 import com.realizeitstudio.deteclife.dml.GetIconListCallback;
-import com.realizeitstudio.deteclife.dml.SetTaskAsyncTask;
-import com.realizeitstudio.deteclife.dml.SetTaskCallback;
 import com.realizeitstudio.deteclife.object.IconDefineTable;
-import com.realizeitstudio.deteclife.object.TaskDefineTable;
 import com.realizeitstudio.deteclife.task.TaskListPresenter;
 import com.realizeitstudio.deteclife.utils.Constants;
 import com.realizeitstudio.deteclife.utils.Logger;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;

@@ -236,7 +236,7 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
         /**
          * call by onBindViewHolder
          */
-        public void bindView(GetCategoryTaskList item , int pos) {
+        public void bindView(GetCategoryTaskList item, int pos) {
 
             // 把相對應位置的 task 顯示在此 viewHolder
 
@@ -299,7 +299,7 @@ public class CategoryTaskListAdapter extends RecyclerView.Adapter {
         /**
          * call by onBindViewHolder
          */
-        public void bindView(GetCategoryTaskList item , int pos) {
+        public void bindView(GetCategoryTaskList item, int pos) {
 
             Logger.d(Constants.TAG, MSG + "bindView setColor: " + item.getCategoryColor() + " CategoryName: " + item.getCategoryName());
 

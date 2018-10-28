@@ -43,8 +43,6 @@ public class GetResultDailySummaryAsyncTask extends AsyncTask<Object, Void, List
     @Override
     protected List<GetResultDailySummary> doInBackground(Object[] objects) {
 
-//        try {
-
         DatabaseDao dao = AppDatabase.getDatabase(TimeManagementApplication.getAppContext()).getDatabaseDao();
 
         // (1) Query trace summary in a specific period
@@ -55,18 +53,6 @@ public class GetResultDailySummaryAsyncTask extends AsyncTask<Object, Void, List
         for (int i = 0; i < resultDailySummaryList.size(); ++i) {
             resultDailySummaryList.get(i).logD();
         }
-
-        // [TODO] add exception handling
-//        } catch (VoyageInvalidTokenException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        } catch (VoyageException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        }
 
         return resultDailySummaryList;
     }

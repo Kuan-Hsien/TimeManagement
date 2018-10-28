@@ -17,7 +17,6 @@ import com.realizeitstudio.deteclife.utils.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Created by Ken on 2018/10/18
  */
@@ -129,11 +128,10 @@ public class IconPickerAdapter extends RecyclerView.Adapter {
             }
         }
 
-
         /**
          * call by onBindViewHolder
          */
-        public void bindView(IconDefineTable item , int pos) {
+        public void bindView(IconDefineTable item, int pos) {
 
             getImageviewIconItem().setImageDrawable(TimeManagementApplication.getIconResourceDrawable(item.getIconName()));
             getImageviewIconItem().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色

@@ -152,7 +152,7 @@ public class CategoryTaskListPresenter implements CategoryTaskListContract.Prese
             public void onCompleted(List<TaskDefineTable> bean) {
 
                 Logger.d(Constants.TAG, MSG + "SetTask onCompleted");
-                for( int i = 0; i < bean.size(); ++i) {
+                for (int i = 0; i < bean.size(); ++i) {
                     bean.get(i).logD();
                 }
 

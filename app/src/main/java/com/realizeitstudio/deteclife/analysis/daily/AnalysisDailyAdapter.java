@@ -39,10 +39,8 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.realizeitstudio.deteclife.R;
 import com.realizeitstudio.deteclife.TimeManagementApplication;
-import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
 import com.realizeitstudio.deteclife.dml.GetResultDailySummary;
 import com.realizeitstudio.deteclife.object.TimeTracingTable;
 import com.realizeitstudio.deteclife.utils.Constants;
@@ -332,7 +330,7 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
         }
 
         //** Seekbar
-        private SeekBar.OnSeekBarChangeListener mSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener(){
+        private SeekBar.OnSeekBarChangeListener mSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
             //onProgressChanged  進度條只要拖動就觸發此事件（持續觸發）
 
             @Override
@@ -406,7 +404,7 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
         /**
          * call by onBindViewHolder
          */
-        public void bindView(GetResultDailySummary item , int pos) {
+        public void bindView(GetResultDailySummary item, int pos) {
 
             // 把相對應位置的 task 顯示在此 viewHolder
 
@@ -624,13 +622,16 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
             // 設定是否要顯示餅狀圖每個顏色代表的內容，預設不要顯示，資訊乾淨一點
             Legend legend = mPieChart.getLegend();
             if (isShowLegend()) {
-                    legend.setEnabled(true);
-                    legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-                    legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-                    legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-                    legend.setDrawInside(false);
-                    legend.setDirection(Legend.LegendDirection.LEFT_TO_RIGHT);
+
+                legend.setEnabled(true);
+                legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+                legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+                legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+                legend.setDrawInside(false);
+                legend.setDirection(Legend.LegendDirection.LEFT_TO_RIGHT);
+
             } else {
+
                 legend.setEnabled(false);
             }
 
@@ -652,14 +653,14 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
             // 找出被點擊到的扇形是哪個 task
             for (int i = 0; i < mAnalysisningList.size(); ++i) {
 
-                if ( strClickEntryLabel.equals(mAnalysisningList.get(i).getTaskName()) ) {
+                if (strClickEntryLabel.equals(mAnalysisningList.get(i).getTaskName())) {
 
                     Logger.d(Constants.TAG, MSG + "Click Pie-chart, costTime: " + mAnalysisningList.get(i).getCostTime());   // 抓出被點擊項目的花費時間
-                    Logger.d(Constants.TAG, MSG + "Click Pie-chart, %: " + (double) mAnalysisningList.get(i).getCostTime() * 100/ (double) mLongTotalCostTime + "%");   // 抓出被點擊項目的花費時間
+                    Logger.d(Constants.TAG, MSG + "Click Pie-chart, %: " + (double) mAnalysisningList.get(i).getCostTime() * 100 / (double) mLongTotalCostTime + "%");   // 抓出被點擊項目的花費時間
 
                     // 轉換為小數點下一位的百分比
                     DecimalFormat decimalFormat = new DecimalFormat("##0.0");
-                    String strPercent = decimalFormat.format((double) mAnalysisningList.get(i).getCostTime() * 100/ (double) mLongTotalCostTime) + "%";
+                    String strPercent = decimalFormat.format((double) mAnalysisningList.get(i).getCostTime() * 100 / (double) mLongTotalCostTime) + "%";
 
 //                    mPieChart.setCenterText(strPercent);
                     mTextviewAnalysisTopItemPercent.setText(strPercent);
@@ -682,7 +683,7 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
         Logger.d(Constants.TAG, MSG + "updateCurrentTraceItem");
 
         mCurrentItem = new TimeTracingTable(bean);
-//        for(int i = 0;i < mAnalysisningList.size(); ++i)
+//        for (int i = 0;i < mAnalysisningList.size(); ++i)
 //        mAnalysisTopItemViewHolder.getPieChart().highlightValue(1, 0, false);
     }
 
@@ -695,13 +696,6 @@ public class AnalysisDailyAdapter extends RecyclerView.Adapter {
         mIntAnalysisMode = intAnalysisMode;
     }
 
-
-    public void showCategoryTaskSelected(GetCategoryTaskList bean) {
-
-//        mAnalysisTopItemViewHolder.getTextviewSetTargetCategory().setText(bean.getCategoryName());
-//        mAnalysisTopItemViewHolder.getTextviewSetTargetTask().setText(bean.getTaskName());
-
-    }
 
     public boolean isShowLegend() {
         return isShowLegend;

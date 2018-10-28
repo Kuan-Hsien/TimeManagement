@@ -83,8 +83,6 @@ public class RecordAdapter extends RecyclerView.Adapter {
 
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-//        Logger.d(Constants.TAG, MSG + "onBindViewHolder: position " + position + " " + mCategoryTaskList.get(position));
-
         if (holder instanceof AddItemViewHolder) {
 
             ((AddItemViewHolder) holder).bindView();
@@ -140,7 +138,7 @@ public class RecordAdapter extends RecyclerView.Adapter {
     public void updateCurrentTraceItem(TimeTracingTable bean) {
         Logger.d(Constants.TAG, MSG + "updateCurrentTraceItem");
 
-         mCurrentItem = new TimeTracingTable(bean);
+        mCurrentItem = new TimeTracingTable(bean);
     }
 
 
@@ -209,7 +207,7 @@ public class RecordAdapter extends RecyclerView.Adapter {
         /**
          * call by onBindViewHolder
          */
-        public void bindView(GetCategoryTaskList item , int pos) {
+        public void bindView(GetCategoryTaskList item, int pos) {
 
             Logger.d(Constants.TAG, MSG + "bindView setColor: " + item.getCategoryColor() + " CategoryName: " + item.getCategoryName());
 
@@ -325,17 +323,11 @@ public class RecordAdapter extends RecyclerView.Adapter {
         /**
          * call by onBindViewHolder
          */
-        public void bindView(GetCategoryTaskList item , int pos) {
+        public void bindView(GetCategoryTaskList item, int pos) {
 
             // 把相對應位置的 task 顯示在此 viewHolder
 
             Logger.d(Constants.TAG, MSG + "bindView setColor: " + item.getTaskColor() + " Taskname: " + item.getTaskName());
-//            getImageviewCategeoryColorLabel().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
-
-//            getFrameLayoutTaskColor().setBackgroundColor(Color.parseColor(item.getTaskColor()));
-
-
-//            getConstraintLayoutTaskItem().setBackgroundColor(Color.parseColor(item.getTaskColor()));
 
             GradientDrawable gradientDrawable = (GradientDrawable) getConstraintLayoutTaskItem().getBackground();
             gradientDrawable.setColor(Color.parseColor(item.getTaskColor()));
@@ -394,28 +386,7 @@ public class RecordAdapter extends RecyclerView.Adapter {
         public void onClick(View v) {
 
             if (v.getId() == R.id.constraintlayout_record_add_task_item) {
-                // [TODO] 進入新增 Task 事件
-
                 mPresenter.showAddTaskUi();
-//                mPresenter.showCategoryTaskSelected(mCategoryTaskList.get(getCurrentPosition()));
-
-
-
-//                // if original delete flag is on, than cancel. (change background color to white)
-//                if (isDeleteArray[getCurrentPosition()] == true) {
-//
-//                    isDeleteArray[getCurrentPosition()] = false;
-//                    mFrameLayoutTaskColor.setBackground(TimeManagementApplication.getAppContext().getDrawable(android.R.color.white));
-//
-//                } else {
-//                    // if original delete flag is off, than delete. (change background color with drawable)
-//
-//                    isDeleteArray[getCurrentPosition()] = true;
-//                    mFrameLayoutTaskColor.setBackground(TimeManagementApplication.getAppContext().getDrawable(R.drawable.toolbar_background));
-//
-//                }
-//
-//                Logger.d(Constants.TAG, MSG + "delete " + mCategoryTaskList.get(getCurrentPosition()).getTaskName() + " status: " + isDeleteArray[getCurrentPosition()]);
             }
         }
 
@@ -425,9 +396,7 @@ public class RecordAdapter extends RecyclerView.Adapter {
          */
         public void bindView() {
 
-//            Logger.d(Constants.TAG, MSG + "bindView setColor: " + item.getTaskColor() + " Taskname: " + item.getTaskName());
 //            getImageviewCategeoryColorLabel().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
-
 //            getFrameLayoutTaskColor().setBackgroundColor(Color.parseColor(item.getTaskColor()));
 
             // 白底黑字 (7F 表示透明度 50%)

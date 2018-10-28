@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import com.realizeitstudio.deteclife.MainActivity;
 import com.realizeitstudio.deteclife.MainContract;
-import com.realizeitstudio.deteclife.TimeManagementApplication;
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskListAsyncTask;
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskListCallback;
@@ -20,10 +19,7 @@ import com.realizeitstudio.deteclife.object.TaskDefineTable;
 import com.realizeitstudio.deteclife.utils.Constants;
 import com.realizeitstudio.deteclife.utils.Logger;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -75,8 +71,6 @@ public class TaskListPresenter implements TaskListContract.Presenter {
 
             if (mlastVisibleItemPosition == totalItemCount - 1) {
                 Logger.d(Constants.TAG, MSG + "Scroll to bottom");
-
-//                loadArticles();
 
             } else if (mfirstVisibleItemPosition == 0) {
 
@@ -178,7 +172,7 @@ public class TaskListPresenter implements TaskListContract.Presenter {
             public void onCompleted(List<TaskDefineTable> bean) {
 
                 Logger.d(Constants.TAG, MSG + "SetTask onCompleted");
-                for( int i = 0; i < bean.size(); ++i) {
+                for (int i = 0; i < bean.size(); ++i) {
                     bean.get(i).logD();
                 }
 

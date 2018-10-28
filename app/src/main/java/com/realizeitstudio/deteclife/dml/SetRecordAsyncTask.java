@@ -45,8 +45,6 @@ public class SetRecordAsyncTask extends AsyncTask<Object, Void, List<GetTraceSum
     @Override
     protected List<GetTraceSummary> doInBackground(Object[] objects) {
 
-//        try {
-
         DatabaseDao dao = AppDatabase.getDatabase(TimeManagementApplication.getAppContext()).getDatabaseDao();
 
         // (1) insert trace results and new-start task
@@ -61,18 +59,6 @@ public class SetRecordAsyncTask extends AsyncTask<Object, Void, List<GetTraceSum
         for (int i = 0; i < traceSummaryList.size(); ++i) {
             traceSummaryList.get(i).logD();
         }
-
-        // [TODO] add exception handling
-//        } catch (VoyageInvalidTokenException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        } catch (VoyageException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        }
 
         return traceSummaryList;
     }

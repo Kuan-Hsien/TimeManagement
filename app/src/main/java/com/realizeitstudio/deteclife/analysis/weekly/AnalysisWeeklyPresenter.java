@@ -9,13 +9,6 @@ import com.realizeitstudio.deteclife.dml.GetCurrentTraceTaskCallback;
 import com.realizeitstudio.deteclife.dml.GetResultDailySummary;
 import com.realizeitstudio.deteclife.dml.GetResultDailySummaryAsyncTask;
 import com.realizeitstudio.deteclife.dml.GetResultDailySummaryCallback;
-import com.realizeitstudio.deteclife.dml.GetTaskWithPlanTime;
-import com.realizeitstudio.deteclife.dml.GetTaskWithPlanTimeAsyncTask;
-import com.realizeitstudio.deteclife.dml.GetTaskWithPlanTimeCallback;
-import com.realizeitstudio.deteclife.dml.SetTargetAsyncTask;
-import com.realizeitstudio.deteclife.dml.SetTargetCallback;
-import com.realizeitstudio.deteclife.object.TimePlanningTable;
-import com.realizeitstudio.deteclife.analysis.weekly.AnalysisWeeklyContract;
 import com.realizeitstudio.deteclife.object.TimeTracingTable;
 import com.realizeitstudio.deteclife.utils.Constants;
 import com.realizeitstudio.deteclife.utils.Logger;
@@ -23,7 +16,6 @@ import com.realizeitstudio.deteclife.utils.ParseTime;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -75,8 +67,6 @@ public class AnalysisWeeklyPresenter implements AnalysisWeeklyContract.Presenter
 
             if (mlastVisibleItemPosition == totalItemCount - 1) {
                 Logger.d(Constants.TAG, MSG + "Scroll to bottom");
-
-//                loadArticles();
 
             } else if (mfirstVisibleItemPosition == 0) {
 
@@ -164,7 +154,7 @@ public class AnalysisWeeklyPresenter implements AnalysisWeeklyContract.Presenter
             int intWeekDay = ParseTime.date2Day(date);    // 把今天傳入，回傳星期幾 (1 = 星期一，2 = 星期二)
 
             // 計算 Weekly 的開始時間 (beginVerNo)
-            date = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * (intWeekDay-1)); // 如果今天是星期一，則 Weekly 也只撈一天 (beginVerNo = endVerNo)，和 endVerNo 一樣只往回減一天
+            date = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * (intWeekDay - 1)); // 如果今天是星期一，則 Weekly 也只撈一天 (beginVerNo = endVerNo)，和 endVerNo 一樣只往回減一天
             String beginVerNo = simpleDateFormat.format(date);
 
 
@@ -179,11 +169,11 @@ public class AnalysisWeeklyPresenter implements AnalysisWeeklyContract.Presenter
                     List<GetResultDailySummary> dailySummaryList = new ArrayList<>();
                     List<GetResultDailySummary> weeklySummaryList = new ArrayList<>();
 
-                    for( int i = 0; i < bean.size(); ++i) {
+                    for (int i = 0; i < bean.size(); ++i) {
                         bean.get(i).logD();
 
                         // 分別存成 daily 和 weekly 的結果，TODO 放進兩個不同的 adapter 中，甚至一次撈一整週
-                        if ( Constants.MODE_DAILY.equals(bean.get(i).getMode()) ) {     // Daily summary
+                        if (Constants.MODE_DAILY.equals(bean.get(i).getMode())) {     // Daily summary
 
                             dailySummaryList.add(bean.get(i));
 
@@ -220,40 +210,6 @@ public class AnalysisWeeklyPresenter implements AnalysisWeeklyContract.Presenter
     }
 
 
-//    // 2-1. [Send-to-Model] database insert to update data (insert new targets or adjust time for existed targets)
-//    @Override
-//    public void saveTargetResults(List<TimePlanningTable> targetList, List<TimePlanningTable> deleteTargetList) {
-////    public void saveTargetResults(String strMode, String strCategory, String strTask, String strStartTime, String strEndTime, String strCostTime) {
-//
-//        // insert time_analysisning_table
-//        new SetTargetAsyncTask(targetList, deleteTargetList,  new SetTargetCallback() {
-//
-//            @Override
-//            public void onCompleted(List<TimePlanningTable> bean) {
-//
-//                Logger.d(Constants.TAG, MSG + "SetTarget onCompleted");
-//                for( int i = 0; i < bean.size(); ++i) {
-//                    bean.get(i).logD();
-//                }
-//
-//                // [TODO] insert 資料後更新畫面，目前是將要更新的資料全部當作 bean
-//                // 假如有順利 insert，則跳回 Analysis Fragment，但是裡面的內容要更新 (重新撈取資料或是把所有更新項目都塞進 list 中，也包含 edit 的時間結果)
-//                // (1) 方法 1: 用 LiveData 更新
-//                // (2) 方法 2: 從這裡回到 AnalysisDailyFragment，或是回到 MainActivity > MainPresenter > AnalysisDailyFragment 更新
-//                // *(3) 方法 3: [TODO] 把 TimePlanningTable 中增加 icon 和 color，就可以直接把這個物件當作畫面要顯示的內容。而不用另外再做一次畫面。也不用另外寫 GetTaskWithPlanTime 物件
-//                getResultDailySummary();
-//            }
-//
-//            @Override
-//            public void onError(String errorMessage) {
-//
-//                Logger.d(Constants.TAG, MSG + "SetTarget onError, errorMessage: " + errorMessage);
-//
-//                refreshUi(Constants.MODE_PLAN_VIEW);
-//            }
-//        }).execute();
-//    }
-
     public boolean isLoading() {
         return mLoading;
     }
@@ -261,11 +217,6 @@ public class AnalysisWeeklyPresenter implements AnalysisWeeklyContract.Presenter
     public void setLoading(boolean loading) {
         mLoading = loading;
     }
-
-//    @Override
-//    public void showTaskListDialog() {
-//        mAnalysisView.showTaskListDialog();
-//    }
 
 
     /////////////////////////////

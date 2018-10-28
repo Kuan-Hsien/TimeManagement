@@ -1,6 +1,5 @@
 package com.realizeitstudio.deteclife.record;
 
-
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -19,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.realizeitstudio.deteclife.MainActivity;
 import com.realizeitstudio.deteclife.R;
+import com.realizeitstudio.deteclife.TimeManagementApplication;
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskListAsyncTask;
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskListCallback;
@@ -30,10 +30,8 @@ import com.realizeitstudio.deteclife.dml.GetResultDailySummaryCallback;
 import com.realizeitstudio.deteclife.dml.GetTraceSummary;
 import com.realizeitstudio.deteclife.dml.SetRecordAsyncTask;
 import com.realizeitstudio.deteclife.dml.SetRecordCallback;
-import com.realizeitstudio.deteclife.TimeManagementApplication;
 import com.realizeitstudio.deteclife.object.TimeTracingTable;
 import com.realizeitstudio.deteclife.service.JobSchedulerServiceComplete;
-import com.realizeitstudio.deteclife.service.JobSchedulerServiceDailyDataVersionGeneration;
 import com.realizeitstudio.deteclife.service.JobSchedulerServiceRemainingTask;
 import com.realizeitstudio.deteclife.utils.Constants;
 import com.realizeitstudio.deteclife.utils.Logger;
@@ -76,7 +74,6 @@ public class RecordPresenter implements RecordContract.Presenter {
         // (1) Task List
         getCategoryTaskList();
 
-
         // (2) Current Trace Task
         // 取得現在時間
         Date curDate = new Date();
@@ -97,8 +94,6 @@ public class RecordPresenter implements RecordContract.Presenter {
 
             if (mlastVisibleItemPosition == totalItemCount - 1) {
                 Logger.d(Constants.TAG, MSG + "Scroll to bottom");
-
-//                loadArticles();
 
             } else if (mfirstVisibleItemPosition == 0) {
 
@@ -208,48 +203,6 @@ public class RecordPresenter implements RecordContract.Presenter {
         mRecordView.showCurrentTraceItem(bean);
     }
 
-
-
-//    @Override
-//    public void showCategoryTaskSelected(GetCategoryTaskList bean) {
-//        mRecordView.showCategoryTaskSelected(bean);
-//    }
-
-    // 2-1. [Send-to-Model] database insert to update data (insert new records or adjust time for existed records)
-//    @Override
-//    public void saveTaskResults(List<TaskDefineTable> recordList, List<TaskDefineTable> deleteTargetList) {
-////    public void saveTargetResults(String strMode, String strCategory, String strTask, String strStartTime, String strEndTime, String strCostTime) {
-//
-//        // insert time_planning_table
-//        new SetTaskAsyncTask(recordList, deleteTargetList,  new SetTaskCallback() {
-//
-//            @Override
-//            public void onCompleted(List<TaskDefineTable> bean) {
-//
-//                Logger.d(Constants.TAG, MSG + "SetTask onCompleted");
-//                for( int i = 0; i < bean.size(); ++i) {
-//                    bean.get(i).logD();
-//                }
-//
-//                // [TODO] insert 資料後更新畫面，目前是將要更新的資料全部當作 bean
-//                // 假如有順利 insert，則跳回 Plan Fragment，但是裡面的內容要更新 (重新撈取資料或是把所有更新項目都塞進 list 中，也包含 edit 的時間結果)
-//                // (1) 方法 1: 用 LiveData 更新
-//                // (2) 方法 2: 從這裡回到 PlanDailyFragment，或是回到 MainActivity > MainPresenter > PlanDailyFragment 更新
-//                // *(3) 方法 3: [TODO] 把 TaskDefineTable 中增加 icon 和 color，就可以直接把這個物件當作畫面要顯示的內容。而不用另外再做一次畫面。也不用另外寫 GetCategoryTaskList 物件
-//                getCategoryTaskList();
-//            }
-//
-//            @Override
-//            public void onError(String errorMessage) {
-//
-//                Logger.d(Constants.TAG, MSG + "SetTask onError, errorMessage: " + errorMessage);
-//
-//                refreshUi(Constants.MODE_PLAN_VIEW);
-//            }
-//        }).execute();
-//    }
-
-
     @Override
     public void saveTraceResults(final List<TimeTracingTable> recordList, String startVerNo, String endVerNo, String categoryList, String taskList) {
 
@@ -261,7 +214,7 @@ public class RecordPresenter implements RecordContract.Presenter {
             public void onCompleted(List<GetTraceSummary> bean) {
 
                 Logger.d(Constants.TAG, MSG + "SetRecord onCompleted");
-                for( int i = 0; i < bean.size(); ++i) {
+                for (int i = 0; i < bean.size(); ++i) {
                     bean.get(i).logD();
                 }
                 // [TODO] 更新 Record Fragment 內容，getCategoryTaskList 和 getCurrentTraceItem 其實都可以不做，應該是進來這頁的時候重撈就可以。同時 getCurrentTraceItem 其實不用重撈，可以從傳入要 save 資料的 bean 去抓 currentTraceItem
@@ -289,7 +242,7 @@ public class RecordPresenter implements RecordContract.Presenter {
                 // Notifcaiton title/ subtext/ content
                 // [TODO] daily total
                 String strTitle = "Save " + ParseTime.msToHourMinDiff(recordList.get(0).getStartTime(), recordList.get(0).getEndTime()) + " to " + recordList.get(0).getTaskName();
-                String strSubtext = "Current task: " + recordList.get(recordList.size()-1).getTaskName(); // last element would be the current tracing item
+                String strSubtext = "Current task: " + recordList.get(recordList.size() - 1).getTaskName(); // last element would be the current tracing item
                 String strContent = "Today's total: ";
                 for (int i = 0; i < bean.size(); ++i) {
                     strContent += bean.get(i).getTaskName() + " " + ParseTime.msToHourMin(bean.get(i).getCostTime());
@@ -308,7 +261,7 @@ public class RecordPresenter implements RecordContract.Presenter {
                 // (3.2.2) 如果 task 來得及做完，就會起這個 job for notification (但不用 repeat)
                 // (3-3) book a remaining tasks notification (one time job)
                 // 傳入 current task
-                getResultDailySummary(recordList.get(recordList.size()-1));
+                getResultDailySummary(recordList.get(recordList.size() - 1));
 
                 // [TODO] insert 資料後跳轉 Trace Fragemnt (該 Fragment 需要重新抓取資料)
                 // (4) 從這裡回到 RecordFragment，回到 MainActivity > MainPresenter > TraceDailyFragment 更新
@@ -344,19 +297,10 @@ public class RecordPresenter implements RecordContract.Presenter {
     }
 
 
-
-
     @Override
     public void showAddTaskUi() {
         mRecordView.showAddTaskUi();
     }
-
-
-
-
-
-
-
 
 
     public void getResultDailySummary(final TimeTracingTable curItem) {
@@ -374,7 +318,7 @@ public class RecordPresenter implements RecordContract.Presenter {
             int intWeekDay = ParseTime.date2Day(date);    // 把今天傳入，回傳星期幾 (1 = 星期一，2 = 星期二)
 
             // 計算 Weekly 的開始時間 (beginVerNo)
-            date = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * (intWeekDay-1)); // 如果今天是星期一，則 Weekly 也只撈一天 (beginVerNo = endVerNo)，和 endVerNo 一樣只往回減一天
+            date = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * (intWeekDay - 1)); // 如果今天是星期一，則 Weekly 也只撈一天 (beginVerNo = endVerNo)，和 endVerNo 一樣只往回減一天
             String beginVerNo = simpleDateFormat.format(date);
 
 
@@ -394,11 +338,11 @@ public class RecordPresenter implements RecordContract.Presenter {
                     long longRemainingTaskCostTimeDaily = 0;
                     long longRemainingTaskCostTimeWeekly = 0;
 
-                    for( int i = 0; i < bean.size(); ++i) {
+                    for (int i = 0; i < bean.size(); ++i) {
                         bean.get(i).logD();
 
                         // 分別存成 daily 和 weekly 的結果，TODO 放進兩個不同的 adapter 中，甚至一次撈一整週
-                        if ( Constants.MODE_DAILY.equals(bean.get(i).getMode()) ) {     // Daily summary
+                        if (Constants.MODE_DAILY.equals(bean.get(i).getMode())) {     // Daily summary
 
                             Logger.d(Constants.TAG, MSG + "MODE_DAILY => ");
                             dailySummaryList.add(bean.get(i));
@@ -451,8 +395,8 @@ public class RecordPresenter implements RecordContract.Presenter {
 
                     Logger.d(Constants.TAG, MSG + "start completejob => complete after: " + ParseTime.msToHourMin(longCompleteTaskCostTimeDaily));
                     Logger.d(Constants.TAG, MSG + "start completejob => today left: " + ParseTime.msToHourMin(ParseTime.getNextDailyNotifyMills(Constants.NOTIFICATION_TIME_DAILY_DATA_VERGEN)));
-                    if (longCompleteTaskCostTimeDaily > 0 &&
-                            ParseTime.getNextDailyNotifyMills(Constants.NOTIFICATION_TIME_DAILY_DATA_VERGEN) > longRemainingTaskCostTimeDaily) {
+                    if (longCompleteTaskCostTimeDaily > 0
+                            && ParseTime.getNextDailyNotifyMills(Constants.NOTIFICATION_TIME_DAILY_DATA_VERGEN) > longRemainingTaskCostTimeDaily) {
 
                         TimeManagementApplication.startJobScheduler(Constants.SCHEDULE_JOB_ID_COMPLETE_TASK,
                                 JobSchedulerServiceComplete.class.getName(),
@@ -505,7 +449,6 @@ public class RecordPresenter implements RecordContract.Presenter {
 
 
 
-
     // 立即發送一個 notification
     private void startNotificationOngoing(String strTitle, String strSubText, String strContent) {
 
@@ -523,246 +466,45 @@ public class RecordPresenter implements RecordContract.Presenter {
 //                manager.notify(BASIC_ID, notification);
 
         // 建立通知物件 作法 2: 透過 builder
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(TimeManagementApplication.getAppContext(), Constants.NOTIFICATION_CHANNEL_ID_ONGOING);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(TimeManagementApplication.getAppContext(), Constants.NOTIFICATION_CHANNEL_ID_ONGOING);
 
         // 設置小圖標
-        mBuilder.setSmallIcon(TimeManagementApplication.getIconResourceId(Constants.APP_ICON_SMALL));
+        builder.setSmallIcon(TimeManagementApplication.getIconResourceId(Constants.APP_ICON_SMALL));
         // 設置大圖標
-        mBuilder.setLargeIcon(bitmap);
+        builder.setLargeIcon(bitmap);
 
         // 標題
-        mBuilder.setContentTitle(strTitle);
+        builder.setContentTitle(strTitle);
         // 內容
-        mBuilder.setContentText(strContent);
+        builder.setContentText(strContent);
         // 摘要
-        mBuilder.setSubText(strSubText);
+        builder.setSubText(strSubText);
 
         // 點擊後清除
-        mBuilder.setAutoCancel(true);
+        builder.setAutoCancel(true);
         //显示指定文本
 
-        mBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
+        builder.setPriority(NotificationCompat.PRIORITY_MAX);
 
         // 提醒時間，單位是毫秒 (1/1000s)
-        mBuilder.setWhen(System.currentTimeMillis());             // 設定為當下立刻啟動
+        builder.setWhen(System.currentTimeMillis());             // 設定為當下立刻啟動
 //        mBuilder.setWhen(System.currentTimeMillis() - 3600000);   // 設定為系统時間少一小時 (會立刻叫)
 //        mBuilder.setWhen(System.currentTimeMillis() + 3000 );        // 設定為 3 秒後
 
         // setOngoing(true) 設定為正在進行的通知，用戶無法清除 (類似 Foreground Service 通知)
-        mBuilder.setOngoing(false);
+        builder.setOngoing(false);
 
         // 設定提醒方式
-//                mBuilder.setDefaults(NotificationCompat.DEFAULT_VIBRATE);   // 震动提醒
-//                mBuilder.setDefaults(NotificationCompat.DEFAULT_SOUND);     // 聲音
-//                mBuilder.setDefaults(NotificationCompat.DEFAULT_LIGHTS);    // 三色燈
-        mBuilder.setDefaults(NotificationCompat.DEFAULT_ALL);       // 以上三種方式一起
+        builder.setDefaults(NotificationCompat.DEFAULT_ALL);       // 三種方式一起
 
         // 設置震動方式，延遲零秒，震動一秒，延遲一秒、震動一秒
-        mBuilder.setVibrate(new long[]{0, 1000, 1000, 1000});
-
-        //mBuilder.setContentInfo("Info");
-        //与setContentInfo类似，但如果设置了setContentInfo则无效果
-        //用于当显示了多个相同ID的Notification时，显示消息总数
-        //mBuilder.setNumber(2);
-        //通知在状态栏显示时的文本
-        //mBuilder.setTicker("在状态栏上显示的文本");
-        //设置优先级
-
-//                // 2. 多文本通知
-//                NotificationCompat.BigTextStyle style = new NotificationCompat.BigTextStyle();
-//                style.bigText("这里可以写很长的一段话，不信你试试。这里可以写很长的一段话，不信你试试。这里可以写很长的一段话，不信你试试。");
-//                style.setBigContentTitle("点击后的标题");
-//                style.setSummaryText("这是摘要");
-//                mBuilder.setStyle(style);
-//
-//                // 3. 擴展佈局 (可放列表) 應用於通知 (和 2. 多文本通知 擇一)
-//                NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-//                String[] events = {"第一", "第二", "第三", "第四", "第五", "第六", "第七"};
-//                inboxStyle.setBigContentTitle("展开后的标题");
-//                inboxStyle.setSummaryText("这是摘要");
-//                for (String event : events) {
-//                    inboxStyle.addLine(event);
-//                }
-//                mBuilder.setStyle(inboxStyle);
-//
-//                // 4. 大圖通知
-//                NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
-//                bigPictureStyle.setBigContentTitle("展开后的标题");
-//                bigPictureStyle.setSummaryText("这是摘要");
-//                bigPictureStyle.bigPicture(bitmap);
-//                mBuilder.setStyle(bigPictureStyle);
-
-//        // 5. 自訂畫面
-//        // Daily notification
-//        RemoteViews contentView = new RemoteViews(TimeManagementApplication.getAppContext().getPackageName(), R.layout.notification_daily);
-////        contentView.setImageViewResource(R.id.imageview_notificaiton_task_icon_parent, R.drawable.icon_computer);
-////        contentView.setTextViewText(R.id.textview_daily_summary_title, "Daily summary");
-//
-//        // 在 notification 中新增每一個 Task Items
-//        RemoteViews remoteViewsItem = new RemoteViews(TimeManagementApplication.getAppContext().getPackageName(), R.layout.notification_item);
-//        remoteViewsItem.setImageViewResource(R.id.imageview_notificaiton_task_icon, R.drawable.icon_book);
-//        remoteViewsItem.setTextViewText(R.id.textview_notification_task_name, "Book");
-//
-//
-//
-//        contentView.addView(R.id.linearlayout_notification_daily_summary, remoteViewsItem);
-//
-//
-//
-//
-//        remoteViewsItem = new RemoteViews(TimeManagementApplication.getAppContext().getPackageName(), R.layout.notification_item);
-//
-//
-//        // (1) set icon
-//        remoteViewsItem.setImageViewResource(R.id.imageview_notificaiton_task_icon, R.drawable.icon_sleep);
-//        remoteViewsItem.setInt(R.id.imageview_notificaiton_task_icon, "setColorFilter", Color.parseColor("#F4A460"));
-//
-//        // (2) set task name
-//        remoteViewsItem.setTextViewText(R.id.textview_notification_task_name_complete, "Book");
-//
-//        // (2.1) set textView color
-////        remoteViewsItem.setTextColor(R.id.textview_notification_task_name_complete, Color.parseColor("#AAAAAA"));
-//
-//        // (2.2) set textView strikethrough (刪除線)
-////        remoteViewsItem.setInt(R.id.textview_notification_task_name_complete, "setPaintFlags", Paint.STRIKE_THRU_TEXT_FLAG);
-//
-//        // 最後決定完成項目的 style 直接用另一個 view 畫出來
-//        remoteViewsItem.setInt(R.id.textview_notification_task_name_complete, "setVisibility", View.VISIBLE);
-//        remoteViewsItem.setInt(R.id.textview_notification_cost_time_complete, "setVisibility", View.VISIBLE);
-//        remoteViewsItem.setInt(R.id.textview_notification_task_name, "setVisibility", View.GONE);
-//        remoteViewsItem.setInt(R.id.textview_notification_cost_time, "setVisibility", View.GONE);
-//
-//        remoteViewsItem.setInt(R.id.image_notification_strikethrough_complete, "setVisibility", View.VISIBLE);
-//
-//
-//
-//        contentView.addView(R.id.linearlayout_notification_daily_summary, remoteViewsItem);
-//
-//
-//
-//
-//
-//        remoteViewsItem = new RemoteViews(TimeManagementApplication.getAppContext().getPackageName(), R.layout.notification_item);
-//
-////        gradientDrawable = (GradientDrawable) getResources().getDrawable(R.drawable.selector_notification_icon);
-////        gradientDrawable.setColor(Color.parseColor("#393920"));
-//
-//
-//        remoteViewsItem.setImageViewResource(R.id.imageview_notificaiton_task_icon, R.drawable.icon_work);
-//        remoteViewsItem.setInt(R.id.imageview_notificaiton_task_icon, "setColorFilter", Color.parseColor("#32CD32"));
-//        remoteViewsItem.setTextViewText(R.id.textview_notification_task_name, "Work");
-//
-//        contentView.addView(R.id.linearlayout_notification_daily_summary, remoteViewsItem);
-//
-//        remoteViewsItem = new RemoteViews(TimeManagementApplication.getAppContext().getPackageName(), R.layout.notification_item);
-//        remoteViewsItem.setInt(R.id.imageview_notificaiton_task_icon, "setColorFilter", Color.parseColor("#C71585"));
-//        remoteViewsItem.setImageViewResource(R.id.imageview_notificaiton_task_icon, R.drawable.icon_walk);
-//        remoteViewsItem.setTextViewText(R.id.textview_notification_task_name, "Walk");
-//
-//        contentView.addView(R.id.linearlayout_notification_daily_summary, remoteViewsItem);
-//
-//        remoteViewsItem = new RemoteViews(TimeManagementApplication.getAppContext().getPackageName(), R.layout.notification_item);
-//        remoteViewsItem.setInt(R.id.imageview_notificaiton_task_icon, "setColorFilter", Color.parseColor("#1E90FF"));
-//        remoteViewsItem.setImageViewResource(R.id.imageview_notificaiton_task_icon, R.drawable.icon_swim);
-//        remoteViewsItem.setTextViewText(R.id.textview_notification_task_name, "Swim");
-//
-//        contentView.addView(R.id.linearlayout_notification_daily_summary, remoteViewsItem);
-//
-//        remoteViewsItem = new RemoteViews(TimeManagementApplication.getAppContext().getPackageName(), R.layout.notification_item);
-//        remoteViewsItem.setImageViewResource(R.id.imageview_notificaiton_task_icon, R.drawable.icon_drunk);
-//        remoteViewsItem.setTextViewText(R.id.textview_notification_task_name, "Drunk");
-//
-//        contentView.addView(R.id.linearlayout_notification_daily_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_daily_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_daily_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_daily_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_daily_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_daily_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_daily_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_daily_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_daily_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_daily_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_daily_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_daily_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_daily_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_daily_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_daily_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_daily_summary, remoteViewsItem);
-//
-//
-//
-//
-//
-////Weekly
-//
-//
-//        // 在 notification 中新增每一個 Task Items
-//        remoteViewsItem = new RemoteViews(TimeManagementApplication.getAppContext().getPackageName(), R.layout.notification_item);
-//        remoteViewsItem.setImageViewResource(R.id.imageview_notificaiton_task_icon, R.drawable.icon_book);
-//        remoteViewsItem.setTextViewText(R.id.textview_notification_task_name, "Bookabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz");
-//
-//
-//        contentView.addView(R.id.linearlayout_notification_week_summary, remoteViewsItem);
-//
-//        remoteViewsItem = new RemoteViews(TimeManagementApplication.getAppContext().getPackageName(), R.layout.notification_item);
-//        remoteViewsItem.setImageViewResource(R.id.imageview_notificaiton_task_icon, R.drawable.icon_sleep);
-//        remoteViewsItem.setTextViewText(R.id.textview_notification_task_name, "Sleep");
-//
-//        contentView.addView(R.id.linearlayout_notification_week_summary, remoteViewsItem);
-//
-//        remoteViewsItem = new RemoteViews(TimeManagementApplication.getAppContext().getPackageName(), R.layout.notification_item);
-//        remoteViewsItem.setImageViewResource(R.id.imageview_notificaiton_task_icon, R.drawable.icon_work);
-//        remoteViewsItem.setTextViewText(R.id.textview_notification_task_name, "Work");
-//
-//        contentView.addView(R.id.linearlayout_notification_week_summary, remoteViewsItem);
-//
-//        remoteViewsItem = new RemoteViews(TimeManagementApplication.getAppContext().getPackageName(), R.layout.notification_item);
-//        remoteViewsItem.setImageViewResource(R.id.imageview_notificaiton_task_icon, R.drawable.icon_walk);
-//        remoteViewsItem.setTextViewText(R.id.textview_notification_task_name, "Walk");
-//
-//        contentView.addView(R.id.linearlayout_notification_week_summary, remoteViewsItem);
-//
-//        remoteViewsItem = new RemoteViews(TimeManagementApplication.getAppContext().getPackageName(), R.layout.notification_item);
-//        remoteViewsItem.setImageViewResource(R.id.imageview_notificaiton_task_icon, R.drawable.icon_swim);
-//        remoteViewsItem.setTextViewText(R.id.textview_notification_task_name, "Swim");
-//
-//        contentView.addView(R.id.linearlayout_notification_week_summary, remoteViewsItem);
-//
-//        remoteViewsItem = new RemoteViews(TimeManagementApplication.getAppContext().getPackageName(), R.layout.notification_item);
-//        remoteViewsItem.setImageViewResource(R.id.imageview_notificaiton_task_icon, R.drawable.icon_drunk);
-//        remoteViewsItem.setTextViewText(R.id.textview_notification_task_name, "Drunk");
-//
-////        contentView.addView(R.id.linearlayout_notification_week_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_week_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_week_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_week_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_week_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_week_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_week_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_week_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_week_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_week_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_week_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_week_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_week_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_week_summary, remoteViewsItem);
-////        contentView.addView(R.id.linearlayout_notification_week_summary, remoteViewsItem);
-//
-//
-//
-//
-//        mBuilder.setContent(contentView);               // 如果不用 Builder 可以寫 notification.contentView = contentView;
-//        mBuilder.setCustomBigContentView(contentView);  // 可以設定通知縮起來的 layout（setContent) 和通知展開的 layout (setCustomBigContentView) (optional)
-//        mBuilder.setStyle(new NotificationCompat.DecoratedCustomViewStyle());   // 加上這句，通知會有系統預設的框架。如果想要完全自訂就把這句拿掉
-//        mBuilder.setStyle(new android.support.v4.app.NotificationCompat.DecoratedCustomViewStyle());
-
-
+        builder.setVibrate(new long[]{0, 1000, 1000, 1000});
 
         Intent intent = new Intent(TimeManagementApplication.getAppContext(), MainActivity.class);
 
         // PendingIntent 作法 1
-        PendingIntent pIntent = PendingIntent.getActivity(TimeManagementApplication.getAppContext(), 0, intent, 0);
-        mBuilder.setContentIntent(pIntent);
+        PendingIntent pendingIntent = PendingIntent.getActivity(TimeManagementApplication.getAppContext(), 0, intent, 0);
+        builder.setContentIntent(pendingIntent);
 
         // PendingIntent 作法 2
 //// Creates an explicit intent for an Activity in your app
@@ -786,30 +528,30 @@ public class RecordPresenter implements RecordContract.Presenter {
 //                        );
 
 
-        NotificationManager mNotificationManager =
+        NotificationManager notificationManager =
                 (NotificationManager) TimeManagementApplication.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
 
         // Android 8.0 Oreo (APK 26) 以上必須設置通知頻道 Notification channels
         NotificationChannel channel;
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             channel = new NotificationChannel(
                     Constants.NOTIFICATION_CHANNEL_ID_ONGOING,             // 此 ID 用來分辨不同的通知頻道
                     Constants.NOTIFICATION_CHANNEL_NAME_ONGOING,
                     NotificationManager.IMPORTANCE_HIGH);   // 設為 IMPORTANCE_HIGH 以上才會在上方懸掛跳出來
 
-            mNotificationManager.createNotificationChannel(channel);    // 使用 NotificationManager 加入這個頻道
+            notificationManager.createNotificationChannel(channel);    // 使用 NotificationManager 加入這個頻道
 
-            mBuilder.setChannelId(Constants.NOTIFICATION_CHANNEL_ID_ONGOING);  // 呼叫 setChannelId 通知這個 Notification 的所屬頻道 ID
+            builder.setChannelId(Constants.NOTIFICATION_CHANNEL_ID_ONGOING);  // 呼叫 setChannelId 通知這個 Notification 的所屬頻道 ID
 
         } else {
 
-            mBuilder.setVisibility(Notification.VISIBILITY_PUBLIC);
+            builder.setVisibility(Notification.VISIBILITY_PUBLIC);
         }
 
-        mNotificationManager.notify(Constants.NOTIFY_ID_ONGOING, mBuilder.build());   // 用 notify 並指定 ID，隨後可用此 ID 做進一步的更新或是取消等等操作
+        notificationManager.notify(Constants.NOTIFY_ID_ONGOING, builder.build());   // 用 notify 並指定 ID，隨後可用此 ID 做進一步的更新或是取消等等操作
     }
 
 }

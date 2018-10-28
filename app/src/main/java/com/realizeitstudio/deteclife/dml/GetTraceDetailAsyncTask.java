@@ -42,8 +42,6 @@ public class GetTraceDetailAsyncTask extends AsyncTask<Object, Void, List<GetTra
     @Override
     protected List<GetTraceDetail> doInBackground(Object[] objects) {
 
-//        try {
-
         DatabaseDao dao = AppDatabase.getDatabase(TimeManagementApplication.getAppContext()).getDatabaseDao();
 
         // (1) Query trace summary in a specific period
@@ -54,17 +52,6 @@ public class GetTraceDetailAsyncTask extends AsyncTask<Object, Void, List<GetTra
             traceDetailList.get(i).logD();
         }
 
-        // [TODO] add exception handling
-//        } catch (VoyageInvalidTokenException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        } catch (VoyageException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        }
 
         return traceDetailList;
     }

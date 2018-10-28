@@ -32,21 +32,8 @@ public class GetIconListAsyncTask extends AsyncTask<Object, Void, List<IconDefin
 
         List<IconDefineTable> bean = null;
 
-//        try {
         DatabaseDao dao = AppDatabase.getDatabase(TimeManagementApplication.getAppContext()).getDatabaseDao();
         bean = dao.getAllIconList();
-
-        // [TODO] add exception handling
-//        } catch (VoyageInvalidTokenException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        } catch (VoyageException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        }
 
         return bean;
     }

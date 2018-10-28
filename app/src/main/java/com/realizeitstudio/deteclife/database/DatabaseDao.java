@@ -62,13 +62,6 @@ public interface DatabaseDao {
     @Query("SELECT category_name, task_name, task_color, task_icon, task_priority, is_user_def FROM task_define_table")
     List<TaskDefineTable> getAllTaskList();
 
-//    @Query("SELECT c.category_name, c.category_color, c.category_priority, t.task_name, t.task_color, t.task_icon, t.task_priority " +
-//             "FROM task_define_table t " +
-//            "INNER JOIN category_define_table c " +
-//               "ON t.category_name = c.category_name " +
-//            "ORDER BY c.category_priority, t.task_priority")
-//    List<GetCategoryTaskList> getCategoryTaskList();
-
     @Query("SELECT * FROM "
             + "(SELECT 'TASK' AS item_catg, c.category_name, c.category_color, c.category_priority, t.task_name, t.task_color, t.task_icon, t.task_priority "
             + "   FROM task_define_table t "
@@ -111,45 +104,7 @@ public interface DatabaseDao {
     @Query("SELECT * FROM time_planning_table")
     List<TimePlanningTable> getAllPlanList();
 
-    // 1.2 Query all plan list of a specific period (daily or weekly)
-//    @Query("SELECT * FROM time_planning_table WHERE mode = :mode AND period = :period AND start_time = :startTime")
-//    List<TimePlanningTable> getPlanListByPeriod(String mode, String period, String startTime);
-
-    // 1.3 Query all plan list of a specific period (daily or weekly) join with TaskDefineTable to get task color and icons
-//    @Query("SELECT p.uid, p.category_name, p.task_name, p.cost_time, t.task_color, t.task_icon " +
-//             "FROM time_planning_table p " +
-//            "INNER JOIN task_define_table t ON p.task_name = t.task_name " +
-//            "WHERE p.mode = :mode " +
-//              "AND p.period = :period ")
-//    List<TimePlanningTable> getPlanTaskListByPeriod(String mode, String period);
-
-
-    // *******
-    // 1.4 Query all tasks and left join with TimePlanningTable to get plan time (both daily or weekly)
-//    @Query("SELECT t.category_name, t.task_name, t.task_color, t.task_icon, IFNULL(p.cost_time, \"\") AS cost_time " +
-//             "FROM task_define_table t " +
-//             "LEFT JOIN (SELECT p.category_name, p.task_name, p.cost_time " +
-//                          "FROM time_planning_table p " +
-//                         "WHERE p.mode = :mode " +
-//                           "AND p.start_time >= :startTime AND p.end_time < :endTime" +
-//                       ") p " +
-//               "ON t.task_name = p.task_name")
-//    List<GetTaskWithPlanTime> getAllTaskListWithPlanTime(String mode, String startTime, String endTime);
-
     // 1.5 Query target-list (tasks inner join with TimePlanningTable to get plan time) (both daily or weekly)
-//    @Query("SELECT p.mode, t.category_name, c.category_color, c.category_priority, t.task_name, t.task_color, t.task_icon, t.task_priority, p.start_time, p.end_time, IFNULL(p.cost_time, \"\") AS cost_time " +
-//             "FROM task_define_table t " +
-//            "INNER JOIN (SELECT p.mode, p.category_name, p.task_name, p.start_time, p.end_time, p.cost_time " +
-//                          "FROM time_planning_table p " +
-//                         "WHERE p.mode = :mode " +
-//                           "AND :startTime >= p.start_time AND :endTime <= p.end_time" +
-//                       ") p " +
-//               "ON t.task_name = p.task_name AND t.category_name = p.category_name " +
-//            "INNER JOIN category_define_table c " +
-//               "ON t.category_name = c.category_name " +
-//            "ORDER BY c.category_priority, t.task_priority")
-//    List<GetTaskWithPlanTime> getTaskListWithPlanTime(String mode, String startTime, String endTime);
-
     @Query("WITH target "
             + " AS (SELECT p.mode, p.category_name, p.task_name, p.start_time, p.end_time, p.cost_time "
             + "       FROM time_planning_table p "
@@ -173,24 +128,15 @@ public interface DatabaseDao {
             + " ORDER BY category_priority, task_priority")
     List<GetTaskWithPlanTime> getTaskListWithPlanTime(String mode, String startTime, String endTime);
 
-
-
     @Query("SELECT * FROM time_planning_table p "
             + " WHERE p.category_name = :categoryName "
             + "   AND p.task_name = :taskName "
             + " LIMIT 1")   //[TODO] 應該不用卡 LIMIT
     TimePlanningTable findPlanTimeByTaskName(String categoryName, String taskName);
-//
-//
-//    @Insert
-//    void insertAll(TaskDefineTable... items);
-//
+
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addPlanItem(TimePlanningTable item);
-
-//    @Delete
-//    void deleteAllTask(TimePlanningTable item);
 
     @Delete()
     void deleteTargetList(List<TimePlanningTable> item);
@@ -199,54 +145,12 @@ public interface DatabaseDao {
     void deleteTarget(TimePlanningTable item);
 
 
-    // *******
-    // 1.6 (Insert) add a new target
-    // Query all tasks and left join with TimePlanningTable to get plan time (both daily or weekly)
-//    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//
-//    INSERT INTO time_planning_table()
-//    @Query("SELECT t.uid as task_id, t.category_name, t.task_name, t.task_color, t.task_icon, IFNULL(p.uid, -1) AS plan_id, IFNULL(p.cost_time, \"\") AS cost_time " +
-//            "FROM task_define_table t " +
-//            "LEFT JOIN (SELECT p.uid, p.category_name, p.task_name, p.cost_time " +
-//            "FROM time_planning_table p " +
-//            "WHERE p.mode = :mode " +
-//            "AND p.start_time >= :startTime AND p.end_time < :endTime" +
-//            ") p " +
-//            "ON t.task_name = p.task_name")
-//    List<GetTaskWithPlanTime> getAllTaskListWithPlanTime(String mode, String startTime, String endTime);
-
-
-
-
-
-
-
-
-
-
-
-
     // ****** Trace ******
 
 
     // 2.1 Query all trace list
     @Query("SELECT * FROM time_tracing_table")
     List<TimeTracingTable> getAllTraceList();
-
-    // 2.2 Query all trace list of a specific period (daily or weekly)
-//    @Query("SELECT * FROM time_tracing_table WHERE mode = :mode AND period = :period AND start_time = :startTime")
-//    List<TimeTracingTable> gettraceListByPeriod(String mode, String period, String startTime);
-
-    // 1.3 Query all trace list of a specific period (daily or weekly) join with TaskDefineTable to get task color and icons
-//    @Query("SELECT p.uid, p.category_name, p.task_name, p.cost_time, t.task_color, t.task_icon " +
-//             "FROM time_tracing_table p " +
-//            "INNER JOIN task_define_table t ON p.task_name = t.task_name " +
-//            "WHERE p.mode = :mode " +
-//              "AND p.period = :period ")
-//    List<TimeTracingTable> getTraceTaskListByPeriod(String mode, String period);
-
-
-
 
 
     @Query("SELECT * FROM time_tracing_table t "
@@ -265,10 +169,9 @@ public interface DatabaseDao {
     TimeTracingTable getCurrentTraceTask(String verNo);
 
 
-
 //    @Insert
 //    void insertAll(TaskDefineTable... items);
-//
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addTraceItem(TimeTracingTable item);
 
@@ -284,8 +187,6 @@ public interface DatabaseDao {
 
     @Delete()
     void deleteTraceItem(TimeTracingTable item);
-
-
 
 
     // Query summary trace result in a specific time period
@@ -437,10 +338,6 @@ public interface DatabaseDao {
     List<GetResultDailySummary> getResultDailySummary(String mode, String startVerNo, String endVerNo, String categoryList, String taskList);
 
 
-
-
-
-
     // ****** Icon ******
 
     // Query all icon list
@@ -454,7 +351,6 @@ public interface DatabaseDao {
     void addIconList(List<IconDefineTable> item);
 
 
-    
     // ****** Color ******
 
     // Query all color list

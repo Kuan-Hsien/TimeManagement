@@ -34,21 +34,8 @@ public class GetCurrentTraceTaskAsyncTask extends AsyncTask<Object, Void, TimeTr
 
         TimeTracingTable bean = null;
 
-//        try {
         DatabaseDao dao = AppDatabase.getDatabase(TimeManagementApplication.getAppContext()).getDatabaseDao();
         bean = dao.getCurrentTraceTask(mStrVerNo);
-
-        // [TODO] add exception handling
-//        } catch (VoyageInvalidTokenException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        } catch (VoyageException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        }
 
         return bean;
     }

@@ -5,17 +5,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
-import com.realizeitstudio.deteclife.dml.GetTaskWithPlanTimeCallback;
+import com.realizeitstudio.deteclife.dml.GetTaskWithPlanTime;
 import com.realizeitstudio.deteclife.dml.GetTaskWithPlanTimeAsyncTask;
+import com.realizeitstudio.deteclife.dml.GetTaskWithPlanTimeCallback;
 import com.realizeitstudio.deteclife.dml.SetTargetAsyncTask;
 import com.realizeitstudio.deteclife.dml.SetTargetCallback;
-import com.realizeitstudio.deteclife.dml.GetTaskWithPlanTime;
 import com.realizeitstudio.deteclife.object.TimePlanningTable;
 import com.realizeitstudio.deteclife.utils.Constants;
 import com.realizeitstudio.deteclife.utils.Logger;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -55,8 +54,6 @@ public class PlanDailyPresenter implements PlanDailyContract.Presenter {
 
             if (mlastVisibleItemPosition == totalItemCount - 1) {
                 Logger.d(Constants.TAG, MSG + "Scroll to bottom");
-
-//                loadArticles();
 
             } else if (mfirstVisibleItemPosition == 0) {
 
@@ -130,18 +127,18 @@ public class PlanDailyPresenter implements PlanDailyContract.Presenter {
             new GetTaskWithPlanTimeAsyncTask(
                     Constants.MODE_DAILY, strCurrentTime, strCurrentTime, new GetTaskWithPlanTimeCallback() {
 
-                @Override
-                public void onCompleted(List<GetTaskWithPlanTime> bean) {
-                    setLoading(false);
-                    showTaskListWithPlanTime(bean);
-                }
+                        @Override
+                        public void onCompleted(List<GetTaskWithPlanTime> bean) {
+                            setLoading(false);
+                            showTaskListWithPlanTime(bean);
+                        }
 
-                @Override
-                public void onError(String errorMessage) {
-                    setLoading(false);
-                    Logger.e(Constants.TAG, "GetTaskWithPlanTime.onError, errorMessage: " + errorMessage);
-                }
-            }).execute();
+                        @Override
+                        public void onError(String errorMessage) {
+                            setLoading(false);
+                            Logger.e(Constants.TAG, "GetTaskWithPlanTime.onError, errorMessage: " + errorMessage);
+                        }
+                    }).execute();
         }
     }
 
@@ -197,16 +194,6 @@ public class PlanDailyPresenter implements PlanDailyContract.Presenter {
     }
 
     @Override
-    public void showTaskListDialog() {
-        mPlanView.showTaskListDialog();
-    }
-
-
-
-
-
-
-    @Override
     public void showTaskListUi() {
         mPlanView.showTaskListUi();
     }
@@ -214,5 +201,11 @@ public class PlanDailyPresenter implements PlanDailyContract.Presenter {
     @Override
     public void selectTaskToPlan(GetCategoryTaskList bean) {
         mPlanView.showTaskSelected(bean);
+    }
+
+    @Override
+    public void showToast(String message) {
+
+        mPlanView.showToast(message);
     }
 }

@@ -468,25 +468,24 @@ public class TimeManagementApplication extends Application {
                 // [QUERY]
                 // 可以在這邊撈，目前寫在這邊可以撈出來當前塞進去的資料。
                 List<CategoryDefineTable> categoryList = dao.getAllCategoryList();
-                List<TaskDefineTable> taskList = dao.getAllTaskList();
-                List<TimePlanningTable> planningTableList = dao.getAllPlanList();
-                List<TimeTracingTable> traceList = dao.getAllTraceList();
-
                 Logger.d(Constants.TAG, MSG + "Prepare default category");
                 for (int i = 0; i < categoryList.size(); ++i) {
                     categoryList.get(i).logD();
                 }
 
+                List<TaskDefineTable> taskList = dao.getAllTaskList();
                 Logger.d(Constants.TAG, MSG + "Prepare default task");
                 for (int i = 0; i < taskList.size(); ++i) {
                     taskList.get(i).logD();
                 }
 
+                List<TimePlanningTable> planningTableList = dao.getAllPlanList();
                 Logger.d(Constants.TAG, MSG + "Prepare sample plan");
                 for (int i = 0; i < planningTableList.size(); ++i) {
                     planningTableList.get(i).logD();
                 }
 
+                List<TimeTracingTable> traceList = dao.getAllTraceList();
                 Logger.d(Constants.TAG, MSG + "Prepare first trace");
                 for (int i = 0; i < traceList.size(); ++i) {
                     traceList.get(i).logD();
@@ -563,10 +562,10 @@ public class TimeManagementApplication extends Application {
                 Date lastSunday = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24); // 找出上週日
                 String lastEndVerNoWeekly = simpleDateFormat.format(lastSunday);
 
-                SimpleDateFormat dateStringFormat = new SimpleDateFormat( Constants.DB_FORMAT_VER_NO );
+                SimpleDateFormat dateStringFormat = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO);
 
                 try {
-                    Date date = dateStringFormat.parse( strVerNo );
+                    Date date = dateStringFormat.parse(strVerNo);
 
                     // Prepare last week data
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(yesterday), "Health", "Sleep",  yesterday.getTime(), yesterday.getTime() + (300 * 60000), (long) 300 * 60000, strCurrentTime));
@@ -717,11 +716,11 @@ public class TimeManagementApplication extends Application {
                 dao.addIconItem(new IconDefineTable("icon_tooth", false, strCurrentTime));
                 dao.addIconItem(new IconDefineTable("icon_washingmachine", false, strCurrentTime));
                 dao.addIconItem(new IconDefineTable("icon_washtoilet", false, strCurrentTime));
-                dao.addIconItem(new IconDefineTable("icon_spray" , false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_spray", false, strCurrentTime));
                 dao.addIconItem(new IconDefineTable("icon_plunger", false, strCurrentTime));
                 dao.addIconItem(new IconDefineTable("icon_tea", false, strCurrentTime));
                 dao.addIconItem(new IconDefineTable("icon_kettle", false, strCurrentTime));
-                dao.addIconItem(new IconDefineTable("icon_milk" , false, strCurrentTime));
+                dao.addIconItem(new IconDefineTable("icon_milk", false, strCurrentTime));
                 dao.addIconItem(new IconDefineTable("icon_beer", false, strCurrentTime));
                 dao.addIconItem(new IconDefineTable("icon_teaa", false, strCurrentTime));
                 dao.addIconItem(new IconDefineTable("icon_cocktail", false, strCurrentTime));
@@ -764,25 +763,24 @@ public class TimeManagementApplication extends Application {
                 // [QUERY]
                 // 可以在這邊撈，目前寫在這邊可以撈出來當前塞進去的資料。
                 List<CategoryDefineTable> categoryList = dao.getAllCategoryList();
-                List<TaskDefineTable> taskList = dao.getAllTaskList();
-                List<TimePlanningTable> planningTableList = dao.getAllPlanList();
-                List<TimeTracingTable> traceList = dao.getAllTraceList();
-
                 Logger.d(Constants.TAG, MSG + "Prepare default category");
                 for (int i = 0; i < categoryList.size(); ++i) {
                     categoryList.get(i).logD();
                 }
 
+                List<TaskDefineTable> taskList = dao.getAllTaskList();
                 Logger.d(Constants.TAG, MSG + "Prepare default task");
                 for (int i = 0; i < taskList.size(); ++i) {
                     taskList.get(i).logD();
                 }
 
+                List<TimePlanningTable> planningTableList = dao.getAllPlanList();
                 Logger.d(Constants.TAG, MSG + "Prepare sample plan");
                 for (int i = 0; i < planningTableList.size(); ++i) {
                     planningTableList.get(i).logD();
                 }
 
+                List<TimeTracingTable> traceList = dao.getAllTraceList();
                 Logger.d(Constants.TAG, MSG + "Prepare first trace");
                 for (int i = 0; i < traceList.size(); ++i) {
                     traceList.get(i).logD();

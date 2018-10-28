@@ -20,15 +20,13 @@ import android.widget.Toast;
 import com.realizeitstudio.deteclife.MainActivity;
 import com.realizeitstudio.deteclife.R;
 import com.realizeitstudio.deteclife.TimeManagementApplication;
+import com.realizeitstudio.deteclife.colorpicker.ColorPickerAdapter;
 import com.realizeitstudio.deteclife.colorpicker.ColorPickerContract;
 import com.realizeitstudio.deteclife.colorpicker.ColorPickerPresenter;
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
-import com.realizeitstudio.deteclife.colorpicker.ColorPickerAdapter;
-import com.realizeitstudio.deteclife.iconpicker.IconPickerPresenter;
 import com.realizeitstudio.deteclife.object.ColorDefineTable;
 import com.realizeitstudio.deteclife.object.IconDefineTable;
 import com.realizeitstudio.deteclife.object.TaskDefineTable;
-import com.realizeitstudio.deteclife.task.TaskListPresenter;
 import com.realizeitstudio.deteclife.utils.Constants;
 import com.realizeitstudio.deteclife.utils.Logger;
 
@@ -69,7 +67,6 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
     // Color information
     private ColorPickerContract.Presenter mColorPresenter;
     private ColorPickerAdapter mColorPickerAdapter;
-
 
 
     public AddTaskFragment() {
@@ -232,49 +229,6 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
             // 2. 新增兩個 List 以 (1) 存放要存回 database 的資料 (2) 要從 database 刪除的資料
             List<TaskDefineTable> taskList  = new ArrayList<>();
             List<TaskDefineTable> deleteTaskList = new ArrayList<>();
-//
-//            // 2.1 先針對現有所有目標清單做出 List<TaskDefineTable> 物件
-//            for (int i = 0; i < mCategoryTaskList.size(); ++i) {
-//
-//                // only handle "Task" item in mCategoryTaskList array
-//                if (Constants.ITEM_TASK.equals(mCategoryTaskList.get(i).getItemCatg())) {
-//
-//                    // if user decides to delete this item, then delete from database
-//                    if (isDeleteArray[i] == true) { // only could delete task item
-//
-//                        TaskDefineTable item = new TaskDefineTable(
-//                                mCategoryTaskList.get(i).getCategoryName(),
-//                                mCategoryTaskList.get(i).getTaskName(),
-//                                mCategoryTaskList.get(i).getTaskColor(),
-//                                mCategoryTaskList.get(i).getTaskIcon(),
-//                                mCategoryTaskList.get(i).getTaskPriority(),
-//                                false,
-//                                strUpdateTime);
-//
-//                        deleteTaskList.add(item);
-//
-//                        Logger.d(Constants.TAG, MSG + "Delete item: ");
-//                        item.logD();
-//
-//                    } else {
-//                        // else add in database
-//
-//                        TaskDefineTable item = new TaskDefineTable(
-//                                mCategoryTaskList.get(i).getCategoryName(),
-//                                mCategoryTaskList.get(i).getTaskName(),
-//                                mCategoryTaskList.get(i).getTaskColor(),
-//                                mCategoryTaskList.get(i).getTaskIcon(),
-//                                mCategoryTaskList.get(i).getTaskPriority(),
-//                                false,
-//                                strUpdateTime);
-//
-//                        taskList.add(item);
-//
-//                        Logger.d(Constants.TAG, MSG + "Add/Edit item: ");
-//                        item.logD();
-//                    }
-//                }
-//            }
 
 
             // 2.2 把新 add 的 task 加在 List 最後
@@ -381,7 +335,6 @@ public class AddTaskFragment extends Fragment implements AddTaskContract.View, V
         GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutAddItemIcon().getBackground();
         gradientDrawable.setColor(Color.parseColor(mStrIconColor));
     }
-
 
 
     // ****** Category Picker Dialog ****** //

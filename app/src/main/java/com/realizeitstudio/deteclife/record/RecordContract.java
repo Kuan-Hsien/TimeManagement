@@ -35,8 +35,6 @@ public interface RecordContract {
 
     interface View extends BaseView<Presenter> {
 
-//        void setCategoryTaskListPrxesenter(Presenter presenter);
-
         // 0-2 request adapter refresh UI with different mode
         void refreshUi(int mode); // change mode (view_mode <-> edit_mode)
 
@@ -45,21 +43,12 @@ public interface RecordContract {
 
         void showCurrentTraceItem(TimeTracingTable bean);
 
-//        void showCategoryListDialog(List<GetTaskWithPlanTime> bean);
-//        void showTaskListDialog(List<GetTaskWithPlanTime> bean);
-
-//        void showCategoryListDialog();
-//
-//        void showCategoryTaskSelected(GetCategoryTaskList bean);
-
         void showStatisticUi();
 
         void showAddTaskUi();
     }
 
     interface Presenter extends BasePresenter {
-
-//        void result(int requestCode, int resultCode);
 
         // 0-1. recyclerView Scroll event
         void onScrollStateChanged(int visibleItemCount, int totalItemCount, int newState);
@@ -94,12 +83,6 @@ public interface RecordContract {
         // 2-3. [Send-to-View] request fragment to show data
         // once update data, query the target list again to refresh UI
         // (1-1, 1-2)
-
-        // 3-1. [Send-to-View]
-//        void showCategoryListDialog();
-
-
-//        void showCategoryTaskSelected(GetCategoryTaskList bean);
 
         void showAddTaskUi();
 

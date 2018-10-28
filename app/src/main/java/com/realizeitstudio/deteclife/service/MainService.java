@@ -1,21 +1,14 @@
 package com.realizeitstudio.deteclife.service;
 
-import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.IBinder;
-import android.service.dreams.DreamService;
-import android.support.v4.content.ContextCompat;
 
 import com.realizeitstudio.deteclife.MainActivity;
 import com.realizeitstudio.deteclife.PowerButtonReceiver;
@@ -30,10 +23,7 @@ import com.realizeitstudio.deteclife.utils.Logger;
 public class MainService extends Service {
     private static final String MSG = "MainService: ";
 
-//    private AlarmManager mAlarmManager;
     private NotificationManager mNotificationManager;
-//    private PendingIntent mPendingIntentBroadcast;
-
     private PowerButtonReceiver mPowerButtonReceiver;
 
 
@@ -117,17 +107,6 @@ public class MainService extends Service {
             Logger.d(Constants.TAG, MSG + "onStartCommand : after startForeground");
         }
 
-
-        // intent to start broadcast
-//        ComponentName componentName = new ComponentName("com.realizeitstudio.app.sampleservicebroadcastreceiver", "com.realizeitstudio.app.sampleservicebroadcastreceiver.MyReceiver");
-//
-//        Intent broadcastIntent = new Intent()
-//                .setComponent(componentName)
-//                .putExtra("sender_name", "Start-VoyageBroadcast"); //設定廣播夾帶參數
-//
-//        mPendingIntentBroadcast = PendingIntent.getBroadcast(this, 0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-
         registerPowerButtonReceiver();
 
 //        stopSelf();
@@ -163,7 +142,6 @@ public class MainService extends Service {
 
         // if service run in foreground
         stopForeground(true);
-
 
         super.onDestroy();
     }

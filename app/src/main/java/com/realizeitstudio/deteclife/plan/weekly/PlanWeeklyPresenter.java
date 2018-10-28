@@ -6,14 +6,13 @@ import android.support.v7.widget.RecyclerView;
 
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
 import com.realizeitstudio.deteclife.dml.GetTaskWithPlanTime;
-import com.realizeitstudio.deteclife.dml.GetTaskWithPlanTimeCallback;
 import com.realizeitstudio.deteclife.dml.GetTaskWithPlanTimeAsyncTask;
+import com.realizeitstudio.deteclife.dml.GetTaskWithPlanTimeCallback;
 import com.realizeitstudio.deteclife.dml.SetTargetAsyncTask;
 import com.realizeitstudio.deteclife.dml.SetTargetCallback;
 import com.realizeitstudio.deteclife.object.TimePlanningTable;
 import com.realizeitstudio.deteclife.utils.Constants;
 import com.realizeitstudio.deteclife.utils.Logger;
-import com.realizeitstudio.deteclife.utils.ParseTime;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -130,18 +129,18 @@ public class PlanWeeklyPresenter implements PlanWeeklyContract.Presenter {
             new GetTaskWithPlanTimeAsyncTask(
                     Constants.MODE_WEEKLY, strCurrentTime, strCurrentTime, new GetTaskWithPlanTimeCallback() {
 
-                @Override
-                public void onCompleted(List<GetTaskWithPlanTime> bean) {
-                    setLoading(false);
-                    showTaskListWithPlanTime(bean);
-                }
+                        @Override
+                        public void onCompleted(List<GetTaskWithPlanTime> bean) {
+                            setLoading(false);
+                            showTaskListWithPlanTime(bean);
+                        }
 
-                @Override
-                public void onError(String errorMessage) {
-                    setLoading(false);
-                    Logger.e(Constants.TAG, "GetTaskWithPlanTime.onError, errorMessage: " + errorMessage);
-                }
-            }).execute();
+                        @Override
+                        public void onError(String errorMessage) {
+                            setLoading(false);
+                            Logger.e(Constants.TAG, "GetTaskWithPlanTime.onError, errorMessage: " + errorMessage);
+                        }
+                    }).execute();
         }
     }
 
@@ -196,12 +195,6 @@ public class PlanWeeklyPresenter implements PlanWeeklyContract.Presenter {
     }
 
     @Override
-    public void showTaskListDialog() {
-        mPlanView.showTaskListDialog();
-    }
-
-
-    @Override
     public void showTaskListUi() {
         mPlanView.showTaskListUi();
     }
@@ -209,5 +202,11 @@ public class PlanWeeklyPresenter implements PlanWeeklyContract.Presenter {
     @Override
     public void selectTaskToPlan(GetCategoryTaskList bean) {
         mPlanView.showTaskSelected(bean);
+    }
+
+    @Override
+    public void showToast(String message) {
+
+        mPlanView.showToast(message);
     }
 }

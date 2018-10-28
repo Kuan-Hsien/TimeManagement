@@ -44,8 +44,6 @@ public interface IconPickerContract {
 
     interface Presenter extends BasePresenter {
 
-//        void result(int requestCode, int resultCode);
-
         // 0-1. recyclerView Scroll event
         void onScrollStateChanged(int visibleItemCount, int totalItemCount, int newState);
 

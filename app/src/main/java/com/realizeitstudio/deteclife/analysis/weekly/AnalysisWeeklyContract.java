@@ -21,9 +21,6 @@ import android.support.v7.widget.RecyclerView;
 import com.realizeitstudio.deteclife.BasePresenter;
 import com.realizeitstudio.deteclife.BaseView;
 import com.realizeitstudio.deteclife.dml.GetResultDailySummary;
-import com.realizeitstudio.deteclife.dml.GetTaskWithPlanTime;
-import com.realizeitstudio.deteclife.object.TimePlanningTable;
-import com.realizeitstudio.deteclife.analysis.weekly.AnalysisWeeklyContract;
 import com.realizeitstudio.deteclife.object.TimeTracingTable;
 
 import java.util.List;
@@ -44,19 +41,11 @@ public interface AnalysisWeeklyContract {
         // 1-2 request adapter to show the target list (get query result)
         void showResultDailySummary(List<GetResultDailySummary> bean);
 
-//        void showCategoryListDialog(List<GetTaskWithPlanTime> bean);
-//        void showTaskListDialog(List<GetTaskWithPlanTime> bean);
-
-        void showTaskListDialog();
-
-
         // 9-2. [Send-to-View] request fragment to show data
         void showCurrentTraceItem(TimeTracingTable bean);
     }
 
     interface Presenter extends BasePresenter {
-
-//        void result(int requestCode, int resultCode);
 
         // 0-1. recyclerView Scroll event
         void onScrollStateChanged(int visibleItemCount, int totalItemCount, int newState);
@@ -71,19 +60,6 @@ public interface AnalysisWeeklyContract {
 
         // 1-2. [Send-to-View] request fragment to show data
         void showResultWeeklySummary(List<GetResultDailySummary> bean);
-
-        // 2-1. [Send-to-Model] database insert to update data (insert new targets or adjust time for existed targets)
-        // 2-2. [Send-to-Model] database delete to delete data (delete existed targets)
-//        void saveTargetResults(String strMode, String strCategory, String strTask, String strStartTime, String strEndTime, String strCostTime);
-//        void saveTargetResults(List<TimePlanningTable> targetList, List<TimePlanningTable> deleteTargetList);
-
-        // 2-3. [Send-to-View] request fragment to show data
-        // once update data, query the target list again to refresh UI
-        // (1-1, 1-2)
-
-        // 3-1. [Send-to-View]
-//        void showCategoryListDialog();
-//        void showTaskListDialog();
 
         // 9-1. [Send-to-Model] database query to prepare data (query current task)
         void getCurrentTraceItem(String strVerNo);

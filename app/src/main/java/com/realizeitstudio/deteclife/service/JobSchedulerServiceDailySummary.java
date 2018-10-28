@@ -4,11 +4,8 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.job.JobInfo;
 import android.app.job.JobParameters;
-import android.app.job.JobScheduler;
 import android.app.job.JobService;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,7 +17,6 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import com.realizeitstudio.deteclife.MainActivity;
 import com.realizeitstudio.deteclife.R;
@@ -134,7 +130,7 @@ public class JobSchedulerServiceDailySummary extends JobService {
 
                     // (1) Notifcaiton title/ subtext/ content
                     String strTitle = ""; //"Save " + ParseTime.msToHourMinDiff(recordList.get(0).getStartTime(), recordList.get(0).getEndTime()) + " to " + recordList.get(0).getTaskName();
-                    String strSubtext = ""; //"Current task: " + recordList.get(recordList.size()-1).getTaskName(); // last element would be the current tracing item
+                    String strSubtext = ""; //"Current task: " + recordList.get(recordList.size() - 1).getTaskName(); // last element would be the current tracing item
                     String strContent = ""; //"Today's total: ";
 
                     Logger.d(Constants.TAG, MSG + "Title: " + strTitle);
@@ -211,7 +207,7 @@ public class JobSchedulerServiceDailySummary extends JobService {
         // 提醒時間，單位是毫秒 (1/1000s)
         notificationBuilder.setWhen(System.currentTimeMillis());             // 設定為當下立刻啟動
 //        mBuilder.setWhen(System.currentTimeMillis() - 3600000);   // 設定為系统時間少一小時 (會立刻叫)
-//        mBuilder.setWhen(System.currentTimeMillis() + 3000 );        // 設定為 3 秒後
+//        mBuilder.setWhen(System.currentTimeMillis() + 3000);        // 設定為 3 秒後
 
         // setOngoing(true) 設定為正在進行的通知，用戶無法清除 (類似 Foreground Service 通知)
         notificationBuilder.setOngoing(false);

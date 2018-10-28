@@ -21,7 +21,8 @@ public class SetCategoryAsyncTask extends AsyncTask<Object, Void, List<CategoryD
     private SetCategoryCallback mCallback;
 
     private String mErrorMessage;
-    private List<CategoryDefineTable> mCategoryList, mDeleteCategoryList;
+    private List<CategoryDefineTable> mCategoryList;
+    private List<CategoryDefineTable> mDeleteCategoryList;
 
 
     public SetCategoryAsyncTask(List<CategoryDefineTable> categoryList, List<CategoryDefineTable> deleteList, SetCategoryCallback callback) {
@@ -35,8 +36,6 @@ public class SetCategoryAsyncTask extends AsyncTask<Object, Void, List<CategoryD
     @Override
     protected List<CategoryDefineTable> doInBackground(Object[] objects) {
 
-//        try {
-
         DatabaseDao dao = AppDatabase.getDatabase(TimeManagementApplication.getAppContext()).getDatabaseDao();
 
         // delete category
@@ -46,18 +45,6 @@ public class SetCategoryAsyncTask extends AsyncTask<Object, Void, List<CategoryD
         for (int i = 0; i < mCategoryList.size(); ++i) {
             dao.addCategory(mCategoryList.get(i));
         }
-
-        // [TODO] add exception handling
-//        } catch (VoyageInvalidTokenException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        } catch (VoyageException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        }
 
         return mCategoryList;
     }

@@ -172,7 +172,7 @@ public class JobSchedulerServiceComplete extends JobService {
                     // (1) Notifcaiton title/ subtext/ content
                     // strSubtext 會顯示在 notification 的頂端，strTitle 和 strContent 反而都沒有顯示
                     String strTitle = ""; //"Save " + ParseTime.msToHourMinDiff(recordList.get(0).getStartTime(), recordList.get(0).getEndTime()) + " to " + recordList.get(0).getTaskName();
-                    String strSubtext = "Complete Task: "; //"Current task: " + recordList.get(recordList.size()-1).getTaskName(); // last element would be the current tracing item
+                    String strSubtext = "Complete Task: "; //"Current task: " + recordList.get(recordList.size() - 1).getTaskName(); // last element would be the current tracing item
                     String strContent = "Complete Task: "; //"Today's total: ";
 
 
@@ -298,7 +298,7 @@ public class JobSchedulerServiceComplete extends JobService {
         // 提醒時間，單位是毫秒 (1/1000s)
         notificationBuilder.setWhen(System.currentTimeMillis());             // 設定為當下立刻啟動
 //        mBuilder.setWhen(System.currentTimeMillis() - 3600000);   // 設定為系统時間少一小時 (會立刻叫)
-//        mBuilder.setWhen(System.currentTimeMillis() + 3000 );        // 設定為 3 秒後
+//        mBuilder.setWhen(System.currentTimeMillis() + 3000);        // 設定為 3 秒後
 
         // setOngoing(true) 設定為正在進行的通知，用戶無法清除 (類似 Foreground Service 通知)
         notificationBuilder.setOngoing(false);

@@ -43,8 +43,6 @@ public interface TaskListContract {
         // 1-2 request adapter to show the task list (get query result)
         void showTaskList(List<GetCategoryTaskList> bean);
 
-        void showTaskSelected(GetCategoryTaskList bean);
-
         void showCategoryListDialog();
 
         void showIconSelected(IconDefineTable bean);

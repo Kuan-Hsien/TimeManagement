@@ -42,18 +42,12 @@ public interface PlanDailyContract {
         // 1-2 request adapter to show the target list (get query result)
         void showTaskListWithPlanTime(List<GetTaskWithPlanTime> bean);
 
-//        void showCategoryListDialog(List<GetTaskWithPlanTime> bean);
-//        void showTaskListDialog(List<GetTaskWithPlanTime> bean);
-
-        void showTaskListDialog();
-
         // (fragment-ver) select task while add target
         void showTaskListUi();
 
         void showTaskSelected(GetCategoryTaskList bean);
 
-
-
+        void showToast(String message);
     }
 
     interface Presenter extends BasePresenter {
@@ -76,7 +70,6 @@ public interface PlanDailyContract {
 
         // 2-1. [Send-to-Model] database insert to update data (insert new targets or adjust time for existed targets)
         // 2-2. [Send-to-Model] database delete to delete data (delete existed targets)
-//        void saveTargetResults(String strMode, String strCategory, String strTask, String strStartTime, String strEndTime, String strCostTime);
         void saveTargetResults(List<TimePlanningTable> targetList, List<TimePlanningTable> deleteTargetList);
 
         // 2-3. [Send-to-View] request fragment to show data
@@ -84,18 +77,12 @@ public interface PlanDailyContract {
         // (1-1, 1-2)
 
         // 3-1. [Send-to-View]
-//        void showCategoryListDialog();
-
-
-
-        // (dialog-ver) select task while add target
-        void showTaskListDialog();
-
-
         // (fragment-ver) select task while add target
         void showTaskListUi();
 
         void selectTaskToPlan(GetCategoryTaskList bean);
+
+        void showToast(String message);
 
     }
 }

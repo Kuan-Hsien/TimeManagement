@@ -3,7 +3,6 @@ package com.realizeitstudio.deteclife.category;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import com.realizeitstudio.deteclife.MainContract;
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
@@ -11,18 +10,11 @@ import com.realizeitstudio.deteclife.dml.GetCategoryTaskListAsyncTask;
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskListCallback;
 import com.realizeitstudio.deteclife.dml.SetCategoryAsyncTask;
 import com.realizeitstudio.deteclife.dml.SetCategoryCallback;
-import com.realizeitstudio.deteclife.dml.SetTaskAsyncTask;
-import com.realizeitstudio.deteclife.dml.SetTaskCallback;
 import com.realizeitstudio.deteclife.object.CategoryDefineTable;
-import com.realizeitstudio.deteclife.object.TaskDefineTable;
-import com.realizeitstudio.deteclife.task.TaskListContract;
 import com.realizeitstudio.deteclife.utils.Constants;
 import com.realizeitstudio.deteclife.utils.Logger;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -63,8 +55,6 @@ public class CategoryListPresenter implements CategoryListContract.Presenter {
 
             if (mlastVisibleItemPosition == totalItemCount - 1) {
                 Logger.d(Constants.TAG, MSG + "Scroll to bottom");
-
-//                loadArticles();
 
             } else if (mfirstVisibleItemPosition == 0) {
 
@@ -150,13 +140,11 @@ public class CategoryListPresenter implements CategoryListContract.Presenter {
     @Override
     public void showCategorySelected(GetCategoryTaskList bean) {
 
-//        mCategoryView.showCategorySelected(bean);
         Logger.d(Constants.TAG, MSG + "Select Category: ");
         bean.logD();
 
         mMainPresenter.selectCategoryToTask(bean);
     }
-
 
 
     // 2-1. [Send-to-Model] database insert to update data (insert new targets or adjust time for existed targets)
@@ -171,7 +159,7 @@ public class CategoryListPresenter implements CategoryListContract.Presenter {
             public void onCompleted(List<CategoryDefineTable> bean) {
 
                 Logger.d(Constants.TAG, MSG + "SetCategory onCompleted");
-                for( int i = 0; i < bean.size(); ++i) {
+                for (int i = 0; i < bean.size(); ++i) {
                     bean.get(i).logD();
                 }
 

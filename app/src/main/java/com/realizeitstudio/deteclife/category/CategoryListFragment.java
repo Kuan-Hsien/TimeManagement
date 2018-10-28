@@ -1,6 +1,5 @@
 package com.realizeitstudio.deteclife.category;
 
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -131,42 +130,6 @@ public class CategoryListFragment extends Fragment implements CategoryListContra
     public void showCategoryList(List<GetCategoryTaskList> bean) {
         mCategoryListAdapter.updateData(bean);
     }
-
-    @Override
-    public void showCategorySelected(GetCategoryTaskList bean) {
-
-//        Logger.d(Constants.TAG, MSG + "Select Category: ");
-//        bean.logD();
-//
-//        // (1) 把選到的 category 傳回 (e.g. Plan page)
-//        // (2) 把自己這頁關掉
-//        mPresenter.show
-//
-//        Bundle bundle = new Bundle();
-//        bundle.pu
-//        bundle.putString("article_id", mArticlesList.get(mPosition).getId());
-//        bundle.putString("article_author_id", mArticlesList.get(mPosition).getAuthor().getId());
-//        bundle.putString("article_author_name", mArticlesList.get(mPosition).getAuthor().getName());
-//        bundle.putString("article_author_image", mArticlesList.get(mPosition).getAuthor().getImage());
-//        bundle.putString("article_title", mArticlesList.get(mPosition).getTitle());
-//        bundle.putString("article_content", mArticlesList.get(mPosition).getContent());
-//        bundle.putString("article_createdtime", mArticlesList.get(mPosition).getCreatedTime());
-//        bundle.putString("article_place", mArticlesList.get(mPosition).getPlace());
-//        // [TODO] picture need to send all the list item
-//        bundle.putString("article_picture", mArticlesList.get(mPosition).getPictures().toString());
-//        bundle.putInt("article_interests", mArticlesList.get(mPosition).getInterests());
-//        bundle.putInt("article_interested_in", mArticlesList.get(mPosition).isInterestedIn() == true ? 1 : 0);
-//
-//        mMainActivity.getFragmentDetail().setArguments(bundle);
-//        mMainActivity.displayArticleDetail();
-//
-//
-//
-//        mCategoryListAdapter.showCategorySelected(bean);
-
-
-    }
-
 
     public int getIntCategoryMode() {
         return mIntCategoryMode;

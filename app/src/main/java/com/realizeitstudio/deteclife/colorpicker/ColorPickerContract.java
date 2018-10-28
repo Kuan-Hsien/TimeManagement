@@ -19,7 +19,6 @@ package com.realizeitstudio.deteclife.colorpicker;
 import android.support.v7.widget.RecyclerView;
 
 import com.realizeitstudio.deteclife.BasePresenter;
-import com.realizeitstudio.deteclife.BaseView;
 import com.realizeitstudio.deteclife.object.ColorDefineTable;
 
 import java.util.List;
@@ -41,8 +40,6 @@ public interface ColorPickerContract {
     }
 
     interface Presenter extends BasePresenter {
-
-//        void result(int requestCode, int resultCode);
 
         // 0-1. recyclerView Scroll event
         void onScrollStateChanged(int visibleItemCount, int totalItemCount, int newState);

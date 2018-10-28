@@ -16,14 +16,14 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
-import com.realizeitstudio.deteclife.dml.GetTaskWithPlanTime;
 import com.realizeitstudio.deteclife.R;
 import com.realizeitstudio.deteclife.TimeManagementApplication;
+import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
+import com.realizeitstudio.deteclife.dml.GetTaskWithPlanTime;
 import com.realizeitstudio.deteclife.object.TimePlanningTable;
 import com.realizeitstudio.deteclife.utils.Constants;
-import com.realizeitstudio.deteclife.utils.ParseTime;
 import com.realizeitstudio.deteclife.utils.Logger;
+import com.realizeitstudio.deteclife.utils.ParseTime;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -159,7 +159,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
             mIntAdjustCostTime = new long[intArraySize];
             for (int i = 0; i < intArraySize; ++i) {
-                mIntAdjustCostTime[i] = mPlanningList.get(i).getCostTime() / (60*1000);
+                mIntAdjustCostTime[i] = mPlanningList.get(i).getCostTime() / (60 * 1000);
             }
 
             Logger.d(Constants.TAG, MSG + "max-costTime: " + mLongMaxCostTime);
@@ -167,7 +167,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
         mLongTotalCostTime = 0;
         for (int i = 0; i < mPlanningList.size(); ++i) {
-            mLongTotalCostTime += mPlanningList.get(i).getCostTime() / (60*1000);
+            mLongTotalCostTime += mPlanningList.get(i).getCostTime() / (60 * 1000);
         }
 
         Logger.d(Constants.TAG, MSG + "total-costTime: " + mLongTotalCostTime);
@@ -303,7 +303,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
         }
 
         //** Seekbar
-        private SeekBar.OnSeekBarChangeListener mSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener(){
+        private SeekBar.OnSeekBarChangeListener mSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
             //onProgressChanged  進度條只要拖動就觸發此事件（持續觸發）
 
             @Override
@@ -378,7 +378,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
         /**
          * call by onBindViewHolder
          */
-        public void bindView(GetTaskWithPlanTime item , int pos) {
+        public void bindView(GetTaskWithPlanTime item, int pos) {
 
             // 把相對應位置的 task 顯示在此 viewHolder
 
@@ -416,10 +416,10 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 //                Animation am = new TranslateAnimation(-150,0,0,0);
 //
 //                //動畫開始到結束的時間，1秒
-//                am.setDuration( 1000 );
+//                am.setDuration(1000);
 //
 //                // 動畫重覆次數 (-1表示一直重覆，0表示不重覆執行，所以只會執行一次)
-//                am.setRepeatCount( 0 );
+//                am.setRepeatCount(0);
 //
 //                //將動畫寫入ImageView
 //                getFrameLayoutPlanTaskIcon().setAnimation(am);
@@ -434,10 +434,10 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
                 Animation seekbarAnimation = new TranslateAnimation(0,0,100,0);
 
                 //動畫開始到結束的時間，1秒
-                seekbarAnimation.setDuration( 1000 );
+                seekbarAnimation.setDuration(1000);
 
                 // 動畫重覆次數 (-1表示一直重覆，0表示不重覆執行，所以只會執行一次)
-                seekbarAnimation.setRepeatCount( 0 );
+                seekbarAnimation.setRepeatCount(0);
 
                 //將動畫寫入ImageView
                 getSeekBarPlanTaskAdjustTime().setAnimation(seekbarAnimation);
@@ -806,10 +806,12 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
                 // 2.2 再把最新 add 的目標加在最後
                 // [TODO] 此處需判斷每個字串是否為空，還有對輸入的時間做檢查 / Add Weekly
-                if (getTextviewSetTargetCategory().getText().toString().trim() != null &&
-                        !TimeManagementApplication.getAppContext().getResources().getString(R.string.default_task_hint).equals(getTextviewSetTargetTask().getText().toString().trim()) &&
-                        curStartVerNoWeekly != null &&
-                        curEndVerNo != null) {
+                if (TimeManagementApplication.getAppContext().getResources().getString(R.string.default_task_hint)
+                        .equals(getTextviewSetTargetTask().getText().toString().trim())) {
+
+                    mPresenter.showToast(Constants.TOAST_ADD_TASK_FAIL);
+
+                } else {
 
                     targetList.add(new TimePlanningTable(
                             Constants.MODE_WEEKLY,
@@ -832,16 +834,16 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
                 mPresenter.refreshUi(Constants.MODE_PLAN_VIEW);
 
-            } else if (v.getId() == R.id.edittext_plan_top_editmode_task ||
-                    v.getId() == R.id.textview_plan_top_editmode_category ||
-                    v.getId() == R.id.framelayout_plan_top_editmode_icon) {
+            } else if (v.getId() == R.id.edittext_plan_top_editmode_task
+                    || v.getId() == R.id.textview_plan_top_editmode_category
+                    || v.getId() == R.id.framelayout_plan_top_editmode_icon) {
 
                 mPresenter.showTaskListUi();
             }
         }
 
         //** Seekbar
-        private SeekBar.OnSeekBarChangeListener mSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener(){
+        private SeekBar.OnSeekBarChangeListener mSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
             //onProgressChanged  進度條只要拖動就觸發此事件（持續觸發）
 
             @Override

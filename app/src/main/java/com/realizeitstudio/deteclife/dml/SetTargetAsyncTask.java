@@ -35,8 +35,6 @@ public class SetTargetAsyncTask extends AsyncTask<Object, Void, List<TimePlannin
     @Override
     protected List<TimePlanningTable> doInBackground(Object[] objects) {
 
-//        try {
-
         DatabaseDao dao = AppDatabase.getDatabase(TimeManagementApplication.getAppContext()).getDatabaseDao();
 
         // delete target
@@ -46,25 +44,6 @@ public class SetTargetAsyncTask extends AsyncTask<Object, Void, List<TimePlannin
         for (int i = 0; i < mTargetList.size(); ++i) {
             dao.addPlanItem(mTargetList.get(i));
         }
-
-//        insert a new target
-//        dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "HEALTH", "Sleep", mStrStartTime, mStrEndTime, mStrCostTime));
-//        dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "HEALTH", "Eat", mStrStartTime, mStrEndTime, mStrCostTime));
-//        dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "RELATIONSHIP", "Family", mStrStartTime, mStrEndTime, mStrCostTime));
-//        dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "RELATIONSHIP", "Family", mStrStartTime, mStrEndTime, mStrCostTime));
-//        dao.addPlanItem(new TimePlanningTable(Constants.MODE_PERIOD, "HEALTH", "Toilet", mStrStartTime, mStrEndTime, mStrCostTime));
-
-        // [TODO] add exception handling
-//        } catch (VoyageInvalidTokenException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        } catch (VoyageException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            mErrorMessage = e.getMessage();
-//            e.printStackTrace();
-//        }
 
         return mTargetList;
     }

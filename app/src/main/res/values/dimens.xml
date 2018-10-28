@@ -72,7 +72,7 @@
     <dimen name="padding_category_name_hight">2dp</dimen>
 
     <!-- cardview category -->
-    <dimen name="maxwidth_textview_edit_title">223dp</dimen>
+    <dimen name="maxwidth_textview_edit_title">150dp</dimen>
     <dimen name="textsize_textview_edit_title">16sp</dimen>
 
 
@@ -81,7 +81,7 @@
 
     <!-- Plan items -->
     <dimen name="height_plan_period">28dp</dimen>
-    <dimen name="width_plan_top_add_item">223dp</dimen>
+    <dimen name="width_plan_top_add_item">150dp</dimen>
     <dimen name="width_plan_task_name">80dp</dimen>
     <dimen name="width_plan_task_time">40dp</dimen>
     <dimen name="width_plan_adjust_time_panel">150dp</dimen>
@@ -89,8 +89,8 @@
 
     <!-- Trace items -->
     <dimen name="height_trace_period">28dp</dimen>
-    <dimen name="width_trace_top_add_item">223dp</dimen>
-    <dimen name="width_trace_task_name">200dp</dimen>
+    <dimen name="width_trace_top_add_item">150dp</dimen>
+    <dimen name="width_trace_task_name">150dp</dimen>
     <dimen name="width_trace_category_name">150dp</dimen>
     <dimen name="width_trace_task_time">40dp</dimen>
     <dimen name="width_trace_adjust_time_panel">150dp</dimen>
@@ -120,7 +120,7 @@
 
 
     <!-- Set target -->
-    <dimen name="width_set_target_item">223dp</dimen>
+    <dimen name="width_set_target_item">150dp</dimen>
     <dimen name="width_set_target_send_button">38dp</dimen>
     <dimen name="height_set_target_send_button">38dp</dimen>
     <dimen name="padding_set_target_send_button">10dp</dimen>
@@ -164,7 +164,7 @@
     <dimen name="space_main_item">1dp</dimen>
 
     <dimen name="height_main_item">70dp</dimen>
-    <dimen name="width_main_authorname">223dp</dimen>
+    <dimen name="width_main_authorname">150dp</dimen>
     <dimen name="width_main_articlepicture">112dp</dimen>
     <dimen name="height_main_articlepicture">70dp</dimen>
     <dimen name="width_main_articletitle">204dp</dimen>
@@ -194,7 +194,7 @@
     <dimen name="size_detail_sendbutton">30dp</dimen>
     <dimen name="height_detail_articlepicture">225dp</dimen>
     <dimen name="width_detail_contentarea">328dp</dimen>
-    <dimen name="width_detail_authorname">223dp</dimen>
+    <dimen name="width_detail_authorname">150dp</dimen>
     <dimen name="width_detail_displaymorebutton">129dp</dimen>
     <dimen name="height_detail_displaymorebutton">30dp</dimen>
     <dimen name="width_detail_optionbutton">34dp</dimen>

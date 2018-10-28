@@ -257,9 +257,9 @@ public class ParseTime {
 
 //        Logger.d(Constants.TAG, MSG + "date2Day:Calendar.DAY_OF_WEEK => " + calendar.get(Calendar.DAY_OF_WEEK));
         Logger.d(Constants.TAG, MSG + "date2Day:weekDay => " + weekDay);
-//        Logger.d(Constants.TAG, MSG + "date2Day:pattern = 'u' => " + new SimpleDateFormat( "u" ).format( date ));
-//        Logger.d(Constants.TAG, MSG + "date2Day:pattern = 'E' => " + new SimpleDateFormat( "E" ).format( date ));
-//        Logger.d(Constants.TAG, MSG + "date2Day:pattern = 'F' => " + new SimpleDateFormat( "F" ).format( date ));   // Today is the second Wednesday in the current month.
+//        Logger.d(Constants.TAG, MSG + "date2Day:pattern = 'u' => " + new SimpleDateFormat("u").format(date));
+//        Logger.d(Constants.TAG, MSG + "date2Day:pattern = 'E' => " + new SimpleDateFormat("E").format(date));
+//        Logger.d(Constants.TAG, MSG + "date2Day:pattern = 'F' => " + new SimpleDateFormat("F").format(date));   // Today is the second Wednesday in the current month.
 
 
         return weekDay;

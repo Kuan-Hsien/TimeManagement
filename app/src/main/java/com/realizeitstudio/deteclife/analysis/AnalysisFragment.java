@@ -53,8 +53,6 @@ public class AnalysisFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_analysis, container, false);
-
         if (mAnalysisDailyFragment == null) {
             mAnalysisDailyFragment = AnalysisDailyFragment.newInstance();
         }
@@ -72,17 +70,14 @@ public class AnalysisFragment extends Fragment {
 
         mFragmentList = new ArrayList<>();
         mFragmentList.add(mAnalysisDailyFragment);
-//        mFragmentList.add(mAnalysisDailyFragment);
-//        mFragmentList.add(mAnalysisDailyFragment);
-//        mFragmentList.add(mAnalysisDailyFragment);
         mFragmentList.add(mAnalysisWeeklyFragment);
 
+        View root = inflater.inflate(R.layout.fragment_analysis, container, false);
         mTablayout = (TabLayout) root.findViewById(R.id.tab_analysis_period);
         mTablayout.addTab(mTablayout.newTab().setText(Constants.TAB_DAILY));
         mTablayout.addTab(mTablayout.newTab().setText(Constants.TAB_WEEKLY));
 //        mTablayout.addTab(mTablayout.newTab().setText(Constants.TAB_MONTHLY));
 //        mTablayout.addTab(mTablayout.newTab().setText(Constants.TAB_YEARLY));
-//        mTablayout.addTab(mTablayout.newTab().setText("Page three"))
 
         mViewPager = (ViewPager) root.findViewById(R.id.viewpager_analysis_period);
         mViewPager.setAdapter(new FragmentStatePagerAdapter(getActivity().getSupportFragmentManager()) {

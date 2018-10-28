@@ -1,7 +1,5 @@
 package com.realizeitstudio.deteclife.addtask;
 
-import android.widget.Toast;
-
 import com.realizeitstudio.deteclife.MainActivity;
 import com.realizeitstudio.deteclife.MainContract;
 import com.realizeitstudio.deteclife.dml.SetTaskAsyncTask;
@@ -10,8 +8,6 @@ import com.realizeitstudio.deteclife.iconpicker.IconPickerDialog;
 import com.realizeitstudio.deteclife.iconpicker.IconPickerPresenter;
 import com.realizeitstudio.deteclife.object.IconDefineTable;
 import com.realizeitstudio.deteclife.object.TaskDefineTable;
-import com.realizeitstudio.deteclife.plan.daily.PlanDailyFragment;
-import com.realizeitstudio.deteclife.plan.daily.PlanDailyPresenter;
 import com.realizeitstudio.deteclife.utils.Constants;
 import com.realizeitstudio.deteclife.utils.Logger;
 

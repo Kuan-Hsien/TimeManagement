@@ -41,9 +41,6 @@ public interface CategoryTaskListContract {
         // 1-2 request adapter to show the target list (get query result)
         void showCategoryTaskList(List<GetCategoryTaskList> bean);
 
-//        void showCategoryListDialog(List<GetTaskWithPlanTime> bean);
-//        void showTaskListDialog(List<GetTaskWithPlanTime> bean);
-
         void showCategoryListDialog();
 
         void showCategoryTaskSelected(GetCategoryTaskList bean);

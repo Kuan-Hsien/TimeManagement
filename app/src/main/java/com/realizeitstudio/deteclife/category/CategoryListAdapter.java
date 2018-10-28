@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.realizeitstudio.deteclife.R;
 import com.realizeitstudio.deteclife.TimeManagementApplication;
@@ -141,15 +140,6 @@ public class CategoryListAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-
-
-
-
-
-
-
-
-
     public void refreshUiMode(int mode) {
         Logger.d(Constants.TAG, MSG + "refreshUiMode: " + (mode == Constants.MODE_PLAN_VIEW ? "VIEW_MODE" : "EDIT_MODE"));
 
@@ -167,7 +157,6 @@ public class CategoryListAdapter extends RecyclerView.Adapter {
         setIntTaskMode(mode);
         notifyDataSetChanged();
     }
-
 
     // ViewHolder of Task
     // Provide a reference to the views for each data item
@@ -353,7 +342,6 @@ public class CategoryListAdapter extends RecyclerView.Adapter {
         public void bindView(GetCategoryTaskList item, int pos) {
 
             Logger.d(Constants.TAG, MSG + "bindView setColor: " + item.getCategoryColor() + " CategoryName: " + item.getCategoryName());
-
 
 //            getConstraintLayoutCategoryItem().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
             GradientDrawable gradientDrawable = (GradientDrawable) getConstraintLayoutCategoryItem().getBackground();

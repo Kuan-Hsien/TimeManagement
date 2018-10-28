@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package com.realizeitstudio.deteclife.category;
 
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +22,6 @@ import com.realizeitstudio.deteclife.BasePresenter;
 import com.realizeitstudio.deteclife.BaseView;
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
 import com.realizeitstudio.deteclife.object.CategoryDefineTable;
-import com.realizeitstudio.deteclife.object.TaskDefineTable;
 
 import java.util.List;
 
@@ -43,8 +41,6 @@ public interface CategoryListContract {
 
         // 1-2 request adapter to show the task list (get query result)
         void showCategoryList(List<GetCategoryTaskList> bean);
-
-        void showCategorySelected(GetCategoryTaskList bean);
 
         void showToast(String message);
     }
@@ -66,7 +62,6 @@ public interface CategoryListContract {
 
         void showCategorySelected(GetCategoryTaskList bean);
 
-
         // 2-1. [Send-to-Model] database insert to update data (insert new targets or adjust time for existed targets)
         // 2-2. [Send-to-Model] database delete to delete data (delete existed targets)
         void saveCategoryResults(List<CategoryDefineTable> categoryList, List<CategoryDefineTable> deleteCategoryList);
@@ -74,7 +69,6 @@ public interface CategoryListContract {
         // 2-3. [Send-to-View] request fragment to show data
         // once update data, query the target list again to refresh UI
         // (1-1, 1-2)
-
         // 3-1. [Send-to-View]
         void showCategoryListDialog();
 

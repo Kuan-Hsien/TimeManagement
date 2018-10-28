@@ -1,13 +1,11 @@
 package com.realizeitstudio.deteclife.plan;
 
-
 import android.os.Bundle;
 
 import android.support.design.widget.TabLayout;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,8 +60,6 @@ public class PlanFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_plan, container, false);
-
         if (mPlanDailyFragment == null) {
             mPlanDailyFragment = PlanDailyFragment.newInstance();
         }
@@ -82,12 +78,11 @@ public class PlanFragment extends Fragment {
         mFragmentList = new ArrayList<>();
         mFragmentList.add(mPlanDailyFragment);
         mFragmentList.add(mPlanWeeklyFragment);
-//        mFragmentList.add(mPlanDailyFragment);
 
+        View root = inflater.inflate(R.layout.fragment_plan, container, false);
         mTablayout = (TabLayout) root.findViewById(R.id.tab_plan_period);
         mTablayout.addTab(mTablayout.newTab().setText(Constants.TAB_DAILY));
         mTablayout.addTab(mTablayout.newTab().setText(Constants.TAB_WEEKLY));
-//        mTablayout.addTab(mTablayout.newTab().setText("Page three"));
 
         mViewPager = (ViewPager) root.findViewById(R.id.viewpager_plan_period);
         mViewPager.setAdapter(new FragmentStatePagerAdapter(getActivity().getSupportFragmentManager()) {
