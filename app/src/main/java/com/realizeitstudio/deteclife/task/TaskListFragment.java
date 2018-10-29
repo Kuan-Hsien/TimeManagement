@@ -34,10 +34,6 @@ public class TaskListFragment extends Fragment implements TaskListContract.View 
 
     private static final String MSG = "TaskListFragment: ";
 
-    private CategoryTaskListContract.Presenter mCategroyTaskListContractPresenter;
-    private CategoryTaskListAdapter mCategoryTaskListAdapter;
-    private AlertDialog mDialog;
-
     private TaskListContract.Presenter mPresenter;
     private TaskListAdapter mTaskListAdapter;
     private int mIntTaskMode;

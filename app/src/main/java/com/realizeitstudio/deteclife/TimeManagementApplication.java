@@ -135,95 +135,15 @@ public class TimeManagementApplication extends Application {
     public static Drawable getIconResourceDrawable(String strIcon) {
         return TimeManagementApplication.getAppContext().getDrawable(getResId(strIcon, R.drawable.class));
     }
-
-//    public static Drawable getIconResourceDrawable(String strIcon) {
-//
-//        if (strIcon.equals(Constants.APP_ICON_SMALL)) {
-//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.deteclife_icon_line);
-//        } else if (strIcon.equals(Constants.APP_ICON_BIG)) {
-//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.deteclife_icon_fill);
-//
-//        } else if (strIcon.equals("icon_sleep")) {
-//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_sleep);
-//        } else if (strIcon.equals("icon_bike")) {
-//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_bike);
-//        } else if (strIcon.equals("icon_book")) {
-//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_book);
-//        } else if (strIcon.equals("icon_car")) {
-//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_car);
-//        } else if (strIcon.equals("icon_computer")) {
-//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_computer);
-//        } else if (strIcon.equals("icon_drunk")) {
-//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_drunk);
-//        } else if (strIcon.equals("icon_friend")) {
-//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_friend);
-//        } else if (strIcon.equals("icon_food")) {
-//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_food);
-//        } else if (strIcon.equals("icon_home")) {
-//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_home);
-//        } else if (strIcon.equals("icon_lover")) {
-//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_lover);
-//        } else if (strIcon.equals("icon_music")) {
-//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_music);
-//        } else if (strIcon.equals("icon_paw")) {
-//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_paw);
-//        } else if (strIcon.equals("icon_phonecall")) {
-//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_phonecall);
-//        } else if (strIcon.equals("icon_swim")) {
-//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_swim);
-//        } else if (strIcon.equals("icon_walk")) {
-//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_walk);
-//        } else if (strIcon.equals("icon_work")) {
-//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_work);
-//        } else {
-//            return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_sleep);
-//        }
+//    if (strIcon.equals("icon_sleep")) {
+//        return TimeManagementApplication.getAppContext().getDrawable(R.drawable.icon_sleep);
 //    }
 
     public static int getIconResourceId(String strIcon) {
 
         return getResId(strIcon, R.drawable.class);
-
-//        if (strIcon.equals(Constants.APP_ICON_SMALL)) {
-//            return R.drawable.deteclife_icon_line;
-//        } else if (strIcon.equals(Constants.APP_ICON_BIG)) {
-//            return R.drawable.deteclife_icon_fill;
-//
-//        } else if (strIcon.equals("icon_sleep")) {
+//        if (strIcon.equals("icon_sleep")) {
 //            return R.drawable.icon_sleep;
-//        } else if (strIcon.equals("icon_bike")) {
-//            return R.drawable.icon_bike;
-//        } else if (strIcon.equals("icon_book")) {
-//            return R.drawable.icon_book;
-//        } else if (strIcon.equals("icon_car")) {
-//            return R.drawable.icon_car;
-//        } else if (strIcon.equals("icon_computer")) {
-//            return R.drawable.icon_computer;
-//        } else if (strIcon.equals("icon_drunk")) {
-//            return R.drawable.icon_drunk;
-//        } else if (strIcon.equals("icon_friend")) {
-//            return R.drawable.icon_friend;
-//        } else if (strIcon.equals("icon_food")) {
-//            return R.drawable.icon_food;
-//        } else if (strIcon.equals("icon_home")) {
-//            return R.drawable.icon_home;
-//        } else if (strIcon.equals("icon_lover")) {
-//            return R.drawable.icon_lover;
-//        } else if (strIcon.equals("icon_music")) {
-//            return R.drawable.icon_music;
-//        } else if (strIcon.equals("icon_paw")) {
-//            return R.drawable.icon_paw;
-//        } else if (strIcon.equals("icon_phonecall")) {
-//            return R.drawable.icon_phonecall;
-//        } else if (strIcon.equals("icon_swim")) {
-//            return R.drawable.icon_swim;
-//        } else if (strIcon.equals("icon_walk")) {
-//            return R.drawable.icon_walk;
-//        } else if (strIcon.equals("icon_work")) {
-//            return R.drawable.icon_work;
-//        } else {
-//            return R.drawable.icon_sleep;
-//        }
     }
 
     public static boolean isFirstLogin() {
@@ -238,12 +158,11 @@ public class TimeManagementApplication extends Application {
     public void firstLogin() {
 
         Logger.d(Constants.TAG, MSG + "First Login");
-        // (0) greeting (?)
+        // (0) greeting
         // (1) prepare default tasks and categories
         // (2) tips
         // (x) prepare testing data
         // (x) save is_first_flag into shared-preferences
-
 
         // (1) prepare default tasks and categories
         prepareRoomDatabase();
@@ -362,13 +281,13 @@ public class TimeManagementApplication extends Application {
                 dao.addPlanItem(new TimePlanningTable(Constants.MODE_WEEKLY, "Personal", "Personal", curStartVerNoWeekly, curEndVerNo, 420 * 60000, strCurrentTime));
 
                 // Prepare default category
-                dao.addCategory(new CategoryDefineTable("Health", "#32CD32", 1, false));
+                dao.addCategory(new CategoryDefineTable("Health", "#191970", 1, false));
                 dao.addCategory(new CategoryDefineTable("Family", "#C71585", 2, false));
-                dao.addCategory(new CategoryDefineTable("Personal", "#008B8B", 3, false));
+                dao.addCategory(new CategoryDefineTable("Personal", "#FFB6C1", 3, false));
                 dao.addCategory(new CategoryDefineTable("Friend", "#F4A460", 4, false));
-                dao.addCategory(new CategoryDefineTable("Work", "#1E90FF", 5, false));
-                dao.addCategory(new CategoryDefineTable("Transportation", "#B0C4DE", 6, false));
-                dao.addCategory(new CategoryDefineTable("Others", "#4682B4", 7, false));
+                dao.addCategory(new CategoryDefineTable("Work", "#3f51b5", 5, false));
+                dao.addCategory(new CategoryDefineTable("Transportation", "#008B8B", 6, false));
+                dao.addCategory(new CategoryDefineTable("Others", "#B0C4DE", 7, false));
 
                 // Prepare default task
                 dao.addTask(new TaskDefineTable("Work", "Work", "#2196f3", "icon_work", 8, false));
@@ -456,6 +375,7 @@ public class TimeManagementApplication extends Application {
                 dao.addColorItem(new ColorDefineTable("#cddc39", false, strCurrentTime));
                 dao.addColorItem(new ColorDefineTable("#fad325", false, strCurrentTime));
                 dao.addColorItem(new ColorDefineTable("#ffc107", false, strCurrentTime));
+                dao.addColorItem(new ColorDefineTable("#F4A460", false, strCurrentTime));
                 dao.addColorItem(new ColorDefineTable("#ff9800", false, strCurrentTime));
                 dao.addColorItem(new ColorDefineTable("#ff5722", false, strCurrentTime));
                 dao.addColorItem(new ColorDefineTable("#795548", false, strCurrentTime));
@@ -667,9 +587,9 @@ public class TimeManagementApplication extends Application {
                 dao.addCategory(new CategoryDefineTable("Health", "#32CD32", 1, false));
                 dao.addCategory(new CategoryDefineTable("Family", "#C71585", 2, false));
                 dao.addCategory(new CategoryDefineTable("Personal", "#008B8B", 3, false));
-                dao.addCategory(new CategoryDefineTable("Friend", "#F4A460", 4, false));
+                dao.addCategory(new CategoryDefineTable("Friend", "#B0C4DE", 4, false));
                 dao.addCategory(new CategoryDefineTable("Work", "#1E90FF", 5, false));
-                dao.addCategory(new CategoryDefineTable("Transportation", "#B0C4DE", 6, false));
+                dao.addCategory(new CategoryDefineTable("Transportation", "#F4A460", 6, false));
                 dao.addCategory(new CategoryDefineTable("Others", "#4682B4", 7, false));
 
                 // Prepare default task

@@ -29,33 +29,10 @@
     <dimen name="radius_all_articlepicture">5dp</dimen>
     <dimen name="radius_profile_authorimage">110dp</dimen>
 
-    <!-- Discover -->
-    <dimen name="height_discover_segmented">60dp</dimen>
-    <dimen name="width_discover_segmentedtab">165dp</dimen>
-    <dimen name="height_discover_segmentedtab">28dp</dimen>
-
-    <!-- Profile -->
-    <dimen name="size_profile_authorimage">110dp</dimen>
-    <dimen name="width_profile_itembutton">328dp</dimen>
-    <dimen name="height_profile_itembutton">50dp</dimen>
-    <dimen name="size_profile_logouticon">24dp</dimen>
-
-
-
-
-
 
     <!-- All items -->
     <dimen name="size_all_add_item">38dp</dimen>
     <dimen name="size_all_item_image">38dp</dimen>
-
-    <!--<dimen name="size_all_authorimage">36dp</dimen>-->
-    <!--<dimen name="size_all_createdtime">14dp</dimen>-->
-    <!--<dimen name="size_all_interestedin">20dp</dimen>-->
-    <!--<dimen name="size_all_place">14dp</dimen>-->
-
-
-
 
 
     <!-- all items -->
@@ -151,68 +128,8 @@
     <!-- Color Picker -->
     <dimen name="padding_width_recyclerview_color">5dp</dimen>
     <dimen name="padding_height_recyclerview_color">3dp</dimen>
-
-
     <dimen name="margin_edittext_padding_start_adjust">4dp</dimen>
 
-
-
-
-
-
-    <!-- Main items-->
-    <dimen name="space_main_item">1dp</dimen>
-
-    <dimen name="height_main_item">70dp</dimen>
-    <dimen name="width_main_authorname">150dp</dimen>
-    <dimen name="width_main_articlepicture">112dp</dimen>
-    <dimen name="height_main_articlepicture">70dp</dimen>
-    <dimen name="width_main_articletitle">204dp</dimen>
-    <dimen name="width_main_articlecontent">204dp</dimen>
-    <dimen name="height_main_articlecontent">42dp</dimen>
-
-    <!-- Discover items -->
-    <dimen name="space_discover_item">4dp</dimen>
-
-    <dimen name="width_discover_item">178dp</dimen>
-    <dimen name="height_discover_item">110dp</dimen>
-    <dimen name="height_discover_authormask">56dp</dimen>
-    <dimen name="width_discover_articleplace">94dp</dimen>
-
-    <!-- Liked items -->
-    <dimen name="space_liked_item">4dp</dimen>
-
-    <dimen name="height_liked_item">225dp</dimen>
-    <dimen name="height_liked_authormask">100dp</dimen>
-    <dimen name="width_liked_articletitle">340dp</dimen>
-    <dimen name="width_liked_authorname">294dp</dimen>
-    <dimen name="width_liked_articleplace">276dp</dimen>
-
-    <!-- Detail items -->
-    <dimen name="height_detail_inputarea_min">50dp</dimen>
-    <dimen name="height_detail_inputtext_min">14dp</dimen>
-    <dimen name="size_detail_sendbutton">30dp</dimen>
-    <dimen name="height_detail_articlepicture">225dp</dimen>
-    <dimen name="width_detail_contentarea">328dp</dimen>
-    <dimen name="width_detail_authorname">150dp</dimen>
-    <dimen name="width_detail_displaymorebutton">129dp</dimen>
-    <dimen name="height_detail_displaymorebutton">30dp</dimen>
-    <dimen name="width_detail_optionbutton">34dp</dimen>
-    <dimen name="height_detail_optionbutton">20dp</dimen>
-
-    <dimen name="height_detail_commentoption">112dp</dimen>
-    <dimen name="height_detail_commentoptionbutton">56dp</dimen>
-    <dimen name="size_detail_commentoptionicon">24dp</dimen>
-
-
-
-    <dimen name="wall_item_detail_margin_top">10dp</dimen>
-    <dimen name="wall_item_detail_margin_bottom">30dp</dimen>
-    <dimen name="wall_item_detail_margin_left">16dp</dimen>
-    <dimen name="wall_item_detail_margin_right">16dp</dimen>
-
-    <!-- Detail Galley Items -->
-    <dimen name="gallery_item_detail_height">225dp</dimen>
 
 
 
