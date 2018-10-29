@@ -10,7 +10,7 @@ import java.util.Date;
 public class ParseTime {
     private static final String MSG = "ParseTime: ";
 
-    // 輸入 min 數，回傳 3hr 15min 字串
+    // 輸入 min 數，回傳 3 hr 15 min 字串
     public static String intToHourMin(int intInput) {
 
         int hours = intInput / 60;
@@ -29,7 +29,7 @@ public class ParseTime {
         return strOutput;
     }
 
-    // 輸入 min 數，回傳 3h 15m 字串
+    // 輸入 min 數，回傳 3 h 15 m 字串
     public static String intToHrM(int intInput) {
 
         int hours = intInput / 60;
@@ -141,7 +141,6 @@ public class ParseTime {
         } else {
             return hour + " hr " + min + " min " + sec + " s";
         }
-
     }
 
 

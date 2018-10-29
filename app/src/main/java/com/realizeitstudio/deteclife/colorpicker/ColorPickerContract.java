@@ -19,6 +19,7 @@ package com.realizeitstudio.deteclife.colorpicker;
 import android.support.v7.widget.RecyclerView;
 
 import com.realizeitstudio.deteclife.BasePresenter;
+import com.realizeitstudio.deteclife.dml.GetColorListAsyncTask;
 import com.realizeitstudio.deteclife.object.ColorDefineTable;
 
 import java.util.List;

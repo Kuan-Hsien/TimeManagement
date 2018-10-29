@@ -22,8 +22,8 @@ android {
         applicationId "com.realizeitstudio.deteclife"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 3
-        versionName "b.0.2"
+        versionCode 4
+        versionName "b.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -37,6 +37,9 @@ android {
 //        // Or, if you prefer, you can continue to check for errors in release builds,
 //        // but continue the build even when errors are found:
 //        abortOnError false
+//    }
+//    sourceSets {
+//        instrumentTest.setRoot('src/test')
 //    }
 }
 
@@ -59,4 +62,17 @@ dependencies {
         transitive = true;
     }
 
+    //mockito
+//    testImplementation "org.mockito:mockito-core:2.8.9"
+    androidTestImplementation "org.mockito:mockito-android:2.8.9"
+
+    // PowerMock brings in the mockito dependency
+    testImplementation 'org.powermock:powermock-module-junit4:1.6.5'
+    testImplementation 'org.powermock:powermock-module-junit4-rule:1.6.5'
+    testImplementation 'org.powermock:powermock-api-mockito:1.6.5'
+    testImplementation 'org.powermock:powermock-classloading-xstream:1.6.5'
+
+    // Required for instrumented tests
+    androidTestImplementation 'com.android.support:support-annotations:24.0.0'
+    androidTestImplementation 'com.android.support.test:runner:0.5'
 }

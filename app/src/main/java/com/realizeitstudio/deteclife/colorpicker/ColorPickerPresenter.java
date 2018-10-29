@@ -75,6 +75,7 @@ public class ColorPickerPresenter implements ColorPickerContract.Presenter {
     // 1-1. [Send-to-Model] database query to prepare data (query all targets)
     @Override
     public void getColorList() {
+
         if (!isLoading()) {
             setLoading(true);
 
