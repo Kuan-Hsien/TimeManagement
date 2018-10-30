@@ -5,6 +5,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +14,12 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.realizeitstudio.deteclife.MainActivity;
 import com.realizeitstudio.deteclife.R;
 import com.realizeitstudio.deteclife.TimeManagementApplication;
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
@@ -47,9 +51,10 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
     private long mLongNewItemCostTime;
 
     private PlanTopItemViewHolder mPlanTopItemViewHolder;
+    private MainActivity mMainActivity;
 
 
-    public PlanDailyAdapter(List<GetTaskWithPlanTime> bean, PlanDailyContract.Presenter presenter) {
+    public PlanDailyAdapter(List<GetTaskWithPlanTime> bean, PlanDailyContract.Presenter presenter, MainActivity activity) {
 
         mPresenter = presenter;
         setIntPlanMode(Constants.MODE_PLAN_VIEW);
@@ -58,6 +63,8 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
         for (int i = 0; i < bean.size(); ++i) {
             this.mPlanningList.add(bean.get(i));
         }
+
+        mMainActivity = activity;
     }
 
     // Create new views (invoked by the layout manager)
@@ -96,7 +103,6 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
 
             mPlanTopItemViewHolder = (PlanTopItemViewHolder) holder;
             ((PlanTopItemViewHolder) holder).bindView();
-
 
         } else {
             // current target list
@@ -195,6 +201,14 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
         private ImageView mImageviewPlanTaskDeleteHint;
         private SeekBar mSeekBarPlanTaskAdjustTime;
         private ConstraintLayout mConstraintLayoutAdjustCostTime;
+        private ConstraintLayout mConstraintLayoutPlanTaskCostTime;
+        private ImageView mImageviewPlanTaskCostTime;
+
+        private NumberPicker mNumberPickerHr;
+        private NumberPicker mNumberPickerMin;
+        private AlertDialog mDialog;
+        private int intNumberPickerHr;
+        private int intNumberPickerMin;
 
         private int mPosition;
 
@@ -238,8 +252,16 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
             return mSeekBarPlanTaskAdjustTime;
         }
 
+        public ConstraintLayout getConstraintLayoutPlanTaskCostTime() {
+            return mConstraintLayoutPlanTaskCostTime;
+        }
+
         public ConstraintLayout getConstraintLayoutAdjustCostTime() {
             return mConstraintLayoutAdjustCostTime;
+        }
+
+        public ImageView getImageviewPlanTaskCostTime() {
+            return mImageviewPlanTaskCostTime;
         }
 
         public PlanMainItemViewHolder(View v) {
@@ -255,15 +277,6 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
             mTextviewPlanTaskName = (TextView) v.findViewById(R.id.textview_plan_task_name);
             mTextviewPlanTaskCostTime = (TextView) v.findViewById(R.id.textview_plan_task_cost_time);
 
-//            mConstraintLayoutPlanMainItem.setOnClickListener(new View.OnClickListener() {
-//
-//                @Override
-//                public void onClick(View view) {
-//                    // 點擊一個已經設定好的目標，也許未來要可以編輯或是刪除等等
-//                    // add a new target
-//                }
-//            });
-
             //** Edit mode
             mFrameLayoutPlanTaskDelete = v.findViewById(R.id.framelayout_plan_task_delete_hint);
             mImageviewPlanTaskDeleteHint = (ImageView) v.findViewById(R.id.imageview_plan_task_delete_hint);
@@ -272,6 +285,10 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
             mConstraintLayoutAdjustCostTime = v.findViewById(R.id.constraintlayout_plantask_adjust_costtime);
             mSeekBarPlanTaskAdjustTime = (SeekBar) v.findViewById(R.id.seekbar_plan_task_adjust_cost_time_daily);
             mSeekBarPlanTaskAdjustTime.setOnSeekBarChangeListener(mSeekBarChangeListener);
+
+            mImageviewPlanTaskCostTime = v.findViewById(R.id.imageview_plan_task_cost_time);
+            mConstraintLayoutPlanTaskCostTime = v.findViewById(R.id.constraintlayout_plan_task_cost_time);
+            mConstraintLayoutPlanTaskCostTime.setOnClickListener(this);
         }
 
         @Override
@@ -299,7 +316,112 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
                 }
 
                 Logger.d(Constants.TAG, MSG + "delete " + mPlanningList.get(getCurrentPosition()).getTaskName() + " status: " + isDeleteArray[getCurrentPosition()]);
+
+            } else if (v.getId() == R.id.constraintlayout_plan_task_cost_time) {
+
+                showTimePickerDialog();
+
+            } else if (v.getId() == R.id.imageview_timepicker_check) {    // check the time selected result
+
+                intNumberPickerHr = mNumberPickerHr.getValue();
+                intNumberPickerMin = mNumberPickerMin.getValue();
+                Logger.d(Constants.TAG, MSG + "Hr = " + intNumberPickerHr + " Min = " + intNumberPickerMin);
+
+                int progress = intNumberPickerHr * 60 + intNumberPickerMin;
+
+                mDialog.dismiss();
+
+
+
+
+                if ((mLongTotalCostTime - mIntAdjustCostTime[getCurrentPosition()] + progress) >= mLongMaxCostTime) { // 目前設定總時數 - 這個 item 原本的 costTime ＋ 這個 item 新調的時間 > 上限)
+
+                    // [Seekbar] 1. 如果已經封頂了，user 還是把 progress 往後拉，則強制停在原地並 return。其餘數字均不改動
+                    if (mLongMaxCostTime == mLongTotalCostTime) {
+                        mSeekBarPlanTaskAdjustTime.setProgress((int)mIntAdjustCostTime[getCurrentPosition()]);
+                        Logger.d(Constants.TAG, MSG + "Already meet the max-time, progress won't change");
+                        Logger.d(Constants.TAG, MSG + "MaxTime: " + mLongMaxCostTime + " Total costTime: " + mLongTotalCostTime + " Progress: " + progress);
+                        return;
+                    }
+
+                    // [Seekbar] 2. 如果第一次被拉到封頂
+                    progress = (int)(mIntAdjustCostTime[getCurrentPosition()] + mLongMaxCostTime - mLongTotalCostTime);         // 直接把 progress 設到滿
+                    mLongTotalCostTime = mLongMaxCostTime;                    // 並把 totalCostTime 加到滿
+
+                    mIntAdjustCostTime[getCurrentPosition()] = progress;    // progress means minutes
+                    mSeekBarPlanTaskAdjustTime.setProgress(progress);
+
+                    String strCostTime = ParseTime.intToHourMin(progress);
+                    getTextviewPlanTaskCostTime().setText(strCostTime);  // 設定 UI 顯示現在 progress 進度時間
+
+                    Logger.d(Constants.TAG, MSG + "Meet the max-time, reset progress to current maximum");
+                    Logger.d(Constants.TAG, MSG + "MaxTime: " + mLongMaxCostTime + " Total costTime: " + mLongTotalCostTime + " Progress: " + progress);
+
+                    return;
+                }
+
+
+                // [Seekbar] 3. 沒封頂的情況
+
+                String strCostTime = ParseTime.intToHourMin(progress);
+
+                Logger.d(Constants.TAG, MSG + "Progress: " + progress + " CostTime: " + strCostTime);
+
+                getTextviewPlanTaskCostTime().setText(strCostTime);  // 設定 UI 顯示現在 progress 進度時間
+                mLongTotalCostTime = mLongTotalCostTime - mIntAdjustCostTime[getCurrentPosition()] + progress; // 總時數 - 這個 item 原本的 costTime ＋ 這個 item 新調的時間
+                mIntAdjustCostTime[getCurrentPosition()] = progress;    // progress means minutes
+
+                mSeekBarPlanTaskAdjustTime.setProgress(progress);
+
+                Logger.d(Constants.TAG, MSG + "MaxTime: " + mLongMaxCostTime + " Total costTime: " + mLongTotalCostTime + " Progress: " + progress);
+
+
+
+
+
+
+
+
+            } else if (v.getId() == R.id.imageview_timepicker_cancel) { // cancel: just close the time selected dialog
+                mDialog.dismiss();
             }
+        }
+
+
+        public void showTimePickerDialog() {
+
+            // 彈出對話框選擇時間
+            // ****** 用自定義的 mDialog 介面 ******
+            View view = View.inflate(mMainActivity, R.layout.dialog_time_picker, null);
+
+            // set hour
+            mNumberPickerHr = (NumberPicker) view.findViewById(R.id.numberpicker_hr);
+            mNumberPickerHr.setMaxValue(7*24);
+            mNumberPickerHr.setMinValue(0);
+
+            // set min
+            mNumberPickerMin = (NumberPicker) view.findViewById(R.id.numberpicker_min);
+            mNumberPickerMin.setMaxValue(60);
+            mNumberPickerMin.setMinValue(0);
+
+            ((ImageView) view.findViewById(R.id.imageview_timepicker_check)).setOnClickListener(this);
+            ((ImageView) view.findViewById(R.id.imageview_timepicker_cancel)).setOnClickListener(this);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(mMainActivity);
+            builder.setView(view);
+
+            // 取消或確定按鈕監聽事件處理
+            Logger.d(Constants.TAG, MSG + "before dialog build:");
+
+            mDialog = builder.create();
+            mDialog.show();
+            mDialog.getWindow().setBackgroundDrawableResource(R.drawable.shape_dialog);
+
+            // 換 dialog 顏色
+            LinearLayout linearLayoutIconDialog = view.findViewById(R.id.linearlayout_timepicker_dialog);
+            GradientDrawable gradientDrawable = (GradientDrawable) linearLayoutIconDialog.getBackground();
+            gradientDrawable.setColor(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white));
+
         }
 
         //** Seekbar
@@ -380,11 +502,8 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
          */
         public void bindView(GetTaskWithPlanTime item, int pos) {
 
-            // 把相對應位置的 task 顯示在此 viewHolder
-
             Logger.d(Constants.TAG, MSG + "bindView setColor: " + item.getTaskColor() + " Taskname: " + item.getTaskName());
 
-//            getFrameLayoutPlanTaskIcon().setBackgroundColor(Color.parseColor(item.getTaskColor()));
             GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutPlanTaskIcon().getBackground();
             gradientDrawable.setColor(Color.parseColor(item.getTaskColor()));
 
@@ -404,44 +523,27 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
 
                 getFrameLayoutPlanTaskDelete().setVisibility(View.GONE);
                 getImageviewPlanTaskDeleteHint().setVisibility(View.GONE);
+                getConstraintLayoutAdjustCostTime().setVisibility(View.GONE);
                 getSeekBarPlanTaskAdjustTime().setVisibility(View.GONE);
+                getConstraintLayoutPlanTaskCostTime().setClickable(false);
+                getImageviewPlanTaskCostTime().setVisibility(View.GONE);
 
             } else { // getIntTaskMode() == Constants.MODE_PLAN_EDIT
 
                 getFrameLayoutPlanTaskDelete().setVisibility(View.VISIBLE);
                 getImageviewPlanTaskDeleteHint().setVisibility(View.VISIBLE);
+                getConstraintLayoutAdjustCostTime().setVisibility(View.VISIBLE);
                 getSeekBarPlanTaskAdjustTime().setVisibility(View.VISIBLE);
-
-//                //動畫路徑設定(x1,x2,y1,y2)
-//                Animation am = new TranslateAnimation(-150,0,0,0);
-//
-//                //動畫開始到結束的時間，1秒
-//                am.setDuration(1000);
-//
-//                // 動畫重覆次數 (-1表示一直重覆，0表示不重覆執行，所以只會執行一次)
-//                am.setRepeatCount(0);
-//
-//                //將動畫寫入ImageView
-//                getFrameLayoutPlanTaskIcon().setAnimation(am);
-//                getTextviewPlanTaskName().setAnimation(am);
-//                getTextviewPlanCategoryName().setAnimation(am);
-//
-//                //開始動畫
-//                am.startNow();
-
-
+                getConstraintLayoutPlanTaskCostTime().setClickable(true);
+                getImageviewPlanTaskCostTime().setVisibility(View.VISIBLE);
 
                 Animation seekbarAnimation = new TranslateAnimation(0,0,100,0);
-
                 //動畫開始到結束的時間，1秒
                 seekbarAnimation.setDuration(1000);
-
                 // 動畫重覆次數 (-1表示一直重覆，0表示不重覆執行，所以只會執行一次)
                 seekbarAnimation.setRepeatCount(0);
-
                 //將動畫寫入ImageView
                 getSeekBarPlanTaskAdjustTime().setAnimation(seekbarAnimation);
-
                 //開始動畫
                 seekbarAnimation.startNow();
 
@@ -453,6 +555,9 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
                 getSeekBarPlanTaskAdjustTime().getProgressDrawable().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.SRC_IN);
 //                getSeekBarPlanTaskAdjustTime().getProgressDrawable().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.SRC_ATOP); // 疑似也是改 thumb
                 getSeekBarPlanTaskAdjustTime().getThumb().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.MULTIPLY);
+
+                // 修改 cost_time 點選提示 (底線) 的顏色
+                mImageviewPlanTaskCostTime.setBackgroundColor(Color.parseColor(item.getTaskColor()));
             }
         }
 
@@ -471,12 +576,20 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
         //** Edit Mode
         private ConstraintLayout mConstraintLayoutPlanSetTarget;
         private FrameLayout mFrameLayoutAddItemIcon;
+        private ConstraintLayout mConstraintLayoutSetTargetCostTime;
         private ImageView mImageviewAddItemIcon;
+        private ImageView mImageviewSetTargetCostTime;
         private TextView mTextviewSetTargetCategory;
         private TextView mTextviewSetTargetTask;
         private TextView mTextviewSetTargetCostTime;
         private SeekBar mSeekBarSetTargetAdjustTime;
         private ConstraintLayout mConstraintLayoutAdjustCostTime;
+
+        private NumberPicker mNumberPickerHr;
+        private NumberPicker mNumberPickerMin;
+        private AlertDialog mDialog;
+        private int intNumberPickerHr;
+        private int intNumberPickerMin;
 
         public TextView getTextviewPlanTopRemainingTime() {
             return mTextviewPlanTopRemainingTime;
@@ -546,9 +659,14 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
             GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutAddItemIcon().getBackground();
             gradientDrawable.setColor(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_default_light_grey));
 
-            mTextviewSetTargetCostTime = (TextView) v.findViewById(R.id.textview_plan_set_target_cost_time);
+            // Set Cost Time
+            mConstraintLayoutSetTargetCostTime = v.findViewById(R.id.constraintlayout_plan_set_target_cost_time);
+            mTextviewSetTargetCostTime = v.findViewById(R.id.textview_plan_set_target_cost_time);
+            mImageviewSetTargetCostTime = v.findViewById(R.id.imageview_plan_set_target_cost_time);
+            mConstraintLayoutSetTargetCostTime.setOnClickListener(this);
+
             mConstraintLayoutPlanSetTarget = (ConstraintLayout) v.findViewById(R.id.constraintlayout_plan_top_editmode);
-            mConstraintLayoutAdjustCostTime = v.findViewById(R.id.constraintlayout_plantask_adjust_costtime);
+            mConstraintLayoutAdjustCostTime = v.findViewById(R.id.constraintlayout_settarget_adjust_costtime);
             mSeekBarSetTargetAdjustTime = (SeekBar) v.findViewById(R.id.seekbar_plan_set_target_cost_time_daily);
 
             ((ImageView) v.findViewById(R.id.imageview_plan_top_editmode_save)).setOnClickListener(this);
@@ -595,11 +713,9 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
                 Date thisMonday = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * (intWeekDay - 1)); // 找出本週一
                 String curStartVerNoWeekly = simpleDateFormat.format(thisMonday);
 
-
                 // 1.2 update_date
                 // 透過SimpleDateFormat的format方法將 Date 轉為字串
                 String strCurrentTime = simpleUpdateDateFormat.format(curDate);
-
 
                 // 1.3 取得上一個 planning 週期的 endTime (daily 為昨天，weekly 為上週日)
                 Date yesterday = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24);
@@ -610,7 +726,6 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
                 // 如果今天是星期二，則需從今天往回減 2 天。
                 Date lastSunday = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24 * intWeekDay); // 找出上週日
                 String lastEndVerNoWeekly = simpleDateFormat.format(lastSunday);
-
 
 
                 // 2. 新增兩個 List 以 (1) 存放要存回 database 的資料 (2) 要從 database 刪除的資料
@@ -625,8 +740,8 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
                     if (isDeleteArray[i] == true) {
 
                         if (Constants.MODE_DAILY.equals(mPlanningList.get(i).getMode())) {
-                            // Daily
 
+                            // Daily
                             // 是否該 item 的 startTime 在這個 plan 週期 (startTime >= curStartVerNoDaily)，是的話就真的刪掉
                             if (mPlanningList.get(i).getStartTime().compareTo(curStartVerNoDaily) >= 0) {
 
@@ -835,7 +950,118 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
                     || v.getId() == R.id.framelayout_plan_top_editmode_icon) {
 
                 mPresenter.showTaskListUi();
+
+            } else if (v.getId() == R.id.constraintlayout_plan_set_target_cost_time) {
+                Logger.d(Constants.TAG, MSG + "click cost-time");
+
+                showTimePickerDialog();
+
+            } else if (v.getId() == R.id.imageview_timepicker_check) {    // check the time selected result
+
+                intNumberPickerHr = mNumberPickerHr.getValue();
+                intNumberPickerMin = mNumberPickerMin.getValue();
+                Logger.d(Constants.TAG, MSG + "Hr = " + intNumberPickerHr + " Min = " + intNumberPickerMin);
+
+                int progress = intNumberPickerHr * 60 + intNumberPickerMin;
+
+                mDialog.dismiss();
+
+
+
+
+                if ((mLongTotalCostTime - mLongNewItemCostTime + progress) > mLongMaxCostTime) { // 目前設定總時數 - 這個 item 原本的設定的 costTime ＋ 這個 item 新調的時間 > 上限)
+
+                    // [Seekbar] 1. 如果已經封頂了，user 還是把 progress 往後拉，則強制停在原地並 return。其餘數字均不改動
+                    if (mLongMaxCostTime == mLongTotalCostTime) {
+                        mSeekBarSetTargetAdjustTime.setProgress((int)mLongNewItemCostTime);
+                        Logger.d(Constants.TAG, MSG + "Already meet the max-time, progress won't change");
+                        Logger.d(Constants.TAG, MSG + "MaxTime: " + mLongMaxCostTime + " Total costTime: " + mLongTotalCostTime + " Progress: " + progress);
+                        return;
+                    }
+
+                    // [Seekbar] 2. 如果第一次被拉到封頂
+                    progress = (int)(mLongNewItemCostTime + mLongMaxCostTime - mLongTotalCostTime);         // 直接把 progress 設到滿
+                    mLongTotalCostTime = mLongMaxCostTime;                    // 並把 totalCostTime 加到滿
+
+                    mLongNewItemCostTime = progress;    // progress means minutes
+                    mSeekBarSetTargetAdjustTime.setProgress(progress);
+
+                    String strCostTime = ParseTime.intToHourMin(progress);
+                    getTextviewSetTargetCostTime().setText(strCostTime);  // 設定 UI 顯示現在 progress 進度時間
+
+                    Logger.d(Constants.TAG, MSG + "Meet the max-time, reset progress to current maximum");
+                    Logger.d(Constants.TAG, MSG + "MaxTime: " + mLongMaxCostTime + " Total costTime: " + mLongTotalCostTime + " Progress: " + progress);
+                    return;
+                }
+
+                // [Seekbar] 3. 沒封頂的情況
+                String strCostTime = ParseTime.intToHourMin(progress);
+
+                Logger.d(Constants.TAG, MSG + "Progress: " + progress + " CostTime: " + strCostTime);
+
+                getTextviewSetTargetCostTime().setText(strCostTime);
+                mLongTotalCostTime = mLongTotalCostTime - mLongNewItemCostTime + progress; // 總時數 - 這個 item 原本的 costTime ＋ 這個 item 新調的時間
+                mLongNewItemCostTime = progress; // progress means minutes
+
+                Logger.d(Constants.TAG, MSG + "MaxTime: " + mLongMaxCostTime + " Total costTime: " + mLongTotalCostTime + " Progress: " + progress);
+
+                mSeekBarSetTargetAdjustTime.setProgress(progress);
+
+
+
+
+
+
+
+
+
+            } else if (v.getId() == R.id.imageview_timepicker_cancel) { // cancel: just close the time selected dialog
+                mDialog.dismiss();
             }
+        }
+
+        public void showTimePickerDialog() {
+
+            // 彈出對話框選擇時間
+            // ****** 用自定義的 mDialog 介面 ******
+            View view = View.inflate(mMainActivity, R.layout.dialog_time_picker, null);
+
+            // set hour
+            mNumberPickerHr = (NumberPicker) view.findViewById(R.id.numberpicker_hr);
+            mNumberPickerHr.setMaxValue(7*24);
+            mNumberPickerHr.setMinValue(0);
+
+            // set min
+            mNumberPickerMin = (NumberPicker) view.findViewById(R.id.numberpicker_min);
+            mNumberPickerMin.setMaxValue(59);
+            mNumberPickerMin.setMinValue(0);
+
+            ((ImageView) view.findViewById(R.id.imageview_timepicker_check)).setOnClickListener(this);
+            ((ImageView) view.findViewById(R.id.imageview_timepicker_cancel)).setOnClickListener(this);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(mMainActivity);
+            builder.setView(view);
+//        builder.setCancelable(true);
+//        TextView title= (TextView) view
+//                .findViewById(R.id.title);        // 設置標題
+//        EditText input_edt= (EditText) view
+//                .findViewById(R.id.dialog_edit);  // 輸入内容
+//        Button btn_cancel=(Button)view
+//                .findViewById(R.id.btn_cancel);   // 取消按鈕
+//        Button btn_comfirm=(Button)view
+//                .findViewById(R.id.btn_comfirm);  // 確定按鈕
+
+            // 取消或確定按鈕監聽事件處理
+            Logger.d(Constants.TAG, MSG + "before dialog build:");
+
+            mDialog = builder.create();
+            mDialog.show();
+            mDialog.getWindow().setBackgroundDrawableResource(R.drawable.shape_dialog);
+
+            // 換 dialog 顏色
+            LinearLayout linearLayoutIconDialog = view.findViewById(R.id.linearlayout_timepicker_dialog);
+            GradientDrawable gradientDrawable = (GradientDrawable) linearLayoutIconDialog.getBackground();
+            gradientDrawable.setColor(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white));
         }
 
         //** Seekbar
@@ -871,7 +1097,7 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
                     return;
                 }
 
-                // [Seekbar] 3. 沒封頂的情況 `
+                // [Seekbar] 3. 沒封頂的情況
                 String strCostTime = ParseTime.intToHourMin(progress);
 
                 Logger.d(Constants.TAG, MSG + "Progress: " + progress + " CostTime: " + strCostTime);
@@ -919,12 +1145,14 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
 
                 mConstraintLayoutPlanTopItem.setVisibility(View.VISIBLE);
                 mConstraintLayoutPlanSetTarget.setVisibility(View.GONE);
+                mConstraintLayoutAdjustCostTime.setVisibility(View.GONE);
                 mSeekBarSetTargetAdjustTime.setVisibility(View.GONE);
 
             } else { // getIntTaskMode() == Constants.MODE_PLAN_EDIT
 
                 mConstraintLayoutPlanTopItem.setVisibility(View.GONE);
                 mConstraintLayoutPlanSetTarget.setVisibility(View.VISIBLE);
+                mConstraintLayoutAdjustCostTime.setVisibility(View.VISIBLE);
                 mSeekBarSetTargetAdjustTime.setVisibility(View.VISIBLE);
                 resetEditField();
             }
@@ -934,7 +1162,6 @@ public class PlanDailyAdapter extends RecyclerView.Adapter {
         public void resetEditField() {
 
             // Plan page 整頁切換為編輯模式預設內容
-
             // Set task/category
             getTextviewSetTargetCategory().setText(TimeManagementApplication.getAppContext().getResources().getString(R.string.default_task_hint_categroy));
             getTextviewSetTargetTask().setText(TimeManagementApplication.getAppContext().getResources().getString(R.string.default_task_hint));

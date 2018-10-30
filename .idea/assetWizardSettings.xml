@@ -36,7 +36,18 @@
                                       <entry key="backgroundAssetType" value="COLOR" />
                                       <entry key="backgroundColor" value="f5e26a" />
                                       <entry key="foregroundImage" value="$PROJECT_DIR$/app/src/main/res/drawable/deteclife_icon_fill.png" />
-                                      <entry key="legacyIconShape" value="NONE" />
+                                    </map>
+                                  </option>
+                                </PersistentState>
+                              </value>
+                            </entry>
+                            <entry key="launcherLegacy">
+                              <value>
+                                <PersistentState>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="imageAsset" value="$PROJECT_DIR$/app/src/main/res/drawable/deteclife_icon_fill.png" />
                                     </map>
                                   </option>
                                 </PersistentState>

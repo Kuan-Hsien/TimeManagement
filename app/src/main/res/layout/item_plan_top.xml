@@ -108,6 +108,7 @@
             android:id="@+id/imageview_plan_top_editmode_save"
             android:layout_width="@dimen/width_set_target_send_button"
             android:layout_height="@dimen/height_set_target_send_button"
+
             android:padding="@dimen/padding_set_target_send_button"
             android:layout_marginEnd="@dimen/margin_end_set_target_send_button"
             android:clickable="true"
@@ -228,19 +229,49 @@
             app:layout_constraintTop_toBottomOf="@+id/textview_plan_top_editmode_category"
             android:text="Time: " />
 
-        <TextView
-            android:id="@+id/textview_plan_set_target_cost_time"
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintlayout_plan_set_target_cost_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/height_analysis_mainitem_margin"
-            android:ellipsize="end"
-            android:fontFamily="sans-serif-medium"
-            android:lines="1"
-            android:textColor="@android:color/black"
-            android:textSize="15sp"
+            android:paddingBottom="20dp"
+            android:paddingStart="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/framelayout_plan_top_editmode_icon"
-            tools:text="0 hr" />
+            android:clickable="true"
+            android:focusable="true"
+            >
+
+            <TextView
+                android:id="@+id/textview_plan_set_target_cost_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/height_analysis_mainitem_margin"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-medium"
+                android:lines="1"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="0 hr"
+                tools:text="0 hr"
+                />
+
+            <ImageView
+                android:id="@+id/imageview_plan_set_target_cost_time"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginEnd="@dimen/height_analysis_mainitem_margin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textview_plan_set_target_cost_time"
+                android:background="@color/color_app_default_dark_grey"
+                />
+
+        </android.support.constraint.ConstraintLayout>
+
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/constraintlayout_settarget_adjust_costtime"

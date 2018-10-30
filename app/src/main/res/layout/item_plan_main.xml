@@ -29,10 +29,6 @@
         android:layout_marginBottom="@dimen/height_analysis_mainitem_margin"
         >
 
-        <!--android:layout_marginStart="16dp"-->
-        <!--android:layout_marginTop="@dimen/height_analysis_mainitem_margin"-->
-        <!--android:layout_marginBottom="@dimen/height_analysis_mainitem_margin"-->
-
         <ImageView
             android:id="@+id/imageview_plan_task_delete_hint"
             android:layout_width="@dimen/size_all_item_image"
@@ -95,25 +91,45 @@
         app:layout_constraintBottom_toBottomOf="@+id/framelayout_plan_task_icon"
         tools:text="@string/default_category" />
 
-    <!--android:ellipsize="end"-->
-    <!--android:fontFamily="sans-serif-medium"-->
-    <!--android:lines="1"-->
-    <!--android:textColor="@color/color_app_default_dark_grey"-->
-    <!--android:textStyle="italic"-->
-    <!--android:textSize="13sp"-->
 
-    <TextView
-        android:id="@+id/textview_plan_task_cost_time"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintlayout_plan_task_cost_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/height_analysis_mainitem_margin"
-        android:fontFamily="sans-serif-medium"
-        android:lines="1"
-        android:textColor="@android:color/black"
-        android:textSize="15sp"
+        android:paddingBottom="20dp"
+        android:paddingStart="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/framelayout_plan_task_icon"
-        tools:text="8 hr" />
+        android:clickable="true"
+        android:focusable="true"
+        >
+
+        <TextView
+            android:id="@+id/textview_plan_task_cost_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/height_analysis_mainitem_margin"
+            android:fontFamily="sans-serif-medium"
+            android:lines="1"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="8 hr" />
+
+        <ImageView
+            android:id="@+id/imageview_plan_task_cost_time"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginEnd="@dimen/height_analysis_mainitem_margin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_plan_task_cost_time"
+            android:background="@color/color_app_default_dark_grey"
+            />
+
+    </android.support.constraint.ConstraintLayout>
 
     <TextView
         android:id="@+id/textview_analysis_task_cost_time_title"
@@ -130,19 +146,6 @@
         app:layout_constraintTop_toTopOf="@+id/framelayout_plan_task_icon"
         tools:text="Actual:" />
 
-
-    <!-- only show in Edit mode -->
-    <!--<ImageView-->
-        <!--android:id="@+id/imageview_plan_task_delete_hint"-->
-        <!--android:layout_width="10dp"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_marginTop="15dp"-->
-        <!--android:adjustViewBounds="false"-->
-        <!--android:scaleType="fitXY"-->
-        <!--android:visibility="gone"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent"-->
-        <!--app:srcCompat="@android:drawable/ic_media_play" />-->
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintlayout_plantask_adjust_costtime"

@@ -34,4 +34,13 @@
 
     </android.support.v7.widget.RecyclerView>
 
+    <!--&lt;!&ndash; 定义一个TimePicker组件 &ndash;&gt;-->
+    <!--<TimePicker android:id="@+id/timePicker"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:timePickerMode="spinner"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--/>-->
+    <!--&lt;!&ndash;android:timePickerMode="clock"&ndash;&gt;-->
+
 </android.support.constraint.ConstraintLayout>

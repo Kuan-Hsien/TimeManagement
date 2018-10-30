@@ -2,26 +2,15 @@ package com.realizeitstudio.deteclife.iconpicker;
 
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.realizeitstudio.deteclife.MainActivity;
 import com.realizeitstudio.deteclife.R;
-import com.realizeitstudio.deteclife.TimeManagementApplication;
-import com.realizeitstudio.deteclife.addtask.AddTaskPresenter;
 import com.realizeitstudio.deteclife.object.IconDefineTable;
 import com.realizeitstudio.deteclife.utils.Constants;
 import com.realizeitstudio.deteclife.utils.Logger;
@@ -135,6 +124,7 @@ public class IconPickerDialog implements IconPickerContract.View {
         mDialog.show();
         mDialog.getWindow().setBackgroundDrawableResource(R.drawable.shape_dialog);
 
+        // 換 dialog 顏色
         LinearLayout linearLayoutIconDialog = view.findViewById(R.id.linearlayout_icon_list_dialog);
         GradientDrawable gradientDrawable = (GradientDrawable) linearLayoutIconDialog.getBackground();
         gradientDrawable.setColor(Color.parseColor(mStrDialogColor));

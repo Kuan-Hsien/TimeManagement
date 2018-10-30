@@ -1,13 +1,19 @@
 package com.realizeitstudio.deteclife.plan.daily;
 
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.realizeitstudio.deteclife.MainActivity;
@@ -19,6 +25,7 @@ import com.realizeitstudio.deteclife.utils.Constants;
 import com.realizeitstudio.deteclife.utils.Logger;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -55,7 +62,7 @@ public class PlanDailyFragment extends Fragment implements PlanDailyContract.Vie
         super.onCreate(savedInstanceState);
 //[TODO] PlanDailyFragment onCreate
 //        ((MainActivity) getActivity()).showUserInfoLog();
-        mPlanDailyAdapter = new PlanDailyAdapter(new ArrayList<GetTaskWithPlanTime>(), mPresenter);
+        mPlanDailyAdapter = new PlanDailyAdapter(new ArrayList<GetTaskWithPlanTime>(), mPresenter, (MainActivity)getActivity());
 
     }
 

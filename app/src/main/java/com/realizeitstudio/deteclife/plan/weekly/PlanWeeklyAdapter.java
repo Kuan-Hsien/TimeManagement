@@ -404,12 +404,14 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
                 getFrameLayoutPlanTaskDelete().setVisibility(View.GONE);
                 getImageviewPlanTaskDeleteHint().setVisibility(View.GONE);
+                getConstraintLayoutAdjustCostTime().setVisibility(View.GONE);
                 getSeekBarPlanTaskAdjustTime().setVisibility(View.GONE);
 
             } else { // getIntTaskMode() == Constants.MODE_PLAN_EDIT
 
                 getFrameLayoutPlanTaskDelete().setVisibility(View.VISIBLE);
                 getImageviewPlanTaskDeleteHint().setVisibility(View.VISIBLE);
+                getConstraintLayoutAdjustCostTime().setVisibility(View.VISIBLE);
                 getSeekBarPlanTaskAdjustTime().setVisibility(View.VISIBLE);
 
 //                //動畫路徑設定(x1,x2,y1,y2)
@@ -549,7 +551,7 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
             mTextviewSetTargetCostTime = v.findViewById(R.id.textview_plan_set_target_cost_time);
             mConstraintLayoutPlanSetTarget = v.findViewById(R.id.constraintlayout_plan_top_editmode);
-            mConstraintLayoutAdjustCostTime = v.findViewById(R.id.constraintlayout_plantask_adjust_costtime);
+            mConstraintLayoutAdjustCostTime = v.findViewById(R.id.constraintlayout_settarget_adjust_costtime);
             mSeekBarSetTargetAdjustTime = v.findViewById(R.id.seekbar_plan_set_target_cost_time_weekly);
 
             ((ImageView) v.findViewById(R.id.imageview_plan_top_editmode_save)).setOnClickListener(this);
@@ -923,12 +925,14 @@ public class PlanWeeklyAdapter extends RecyclerView.Adapter {
 
                 mConstraintLayoutPlanTopItem.setVisibility(View.VISIBLE);
                 mConstraintLayoutPlanSetTarget.setVisibility(View.GONE);
+                getConstraintLayoutAdjustCostTime().setVisibility(View.GONE);
                 mSeekBarSetTargetAdjustTime.setVisibility(View.GONE);
 
             } else { // getIntTaskMode() == Constants.MODE_PLAN_EDIT
 
                 mConstraintLayoutPlanTopItem.setVisibility(View.GONE);
                 mConstraintLayoutPlanSetTarget.setVisibility(View.VISIBLE);
+                getConstraintLayoutAdjustCostTime().setVisibility(View.VISIBLE);
                 mSeekBarSetTargetAdjustTime.setVisibility(View.VISIBLE);
                 resetEditField();
             }
