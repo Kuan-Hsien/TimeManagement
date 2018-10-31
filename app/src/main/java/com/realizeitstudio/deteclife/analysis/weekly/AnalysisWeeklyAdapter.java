@@ -435,7 +435,7 @@ public class AnalysisWeeklyAdapter extends RecyclerView.Adapter {
                 getFrameLayoutAnalysisTaskDeleteHint().setVisibility(View.VISIBLE);
                 getImageviewAnalysisTaskDeleteHint().setVisibility(View.VISIBLE);
                 gradientDrawable = (GradientDrawable) getFrameLayoutAnalysisTaskDeleteHint().getBackground();
-                gradientDrawable.setColor(Color.parseColor("#d9d9d9"));
+                gradientDrawable.setColor(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_default_light_grey));
 
                 getSeekBarAnalysisTaskAdjustTime().setProgress(item.getCostTime() / (60 * 1000));
                 getSeekBarAnalysisTaskAdjustTime().getProgressDrawable().setColorFilter(Color.parseColor(item.getTaskColor()), PorterDuff.Mode.SRC_IN);

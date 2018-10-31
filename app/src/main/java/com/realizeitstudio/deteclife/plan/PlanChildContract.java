@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.realizeitstudio.deteclife.plan.weekly;
+package com.realizeitstudio.deteclife.plan;
 
 import android.support.v7.widget.RecyclerView;
 
@@ -26,12 +26,13 @@ import com.realizeitstudio.deteclife.object.TimePlanningTable;
 
 import java.util.List;
 
+
 /**
- * Created by Ken on 2018/9/29
+ * Created by Ken on 2018/9/23
  *
  * This specifies the contract between the view and the presenter.
  */
-public interface PlanWeeklyContract {
+public interface PlanChildContract {
 
     interface View extends BaseView<Presenter> {
 
@@ -47,12 +48,13 @@ public interface PlanWeeklyContract {
         void showTaskSelected(GetCategoryTaskList bean);
 
         void showToast(String message);
-
     }
 
     interface Presenter extends BasePresenter {
 
 //        void result(int requestCode, int resultCode);
+
+        int getIntChildMode();
 
         // 0-1. recyclerView Scroll event
         void onScrollStateChanged(int visibleItemCount, int totalItemCount, int newState);
@@ -76,6 +78,7 @@ public interface PlanWeeklyContract {
         // once update data, query the target list again to refresh UI
         // (1-1, 1-2)
 
+        // 3-1. [Send-to-View]
         // (fragment-ver) select task while add target
         void showTaskListUi();
 

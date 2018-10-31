@@ -1,19 +1,13 @@
-package com.realizeitstudio.deteclife.plan.daily;
+package com.realizeitstudio.deteclife.plan;
 
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.realizeitstudio.deteclife.MainActivity;
@@ -25,7 +19,6 @@ import com.realizeitstudio.deteclife.utils.Constants;
 import com.realizeitstudio.deteclife.utils.Logger;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -36,33 +29,34 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * A simple {@link Fragment} subclass.
  */
-public class PlanDailyFragment extends Fragment implements PlanDailyContract.View {
+public class PlanChildFragment extends Fragment implements PlanChildContract.View {
 
-    private static final String MSG = "PlanDailyFragment: ";
+    private static final String MSG = "PlanChildFragment: ";
 
-    private PlanDailyContract.Presenter mPresenter;
-    private PlanDailyAdapter mPlanDailyAdapter;
+    private PlanChildContract.Presenter mPresenter;
+    private PlanChildAdapter mPlanChildAdapter;
     private int mIntPlanMode;
+    private int mIntChildMode;
 
-    public PlanDailyFragment() {
+    public PlanChildFragment() {
         // Required empty public constructor
     }
 
-    public static PlanDailyFragment newInstance() {
-        return new PlanDailyFragment();
+    public static PlanChildFragment newInstance() {
+        return new PlanChildFragment();
     }
 
     @Override
-    public void setPresenter(PlanDailyContract.Presenter presenter) {
+    public void setPresenter(PlanChildContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//[TODO] PlanDailyFragment onCreate
+//[TODO] PlanChildFragment onCreate
 //        ((MainActivity) getActivity()).showUserInfoLog();
-        mPlanDailyAdapter = new PlanDailyAdapter(new ArrayList<GetTaskWithPlanTime>(), mPresenter, (MainActivity)getActivity());
+        mPlanChildAdapter = new PlanChildAdapter(new ArrayList<GetTaskWithPlanTime>(), mPresenter, (MainActivity)getActivity());
 
     }
 
@@ -80,7 +74,7 @@ public class PlanDailyFragment extends Fragment implements PlanDailyContract.Vie
 
         RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recyclerview_plan_daily);
         recyclerView.setLayoutManager(new LinearLayoutManager(TimeManagementApplication.getAppContext()));
-        recyclerView.setAdapter(mPlanDailyAdapter);
+        recyclerView.setAdapter(mPlanChildAdapter);
 //        recyclerView.addItemDecoration(new DividerItemDecoration(TimeManagementApplication.getAppContext(), DividerItemDecoration.VERTICAL));
 
 
@@ -114,14 +108,14 @@ public class PlanDailyFragment extends Fragment implements PlanDailyContract.Vie
 
     @Override
     public void showTaskListWithPlanTime(List<GetTaskWithPlanTime> bean) {
-        mPlanDailyAdapter.updateData(bean);
+        mPlanChildAdapter.updateData(bean);
     }
 
 
     @Override
     public void refreshUi(int mode) {
         setIntPlanMode(mode);
-        mPlanDailyAdapter.refreshUiMode(mode);
+        mPlanChildAdapter.refreshUiMode(mode);
     }
 
     public int getIntPlanMode() {
@@ -144,12 +138,12 @@ public class PlanDailyFragment extends Fragment implements PlanDailyContract.Vie
         Logger.d(Constants.TAG, MSG + "showTaskSelected: task: ");
         bean.logD();
 
-        mPlanDailyAdapter.showCategoryTaskSelected(bean);
+        mPlanChildAdapter.showCategoryTaskSelected(bean);
     }
 
     @Override
     public void showToast(String message) {
 
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
     }
 }

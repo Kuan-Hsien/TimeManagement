@@ -53,6 +53,11 @@ public class Constants {
     public static final String TAB_MONTHLY = "MONTH";
     public static final String TAB_YEARLY = "YEAR";
 
+    public static final int TAB_DAILY_MODE = 1;
+    public static final int TAB_WEEKLY_MODE = 2;
+    public static final int TAB_MONTHLY_MODE = 3;
+    public static final int TAB_YEARLY_MODE = 4;
+
     // Plan
     public static final int MODE_PLAN_VIEW = 1;
     public static final int MODE_PLAN_EDIT = 2;
@@ -79,7 +84,11 @@ public class Constants {
     public static final String DEFAULT_TASK_COLOR = "#D9D9D9";
     public static final String DEFAULT_CATEGORY_COLOR = "#4682B4";
 
+
+    // Toast
     public static final String TOAST_ADD_TASK_FAIL = "Input all fields to add a new item";
+    public static final String TOAST_COST_TIME_EXCEEDED = "Exceeded time limit";
+
 
     // icon
     public static final int ICON_SPAN_COUNT = 4;

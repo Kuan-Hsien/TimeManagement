@@ -1,13 +1,9 @@
-package com.realizeitstudio.deteclife.plan.daily;
+package com.realizeitstudio.deteclife.plan;
 
-import android.app.TimePickerDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.TimePicker;
-import android.widget.Toast;
 
-import com.realizeitstudio.deteclife.MainActivity;
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
 import com.realizeitstudio.deteclife.dml.GetTaskWithPlanTime;
 import com.realizeitstudio.deteclife.dml.GetTaskWithPlanTimeAsyncTask;
@@ -19,7 +15,6 @@ import com.realizeitstudio.deteclife.utils.Constants;
 import com.realizeitstudio.deteclife.utils.Logger;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -29,26 +24,32 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by Ken on 2018/9/24.
  */
-public class PlanDailyPresenter implements PlanDailyContract.Presenter {
-    private static final String MSG = "PlanDailyPresenter: ";
+public class PlanChildPresenter implements PlanChildContract.Presenter {
+    private static final String MSG = "PlanChildPresenter: ";
 
-    private final PlanDailyContract.View mPlanView;
+    private final PlanChildContract.View mPlanView;
 
     private int mlastVisibleItemPosition;
     private int mfirstVisibleItemPosition;
 
     private boolean mLoading = false;
+    private int mIntChildMode;
 
 
-    public PlanDailyPresenter(PlanDailyContract.View mainView) {
+    public PlanChildPresenter(PlanChildContract.View mainView, int intChildMode) {
+        mIntChildMode = intChildMode;
         mPlanView = checkNotNull(mainView, "planView cannot be null!");
         mPlanView.setPresenter(this);
     }
 
     @Override
     public void start() {
-
         getTaskWithPlanTime();
+    }
+
+    @Override
+    public int getIntChildMode() {
+        return mIntChildMode;
     }
 
     // 0-1. recyclerView Scroll event
@@ -100,16 +101,6 @@ public class PlanDailyPresenter implements PlanDailyContract.Presenter {
             setLoading(true);
 
             // [TODO] 要改為用畫面上的元件讀取
-            // (e.g)
-//        // 取得現在時間
-//        Date curDate = new Date();
-//        // 定義時間格式
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd hh24mm");
-//        // 透過SimpleDateFormat的format方法將 Date 轉為字串
-//        String strCurrentTime = simpleDateFormat.format(curDate);
-
-
-
             // 取得現在時間
             Date currentTime = new Date();
             String strCurrentTime = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO).format(currentTime); // 擷取到日期
@@ -122,15 +113,20 @@ public class PlanDailyPresenter implements PlanDailyContract.Presenter {
 //            Date tomorrowNow = calendar.getTime();  // 取得 24 小時後的現在時間
 //            String mStrEndTime = new SimpleDateFormat(Constants.DB_FORMAT_VER_NO).format(tomorrowNow);   // 擷取到日期
 
-
             Logger.d(Constants.TAG, MSG + "getTaskWithPlanTime: ");
-            Logger.d(Constants.TAG, MSG + "mode: " + Constants.MODE_DAILY);
             Logger.d(Constants.TAG, MSG + "start ver: " + strCurrentTime);
             Logger.d(Constants.TAG, MSG + "end ver : " + strCurrentTime);
 
+            String strMode;
+            if (getIntChildMode() == Constants.TAB_DAILY_MODE) {
+                strMode = Constants.MODE_DAILY;
+            } else {
+                strMode = Constants.MODE_WEEKLY;
+            }
+            Logger.d(Constants.TAG, MSG + "mode: " + strMode);
 
             new GetTaskWithPlanTimeAsyncTask(
-                    Constants.MODE_DAILY, strCurrentTime, strCurrentTime, new GetTaskWithPlanTimeCallback() {
+                    strMode, strCurrentTime, strCurrentTime, new GetTaskWithPlanTimeCallback() {
 
                         @Override
                         public void onCompleted(List<GetTaskWithPlanTime> bean) {

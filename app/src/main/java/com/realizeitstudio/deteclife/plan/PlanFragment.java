@@ -13,10 +13,6 @@ import android.view.ViewGroup;
 
 import com.realizeitstudio.deteclife.R;
 import com.realizeitstudio.deteclife.dml.GetCategoryTaskList;
-import com.realizeitstudio.deteclife.plan.daily.PlanDailyFragment;
-import com.realizeitstudio.deteclife.plan.daily.PlanDailyPresenter;
-import com.realizeitstudio.deteclife.plan.weekly.PlanWeeklyFragment;
-import com.realizeitstudio.deteclife.plan.weekly.PlanWeeklyPresenter;
 import com.realizeitstudio.deteclife.utils.Constants;
 import com.realizeitstudio.deteclife.utils.Logger;
 
@@ -31,12 +27,11 @@ import java.util.List;
 public class PlanFragment extends Fragment {
     private static final String MSG = "PlanFragment: ";
 
+    private PlanChildFragment mPlanDailyFragment;
+    private PlanChildPresenter mPlanDailyPresenter;
 
-    private PlanDailyFragment mPlanDailyFragment;
-    private PlanDailyPresenter mPlanDailyPresenter;
-
-    private PlanWeeklyFragment mPlanWeeklyFragment;
-    private PlanWeeklyPresenter mPlanWeeklyPresenter;
+    private PlanChildFragment mPlanWeeklyFragment;
+    private PlanChildPresenter mPlanWeeklyPresenter;
 
     private TabLayout mTablayout;
     private ViewPager mViewPager;
@@ -61,19 +56,20 @@ public class PlanFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         if (mPlanDailyFragment == null) {
-            mPlanDailyFragment = PlanDailyFragment.newInstance();
+            mPlanDailyFragment = PlanChildFragment.newInstance();
+//            mPlanDailyFragment = new PlanChildFragment(); //PlanChildFragment.newInstance();
         }
         if (mPlanDailyPresenter == null) {
-            mPlanDailyPresenter = new PlanDailyPresenter(mPlanDailyFragment);
+            mPlanDailyPresenter = new PlanChildPresenter(mPlanDailyFragment, Constants.TAB_DAILY_MODE);
         }
 
         if (mPlanWeeklyFragment == null) {
-            mPlanWeeklyFragment = mPlanWeeklyFragment.newInstance();
+            mPlanWeeklyFragment = PlanChildFragment.newInstance();
+//            mPlanWeeklyFragment = new PlanChildFragment(); //PlanChildFragment.newInstance();
         }
         if (mPlanWeeklyPresenter == null) {
-            mPlanWeeklyPresenter = new PlanWeeklyPresenter(mPlanWeeklyFragment);
+            mPlanWeeklyPresenter = new PlanChildPresenter(mPlanWeeklyFragment, Constants.TAB_WEEKLY_MODE);
         }
-
 
         mFragmentList = new ArrayList<>();
         mFragmentList.add(mPlanDailyFragment);
@@ -83,6 +79,7 @@ public class PlanFragment extends Fragment {
         mTablayout = (TabLayout) root.findViewById(R.id.tab_plan_period);
         mTablayout.addTab(mTablayout.newTab().setText(Constants.TAB_DAILY));
         mTablayout.addTab(mTablayout.newTab().setText(Constants.TAB_WEEKLY));
+
 
         mViewPager = (ViewPager) root.findViewById(R.id.viewpager_plan_period);
         mViewPager.setAdapter(new FragmentStatePagerAdapter(getActivity().getSupportFragmentManager()) {
@@ -156,14 +153,14 @@ public class PlanFragment extends Fragment {
 
         setRefresh(false);
 
-        if (mFragmentList.get(mTablayout.getSelectedTabPosition()).equals(mPlanDailyFragment)) {
+       if (mFragmentList.get(mTablayout.getSelectedTabPosition()).equals(mPlanDailyFragment)) {
 
-            Logger.d(Constants.TAG, MSG + "selectTaskToPlan: mPlanDailyFragment");
+            Logger.d(Constants.TAG, MSG + "selectTaskToPlan: mPlanDailyPresenter");
             mPlanDailyPresenter.selectTaskToPlan(bean);
 
-        } else {    // mFragmentList.get(mTablayout.getSelectedTabPosition()).equals(mPlanWeeklyFragment)
+        } else {
 
-            Logger.d(Constants.TAG, MSG + "selectTaskToPlan: mPlanWeeklyFragment");
+            Logger.d(Constants.TAG, MSG + "selectTaskToPlan: mPlanWeeklyPresenter");
             mPlanWeeklyPresenter.selectTaskToPlan(bean);
         }
 
