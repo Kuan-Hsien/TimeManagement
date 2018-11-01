@@ -33,6 +33,7 @@ public class RecordAdapter extends RecyclerView.Adapter {
 
     private RecordContract.Presenter mPresenter;
     private List<GetCategoryTaskList> mCategoryTaskList;
+    private int mLayoutWidth;
     private boolean[] isDeleteArray;
     private int mIntTaskMode;
 
@@ -40,9 +41,10 @@ public class RecordAdapter extends RecyclerView.Adapter {
 
 
 
-    public RecordAdapter(List<GetCategoryTaskList> bean, RecordContract.Presenter presenter) {
+    public RecordAdapter(List<GetCategoryTaskList> bean, RecordContract.Presenter presenter, int layoutWidth) {
 
         mPresenter = presenter;
+        mLayoutWidth = layoutWidth;
         setIntTaskMode(Constants.MODE_PLAN_VIEW);
         mCategoryTaskList = new ArrayList<>();
 
@@ -216,6 +218,12 @@ public class RecordAdapter extends RecyclerView.Adapter {
             getTextviewCategoryName().setText(item.getCategoryName());
 //            getImageviewCategorySeperation().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
             setPosition(pos);
+
+            // item 的寬度是跟隨手機的不同寬度設定的，在程式碼中動態設定 item 的高度，使長寬相同
+            ViewGroup.LayoutParams parm = this.itemView.getLayoutParams();
+            parm.height = mLayoutWidth / Constants.RECORD_TASK_SPAN_COUNT
+                    - 2 * this.itemView.getPaddingLeft()
+                    - 2 * ((ViewGroup.MarginLayoutParams)parm).leftMargin;
         }
     }
 
@@ -259,12 +267,16 @@ public class RecordAdapter extends RecyclerView.Adapter {
             mPosition = 0;
 
             //** View mode
-//            mImageviewCategeoryColorLabel = (ImageView) v.findViewById(R.id.imageview_categorytask_categorycolor);
             mImageviewTaskIcon = (ImageView) v.findViewById(R.id.imageview_record_choose_task_icon);
             mTextviewTaskName = (TextView) v.findViewById(R.id.textview_record_choose_task_name);
-//            mFrameLayoutTaskColor = (FrameLayout) v.findViewById(R.id.framelayout_categorytask_task_icon);
             mConstraintLayoutTaskItem = (ConstraintLayout) v.findViewById(R.id.constraintlayout_record_choose_task_item);
             mConstraintLayoutTaskItem.setOnClickListener(this);
+
+            // item 的寬度是跟隨手機的不同寬度設定的，在程式碼中動態設定 item 的高度，使長寬相同
+            ViewGroup.LayoutParams parm = v.getLayoutParams();
+            parm.height = mLayoutWidth / Constants.RECORD_TASK_SPAN_COUNT
+                    - 2 * v.getPaddingLeft()
+                    - 2 * ((ViewGroup.MarginLayoutParams)parm).leftMargin;
         }
 
         @Override
@@ -336,6 +348,17 @@ public class RecordAdapter extends RecyclerView.Adapter {
             getImageviewTaskIcon().setColorFilter(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_white)); // 設定圖案線條顏色
             getTextviewTaskName().setText(item.getTaskName());
             setPosition(pos);
+
+            // item 的寬度是跟隨手機的不同寬度設定的，在程式碼中動態設定 item 的高度，使長寬相同
+            ViewGroup.LayoutParams parm = this.itemView.getLayoutParams();
+            parm.height = mLayoutWidth / Constants.RECORD_TASK_SPAN_COUNT
+                    - 2 * this.itemView.getPaddingLeft()
+                    - 2 * ((ViewGroup.MarginLayoutParams)parm).leftMargin;
+
+            Logger.d(Constants.TAG, MSG + "bindView setLayoutParams: height = " + parm.height);
+            Logger.d(Constants.TAG, MSG + "bindView setLayoutParams: gridLayoutWidth = " + mLayoutWidth);
+            Logger.d(Constants.TAG, MSG + "bindView setLayoutParams: paddingLeft = " + this.itemView.getPaddingLeft());
+            Logger.d(Constants.TAG, MSG + "bindView setLayoutParams: margitLeft = " + ((ViewGroup.MarginLayoutParams)parm).leftMargin);
         }
     }
 
@@ -374,12 +397,16 @@ public class RecordAdapter extends RecyclerView.Adapter {
             mPosition = 0;
 
             //** View mode
-//            mImageviewCategeoryColorLabel = (ImageView) v.findViewById(R.id.imageview_categorytask_categorycolor);
             mImageviewTaskIcon = (ImageView) v.findViewById(R.id.imageview_record_add_task_icon);
             mTextviewTaskName = (TextView) v.findViewById(R.id.textview_record_add_task_name);
-//            mFrameLayoutTaskColor = (FrameLayout) v.findViewById(R.id.framelayout_categorytask_task_icon);
             mConstraintLayoutTaskItem = (ConstraintLayout) v.findViewById(R.id.constraintlayout_record_add_task_item);
             mConstraintLayoutTaskItem.setOnClickListener(this);
+
+            // item 的寬度是跟隨手機的不同寬度設定的，在程式碼中動態設定 item 的高度，使長寬相同
+            ViewGroup.LayoutParams parm = v.getLayoutParams();
+            parm.height = mLayoutWidth / Constants.RECORD_TASK_SPAN_COUNT
+                    - 2 * v.getPaddingLeft()
+                    - 2 * ((ViewGroup.MarginLayoutParams)parm).leftMargin;
         }
 
         @Override
@@ -396,9 +423,6 @@ public class RecordAdapter extends RecyclerView.Adapter {
          */
         public void bindView() {
 
-//            getImageviewCategeoryColorLabel().setBackgroundColor(Color.parseColor(item.getCategoryColor()));
-//            getFrameLayoutTaskColor().setBackgroundColor(Color.parseColor(item.getTaskColor()));
-
             // 白底黑字 (7F 表示透明度 50%)
 //            getConstraintLayoutTaskItem().setBackgroundColor(Color.parseColor("#7FFFFFFF"));
             getImageviewTaskIcon().setColorFilter(Color.parseColor("#000000")); // 設定圖案線條顏色
@@ -409,6 +433,16 @@ public class RecordAdapter extends RecyclerView.Adapter {
 //            getImageviewTaskIcon().setColorFilter(Color.parseColor("#FFFFFF"));
 //            getTextviewTaskName().setTextColor(Color.parseColor("#FFFFFF"));
 
+            // item 的寬度是跟隨手機的不同寬度設定的，在程式碼中動態設定 item 的高度，使長寬相同
+            ViewGroup.LayoutParams parm = this.itemView.getLayoutParams();
+            parm.height = mLayoutWidth / Constants.RECORD_TASK_SPAN_COUNT
+                    - 2 * this.itemView.getPaddingLeft()
+                    - 2 * ((ViewGroup.MarginLayoutParams)parm).leftMargin;
+
+            Logger.d(Constants.TAG, MSG + "bindView setLayoutParams: height = " + parm.height);
+            Logger.d(Constants.TAG, MSG + "bindView setLayoutParams: gridLayoutWidth = " + mLayoutWidth);
+            Logger.d(Constants.TAG, MSG + "bindView setLayoutParams: paddingLeft = " + this.itemView.getPaddingLeft());
+            Logger.d(Constants.TAG, MSG + "bindView setLayoutParams: margitLeft = " + ((ViewGroup.MarginLayoutParams)parm).leftMargin);
         }
 
     }

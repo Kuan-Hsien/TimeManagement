@@ -283,31 +283,41 @@ public class TimeManagementApplication extends Application {
                 // Prepare default category
                 dao.addCategory(new CategoryDefineTable("Health", "#191970", 1, false));
                 dao.addCategory(new CategoryDefineTable("Family", "#C71585", 2, false));
-                dao.addCategory(new CategoryDefineTable("Personal", "#FFB6C1", 3, false));
+                dao.addCategory(new CategoryDefineTable("Personal", "#F98BA2", 3, false)); // FFB6C1 // f7cfd3
                 dao.addCategory(new CategoryDefineTable("Friend", "#F4A460", 4, false));
                 dao.addCategory(new CategoryDefineTable("Work", "#3f51b5", 5, false));
-                dao.addCategory(new CategoryDefineTable("Transportation", "#008B8B", 6, false));
-                dao.addCategory(new CategoryDefineTable("Others", "#B0C4DE", 7, false));
+                dao.addCategory(new CategoryDefineTable("Traffic", "#e5b542", 6, false)); // B0C4DE
+                dao.addCategory(new CategoryDefineTable("Others", "#008B8B", 7, false));
 
                 // Prepare default task
-                dao.addTask(new TaskDefineTable("Work", "Work", "#2196f3", "icon_work", 8, false));
-                dao.addTask(new TaskDefineTable("Personal", "Study", "#009688", "icon_book", 7, false));
-                dao.addTask(new TaskDefineTable("Personal", "Personal", "#AA0000", "icon_personal", 8, false));
-                dao.addTask(new TaskDefineTable("Family", "Family", "#FF69B4", "icon_home", 4, false));
-                dao.addTask(new TaskDefineTable("Friend", "Friend", "#ba8df2", "icon_friend", 6, false));
-                dao.addTask(new TaskDefineTable("Friend", "Beer", "#D2691E", "icon_beer", 7, false));
-                dao.addTask(new TaskDefineTable("Family", "Lover", "#C71585", "icon_lover", 5, false));
-                dao.addTask(new TaskDefineTable("Health", "Sleep", "#191970", "icon_sleep", 1, false));
-                dao.addTask(new TaskDefineTable("Health", "Eat", "#ffc107", "icon_food", 2, false));
-                dao.addTask(new TaskDefineTable("Health", "Swim", "#87CEFA", "icon_swim", 3, false));
-                dao.addTask(new TaskDefineTable("Transportation", "Walk", "#8df2c1", "icon_walk", 13, false));
-                dao.addTask(new TaskDefineTable("Transportation", "Car", "#3CB371", "icon_car", 15, false));
-                dao.addTask(new TaskDefineTable("Transportation", "Bike", "#B0C4DE", "icon_bike", 14, false));
-                dao.addTask(new TaskDefineTable("Others", "Computer", "#000000", "icon_computer", 12, false));
-                dao.addTask(new TaskDefineTable("Others", "Music", "#F08080", "icon_music", 10, false));
-                dao.addTask(new TaskDefineTable("Others", "Pet", "#FFB6C1", "icon_paw", 9, false));
-                dao.addTask(new TaskDefineTable("Others", "Shopping", "#4B0082", "icon_shopping", 11, false));
-                dao.addTask(new TaskDefineTable("Others", "Phone", "#FF6347", "icon_phonecall", 13, false));
+//                dao.addTask(new TaskDefineTable("Work", "Work", "#3f51b5", "icon_work", 9, false));
+                dao.addTask(new TaskDefineTable("Work", "Work", "#4196c8", "icon_work", 9, false));
+                dao.addTask(new TaskDefineTable("Personal", "Study", "#006837", "icon_book", 8, false)); // 3CB371
+                dao.addTask(new TaskDefineTable("Personal", "Personal", "#bb1e10", "icon_personal", 7, false)); // ca2f2e
+//                dao.addTask(new TaskDefineTable("Personal", "Personal", "#AA0000", "icon_personal", 7, false));
+                dao.addTask(new TaskDefineTable("Family", "Family", "#b4276e", "icon_home", 4, false));
+                dao.addTask(new TaskDefineTable("Friend", "Friend", "#dd682d", "icon_friend", 6, false));
+//                dao.addTask(new TaskDefineTable("Friend", "Friend", "#F4A460", "icon_friend", 6, false));
+                // dao.addTask(new TaskDefineTable("Friend", "Beer", "#D2691E", "icon_beer", 7, false));
+                // dao.addTask(new TaskDefineTable("Family", "Lover", "#C71585", "icon_lover", 5, false));
+                dao.addTask(new TaskDefineTable("Health", "Sleep", "#1a4b80", "icon_sleep", 1, false));
+//                dao.addTask(new TaskDefineTable("Health", "Sleep", "#191970", "icon_sleep", 1, false));
+                dao.addTask(new TaskDefineTable("Health", "Eat", "#e5b542", "icon_food", 2, false));
+//                dao.addTask(new TaskDefineTable("Health", "Eat", "#ffc107", "icon_food", 2, false));
+                // dao.addTask(new TaskDefineTable("Health", "Swim", "#87CEFA", "icon_swim", 3, false));
+//                dao.addTask(new TaskDefineTable("Traffic", "Walk", "#8df2c1", "icon_walk", 13, false));
+//                dao.addTask(new TaskDefineTable("Traffic", "Traffic", "#25629f", "icon_car", 13, false));
+                // dao.addTask(new TaskDefineTable("Traffic", "Car", "#3CB371", "icon_car", 15, false));
+                // dao.addTask(new TaskDefineTable("Traffic", "Bike", "#B0C4DE", "icon_bike", 14, false));
+                dao.addTask(new TaskDefineTable("Others", "Internet", "#7c878b", "icon_computer", 12, false)); // 25629f
+//                dao.addTask(new TaskDefineTable("Others", "Internet", "#982282", "icon_computer", 12, false));
+                // dao.addTask(new TaskDefineTable("Others", "Music", "#F08080", "icon_music", 10, false));
+                // dao.addTask(new TaskDefineTable("Others", "Pet", "#FFB6C1", "icon_paw", 9, false));
+                // dao.addTask(new TaskDefineTable("Others", "Shopping", "#4B0082", "icon_shopping", 11, false));
+                // dao.addTask(new TaskDefineTable("Others", "Phone", "#FF6347", "icon_phonecall", 13, false));
+
+                dao.addTask(new TaskDefineTable("Health", "Sport", "#54b0a5", "icon_dumbbell", 3, false)); // 3a8240
+                dao.addTask(new TaskDefineTable("Traffic", "Traffic", "#b79c77", "icon_car", 10, false));
 
                 // Prepare default icon
                 dao.addIconItem(new IconDefineTable("icon_sleep", false, strCurrentTime));
@@ -365,6 +375,8 @@ public class TimeManagementApplication extends Application {
                 dao.addColorItem(new ColorDefineTable("#e91e63", false, strCurrentTime));
                 dao.addColorItem(new ColorDefineTable("#9c27b0", false, strCurrentTime));
                 dao.addColorItem(new ColorDefineTable("#673ab7", false, strCurrentTime));
+                dao.addColorItem(new ColorDefineTable("#4B0082", false, strCurrentTime));
+                dao.addColorItem(new ColorDefineTable("#ba8df2", false, strCurrentTime));
                 dao.addColorItem(new ColorDefineTable("#3f51b5", false, strCurrentTime));
                 dao.addColorItem(new ColorDefineTable("#2196f3", false, strCurrentTime));
                 dao.addColorItem(new ColorDefineTable("#03a9f4", false, strCurrentTime));
@@ -494,7 +506,7 @@ public class TimeManagementApplication extends Application {
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(yesterday), "Health", "Eat",  yesterday.getTime(), yesterday.getTime() + (60 * 60000), (long) 60 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(yesterday), "Health", "Swim",  yesterday.getTime(), yesterday.getTime() + (75 * 60000), (long) 75 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(yesterday), "Family", "Lover",  yesterday.getTime(), yesterday.getTime() + (90 * 60000), (long) 90 * 60000, strCurrentTime));
-                    dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(yesterday), "Transportation", "Walk",  yesterday.getTime(), yesterday.getTime() + (30 * 60000), (long) 30 * 60000, strCurrentTime));
+                    dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(yesterday), "Traffic", "Walk",  yesterday.getTime(), yesterday.getTime() + (30 * 60000), (long) 30 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(yesterday), "Others", "Computer",  yesterday.getTime(), yesterday.getTime() + (240 * 60000), (long) 240 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(yesterday), "Others", "Music",  yesterday.getTime(), yesterday.getTime() + (30 * 60000), (long) 30 * 60000, strCurrentTime));
 
@@ -504,7 +516,7 @@ public class TimeManagementApplication extends Application {
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday1), "Health", "Eat",  lastday1.getTime(), lastday1.getTime() + (60 * 60000), (long) 60 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday1), "Health", "Swim",  lastday1.getTime(), lastday1.getTime() + (75 * 60000), (long) 75 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday1), "Family", "Lover",  lastday1.getTime(), lastday1.getTime() + (90 * 60000), (long) 90 * 60000, strCurrentTime));
-                    dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday1), "Transportation", "Walk",  lastday1.getTime(), lastday1.getTime() + (30 * 60000), (long) 30 * 60000, strCurrentTime));
+                    dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday1), "Traffic", "Walk",  lastday1.getTime(), lastday1.getTime() + (30 * 60000), (long) 30 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday1), "Others", "Computer",  lastday1.getTime(), lastday1.getTime() + (240 * 60000), (long) 240 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday1), "Others", "Music",  lastday1.getTime(), lastday1.getTime() + (30 * 60000), (long) 30 * 60000, strCurrentTime));
 
@@ -514,7 +526,7 @@ public class TimeManagementApplication extends Application {
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday2), "Health", "Eat",  lastday2.getTime(), lastday2.getTime() + (60 * 60000), (long) 60 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday2), "Health", "Swim",  lastday2.getTime(), lastday2.getTime() + (75 * 60000), (long) 75 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday2), "Family", "Lover",  lastday2.getTime(), lastday2.getTime() + (90 * 60000), (long) 90 * 60000, strCurrentTime));
-                    dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday2), "Transportation", "Walk",  lastday2.getTime(), lastday2.getTime() + (30 * 60000), (long) 30 * 60000, strCurrentTime));
+                    dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday2), "Traffic", "Walk",  lastday2.getTime(), lastday2.getTime() + (30 * 60000), (long) 30 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday2), "Others", "Computer",  lastday2.getTime(), lastday2.getTime() + (240 * 60000), (long) 240 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday2), "Others", "Music",  lastday2.getTime(), lastday2.getTime() + (30 * 60000), (long) 30 * 60000, strCurrentTime));
 
@@ -524,7 +536,7 @@ public class TimeManagementApplication extends Application {
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday3), "Health", "Eat",  lastday3.getTime(), lastday3.getTime() + (60 * 60000), (long) 60 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday3), "Health", "Swim",  lastday3.getTime(), lastday3.getTime() + (75 * 60000), (long) 75 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday3), "Family", "Lover",  lastday3.getTime(), lastday3.getTime() + (90 * 60000), (long) 90 * 60000, strCurrentTime));
-                    dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday3), "Transportation", "Walk",  lastday3.getTime(), lastday3.getTime() + (30 * 60000), (long) 30 * 60000, strCurrentTime));
+                    dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday3), "Traffic", "Walk",  lastday3.getTime(), lastday3.getTime() + (30 * 60000), (long) 30 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday3), "Others", "Computer",  lastday3.getTime(), lastday3.getTime() + (240 * 60000), (long) 240 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday3), "Others", "Music",  lastday3.getTime(), lastday3.getTime() + (30 * 60000), (long) 30 * 60000, strCurrentTime));
 
@@ -534,7 +546,7 @@ public class TimeManagementApplication extends Application {
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday4), "Health", "Eat",  lastday4.getTime(), lastday4.getTime() + (60 * 60000), (long) 60 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday4), "Health", "Swim",  lastday4.getTime(), lastday4.getTime() + (75 * 60000), (long) 75 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday4), "Family", "Lover",  lastday4.getTime(), lastday4.getTime() + (90 * 60000), (long) 90 * 60000, strCurrentTime));
-                    dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday4), "Transportation", "Walk",  lastday4.getTime(), lastday4.getTime() + (30 * 60000), (long) 30 * 60000, strCurrentTime));
+                    dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday4), "Traffic", "Walk",  lastday4.getTime(), lastday4.getTime() + (30 * 60000), (long) 30 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday4), "Others", "Computer",  lastday4.getTime(), lastday4.getTime() + (240 * 60000), (long) 240 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday4), "Others", "Music",  lastday4.getTime(), lastday4.getTime() + (30 * 60000), (long) 30 * 60000, strCurrentTime));
 
@@ -544,7 +556,7 @@ public class TimeManagementApplication extends Application {
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday5), "Health", "Eat",  lastday5.getTime(), lastday5.getTime() + (60 * 60000), (long) 60 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday5), "Health", "Swim",  lastday5.getTime(), lastday5.getTime() + (75 * 60000), (long) 75 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday5), "Family", "Lover",  lastday5.getTime(), lastday5.getTime() + (90 * 60000), (long) 90 * 60000, strCurrentTime));
-                    dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday5), "Transportation", "Walk",  lastday5.getTime(), lastday5.getTime() + (30 * 60000), (long) 30 * 60000, strCurrentTime));
+                    dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday5), "Traffic", "Walk",  lastday5.getTime(), lastday5.getTime() + (30 * 60000), (long) 30 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday5), "Others", "Computer",  lastday5.getTime(), lastday5.getTime() + (240 * 60000), (long) 240 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday5), "Others", "Music",  lastday5.getTime(), lastday5.getTime() + (30 * 60000), (long) 30 * 60000, strCurrentTime));
 
@@ -554,7 +566,7 @@ public class TimeManagementApplication extends Application {
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday6), "Health", "Eat",  lastday6.getTime(), lastday6.getTime() + (60 * 60000), (long) 60 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday6), "Health", "Swim",  lastday6.getTime(), lastday6.getTime() + (75 * 60000), (long) 75 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday6), "Family", "Lover",  lastday6.getTime(), lastday6.getTime() + (90 * 60000), (long) 90 * 60000, strCurrentTime));
-                    dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday6), "Transportation", "Walk",  lastday6.getTime(), lastday6.getTime() + (30 * 60000), (long) 30 * 60000, strCurrentTime));
+                    dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday6), "Traffic", "Walk",  lastday6.getTime(), lastday6.getTime() + (30 * 60000), (long) 30 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday6), "Others", "Computer",  lastday6.getTime(), lastday6.getTime() + (240 * 60000), (long) 240 * 60000, strCurrentTime));
                     dao.addTraceItem(new TimeTracingTable(simpleDateFormat.format(lastday6), "Others", "Music",  lastday6.getTime(), lastday6.getTime() + (30 * 60000), (long) 30 * 60000, strCurrentTime));
 
@@ -589,7 +601,7 @@ public class TimeManagementApplication extends Application {
                 dao.addCategory(new CategoryDefineTable("Personal", "#008B8B", 3, false));
                 dao.addCategory(new CategoryDefineTable("Friend", "#B0C4DE", 4, false));
                 dao.addCategory(new CategoryDefineTable("Work", "#1E90FF", 5, false));
-                dao.addCategory(new CategoryDefineTable("Transportation", "#F4A460", 6, false));
+                dao.addCategory(new CategoryDefineTable("Traffic", "#F4A460", 6, false));
                 dao.addCategory(new CategoryDefineTable("Others", "#4682B4", 7, false));
 
                 // Prepare default task
@@ -602,9 +614,9 @@ public class TimeManagementApplication extends Application {
                 dao.addTask(new TaskDefineTable("Health", "Sleep", "#191970", "icon_sleep", 1, false));
                 dao.addTask(new TaskDefineTable("Health", "Eat", "#ffc107", "icon_food", 2, false));
                 dao.addTask(new TaskDefineTable("Health", "Swim", "#87CEFA", "icon_swim", 3, false));
-                dao.addTask(new TaskDefineTable("Transportation", "Walk", "#8df2c1", "icon_walk", 13, false));
-                dao.addTask(new TaskDefineTable("Transportation", "Car", "#3CB371", "icon_car", 15, false));
-                dao.addTask(new TaskDefineTable("Transportation", "Bike", "#B0C4DE", "icon_bike", 14, false));
+                dao.addTask(new TaskDefineTable("Traffic", "Walk", "#8df2c1", "icon_walk", 13, false));
+                dao.addTask(new TaskDefineTable("Traffic", "Car", "#3CB371", "icon_car", 15, false));
+                dao.addTask(new TaskDefineTable("Traffic", "Bike", "#B0C4DE", "icon_bike", 14, false));
                 dao.addTask(new TaskDefineTable("Others", "Computer", "#000000", "icon_computer", 12, false));
                 dao.addTask(new TaskDefineTable("Others", "Music", "#F08080", "icon_music", 10, false));
                 dao.addTask(new TaskDefineTable("Others", "Pet", "#FFB6C1", "icon_paw", 9, false));

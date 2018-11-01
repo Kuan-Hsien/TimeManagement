@@ -24,6 +24,7 @@
     <string name="default_task_hint">Choose a task...</string>
     <string name="default_task_hint_categroy">   ---   </string>
     <string name="default_add_task_title">Create a new task</string>
+    <string name="default_add_task_button">Add a new task</string>
     <string name="default_task_title">Task</string>
 
     <string name="default_color_picker_title">Color</string>

@@ -82,12 +82,13 @@
     <dimen name="size_record_task_icon">28dp</dimen>
     <dimen name="padding_record_button">12dp</dimen>
     <dimen name="padding_record_task_icon">10dp</dimen>
+    <dimen name="margin_record_button">5dp</dimen>
 
 
     <!-- Analysis -->
     <dimen name="width_analysis_period">300dp</dimen>
     <dimen name="size_analysis_piechart">250dp</dimen>
-    <dimen name="width_analysis_topitem_percent">100dp</dimen>
+    <dimen name="width_analysis_topitem_percent">150dp</dimen>
     <dimen name="height_analysis_mainitem_margin">8dp</dimen>
     <dimen name="height_analysis_category_margin_top">6dp</dimen>
 

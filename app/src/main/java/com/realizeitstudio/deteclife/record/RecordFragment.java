@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ public class RecordFragment extends Fragment implements RecordContract.View, Vie
 
     private RecordContract.Presenter mPresenter;
     private RecordAdapter mRecordAdapter;
+    private GridLayoutManager mGridLayoutManager;
     private int mIntPlanMode;
     private int mIntTaskMode;
 
@@ -72,7 +74,6 @@ public class RecordFragment extends Fragment implements RecordContract.View, Vie
         super.onCreate(savedInstanceState);
 //[TODO] RecordFragment onCreate
 //        ((MainActivity) getActivity()).showUserInfoLog();
-        mRecordAdapter = new RecordAdapter(new ArrayList<GetCategoryTaskList>(), mPresenter);
     }
 
     @Override
@@ -80,18 +81,18 @@ public class RecordFragment extends Fragment implements RecordContract.View, Vie
         super.onResume();
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        Logger.d(Constants.TAG, MSG + "onCreateView");
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_record, container, false);
 
         mTextviewRecordCurrentTask = root.findViewById(R.id.textview_record_current_task);
         mTextviewRecordCurrentTime = root.findViewById(R.id.textview_record_current_time);
         mTextviewRecordTimer = root.findViewById(R.id.textview_record_timer);
-
-
 
         mButtonRecordLater = root.findViewById(R.id.button_record_later);
         mButtonRecordLater.setOnClickListener(this);
@@ -101,8 +102,19 @@ public class RecordFragment extends Fragment implements RecordContract.View, Vie
 
 
         RecyclerView recyclerView = root.findViewById(R.id.recyclerview_record_button);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), Constants.RECORD_TASK_SPAN_COUNT));
+
+        mGridLayoutManager = new GridLayoutManager(getActivity(), Constants.RECORD_TASK_SPAN_COUNT);
+        recyclerView.setLayoutManager(mGridLayoutManager);
+
+//        mRecordAdapter = new RecordAdapter(new ArrayList<GetCategoryTaskList>(), mPresenter, recyclerView.getWidth());
+//        mRecordAdapter = new RecordAdapter(new ArrayList<GetCategoryTaskList>(), mPresenter, ((MainActivity) getActivity()).getWindowManager().getDefaultDisplay().getMetrics(new DisplayMetrics().widthPixels));
+
+        Logger.d(Constants.TAG, MSG + "onCreateView recyclerView.getPaddingStart() = " + recyclerView.getPaddingStart());
+        Logger.d(Constants.TAG, MSG + "onCreateView getScreenWidth() = " + getScreenWidth());
+
+        mRecordAdapter = new RecordAdapter(new ArrayList<GetCategoryTaskList>(), mPresenter, getScreenWidth() - 2 * recyclerView.getPaddingStart());
         recyclerView.setAdapter(mRecordAdapter);
+
 //        recyclerView.addItemDecoration(new DividerItemDecoration(TimeManagementApplication.getAppContext(), DividerItemDecoration.VERTICAL));
 
 
@@ -186,7 +198,7 @@ public class RecordFragment extends Fragment implements RecordContract.View, Vie
 
         // update timer on this page
         mLongTimer = bean.getStartTime();
-        mHandler.postDelayed(runnable,1000); // 開始 Timer
+        mHandler.postDelayed(runnable, 1000); // 開始 Timer
     }
 
 
@@ -196,7 +208,7 @@ public class RecordFragment extends Fragment implements RecordContract.View, Vie
 
             updateTimer();
 
-            mHandler.postDelayed(this,1000);
+            mHandler.postDelayed(this, 1000);
             // postDelayed(this,1000) 方法安排一個 Runnable 對象到主線程隊列中
         }
     };
@@ -243,6 +255,15 @@ public class RecordFragment extends Fragment implements RecordContract.View, Vie
     @Override
     public void showAddTaskUi() {
         ((MainActivity) getActivity()).transToAddTask();
+    }
+
+
+    public int getScreenWidth() {
+        DisplayMetrics dm = new DisplayMetrics();
+        ((MainActivity)getActivity()).getWindowManager().getDefaultDisplay().getMetrics(dm);
+        // 寬度 dm.widthPixels
+        // 高度 dm.heightPixels
+        return dm.widthPixels;
     }
 
 }

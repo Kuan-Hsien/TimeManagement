@@ -8,10 +8,6 @@
     android:background="@drawable/background_clock_10"
     tools:context=".record.RecordFragment">
 
-    <!--android:background="@android:color/transparent"-->
-    <!--android:background="@drawable/background_clock_10"-->
-    <!--tools:background="@drawable/background_rings_10"-->
-
 
     <ImageView
         android:id="@+id/imageview_record_black_transparent"
@@ -36,13 +32,11 @@
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerview_record_button"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:background="@color/color_recordpage_black_transparent"
         >
-        <!--android:layout_marginStart="10dp"-->
-        <!--android:layout_marginEnd="10dp"-->
-        <!--android:layout_marginTop="8dp"-->
-        <!--android:layout_marginBottom="8dp"-->
 
         <TextView
             android:id="@+id/textview_record_current_task"
@@ -106,7 +100,7 @@
             tools:text="09:18"
             app:layout_constraintTop_toBottomOf="@+id/textview_record_current_time_title"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_record_current_task_timer"/>
+            app:layout_constraintEnd_toStartOf="@+id/guideline_record_current_task_timer"
             />
 
         <TextView
@@ -161,14 +155,16 @@
         android:id="@+id/recyclerview_record_button"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="5dp"
-        android:paddingStart="5dp"
-        android:paddingEnd="5dp"
+        android:layout_marginTop="@dimen/margin_record_button"
+        android:paddingStart="@dimen/margin_record_button"
+        android:paddingEnd="@dimen/margin_record_button"
         android:paddingBottom="8dp"
         android:background="@android:color/transparent"
         app:layout_constraintTop_toBottomOf="@+id/linearlayout_record_description"
         app:layout_constraintBottom_toTopOf="@+id/button_record_later"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
 
     </android.support.v7.widget.RecyclerView>
 
@@ -197,16 +193,5 @@
         android:text="@string/record_page_button_ask_later"
         android:gravity="center|end"
         />
-
-    <!--<Button-->
-        <!--android:id="@+id/button_record_submit"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="@dimen/height_record_button"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/recyclerview_record_button"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintStart_toEndOf="@+id/imageview_record_laterter"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--android:text="SUBMIT" />-->
-
 
 </android.support.constraint.ConstraintLayout>

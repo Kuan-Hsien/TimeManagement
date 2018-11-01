@@ -85,7 +85,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:text="87%"/>
+            tools:text="100.0%"/>
 
         <TextView
             android:id="@+id/textview_analysis_topitem_taskname"

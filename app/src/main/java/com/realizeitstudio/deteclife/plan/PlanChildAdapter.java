@@ -46,7 +46,6 @@ public class PlanChildAdapter extends RecyclerView.Adapter {
     private boolean[] isDeleteArray;
     private int[] mIntAdjustCostTime;  // 總調整時間 (min)
     private int mIntMaxCostTime;        // 該 plan 週期的上限 (min)
-    private int mIntMaxCostHr;           // 該 plan 週期的上限 (hr)
     private int mIntTotalCostTime;      // 目前該 plan 週期中所有 target 總使用時間 (min)
     private int mIntNewItemCostTime;    // Top Item 新增時間 (min)
     private int mIntPlanMode;
@@ -171,7 +170,6 @@ public class PlanChildAdapter extends RecyclerView.Adapter {
                 mIntMaxCostTime = 24 * 60 * 7;
             }
 
-            mIntMaxCostHr = mIntMaxCostTime / 60;
             mIntNewItemCostTime = 0;
             mIntAdjustCostTime = null;
 
@@ -309,25 +307,28 @@ public class PlanChildAdapter extends RecyclerView.Adapter {
         @Override
         public void onClick(View v) {
 
-            // [TODO] change R.id.imageview_plan_task_delete_hint to Delete button
             // 目前是把 delete 當作一個 checkbox 來用，先勾選並顯示在畫面上。並在按下 save 的時候一起刪掉
             if (v.getId() == R.id.imageview_plan_task_delete_hint) {
 
-                // if original delete flag is on, than cancel. (change background color to white)
-                if (isDeleteArray[getCurrentPosition()] == true) {
+                // if original delete flag is on, than cancel.
+                if (isDeleteArray[getCurrentPosition()]) {
 
                     isDeleteArray[getCurrentPosition()] = false;
 
                     GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutPlanTaskDelete().getBackground();
                     gradientDrawable.setColor(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_default_light_grey));
 
+                    mIntTotalCostTime += mIntAdjustCostTime[getCurrentPosition()];
+
                 } else {
-                    // if original delete flag is off, than delete. (change background color with drawable)
+                    // if original delete flag is off, than delete.
 
                     isDeleteArray[getCurrentPosition()] = true;
 
                     GradientDrawable gradientDrawable = (GradientDrawable) getFrameLayoutPlanTaskDelete().getBackground();
-                    gradientDrawable.setColor(Color.parseColor("#f44336"));
+                    gradientDrawable.setColor(TimeManagementApplication.getAppContext().getResources().getColor(R.color.color_app_default_delete_red));
+
+                    mIntTotalCostTime -= mIntAdjustCostTime[getCurrentPosition()];
                 }
 
                 Logger.d(Constants.TAG, MSG + "delete " + mPlanningList.get(getCurrentPosition()).getTaskName() + " status: " + isDeleteArray[getCurrentPosition()]);
@@ -421,7 +422,7 @@ public class PlanChildAdapter extends RecyclerView.Adapter {
             mNumberPickerMin.setMinValue(0);
 
             // ** 可調整時間要設定成自己當前的使用時間 + 現在還可以調整的範圍
-            // 基本上不會超過 mIntMaxCostHr
+            // 基本上不會超過 Max Cost Time
 
             // Max - curTotal + (costTime of current task)
             int intMaxValue = ((mIntMaxCostTime - mIntTotalCostTime + mSeekBarPlanTaskAdjustTime.getProgress()) / 60);
@@ -1085,7 +1086,7 @@ public class PlanChildAdapter extends RecyclerView.Adapter {
             mNumberPickerMin.setMinValue(0);
 
             // ** 可調整時間要設定成自己當前的使用時間 + 現在還可以調整的範圍 (取大值)
-            // 這個時間應該不會超過 mIntMaxCostHr
+            // 這個時間應該不會超過 Max cost time
             int intMaxValue = ((mIntMaxCostTime - mIntTotalCostTime + mSeekBarSetTargetAdjustTime.getProgress()) / 60);
             mNumberPickerHr.setMaxValue(intMaxValue);
 

@@ -7,8 +7,6 @@
     style="@style/RecordPageTask"
     tools:background="@android:color/holo_red_light">
 
-    <!-- android:layout_width="@dimen/width_record_task" -->
-
     <ImageView
         android:id="@+id/imageview_record_choose_task_icon"
         android:layout_width="@dimen/size_record_task_icon"
@@ -17,12 +15,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/textview_record_choose_task_name"
         app:srcCompat="@drawable/icon_computer" />
 
     <TextView
         android:id="@+id/textview_record_choose_task_name"
         android:layout_width="@dimen/width_record_task_name"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_record_task_icon"
         android:layout_marginBottom="@dimen/padding_record_task_icon"
         android:fontFamily="sans-serif-medium"
         android:ellipsize="end"
@@ -32,23 +32,8 @@
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageview_record_choose_task_icon"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:text="Birthday Party abcdefghijklmnopqrstuvwxyz" />
-
-
-    <!--android:layout_marginStart="16dp"-->
-    <!--android:layout_marginEnd="10dp"-->
-    <!--android:layout_marginTop="55dp"-->
-
-    <!-- 可設定 progressBar 樣式 -->
-    <!-- android:progressDrawable="@drawable/adjust_time_seekbar" -->
-
-    <!-- 可設定 prgressBar 高度 -->
-    <!--android:maxHeight="5dp"-->
-    <!--android:minHeight="5dp"-->
-
-    <!-- 設定滑動按鈕 -->
-    <!--android:thumb=""-->
-
+        tools:text="First line Second line" />
 
 </android.support.constraint.ConstraintLayout>
