@@ -61,7 +61,7 @@ DetecLife 是一款好用的時間管理 App。
 # Requirement
 * Android 5.0+
 * Android Studio 3.1.3+
-* gradle 4.4+
+* Gradle 3.1.3+
 
 # Contacts
 Kuan-Hsien <br />
