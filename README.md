@@ -10,13 +10,13 @@ DetecLife 是一款好用的時間管理 App。
 
 # Feature
 - 追蹤結果
-  - 第一次打開 App 時，會自動開始計時，此時的時間分配 (當前任務) 為預設的 Personal。
+  - 第一次打開 App 時，會自動開始計時，此時的時間分配 (當前任務) 為預設保留給使用者的個人時間 (Personal)。
   - 畫面上方可確認現在的計時項目，從幾點幾分開始計時，進行多久。
   - 此時可透過點擊其他工作項目來停止 Personal，並開始執行其他項目。
   
 - 設定目標
-  - 從畫面底下選單可以切換到第二頁。預設提供睡眠、家庭和個人三個時間計畫。
-  - 點擊上方的 + 符號，可以新增目標和編輯現有目標，此時可以透過 seekbar 或是點擊時間調整分目標時間。
+  - 從畫面底下選單可以切換到第二頁。預設提供睡眠時間、家庭時間和個人時間三個時間計畫。
+  - 點擊上方的 + 符號，可以新增目標和編輯現有目標，此時可以透過 Seekbar 或是點擊時間調整分目標時間。
   
 - 查看統計結果
   - 可選擇呈現當日或當週的統計結果，並透過圓餅圖更清楚的呈現。
@@ -35,8 +35,33 @@ DetecLife 是一款好用的時間管理 App。
 <br />
 
 
+# Version
+* [relesase] 1.0.0 - 2018/11/02 <br />
+  Initial release version
+
+
+* [beta] b.0.4 - 2018/11/01 <br />
+  Optimize time picker and record page UI to fit different screen size
+
+
+* [beta] b.0.3 - 2018/10/30 <br />
+  Create time picker dialog to adjust target time precisely
+  Use Espresso and Mockito to complete unt-test
+
+
+* [beta] b.0.2 - 2018/10/28 <br />
+  Create color picker while adding new category and task
+
+
+* [beta] b.0.1 - 2018/10/26 <br />
+  Initial beta version
+  
+  
+
 # Requirement
-* Android 5.1+
+* Android 5.0+
+* Android Studio 3.1.3+
+* gradle 4.4+
 
 # Contacts
 Kuan-Hsien <br />
