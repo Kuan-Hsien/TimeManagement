@@ -67,8 +67,8 @@ public class JobSchedulerServiceComplete extends JobService {
     }
 
     /*
-        START_STICKY : Service 被殺掉, 系統會重啟, 但是 Intent 會是 null。
         START_NOT_STICKY : Service 被系統殺掉, 不會重啟。
+        START_STICKY : Service 被殺掉, 系統會重啟, 但是 Intent 會是 null。
         START_REDELIVER_INTENT : Service 被系統殺掉, 重啟且 Intent 會重傳。
         透過以上的參數, 放在 onStartCommand 的 return 參數就可以使用重啟的功能了。
     */
@@ -291,7 +291,6 @@ public class JobSchedulerServiceComplete extends JobService {
 
         // 點擊後清除
         notificationBuilder.setAutoCancel(true);
-        //显示指定文本
 
         notificationBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
 

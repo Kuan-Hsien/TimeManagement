@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 //        }
     }
 
+
+
     private void init() {
 
         Logger.i(Constants.TAG, MSG + "MainActivity.init");
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 //        setDrawerLayout();
 
         mPresenter = new MainPresenter(this, getSupportFragmentManager());
-        mPresenter.start();
+//        mPresenter.start();
 
 
         Window window = getWindow();
@@ -332,6 +334,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     protected void onResume() {
         super.onResume();
+
+        mPresenter.start();
     }
 
     @Override
@@ -372,7 +376,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             // call presenter to hide this fragment and show the original one
             mButtomNavigation.setSelectedItemId(mButtomNavigation.getSelectedItemId());
 
-        } else if (mPresenter.isFragmentRecordVisible()) {
+//        } else if (mPresenter.isFragmentRecordVisible()) {
 
             // block back-key
             ;

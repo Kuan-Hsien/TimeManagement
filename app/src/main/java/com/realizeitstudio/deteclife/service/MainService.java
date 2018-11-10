@@ -136,8 +136,7 @@ public class MainService extends Service {
     @Override
     public void onDestroy() {
         Logger.d(Constants.TAG, MSG + "onDestroy : ");
-
-
+        
         unregisterPowerButtonReceiver();
 
         // if service run in foreground

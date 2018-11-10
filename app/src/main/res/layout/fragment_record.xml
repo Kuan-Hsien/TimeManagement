@@ -190,7 +190,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button_record_view_statistics"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="@string/record_page_button_ask_later"
+        android:text="@string/record_page_button_view_plans"
         android:gravity="center|end"
         />
 

@@ -36,6 +36,7 @@
 
     <string name="record_page_button_view_statistics">View Statistics</string>
     <string name="record_page_button_ask_later">Remind me later</string>
+    <string name="record_page_button_view_plans">View Plans</string>
 
 
     <!-- notification -->

@@ -43,6 +43,8 @@ public interface RecordContract {
 
         void showCurrentTraceItem(TimeTracingTable bean);
 
+        void showPlanUi();
+
         void showStatisticUi();
 
         void showAddTaskUi();

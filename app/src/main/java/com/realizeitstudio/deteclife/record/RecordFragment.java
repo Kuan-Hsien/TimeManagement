@@ -167,7 +167,8 @@ public class RecordFragment extends Fragment implements RecordContract.View, Vie
         if (v.getId() == R.id.button_record_later) {
 
             // user choose ask later
-            showStatisticUi();
+//            showStatisticUi();
+            showPlanUi();
 
         } else if (v.getId() == R.id.button_record_view_statistics) {
 
@@ -242,6 +243,15 @@ public class RecordFragment extends Fragment implements RecordContract.View, Vie
 
     public void setIntTaskMode(int intTaskMode) {
         mIntTaskMode = intTaskMode;
+    }
+
+
+    @Override
+    public void showPlanUi() {
+
+        mHandler.removeCallbacks(runnable); // 停止 Timer
+
+        ((MainActivity) getActivity()).transToPlan();
     }
 
     @Override
