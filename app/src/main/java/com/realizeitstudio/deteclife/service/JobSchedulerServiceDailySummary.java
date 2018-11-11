@@ -304,7 +304,7 @@ public class JobSchedulerServiceDailySummary extends JobService {
         }
 
 
-        notificationBuilder.setContent(contentView);               // 如果不用 Builder 可以寫 notification.contentView = contentView;
+
         notificationBuilder.setCustomBigContentView(contentView);  // 可以設定通知縮起來的 layout（setContent) 和通知展開的 layout (setCustomBigContentView) (optional)
         notificationBuilder.setStyle(new NotificationCompat.DecoratedCustomViewStyle());   // 加上這句，通知會有系統預設的框架。如果想要完全自訂就把這句拿掉
         notificationBuilder.setStyle(new android.support.v4.app.NotificationCompat.DecoratedCustomViewStyle());
