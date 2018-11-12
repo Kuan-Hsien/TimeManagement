@@ -22,8 +22,8 @@ android {
         applicationId "com.realizeitstudio.deteclife"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 7
-        versionName "1.0.1"
+        versionCode 8
+        versionName "1.0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
