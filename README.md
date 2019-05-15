@@ -36,6 +36,10 @@ DetecLife 是一款好用的時間管理 App。
 
 
 # Version
+* [relesase] 1.0.2 - 2018/11/12 <br />
+  Optimize notification in App
+
+
 * [relesase] 1.0.0 - 2018/11/02 <br />
   Initial release version
 
